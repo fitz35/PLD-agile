@@ -1,4 +1,7 @@
-package Model;
+package Model.XML;
+
+import Model.Intersection;
+import Model.Segment;
 
 import java.util.ArrayList;
 

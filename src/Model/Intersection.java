@@ -12,6 +12,8 @@ public class Intersection {
         this.longitude=longitude;
     }
 
-
-
+    public long getId()
+    {
+        return id;
+    }
 }
