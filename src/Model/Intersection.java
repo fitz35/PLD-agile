@@ -16,4 +16,13 @@ public class Intersection {
     {
         return id;
     }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
 }
