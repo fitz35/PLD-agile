@@ -14,7 +14,7 @@ public class Map {
     public void loadMap(String fileName)
     {
         String[] words = fileName.split(".");
-        assert(words[words.length-1] == 1);
+  //      assert(words[words.length-1] == 1);
     }
 
 }
