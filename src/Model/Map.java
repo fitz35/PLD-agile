@@ -16,6 +16,7 @@ import java.io.IOException;
 public class Map {
     private ArrayList<Segment> segmentList;
     private ArrayList<Intersection> intersectionList;
+    private PlanningRequest planningRequest;
 
     public Map() {
         segmentList = new ArrayList<Segment>();
