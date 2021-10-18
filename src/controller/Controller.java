@@ -37,8 +37,16 @@ public class Controller {
     }
     public static void  loadRequest(String mapPath)
     {
-        //load requests back method
-        window2.changePanel();
+        try{
+            map.loadRequest(mapPath);
+            //load requests back method
+            window2.changePanel();
+            map.notifyObservers();
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+
+        }
     }
 
 
