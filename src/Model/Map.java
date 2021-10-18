@@ -167,13 +167,13 @@ public class Map {
                     Element element = (Element) node;
 
                     // get request's attribute
-                    long address = Long.parseLong(element.getAttribute("address"));
+                    long addressId = Long.parseLong(element.getAttribute("address"));
                     String departTime = element.getAttribute("departureTime");
 
-                    planningRequest.setStartingPoint(address);
+                    planningRequest.setStartingPoint(getIntersectionById(addressId));
                     planningRequest.setDepartureTime(new SimpleDateFormat("HH:mm:ss").parse(departTime));
 
-                    System.out.println("Depot: Starting point: "+address+" ; departureTime: "+departTime+";");
+                    System.out.println("Depot: Starting point: "+addressId+" ; departureTime: "+departTime+";");
                 }
             }
 
