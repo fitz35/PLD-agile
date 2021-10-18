@@ -242,13 +242,27 @@ public class Map extends MapInterface {
         return extremum;
     }
 
+    @Override
     public Intersection getIntersectionNorth(){return extermIntersection[0];};
 
+    @Override
     public Intersection getIntersectionSouth(){return extermIntersection[1];};
 
+    @Override
     public Intersection getIntersectionEast(){return extermIntersection[2];};
 
+    @Override
     public Intersection getIntersectionWest(){return extermIntersection[3];};
+
+    @Override
+    public ArrayList<Intersection> getIntersectionList() {
+        return intersectionList;
+    }
+
+    @Override
+    public ArrayList<Segment> getSegmentList() {
+        return segmentList;
+    }
 
     public static void main(String[] args){
         Map map=new Map();
