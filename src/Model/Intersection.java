@@ -25,4 +25,13 @@ public class Intersection {
         return longitude;
     }
 
+    public boolean equals(Intersection intersectionToTest)
+    {
+        if( intersectionToTest.getId()==this.getId() &&
+                intersectionToTest.getLatitude()==this.getLatitude() &&
+                intersectionToTest.getLongitude()==this.getLongitude()){
+            return true;
+        }
+        return false;
+    }
 }
