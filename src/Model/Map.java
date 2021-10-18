@@ -18,12 +18,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.lang.Long;
 import java.lang.Double;
+import java.util.Observable;
 
-public class Map {
+public class Map extends Observable {
     private ArrayList<Segment> segmentList;
     private ArrayList<Intersection> intersectionList;
     private PlanningRequest planningRequest;
     private HashMap<Intersection,HashMap<Intersection,Segment>> graphe;
+    private Tour tour;
 
     public Map() {
         segmentList = new ArrayList<Segment>();
