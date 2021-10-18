@@ -23,8 +23,13 @@ public class Controller {
        map.addObserver(window2);
        map.loadMap(mapPath);
        firstWindow.dispose();
-       window2.createWindow();
+       map.notifyObservers();
 
+    }
+    public static void  loadRequest(String mapPath)
+    {
+        //load requests back method
+        window2.changePanel();
     }
 
 
