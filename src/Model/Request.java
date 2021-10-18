@@ -13,12 +13,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class Request {
-    private long pickupAddress; //find Intersection
+    private Intersection pickupAddress;
     private int pickupDuration;
-    private long deliveryAddress; //find Intersection
+    private Intersection deliveryAddress;
     private int deliveryDuration;
 
-    public Request(long pickupAddress, int pickupDuration, long deliveryAddress, int deliveryDuration) {
+    public Request(Intersection pickupAddress, int pickupDuration, Intersection deliveryAddress, int deliveryDuration) {
         this.pickupAddress = pickupAddress;
         this.pickupDuration = pickupDuration;
         this.deliveryAddress = deliveryAddress;

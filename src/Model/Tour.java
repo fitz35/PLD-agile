@@ -25,4 +25,12 @@ public class Tour extends Observable {
     public Map getMap() {
         return map;
     }
+
+    public void setOrderedSegmentList(ArrayList<Segment> orderedSegmentList) {
+        this.orderedSegmentList = orderedSegmentList;
+    }
+
+    public void setOrderedIntersectionList(ArrayList<Intersection> orderedIntersectionList) {
+        this.orderedIntersectionList = orderedIntersectionList;
+    }
 }
