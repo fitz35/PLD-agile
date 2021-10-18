@@ -47,13 +47,13 @@ public class Map extends MapInterface {
         for (Intersection inter : intersectionList) {
             HashMap<Intersection, Segment> destinations = new HashMap<>();
             Long intersectionID = inter.getId();
-            System.out.println("Intersection id :"+intersectionID);
+            //System.out.println("Intersection id :"+intersectionID);
             for (Segment segment : segmentList) {
                 Long segmentOriginId = segment.getOrigin().getId();
                 Intersection segmentDest = segment.getDestination();
                 if (segmentOriginId.equals(intersectionID)) {
                     destinations.put(segmentDest, segment);
-                    System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDest.getId());
+                    //System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDest.getId());
                 }
             }
             graphe.put(inter, destinations);
@@ -90,8 +90,8 @@ public class Map extends MapInterface {
                         long id =  Long.parseLong(element.getAttribute("id"));
                         double latitude = Double.parseDouble(element.getAttribute("latitude"));
                         double longitude = Double.parseDouble(element.getAttribute("longitude"));
-                        System.out.println("unique ?"+checkUniqueIntersection(id,latitude,longitude));
-                        System.out.println("Intersection: "+id+"; latitude:"+latitude+"; longitude:"+longitude);
+                       // System.out.println("unique ?"+checkUniqueIntersection(id,latitude,longitude));
+                        //System.out.println("Intersection: "+id+"; latitude:"+latitude+"; longitude:"+longitude);
 
                         if(checkUniqueIntersection(id,latitude,longitude)){
                             intersectionList.add(new Intersection(id,latitude,longitude));
@@ -123,11 +123,13 @@ public class Map extends MapInterface {
                         }else{
                             System.out.println("segment creation is impossible");
                         }
-                        System.out.println("segment: origin:"+originId+"; destination:"+destinationId+"; length:"+length+"; name:"+name);
+                       // System.out.println("segment: origin:"+originId+"; destination:"+destinationId+"; length:"+length+"; name:"+name);
                     }
                 }
-                extremIntersection = getExtremIntersection();
                 mapLoaded = true;
+                extremIntersection = getExtremIntersection();
+                System.out.println(extremIntersection.length);
+
             } catch (ParserConfigurationException |SAXException err){
                 this.setChanged();
                 this.notifyObservers("Parsing XML file failed");
@@ -254,6 +256,7 @@ public class Map extends MapInterface {
     }
 
     private Intersection[] getExtremIntersection(){
+        System.out.println(mapLoaded);
         if(!mapLoaded){
             return null;
         }

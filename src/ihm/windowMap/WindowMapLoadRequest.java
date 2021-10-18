@@ -28,8 +28,6 @@ public class WindowMapLoadRequest extends Frame implements Observer //implements
         this.add(inputPanel);
 
         mapPanel= new MapPanel();
-        mapPanel.setBounds(0, 0, width, (height*2/3));
-        mapPanel.setBackground(Color.red);
         this.add(mapPanel);
 
 

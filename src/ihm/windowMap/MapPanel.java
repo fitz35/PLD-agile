@@ -13,9 +13,14 @@ import java.awt.event.MouseListener;
 public class MapPanel extends JPanel implements MouseListener
 {
     private MapInterface createdMap;
-    public void createMap()
+    public MapPanel()
     {
-        createdMap= MapFactory.create();
+        super();
+        this.setBackground(Color.PINK);
+        this.setBounds(0, 0, Frame.width, (Frame.height*2/3));
+        this.setLayout(null);
+        this.revalidate();
+        this.repaint();
     }
     public void DisplayMap (MapInterface createdMap)
     {
@@ -27,35 +32,35 @@ public class MapPanel extends JPanel implements MouseListener
 
     public void paint(Graphics g)
     {
+        super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.red);
-        for(Intersection i: createdMap.getIntersectionList())
-        {
-            paintIntersection(g2d,i);
-        }
-        for(Segment s: createdMap.getSegmentList())
-        {
-            paintSegment(g2d,s);
+        if(createdMap!=null) {
+            for (Intersection i : createdMap.getIntersectionList()) {
+                paintIntersection(g2d, i);
+            }
+            for (Segment s : createdMap.getSegmentList()) {
+                paintSegment(g2d, s);
+            }
         }
 
     }
 
-    public double[] latLonToOffsets( double latitudeOrigin, double longitudeOrigin, double latitude, double longitude, double mapWidth, double mapHeight) {
+    public static double[] latLonToOffsets( double latitudeOrigin, double longitudeOrigin, double latitude, double longitude, double mapWidth, double mapHeight) {
+
+        double latRad = ((latitudeOrigin-latitude) * Math.PI) / 180;
+        double lonRad = ((longitudeOrigin-longitude) * Math.PI) / 180;
+
         double radius = mapWidth / (2 * Math.PI);
 
-
-        double latRad = ((latitude) * Math.PI) / 180;
-        double lonRad = ((longitude+longitudeOrigin) * Math.PI) / 180;
-
         double x = lonRad * radius;
-
-        double yFromEquator = radius * Math.log(Math.tan(Math.PI / 4 + latRad / 2));
-        double y = mapHeight / 2 - yFromEquator;
+        double y = mapHeight * latRad/(2 * Math.PI);
 
         double res [] = {x,y};
 
         return res;
     }
+
 
     public void paintIntersection(Graphics2D g, Intersection intersection)
     {
@@ -63,10 +68,12 @@ public class MapPanel extends JPanel implements MouseListener
         g.setColor(Color.white);
         double latitude= intersection.getLatitude();
         double longitude= intersection.getLongitude();
-        double[] pixelCoords= latLonToOffsets( 0, 0, latitude, longitude, Frame.width,Frame.height);
+        double[] pixelCoords= latLonToOffsets( createdMap.getIntersectionWest().getLatitude(), createdMap.getIntersectionNorth().getLongitude(), latitude, longitude, Frame.width,Frame.height*2/3);
         double pixelX= pixelCoords[0];
         double pixelY= pixelCoords[1];
-        g.drawOval((int)pixelX,(int) pixelY, 1,1);
+        System.out.println(pixelX + " +" + pixelY);
+        //g.drawOval((int)pixelX,(int) pixelY, 5,5);
+        g.drawOval(50,50, 5,5);
 
 
     }
@@ -79,8 +86,8 @@ public class MapPanel extends JPanel implements MouseListener
         double originLong= origin.getLongitude();
         double destinationLat= destination.getLatitude();
         double destinationLong= destination.getLongitude();
-        double[] pixelCoordsOrigin= latLonToOffsets( 0, 0, originLat, originLong, Frame.width,Frame.height);
-        double[] pixelCoordsDestination= latLonToOffsets( 0, 0,destinationLat, destinationLong,Frame.width,Frame.height);
+        double[] pixelCoordsOrigin= latLonToOffsets( createdMap.getIntersectionWest().getLatitude(), createdMap.getIntersectionNorth().getLongitude(), originLat, originLong, Frame.width,Frame.height*2/3);
+        double[] pixelCoordsDestination= latLonToOffsets( createdMap.getIntersectionWest().getLatitude(), createdMap.getIntersectionNorth().getLongitude(), destinationLat, destinationLong, Frame.width,Frame.height*2/3);
         double originPixelX= pixelCoordsOrigin[0];
         double originPixelY= pixelCoordsOrigin[1];
         double destinationPixelX= pixelCoordsDestination[0];
