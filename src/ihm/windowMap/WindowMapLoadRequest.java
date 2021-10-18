@@ -6,8 +6,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import java.util.Observable;
+import java.util.Observer;
 
-public class WindowMapLoadRequest  //implements ActionListener, KeyListener
+public class WindowMapLoadRequest implements Observer //implements ActionListener, KeyListener
 {
     private static Dimension size = Frame.size;
     private static int width = (int)size.getWidth();
@@ -37,5 +39,8 @@ public class WindowMapLoadRequest  //implements ActionListener, KeyListener
     }
 
 
+    @Override
+    public void update(Observable o, Object arg) {
 
+    }
 }
