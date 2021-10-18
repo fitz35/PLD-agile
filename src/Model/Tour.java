@@ -2,8 +2,9 @@ package Model;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class Tour {
+public class Tour extends Observable {
     private ArrayList<Segment> orderedSegmentList;
     private ArrayList<Intersection> orderedIntersectionList;
     private Map map;
@@ -12,5 +13,16 @@ public class Tour {
         orderedSegmentList = new ArrayList<Segment>();
         orderedIntersectionList = new ArrayList<Intersection>();
     }
-    
+
+    public ArrayList<Segment> getOrderedSegmentList() {
+        return orderedSegmentList;
+    }
+
+    public ArrayList<Intersection> getOrderedIntersectionList() {
+        return orderedIntersectionList;
+    }
+
+    public Map getMap() {
+        return map;
+    }
 }
