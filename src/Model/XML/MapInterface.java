@@ -10,6 +10,7 @@ import java.util.Observable;
 public abstract class MapInterface extends Observable {
 
     public abstract void loadMap(String fileName);
+    public abstract void loadRequest(String fileName);
     public abstract Intersection getIntersectionById(long id);
     public abstract ArrayList<Intersection>  getIntersectionList();
     public abstract ArrayList<Segment>  getSegmentList();
