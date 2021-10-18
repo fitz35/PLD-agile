@@ -3,6 +3,8 @@ package Model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import Model.XML.MapInterface;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,12 +22,14 @@ import java.lang.Long;
 import java.lang.Double;
 import java.util.Observable;
 
-public class Map extends Observable {
+public class Map extends MapInterface {
     private ArrayList<Segment> segmentList;
     private ArrayList<Intersection> intersectionList;
     private PlanningRequest planningRequest;
     private HashMap<Intersection,HashMap<Intersection,Segment>> graphe;
     private Tour tour;
+
+    public Tour getTour(){return this.tour;}
 
     public Map() {
         segmentList = new ArrayList<Segment>();
