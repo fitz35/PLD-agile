@@ -28,6 +28,10 @@ public class Map extends MapInterface {
     private PlanningRequest planningRequest;
     private HashMap<Intersection,HashMap<Intersection,Segment>> graphe;
     private Tour tour;
+    private Intersection[] extermIntersection;
+    private boolean mapLoaded = false;
+    private boolean planningLoaded = false;
+
 
     public Tour getTour(){return this.tour;}
 
@@ -117,6 +121,8 @@ public class Map extends MapInterface {
                     System.out.println("segment: origin:"+originId+"; destination:"+destinationId+"; length:"+length+"; name:"+name);
                 }
             }
+            extermIntersection = getExtremIntersection();
+            mapLoaded = true;
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
@@ -213,6 +219,7 @@ public class Map extends MapInterface {
                     System.out.println("Depot: Starting point: "+addressId+" ; departureTime: "+departTime+";");
                 }
             }
+            planningLoaded = true;
         } catch (ParserConfigurationException | SAXException | IOException | ParseException e) {
             e.printStackTrace();
         }
@@ -234,6 +241,14 @@ public class Map extends MapInterface {
         Intersection[] extremum = {northernmost , southernmost , easternmost , westernmost};
         return extremum;
     }
+
+    public Intersection getIntersectionNorth(){return extermIntersection[0];};
+
+    public Intersection getIntersectionSouth(){return extermIntersection[1];};
+
+    public Intersection getIntersectionEast(){return extermIntersection[2];};
+
+    public Intersection getIntersectionWest(){return extermIntersection[3];};
 
     public static void main(String[] args){
         Map map=new Map();
