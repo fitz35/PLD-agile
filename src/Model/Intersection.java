@@ -25,6 +25,15 @@ public class Intersection {
         return longitude;
     }
 
+    public boolean equals(Intersection intersectionToTest)
+    {
+        if( intersectionToTest.getId()==this.getId() &&
+                intersectionToTest.getLatitude()==this.getLatitude() &&
+                intersectionToTest.getLongitude()==this.getLongitude()){
+            return true;
+        }
+        return false;
+    }
     public static double calculDis(Intersection i1, Intersection i2){ //Calcul distance à vol d'oiseau
 
         double R = 6371e3; //Rayon de la terre

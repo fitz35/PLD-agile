@@ -5,6 +5,7 @@ import Model.XML.MapFactory;
 import Model.XML.MapInterface;
 import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMapLoadRequest;
+import org.junit.platform.engine.support.descriptor.FileSystemSource;
 
 public class Controller {
     private static MapInterface map;
@@ -16,6 +17,7 @@ public class Controller {
         map= MapFactory.create();
         tour=map.getTour();
         firstWindow = new WelcomeWindow();
+        map.addObserver(firstWindow);
     }
     public static void  loadMap(String mapPath)
     {
@@ -35,8 +37,16 @@ public class Controller {
     }
     public static void  loadRequest(String mapPath)
     {
-        //load requests back method
-        window2.changePanel();
+        try{
+            map.loadRequest(mapPath);
+            //load requests back method
+            window2.changePanel();
+            map.notifyObservers();
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+
+        }
     }
 
 
