@@ -212,13 +212,32 @@ public class Map {
         }
     }
 
+    public Intersection[] getExtremIntersection(){
+        Intersection northernmost = intersectionList.get(0);
+        Intersection southernmost = intersectionList.get(0);
+        Intersection easternmost = intersectionList.get(0);
+        Intersection westernmost = intersectionList.get(0);
+
+        for(int i=0 ; i<intersectionList.size() ; i++){
+            Intersection testedIntersection = intersectionList.get(i);
+            if(northernmost.getLatitude() < testedIntersection.getLatitude()) { northernmost = testedIntersection; } //north
+            if(southernmost.getLatitude() > testedIntersection.getLatitude()) { southernmost = testedIntersection; } //south
+            if(easternmost.getLongitude() < testedIntersection.getLongitude()) { easternmost = testedIntersection; } //east
+            if(westernmost.getLongitude() > testedIntersection.getLongitude()) { westernmost = testedIntersection; } //west
+        }
+        Intersection[] extremum = {northernmost , southernmost , easternmost , westernmost};
+        return extremum;
+    }
+
     public static void main(String[] args){
         Map map=new Map();
         map.loadMap("./data/fichiersXML2020/smallMap.xml");
         // PlanningRequest planning = new PlanningRequest();
-        // map.loadMap("./data/fichiersXML2020/requestsMedium5.xml");
+        map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
         // System.out.println("passé");
         map.createGraph();
+
+        System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
         System.out.println("passé");
     }
 
