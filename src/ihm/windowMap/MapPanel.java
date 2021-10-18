@@ -8,7 +8,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Map extends JPanel implements MouseListener
+public class MapPanel extends JPanel implements MouseListener
 {
     private MapInterface createdMap;
     public void createMap()
