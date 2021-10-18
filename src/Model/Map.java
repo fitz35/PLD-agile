@@ -23,7 +23,7 @@ public class Map {
     private ArrayList<Segment> segmentList;
     private ArrayList<Intersection> intersectionList;
     private PlanningRequest planningRequest;
-    private HashMap<Long,HashMap<Long,Double>> graphe;
+    private HashMap<Intersection,HashMap<Intersection,Segment>> graphe;
 
     public Map() {
         segmentList = new ArrayList<Segment>();
@@ -33,18 +33,18 @@ public class Map {
     }
     public void createGraph() {
         for (Intersection inter : intersectionList) {
-            HashMap<Long, Double> destinations = new HashMap<>();
+            HashMap<Intersection, Segment> destinations = new HashMap<>();
             Long intersectionID = inter.getId();
             System.out.println("Intersection id :"+intersectionID);
             for (Segment segment : segmentList) {
                 Long segmentOriginId = segment.getOrigin().getId();
-                Long segmentDestId = segment.getDestination().getId();
+                Intersection segmentDest = segment.getDestination();
                 if (segmentOriginId.equals(intersectionID)) {
-                    destinations.put(segmentDestId, segment.getLength());
-                    System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDestId);
+                    destinations.put(segmentDest, segment);
+                    System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDest.getId());
                 }
             }
-            graphe.put(intersectionID, destinations);
+            graphe.put(inter, destinations);
         }
 
     }
@@ -145,11 +145,11 @@ public class Map {
         return null;
     }
 
-    public HashMap<Long, HashMap<Long, Double>> getGraphe() {
+    public HashMap<Intersection, HashMap<Intersection, Segment>> getGraphe() {
         return graphe;
     }
 
-    public void setGraphe(HashMap<Long, HashMap<Long, Double>> graphe) {
+    public void setGraphe(HashMap<Intersection, HashMap<Intersection, Segment>> graphe) {
         this.graphe = graphe;
     }
 
