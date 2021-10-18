@@ -22,13 +22,17 @@ public class WindowMapLoadRequest  //implements ActionListener, KeyListener
         panel = new JPanel();
 
         panel.setBounds(0, 0, width, (height*2/3));
-        panel.setBackground(Color.CYAN);
-        inputPanel= new InputWindowLoadRequest();
-        inputPanel.createInputPanel();
-        inputPanel.setBounds(0, (height*2/3), width,(height*1/3));
-        inputPanel.setBackground(Color.red);
+        panel.setBackground(Color.red);
+        inputPanel= new InputWindowLoadRequest(frame);
+
+        inputPanel.setBackground(Color.CYAN);
         frame.add(panel);
         frame.add(inputPanel);
+
+    }
+
+    public void changePanel()
+    {
 
     }
 

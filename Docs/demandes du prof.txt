@@ -1,0 +1,6 @@
+ouvrir et afficher un plan
+ouvrir liste de demande de livraison et adresses de livraison s'affichent en liste et graphiquement
+ouvrir un autre plan de livraison sans quitter l'appli
+si on ouvre un nouveau plan/ nouveau plan de livraison, supprimer le vieux automatiquement
+ouvre un plan, ce n'est pas le bon , changer de plan
+CU, modele du domaine, glossaire, dss, page de garde, table de contents, figure, diag, pages numérotées

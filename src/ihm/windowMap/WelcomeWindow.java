@@ -74,7 +74,7 @@ public class WelcomeWindow implements ActionListener, KeyListener
         panel.repaint();
     }
 
-    private boolean acceptFile(String fileName)
+    public static boolean acceptFile(String fileName)
     {
         String extension= " ";
         int i = fileName.lastIndexOf('.');
