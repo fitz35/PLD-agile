@@ -23,7 +23,7 @@ public class WindowMapLoadRequest  //implements ActionListener, KeyListener
 
         panel.setBounds(0, 0, width, (height*2/3));
         panel.setBackground(Color.red);
-        inputPanel= new InputWindowLoadRequest(frame);
+        inputPanel= new InputWindowLoadRequest(this);
 
         inputPanel.setBackground(Color.CYAN);
         frame.add(panel);
@@ -31,8 +31,15 @@ public class WindowMapLoadRequest  //implements ActionListener, KeyListener
 
     }
 
-    public void changePanel()
+    public  void changePanel()
     {
+        Component[] componentList = inputPanel.getComponents();
+        for(Component c : componentList)
+        {
+            inputPanel.remove(c);
+        }
+        inputPanel.revalidate();
+        inputPanel.repaint();
 
     }
 

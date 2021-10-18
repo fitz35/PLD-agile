@@ -21,13 +21,13 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
     private JButton loadReqFile;
     private JButton back;
     private JLabel errorMsg;
-    private Frame frame;
+    private WindowMapLoadRequest window;
     private int x,y;
 
-    public InputWindowLoadRequest (Frame frame)
+    public InputWindowLoadRequest (WindowMapLoadRequest window)
     {
         super();
-        this.frame=frame;
+        this.window=window;
         this.setBounds(0, (height*2/3), width,(height*1/3));
         x=0;
         y=(height*2/3);
@@ -96,6 +96,12 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
             //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
             //Methode pour changer de fenetres
             //je change de panel de bouton
+            window.changePanel();
+
+        }
+        if(e.getSource()==back)
+        {
+            //methode Controller pour changer de fenetre
         }
 
     }
