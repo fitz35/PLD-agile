@@ -63,7 +63,7 @@ public class Map extends MapInterface {
     @Override
     public void loadMap(String fileName) throws ParserConfigurationException, SAXException, IOException {
         //Test extension of XML file name
-        String[] words = fileName.split(".");
+        String[] words = fileName.split("\\.");
         if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
             this.notifyObservers("Filename extension is not correct");
         }else{
@@ -279,9 +279,9 @@ public class Map extends MapInterface {
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         Map map=new Map();
-        map.loadMap("./data/fichiersXML2020/smallMap.xml");
+        //map.loadMap("./data/fichiersXML2020/smallMap.xml");
         // PlanningRequest planning = new PlanningRequest();
-        map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
+        //map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
         // System.out.println("passé");
         map.createGraph();
 

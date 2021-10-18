@@ -90,7 +90,7 @@ public class WelcomeWindow extends Frame implements ActionListener, KeyListener
         if (e.getSource() ==browse)
         {
 
-            JFileChooser choice = new JFileChooser();
+            JFileChooser choice = new JFileChooser(".");
             int returnValue = choice.showOpenDialog(null);
             if(returnValue == JFileChooser.APPROVE_OPTION){
                 String fileName=choice.getSelectedFile().getName();

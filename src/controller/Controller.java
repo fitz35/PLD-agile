@@ -5,6 +5,7 @@ import Model.XML.MapFactory;
 import Model.XML.MapInterface;
 import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMapLoadRequest;
+import org.junit.platform.engine.support.descriptor.FileSystemSource;
 
 public class Controller {
     private static MapInterface map;
