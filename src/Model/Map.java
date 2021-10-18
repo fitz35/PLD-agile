@@ -67,6 +67,7 @@ public class Map extends MapInterface {
         //Test extension of XML file name
         String[] words = fileName.split("\\.");
         if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
+            this.setChanged();
             this.notifyObservers("Filename extension is not correct");
         }else{
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -128,12 +129,15 @@ public class Map extends MapInterface {
                 extremIntersection = getExtremIntersection();
                 mapLoaded = true;
             } catch (ParserConfigurationException |SAXException err){
+                this.setChanged();
                 this.notifyObservers("Parsing XML file failed");
                 throw err;
             }catch( IOException err) {
+                this.setChanged();
                 this.notifyObservers("Opening XML file failed");
                 throw err;
             }
+            this.setChanged();
         }
     }
 
@@ -177,8 +181,10 @@ public class Map extends MapInterface {
         //Test extension of XML file name
         String[] words = fileName.split("\\.");
         if(!mapLoaded){
+            this.setChanged();
             this.notifyObservers("No map loaded");
         }else if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
+            this.setChanged();
             this.notifyObservers("Filename extension is not correct");
         }else {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -231,19 +237,26 @@ public class Map extends MapInterface {
                 }
                 planningLoaded = true;
             } catch (ParserConfigurationException | SAXException err) {
+                this.setChanged();
                 this.notifyObservers("Parsing XML file failed");
                 throw err;
             } catch (ParseException err) {
+                this.setChanged();
                 this.notifyObservers("Bad departureTime format");
                 throw err;
             } catch (IOException err) {
+                this.setChanged();
                 this.notifyObservers("Opening XML file failed");
                 throw err;
             }
+            this.setChanged();
         }
     }
 
-    public Intersection[] getExtremIntersection(){
+    private Intersection[] getExtremIntersection(){
+        if(!mapLoaded){
+            return null;
+        }
         Intersection northernmost = intersectionList.get(0);
         Intersection southernmost = intersectionList.get(0);
         Intersection easternmost = intersectionList.get(0);
@@ -261,16 +274,36 @@ public class Map extends MapInterface {
     }
 
     @Override
-    public Intersection getIntersectionNorth(){return extremIntersection[0];};
+    public Intersection getIntersectionNorth(){
+        if(!mapLoaded){
+            return null;
+        }
+        return extremIntersection[0];
+    };
 
     @Override
-    public Intersection getIntersectionSouth(){return extremIntersection[1];};
+    public Intersection getIntersectionSouth(){
+        if(!mapLoaded){
+            return null;
+        }
+        return extremIntersection[1];
+    };
 
     @Override
-    public Intersection getIntersectionEast(){return extremIntersection[2];};
+    public Intersection getIntersectionEast(){
+        if(!mapLoaded){
+            return null;
+        }
+        return extremIntersection[2];
+    };
 
     @Override
-    public Intersection getIntersectionWest(){return extremIntersection[3];};
+    public Intersection getIntersectionWest(){
+        if(!mapLoaded){
+            return null;
+        }
+        return extremIntersection[3];
+    };
 
     @Override
     public ArrayList<Intersection> getIntersectionList() {
@@ -284,7 +317,7 @@ public class Map extends MapInterface {
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
         Map map=new Map();
-        //map.loadMap("./data/fichiersXML2020/smallMap.xml");
+        map.loadMap("./data/fichiersXML2020/smallMap.xml");
         // PlanningRequest planning = new PlanningRequest();
         //map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
         // System.out.println("passé");
