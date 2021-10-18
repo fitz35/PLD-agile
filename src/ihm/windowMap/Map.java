@@ -1,6 +1,7 @@
 package ihm.windowMap;
 
 import Model.XML.MapFactory;
+import Model.XML.MapInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,11 +10,12 @@ import java.awt.event.MouseListener;
 
 public class Map extends JPanel implements MouseListener
 {
+    private MapInterface createdMap;
     public void createMap()
     {
-        MapFactory.create();
+        createdMap= MapFactory.create();
     }
-    public void DisplayMap (Map createdMap)
+    public void DisplayMap (MapInterface createdMap)
     {
 
     }
