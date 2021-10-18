@@ -1,5 +1,6 @@
 package ihm.windowMap;
 
+import Model.Tour;
 import ihm.windowMap.InputSection.InputWindowLoadRequest;
 
 import javax.swing.*;
@@ -47,7 +48,13 @@ public class WindowMapLoadRequest implements Observer //implements ActionListene
 
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(Observable o, Object arg)
+    {
+        if(o instanceof Tour)
+        {
+            
+        }
+
 
     }
 }
