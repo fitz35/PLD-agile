@@ -17,6 +17,7 @@ public class Controller {
         map= MapFactory.create();
         tour=map.getTour();
         firstWindow = new WelcomeWindow();
+        map.addObserver(firstWindow);
     }
     public static void  loadMap(String mapPath)
     {
