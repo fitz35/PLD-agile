@@ -19,11 +19,18 @@ public class Controller {
     }
     public static void  loadMap(String mapPath)
     {
-       window2 = new WindowMapLoadRequest();
-       map.addObserver(window2);
-       map.loadMap(mapPath);
-       firstWindow.dispose();
-       map.notifyObservers();
+        try {
+            map.loadMap(mapPath);
+            window2 = new WindowMapLoadRequest();
+            map.addObserver(window2);
+            firstWindow.dispose();
+            map.notifyObservers();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+
+        }
 
     }
     public static void  loadRequest(String mapPath)

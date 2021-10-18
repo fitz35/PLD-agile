@@ -16,24 +16,20 @@ public class WindowMapLoadRequest extends Frame implements Observer //implements
     private static Dimension size = Frame.size;
     private static int width = (int)size.getWidth();
     private static int height = (int)size.getHeight();
-    private JPanel panel;
     private InputWindowLoadRequest inputPanel;
     private MapPanel mapPanel;
 
     public WindowMapLoadRequest()
     {
         super();
-        panel = new JPanel();
-
-        panel.setBounds(0, 0, width, (height*2/3));
-        panel.setBackground(Color.red);
-        this.add(panel);
 
         inputPanel= new InputWindowLoadRequest(this);
         inputPanel.setBackground(Color.CYAN);
         this.add(inputPanel);
 
         mapPanel= new MapPanel();
+        mapPanel.setBounds(0, 0, width, (height*2/3));
+        mapPanel.setBackground(Color.red);
         this.add(mapPanel);
 
 

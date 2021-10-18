@@ -94,11 +94,11 @@ public class WelcomeWindow extends Frame implements ActionListener, KeyListener
             int returnValue = choice.showOpenDialog(null);
             if(returnValue == JFileChooser.APPROVE_OPTION){
                 String fileName=choice.getSelectedFile().getName();
-                String filePath=choice.getSelectedFile().getAbsolutePath();
+                pathUrl=choice.getSelectedFile().getAbsolutePath();
                 if(acceptFile(fileName))
                 {
                     System.out.println("correct extension");
-                    path.setText(filePath);
+                    path.setText(pathUrl);
                     loadMap.setVisible(true);
 
                 }
