@@ -28,7 +28,7 @@ public class Map extends MapInterface {
     private PlanningRequest planningRequest;
     private HashMap<Intersection,HashMap<Intersection,Segment>> graphe;
     private Tour tour;
-    private Intersection[] extermIntersection;
+    private Intersection[] extremIntersection;
     private boolean mapLoaded = false;
     private boolean planningLoaded = false;
 
@@ -123,7 +123,7 @@ public class Map extends MapInterface {
                         System.out.println("segment: origin:"+originId+"; destination:"+destinationId+"; length:"+length+"; name:"+name);
                     }
                 }
-                extermIntersection = getExtremIntersection();
+                extremIntersection = getExtremIntersection();
                 mapLoaded = true;
             } catch (ParserConfigurationException |SAXException err){
                 this.notifyObservers("Parsing XML file failed");
@@ -169,7 +169,7 @@ public class Map extends MapInterface {
     }
 
     @Override
-    public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException {
+    public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException {
         //Test extension of XML file name
         String[] words = fileName.split(".");
         if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
@@ -228,6 +228,9 @@ public class Map extends MapInterface {
             } catch (ParserConfigurationException | SAXException err) {
                 this.notifyObservers("Parsing XML file failed");
                 throw err;
+            } catch (ParseException err) {
+                this.notifyObservers("Bad departureTime format");
+                throw err;
             } catch (IOException err) {
                 this.notifyObservers("Opening XML file failed");
                 throw err;
@@ -253,16 +256,16 @@ public class Map extends MapInterface {
     }
 
     @Override
-    public Intersection getIntersectionNorth(){return extermIntersection[0];};
+    public Intersection getIntersectionNorth(){return extremIntersection[0];};
 
     @Override
-    public Intersection getIntersectionSouth(){return extermIntersection[1];};
+    public Intersection getIntersectionSouth(){return extremIntersection[1];};
 
     @Override
-    public Intersection getIntersectionEast(){return extermIntersection[2];};
+    public Intersection getIntersectionEast(){return extremIntersection[2];};
 
     @Override
-    public Intersection getIntersectionWest(){return extermIntersection[3];};
+    public Intersection getIntersectionWest(){return extremIntersection[3];};
 
     @Override
     public ArrayList<Intersection> getIntersectionList() {
