@@ -62,6 +62,8 @@ public class Map extends MapInterface {
 
     @Override
     public void loadMap(String fileName) throws ParserConfigurationException, SAXException, IOException {
+        intersectionList=new ArrayList<>();
+        segmentList=new ArrayList<>();
         //Test extension of XML file name
         String[] words = fileName.split("\\.");
         if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
@@ -170,12 +172,15 @@ public class Map extends MapInterface {
 
     @Override
     public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException {
+        planningRequest=new PlanningRequest();
+
         //Test extension of XML file name
-        String[] words = fileName.split(".");
-        if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
+        String[] words = fileName.split("\\.");
+        if(!mapLoaded){
+            this.notifyObservers("No map loaded");
+        }else if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
             this.notifyObservers("Filename extension is not correct");
         }else {
-
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
             try {
@@ -277,7 +282,7 @@ public class Map extends MapInterface {
         return segmentList;
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
+    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
         Map map=new Map();
         //map.loadMap("./data/fichiersXML2020/smallMap.xml");
         // PlanningRequest planning = new PlanningRequest();
