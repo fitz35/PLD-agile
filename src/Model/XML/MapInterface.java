@@ -12,4 +12,11 @@ public interface MapInterface {
     public ArrayList<Intersection>  getIntersectionList();
     public ArrayList<Segment>  getSegmentList();
 
+    public Intersection getIntersectionNorth();
+
+    public Intersection getIntersectionSouth();
+
+    public Intersection getIntersectionEast();
+    public Intersection getIntersectionWest();
+
 }
