@@ -24,4 +24,20 @@ public class Request {
         this.deliveryAddress = deliveryAddress;
         this.deliveryDuration = deliveryDuration;
     }
+
+    public Intersection getPickupAddress() {
+        return pickupAddress;
+    }
+
+    public int getPickupDuration() {
+        return pickupDuration;
+    }
+
+    public Intersection getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public int getDeliveryDuration() {
+        return deliveryDuration;
+    }
 }

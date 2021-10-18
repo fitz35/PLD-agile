@@ -15,15 +15,40 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
-public class Map {
+import java.util.HashMap;
+import java.lang.Long;
+import java.lang.Double;
+import java.util.Observable;
+
+public class Map extends Observable {
     private ArrayList<Segment> segmentList;
     private ArrayList<Intersection> intersectionList;
     private PlanningRequest planningRequest;
+    private HashMap<Intersection,HashMap<Intersection,Segment>> graphe;
+    private Tour tour;
 
     public Map() {
         segmentList = new ArrayList<Segment>();
         intersectionList = new ArrayList<Intersection>();
         planningRequest = new PlanningRequest();
+        graphe= new HashMap<>();
+    }
+    public void createGraph() {
+        for (Intersection inter : intersectionList) {
+            HashMap<Intersection, Segment> destinations = new HashMap<>();
+            Long intersectionID = inter.getId();
+            System.out.println("Intersection id :"+intersectionID);
+            for (Segment segment : segmentList) {
+                Long segmentOriginId = segment.getOrigin().getId();
+                Intersection segmentDest = segment.getDestination();
+                if (segmentOriginId.equals(intersectionID)) {
+                    destinations.put(segmentDest, segment);
+                    System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDest.getId());
+                }
+            }
+            graphe.put(inter, destinations);
+        }
+
     }
 
     public void loadMap(String fileName)
@@ -122,6 +147,14 @@ public class Map {
         return null;
     }
 
+    public HashMap<Intersection, HashMap<Intersection, Segment>> getGraphe() {
+        return graphe;
+    }
+
+    public void setGraphe(HashMap<Intersection, HashMap<Intersection, Segment>> graphe) {
+        this.graphe = graphe;
+    }
+
     public void loadRequest(String fileName)
     {
         //Test extension of XML file name
@@ -167,26 +200,46 @@ public class Map {
                     Element element = (Element) node;
 
                     // get request's attribute
-                    long address = Long.parseLong(element.getAttribute("address"));
+                    long addressId = Long.parseLong(element.getAttribute("address"));
                     String departTime = element.getAttribute("departureTime");
 
-                    planningRequest.setStartingPoint(address);
+                    planningRequest.setStartingPoint(getIntersectionById(addressId));
                     planningRequest.setDepartureTime(new SimpleDateFormat("HH:mm:ss").parse(departTime));
 
-                    System.out.println("Depot: Starting point: "+address+" ; departureTime: "+departTime+";");
+                    System.out.println("Depot: Starting point: "+addressId+" ; departureTime: "+departTime+";");
                 }
             }
-
         } catch (ParserConfigurationException | SAXException | IOException | ParseException e) {
             e.printStackTrace();
         }
     }
 
+    public Intersection[] getExtremIntersection(){
+        Intersection northernmost = intersectionList.get(0);
+        Intersection southernmost = intersectionList.get(0);
+        Intersection easternmost = intersectionList.get(0);
+        Intersection westernmost = intersectionList.get(0);
+
+        for(int i=0 ; i<intersectionList.size() ; i++){
+            Intersection testedIntersection = intersectionList.get(i);
+            if(northernmost.getLatitude() < testedIntersection.getLatitude()) { northernmost = testedIntersection; } //north
+            if(southernmost.getLatitude() > testedIntersection.getLatitude()) { southernmost = testedIntersection; } //south
+            if(easternmost.getLongitude() < testedIntersection.getLongitude()) { easternmost = testedIntersection; } //east
+            if(westernmost.getLongitude() > testedIntersection.getLongitude()) { westernmost = testedIntersection; } //west
+        }
+        Intersection[] extremum = {northernmost , southernmost , easternmost , westernmost};
+        return extremum;
+    }
+
     public static void main(String[] args){
         Map map=new Map();
         map.loadMap("./data/fichiersXML2020/smallMap.xml");
-        PlanningRequest planning = new PlanningRequest();
-        map.loadMap("./data/fichiersXML2020/requestsMedium5.xml");
+        // PlanningRequest planning = new PlanningRequest();
+        map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
+        // System.out.println("passé");
+        map.createGraph();
+
+        System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
         System.out.println("passé");
     }
 
