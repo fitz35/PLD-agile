@@ -1,6 +1,7 @@
 package ihm.windowMap;
 
 
+import Model.XML.MapInterface;
 import controller.Controller;
 
 import javax.swing.*;
@@ -9,12 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Observable;
+import java.util.Observer;
 
 
 //width=1280
 //height= 720
 
-public class WelcomeWindow extends Frame implements ActionListener, KeyListener
+public class WelcomeWindow extends Frame implements Observer, ActionListener, KeyListener
 {
     private static Dimension size = Frame.size;
     private static int width = (int)size.getWidth();
@@ -146,6 +149,17 @@ public class WelcomeWindow extends Frame implements ActionListener, KeyListener
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("test");
+        if(o instanceof MapInterface && arg instanceof String){
+            errorMsg.setText((String) arg);
+            errorMsg.setVisible(true);
+            this.revalidate();
+            this.repaint();
+        }
     }
 }
 
