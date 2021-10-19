@@ -1,4 +1,5 @@
 package Model;
+import java.util.Objects;
 
 public class Segment {
     private Intersection origin;

@@ -1,4 +1,5 @@
 package Model;
+import java.util.Objects;
 
 public class Pair<T1, T2>{
     private T1 key;
@@ -25,7 +26,6 @@ public class Pair<T1, T2>{
         return Objects.equals(key, pair.key) && Objects.equals(value, pair.value);
     }*/
 
-    @Override
     public boolean equals(Pair o) {
         if (this.key == o.key && this.value == o.value) return true;
         return false;
