@@ -52,14 +52,14 @@ public class MapPanel extends JPanel implements MouseListener
     }
 
     public int[] latLonToOffsets( double latitudeOrigin, double longitudeOrigin, double latitude, double longitude, double mapWidth, double mapHeight) {
-        double maxLon= createdMap.getIntersectionSouth().getLongitude() - longitudeOrigin  ;
-        double maxLat= createdMap.getIntersectionEast().getLatitude() - latitudeOrigin;
+        double maxLatHeight= Math.abs(createdMap.getIntersectionSouth().getLatitude()-createdMap.getIntersectionNorth().getLatitude() ) ;
+        double maxLongWidth= Math.abs(createdMap.getIntersectionEast().getLongitude()-createdMap.getIntersectionWest().getLongitude())  ;
 
-        double lat = (latitudeOrigin-latitude);
-        double lon = (longitudeOrigin-longitude);
+        double lat = Math.abs(latitude - latitudeOrigin);
+        double lon = Math.abs(longitude-longitudeOrigin);
 
-        int x = (int) ((lon * mapWidth)/maxLon);
-        int y = (int) ((lat* mapHeight)/maxLat);
+        int y = (int) (lat*mapHeight/maxLatHeight);
+        int x = (int) (lon*mapWidth/maxLongWidth);
 
         int res [] = {x,y};
 
@@ -73,12 +73,10 @@ public class MapPanel extends JPanel implements MouseListener
         g.setColor(Color.white);
         double latitude= intersection.getLatitude();
         double longitude= intersection.getLongitude();
-        int[] pixelCoords= latLonToOffsets( createdMap.getIntersectionWest().getLatitude(), createdMap.getIntersectionNorth().getLongitude(), latitude, longitude, Frame.width,Frame.height*2/3);
+        int[] pixelCoords= latLonToOffsets( createdMap.getIntersectionNorth().getLatitude(), createdMap.getIntersectionWest().getLongitude(), latitude, longitude, Frame.width,(Frame.height*2)/3);
         int pixelX= pixelCoords[0];
         int pixelY= pixelCoords[1];
         System.out.println(pixelX + " +" + pixelY);
-        //g.drawOval((int)pixelX,(int) pixelY, 5,5);
-        g.drawOval(50,50, 5,5);
 
 
     }
@@ -91,8 +89,8 @@ public class MapPanel extends JPanel implements MouseListener
         double originLong= origin.getLongitude();
         double destinationLat= destination.getLatitude();
         double destinationLong= destination.getLongitude();
-        int[] pixelCoordsOrigin= latLonToOffsets( createdMap.getIntersectionWest().getLatitude(), createdMap.getIntersectionNorth().getLongitude(), originLat, originLong, Frame.width,Frame.height*2/3);
-        int[] pixelCoordsDestination= latLonToOffsets( createdMap.getIntersectionWest().getLatitude(), createdMap.getIntersectionNorth().getLongitude(), destinationLat, destinationLong, Frame.width,Frame.height*2/3);
+        int[] pixelCoordsOrigin= latLonToOffsets( createdMap.getIntersectionNorth().getLatitude(), createdMap.getIntersectionWest().getLongitude(), originLat, originLong, Frame.width,Frame.height*2/3);
+        int[] pixelCoordsDestination= latLonToOffsets( createdMap.getIntersectionNorth().getLatitude(), createdMap.getIntersectionWest().getLongitude(), destinationLat, destinationLong, Frame.width,Frame.height*2/3);
         int originPixelX= pixelCoordsOrigin[0];
         int originPixelY= pixelCoordsOrigin[1];
         int destinationPixelX= pixelCoordsDestination[0];
