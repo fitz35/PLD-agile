@@ -1,6 +1,7 @@
 package ihm.windowMap;
 
 import Model.Intersection;
+import Model.Request;
 import Model.Segment;
 import Model.XML.MapFactory;
 import Model.XML.MapInterface;
@@ -37,13 +38,16 @@ public class MapPanel extends JPanel implements MouseListener
         g2d.setColor(Color.red);
         if(createdMap!=null) {
             for (Intersection i : createdMap.getIntersectionList()) {
-                paintIntersection(g2d, i);
+                paintIntersection(g2d, i, Color.white);
             }
             for (Segment s : createdMap.getSegmentList()) {
                 paintSegment(g2d, s);
             }
             if(createdMap.getPlanningRequest() != null)
             {
+                for (Request r : createdMap.getPlanningRequest().getRequestList()) {
+                    paintRequest(g2d, r);
+                }
 
             }
         }
@@ -66,17 +70,23 @@ public class MapPanel extends JPanel implements MouseListener
         return res;
     }
 
+    private int[] convertIntersectionToPixel(Intersection i)
+    {
+        double latitude= i.getLatitude();
+        double longitude= i.getLongitude();
+        int[] pixelCoords= latLonToOffsets( createdMap.getIntersectionNorth().getLatitude(), createdMap.getIntersectionWest().getLongitude(), latitude, longitude, Frame.width,(Frame.height*2)/3);
+        return pixelCoords;
+    }
 
-    public void paintIntersection(Graphics2D g, Intersection intersection)
+
+    public void paintIntersection(Graphics2D g, Intersection intersection, Color colour)
     {
 
-        g.setColor(Color.white);
-        double latitude= intersection.getLatitude();
-        double longitude= intersection.getLongitude();
-        int[] pixelCoords= latLonToOffsets( createdMap.getIntersectionNorth().getLatitude(), createdMap.getIntersectionWest().getLongitude(), latitude, longitude, Frame.width,(Frame.height*2)/3);
+        g.setColor(colour);
+        int[] pixelCoords= convertIntersectionToPixel(intersection);
         int pixelX= pixelCoords[0];
         int pixelY= pixelCoords[1];
-        System.out.println(pixelX + " +" + pixelY);
+        g.fillOval(pixelX-2,pixelY-2,4,4);
 
 
     }
@@ -98,6 +108,15 @@ public class MapPanel extends JPanel implements MouseListener
         g.drawLine((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
 
     }
+    public void paintRequest(Graphics2D g, Request request )
+    {
+        Intersection pickup= request.getPickupAddress();
+        Intersection delivery= request.getDeliveryAddress();
+        paintIntersection(g, pickup, Color.red);
+        paintIntersection(g,delivery, Color.BLACK);
+
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {

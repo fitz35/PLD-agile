@@ -68,7 +68,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         if (e.getSource() ==browse)
         {
 
-            JFileChooser choice = new JFileChooser();
+            JFileChooser choice = new JFileChooser(".");
             int returnValue = choice.showOpenDialog(null);
             if(returnValue == JFileChooser.APPROVE_OPTION){
                 String fileName=choice.getSelectedFile().getName();
