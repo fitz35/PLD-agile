@@ -36,9 +36,8 @@ public class Map extends MapInterface {
     public Tour getTour(){return this.tour;}
 
     public Map() {
-        segmentList = new ArrayList<Segment>();
-        intersectionList = new ArrayList<Intersection>();
-        planningRequest = new PlanningRequest();
+        resetMap();
+        resetPlanning();
         graphe= new HashMap<>();
     }
 
@@ -62,8 +61,7 @@ public class Map extends MapInterface {
 
     @Override
     public void loadMap(String fileName) throws ParserConfigurationException, SAXException, IOException {
-        intersectionList=new ArrayList<>();
-        segmentList=new ArrayList<>();
+        resetMap();
         //Test extension of XML file name
         String[] words = fileName.split("\\.");
         if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
@@ -170,13 +168,27 @@ public class Map extends MapInterface {
         return null;
     }
 
+    @Override
     public HashMap<Intersection, HashMap<Intersection, Segment>> getGraphe() {
         return graphe;
     }
 
     @Override
-    public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException {
+    public void resetMap()
+    {
+        segmentList=new ArrayList<>();
+        intersectionList=new ArrayList<>();
+    }
+
+    @Override
+    public void resetPlanning()
+    {
         planningRequest=new PlanningRequest();
+    }
+
+    @Override
+    public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException {
+        resetPlanning();
 
         //Test extension of XML file name
         String[] words = fileName.split("\\.");

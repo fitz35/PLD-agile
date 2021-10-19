@@ -9,6 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 
 public abstract class MapInterface extends Observable {
@@ -19,7 +20,9 @@ public abstract class MapInterface extends Observable {
     public abstract ArrayList<Intersection>  getIntersectionList();
     public abstract ArrayList<Segment>  getSegmentList();
     public abstract Tour getTour();
-
+    public abstract void resetMap();
+    public abstract void resetPlanning();
+    public abstract HashMap<Intersection, HashMap<Intersection, Segment>> getGraphe();
 
     public abstract Intersection getIntersectionNorth();
     public abstract Intersection getIntersectionSouth();
