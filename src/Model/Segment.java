@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class Segment {
     private Intersection origin;
     private Intersection destination;
@@ -25,7 +27,7 @@ public class Segment {
         return length;
     }
 
-     @Override
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -40,7 +42,7 @@ public class Segment {
         else return false;
     }*/
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Intersection a = new Intersection(1, 20, 20);
         Intersection b = new Intersection(2, 25, 20);
         Intersection c = new Intersection(3, 25, 30);
@@ -65,3 +67,4 @@ public class Segment {
 
 
     }
+}

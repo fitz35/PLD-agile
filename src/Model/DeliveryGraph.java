@@ -1,18 +1,101 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import tsp.*;
 
-public class DeliveryGraph {
-    private HashMap<Intersection, HashMap<Intersection, Segment>> adjacencyList;
+public class DeliveryGraph implements Graph{
+    private double [][] cost;
+    private ArrayList<Intersection> nodesToVisit;
     private HashMap<Pair<Intersection, Intersection> , LinkedList<Segment>> verticeCompositionList;
+    private int nbVertices;
 
-    public DeliveryGraph() {
-        this.adjacencyList = new HashMap<Intersection, HashMap<Intersection, Segment>>();
-        this.verticeCompositionList = new HashMap<Pair<Intersection, Intersection> , LinkedList<Pair<Intersection, Segment>>>();
+    public DeliveryGraph(ArrayList<Intersection> nodesToVisit) {
+        this.verticeCompositionList = new HashMap<>();
+        this.nodesToVisit = nodesToVisit;
+        this.nbVertices = nodesToVisit.size();
+        this.cost = new double[this.nbVertices][this.nbVertices];
     }
 
-    public void addVertice(Intersection startIntersect, HashMap<Intersection, Segment> pi, LinkedList<Intersection> intersectionList){
-        
+    public void addVertice(int numberStartNode, HashMap<Intersection, Segment> pi){
+        int numberDestinationNode = 0;
+        Intersection startIntersection = nodesToVisit.get(numberStartNode);
+        for(Intersection intersect : nodesToVisit){
+            if(intersect != startIntersection) {
+                Segment seg = pi.get(intersect);
+                Pair<Intersection, Intersection> newVertice = new Pair<>(startIntersection, intersect);
+                LinkedList<Segment> newVerticeCompositon = new LinkedList<>();
+                Double length = seg.getLength();
+                newVerticeCompositon.add(seg);
+                while (seg.getOrigin() != startIntersection && seg != null) {
+                    newVerticeCompositon.add(seg);
+                    length += seg.getLength();
+                    seg = pi.get(seg.getOrigin());
+                }
+                verticeCompositionList.put(newVertice, newVerticeCompositon);
+                cost[numberStartNode][numberDestinationNode] = length;
+                numberDestinationNode++;
+            }
+        }
+    }
+
+    public void calculateTSP(int timeout){
+        TSP1 tsp = new TSP1();
+        tsp.searchSolution(timeout, this);
+        System.out.print("Solution of cost "+tsp.getSolutionCost());
+        for (int i=0; i<nbVertices; i++)
+            System.out.print(tsp.getSolution(i)+" ");
+        System.out.println("0");
+    }
+
+    @Override
+    public int getNbVertices() {
+        return this.nbVertices;
+    }
+
+    @Override
+    public int getCost(int i, int j) {
+        if (i<0 || i>=nbVertices || j<0 || j>=nbVertices)
+            return -1;
+        return (int) cost[i][j];
+    }
+
+    @Override
+    public boolean isArc(int i, int j) {
+        if (i<0 || i>=nbVertices || j<0 || j>=nbVertices)
+            return false;
+        return i != j;
+    }
+
+    public static void main(String[] args){
+        Intersection start = new Intersection(1, 1, 1);
+        Intersection one = new Intersection(2, 2, 2);
+        Intersection two = new Intersection(3, 3, 3);
+        Intersection three = new Intersection(4, 4, 4);
+
+        Segment s1 = new Segment(start, two, "lol", 8);
+        Segment s2 = new Segment(two, three, "lol", 3);
+        Segment s3 = new Segment(three, one, "lol", 1);
+        Segment s4 = new Segment(one, start, "lol", 5);
+
+        HashMap<Intersection, Segment> pi = new HashMap<>();
+        pi.put(two, s1);
+        pi.put(three, s2);
+        pi.put(one, s3);
+        pi.put(start, s4);
+
+        ArrayList<Intersection> nodesToVisit = new ArrayList<>();
+        nodesToVisit.add(start);
+        nodesToVisit.add(one);
+        nodesToVisit.add(two);
+        nodesToVisit.add(three);
+
+        DeliveryGraph dg = new DeliveryGraph(nodesToVisit);
+        for(int i=0; i< 4; i++) {
+            dg.addVertice(i, pi);
+        }
+        dg.calculateTSP(2000000);
+
     }
 }

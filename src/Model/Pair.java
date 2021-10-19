@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class Pair<T1, T2>{
     private T1 key;
     private T2 value;
@@ -26,24 +28,18 @@ public class Pair<T1, T2>{
     }*/
 
     @Override
-    public boolean equals(Pair o) {
-        if (this.key == o.key && this.value == o.value) return true;
-        return false;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pair<?, ?> pair = (Pair<?, ?>) o;
+        return Objects.equals(key, pair.key) && Objects.equals(value, pair.value);
     }
-    //If we have bugs we need to dig deeper into hashCode and hash
+
     @Override
     public int hashCode() {
         return Objects.hash(key, value);
     }
 
-   /* public static void main(String[] args){
-        Intersection i = new Intersection(1, 20, 20);
-        Intersection ii = new Intersection(2, 20, 20);
-        Segment s = new Segment(i, ii, "lol", 30);
-        Pair<Intersection, Segment> dd= new Pair(i, s);
-        System.out.println("lolllljdfklasjdl;fk");
-
-    }*/
    public static void main(String[] args){
        Intersection a = new Intersection(1, 20, 20);
        Intersection b = new Intersection(2, 25, 20);
