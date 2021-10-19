@@ -282,6 +282,49 @@ public class Map extends MapInterface {
         return segmentList;
     }
 
+    public Pair<HashMap<Intersection,Double>,HashMap<Intersection,Intersection>> djikstra(Intersection startIntersection){
+        HashMap<Intersection,Double> d = new HashMap<>();
+        HashMap<Intersection,Intersection> pi = new HashMap<>();
+        Pair<HashMap<Intersection,Double>,HashMap<Intersection,Intersection>> dAndPi = new Pair(d,pi);
+        ArrayList<Intersection> blanc= new ArrayList<>(),gris= new ArrayList<>(),noir = new ArrayList<>();
+        graphe.forEach((i, dest) -> {
+            if(i == startIntersection){
+                d.put(startIntersection,0.0);
+            }else {
+                d.put(i, Double.MAX_VALUE);
+            }
+            pi.put(i,null);
+            blanc.add(i);
+        });
+        gris.add(startIntersection);
+        while (!gris.isEmpty()){
+            Intersection minimalSuccessor = gris.get(0);
+            HashMap<Intersection,Segment> destinations = graphe.get(minimalSuccessor);
+            destinations.forEach((successor, segment)->{
+                if((blanc.contains(successor)) || (gris.contains(successor))){
+                    if(d.get(successor) > d.get(minimalSuccessor) + destinations.get(successor).getLength()){
+                        d.put(successor, d.get(minimalSuccessor) + destinations.get(successor).getLength());
+                        pi.replace(successor, minimalSuccessor);
+                    }
+                }
+                if(blanc.contains(successor)){
+                    int a=0;
+                    for(int i=0; i<gris.size(); i++){
+                        a=i;
+                        if( d.get(gris.get(i)) > d.get(successor) ){
+                            break;
+                        }
+                    }
+                    gris.add(a,successor);
+                    blanc.remove(successor);
+                }
+                noir.add(minimalSuccessor);
+                gris.remove(minimalSuccessor);
+            });
+        }
+        return dAndPi;
+    }
+
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
         Map map=new Map();
         //map.loadMap("./data/fichiersXML2020/smallMap.xml");

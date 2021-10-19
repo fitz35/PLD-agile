@@ -25,12 +25,43 @@ public class Segment {
         return length;
     }
 
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        if (!super.equals(object)) return false;
-        Segment segment = (Segment) object;
-        return java.lang.Double.compare(segment.length, length) == 0 && java.util.Objects.equals(origin, segment.origin) && java.util.Objects.equals(destination, segment.destination) && java.util.Objects.equals(name, segment.name);
+     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Segment s = (Segment) o;
+        return Objects.equals(origin, s.origin) && Objects.equals(destination, s.destination)
+                && Objects.equals(name, s.name) && Objects.equals(length, s.length);
     }
 
-}
+    /*@Override
+    public boolean equals(Segment o) {
+        if (this.origin == o.origin && this.destination== o.destination && this.name==o.name && this.length== o.length ) return true;
+        else return false;
+    }*/
+
+    public static void main(String[] args){
+        Intersection a = new Intersection(1, 20, 20);
+        Intersection b = new Intersection(2, 25, 20);
+        Intersection c = new Intersection(3, 25, 30);
+        Intersection d = new Intersection(4, 15, 25);
+        Segment s1 = new Segment(a, b, "AB", 30);
+        Segment s2 = new Segment(c, d, "CD", 25);
+        Segment s3 = new Segment(a, c, "AC", 15);
+        Segment s4 = new Segment(b, d, "BD", 20);
+        Segment s5 = new Segment(a, d, "AD", 20);
+        Segment s6 = new Segment(b, c, "BC", 10);
+        Segment s7 = new Segment(a, b, "AB", 30);
+        System.out.println("test d'égalité de s1 et s2");
+        s1.equals(s2);
+        System.out.println("test d'égalité de s1 et s3");
+        s1.equals(s3);
+        System.out.println("test d'égalité de s1 et s7");
+        s1.equals(s7);
+        System.out.println("test d'égalité de s2 et s3");
+        s2.equals(s3);
+        System.out.println("test d'égalité de s2 et s6");
+        s2.equals(s6);
+
+
+    }
