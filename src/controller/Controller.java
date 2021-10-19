@@ -47,14 +47,11 @@ public class Controller {
 
         }
     }
-    public static void back(int toChange)
+    public static void backToWelcomeWindow()
     {
-        switch(toChange)
-        {
-            case 1:
-                    window2.dispose();
-
-        }
+        window2.dispose();
+        firstWindow= new WelcomeWindow();
+        map= MapFactory.create();
     }
 
 

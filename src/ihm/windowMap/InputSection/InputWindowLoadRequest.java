@@ -52,6 +52,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
 
         back= new JButton("BACK");
         back.setBounds((int)(width*0.7),height/5,90, 40);
+        back.addActionListener(this);
 
 
         this.add(browse);
@@ -101,6 +102,8 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         if(e.getSource()==back)
         {
             //methode Controller pour changer de fenetre
+            System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACK");
+            Controller.backToWelcomeWindow();
         }
 
     }
