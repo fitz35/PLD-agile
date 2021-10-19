@@ -20,7 +20,6 @@ public class Frame extends JFrame
         this.setIconImage(logo.getImage());
         this.getContentPane().setBackground(Color.cyan);
 
-
     }
 
 
