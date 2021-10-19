@@ -17,17 +17,23 @@ public class Controller {
         this.stateController = newEtat;
     }
 
-    public void action() {
-        stateController.action(this);
+    public void nextState() {
+        stateController.nextState(this);
     }
 
     public static void main(String []args)
     {
         Controller controller = new Controller();
         controller.setState(new ControllerBeforeLoadingMap());
-        controller.action();
-        controller.setState(new ControllerBeforeLoadingRequest());
-        controller.action();
+        controller.nextState();
+        controller.nextState();
+        controller.nextState();
+        controller.nextState();
+        controller.nextState();
+        controller.nextState();
+        controller.nextState();
+        controller.nextState();
+
         map= MapFactory.create();
         tour=map.getTour();
         firstWindow = new WelcomeWindow();
