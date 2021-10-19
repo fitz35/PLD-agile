@@ -7,12 +7,27 @@ import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 
 public class Controller {
+    private StateController stateController;
     private static MapInterface map;
     private static Tour tour;
     private static WelcomeWindow firstWindow;
     private static WindowMap window2;
+
+    public void setState(StateController newEtat) {
+        this.stateController = newEtat;
+    }
+
+    public void action() {
+        stateController.action(this);
+    }
+
     public static void main(String []args)
     {
+        Controller controller = new Controller();
+        controller.setState(new ControllerBeforeLoadingMap());
+        controller.action();
+        controller.setState(new ControllerBeforeLoadingRequest());
+        controller.action();
         map= MapFactory.create();
         tour=map.getTour();
         firstWindow = new WelcomeWindow();
