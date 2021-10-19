@@ -54,11 +54,6 @@ public class WindowMap extends Frame implements Observer //implements ActionList
     }
     private void changePanel(JPanel panel, JPanel panelToAdd)
     {
-        Component[] componentList = panel.getComponents();
-        for(Component c : componentList)
-        {
-            panel.remove(c);
-        }
         this.remove(panel);
         this.add(panelToAdd);
         panelToAdd.revalidate();
