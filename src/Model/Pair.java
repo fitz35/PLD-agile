@@ -30,7 +30,7 @@ public class Pair<T1, T2>{
         Pair<?, ?> pair = (Pair<?, ?>) o;
         return Objects.equals(key, pair.key) && Objects.equals(value, pair.value);
     }
-
+    //If we have bugs we need to dig deeper into hashCode and hash
     @Override
     public int hashCode() {
         return Objects.hash(key, value);
