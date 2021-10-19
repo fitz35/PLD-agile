@@ -1,0 +1,1 @@
+WelcomeWindow -> Map Without Requests ->Map with delivery & Pickup Points
