@@ -1,21 +1,23 @@
 package ihm.windowMap;
 
-import javax.imageio.ImageIO;
+
+import Model.XML.MapInterface;
+import controller.Controller;
+
 import javax.swing.*;
-import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
+
 
 //width=1280
 //height= 720
 
-public class WelcomeWindow implements ActionListener, KeyListener
+public class WelcomeWindow extends Frame implements Observer, ActionListener, KeyListener
 {
     private static Dimension size = Frame.size;
     private static int width = (int)size.getWidth();
@@ -24,19 +26,19 @@ public class WelcomeWindow implements ActionListener, KeyListener
     private JButton browse;
     private JTextField path;
     private JButton loadMap;
-    private Frame frame;
     private JPanel panel;
     private JLabel body;
     private JLabel errorMsg;
+    private String pathUrl;
 
-    public void createWindow()
+    public WelcomeWindow()
     {
-        frame=new Frame();
+        super();
         panel= new JPanel();
         panel.setBounds(0,0, width, height);
         body= new JLabel();
         body.setPreferredSize(new Dimension(width,height));
-        frame.add(panel);
+        this.add(panel);
         panel.add(body);
 
 
@@ -91,15 +93,15 @@ public class WelcomeWindow implements ActionListener, KeyListener
         if (e.getSource() ==browse)
         {
 
-            JFileChooser choice = new JFileChooser();
+            JFileChooser choice = new JFileChooser(".");
             int returnValue = choice.showOpenDialog(null);
             if(returnValue == JFileChooser.APPROVE_OPTION){
                 String fileName=choice.getSelectedFile().getName();
-                String filePath=choice.getSelectedFile().getAbsolutePath();
+                pathUrl=choice.getSelectedFile().getAbsolutePath();
                 if(acceptFile(fileName))
                 {
                     System.out.println("correct extension");
-                    path.setText(filePath);
+                    path.setText(pathUrl);
                     loadMap.setVisible(true);
 
                 }
@@ -117,9 +119,7 @@ public class WelcomeWindow implements ActionListener, KeyListener
             //Methode a recuperer du back pour tester si le path vers le fichier existe
             //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
             //Methode pour changer de fenetres
-            WindowMapLoadRequest window2 = new WindowMapLoadRequest();
-            frame.dispose();
-            window2.createWindow();
+            Controller.loadMap(pathUrl);
 
         }
 
@@ -131,7 +131,7 @@ public class WelcomeWindow implements ActionListener, KeyListener
     {
         if (e.getSource() == path)
         {
-            String pathUrl= path.getText()+e.getKeyChar();
+            pathUrl= path.getText()+e.getKeyChar();
             System.out.println(pathUrl);
             if (acceptFile(pathUrl))
             {
@@ -149,6 +149,17 @@ public class WelcomeWindow implements ActionListener, KeyListener
     @Override
     public void keyReleased(KeyEvent e) {
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("test");
+        if(o instanceof MapInterface && arg instanceof String){
+            errorMsg.setText((String) arg);
+            errorMsg.setVisible(true);
+            this.revalidate();
+            this.repaint();
+        }
     }
 }
 

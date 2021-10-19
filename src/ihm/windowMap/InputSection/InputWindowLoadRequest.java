@@ -21,38 +21,35 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
     private JButton loadReqFile;
     private JButton back;
     private JLabel errorMsg;
-    private Frame frame;
-    private int x,y;
+    private WindowMapLoadRequest window;
 
-    public InputWindowLoadRequest (Frame frame)
+    public InputWindowLoadRequest (WindowMapLoadRequest window)
     {
         super();
-        this.frame=frame;
+        this.window=window;
         this.setBounds(0, (height*2/3), width,(height*1/3));
-        x=0;
-        y=(height*2/3);
         this.setLayout(null);
         path=new JTextField();
 
         browse= new JButton("BROWSE");
-        browse.setBounds((int)(x+(width*0.5)),y+(height/20),90, 40);
+        browse.setBounds((int)width/2,(int)height/20,90,40);
         browse.addActionListener(this);
 
         path = new JTextField();
-        path.setBounds(x+(width/30),y+(height/20),(int)(width*0.45),(int)(height/15));
+        path.setBounds(width/30,height/20,(int)(width*0.45),(int)(height/15));
         path.addKeyListener(this);
 
         errorMsg=new JLabel();
-        errorMsg.setBounds(x+(width/30),(int)(y+(height*0.12)),(int)(width*0.45),(int)(height/15));
+       errorMsg.setBounds(width/30,(int)(height*0.12),(int)(width*0.45),(int)(height/15));
 
 
         loadReqFile= new JButton("LOAD XML REQUEST FILE");
-        loadReqFile.setBounds(x+(width/3),y+(height/5),200, 40);
+        loadReqFile.setBounds(width/3,height/5,200, 40);
         loadReqFile.addActionListener(this);
 
 
         back= new JButton("BACK");
-        back.setBounds((int)(x+(width*0.7)),y+(height/5),90, 40);
+        back.setBounds((int)(width*0.7),height/5,90, 40);
 
 
         this.add(browse);
@@ -96,6 +93,12 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
             //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
             //Methode pour changer de fenetres
             //je change de panel de bouton
+            window.changePanel();
+
+        }
+        if(e.getSource()==back)
+        {
+            //methode Controller pour changer de fenetre
         }
 
     }

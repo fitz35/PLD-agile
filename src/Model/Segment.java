@@ -13,4 +13,15 @@ public class Segment {
         this.length = length;
     }
 
+    public Intersection getOrigin() {
+        return origin;
+    }
+
+    public Intersection getDestination() {
+        return destination;
+    }
+
+    public double getLength() {
+        return length;
+    }
 }

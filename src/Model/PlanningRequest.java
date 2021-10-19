@@ -17,15 +17,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class PlanningRequest {
-    private ArrayList<Request> requestList; //turn into Long
+    private ArrayList<Request> requestList;
     private Date departureTime;
-    private long startingPoint; //turn into intersection
+    private Intersection startingPoint;
 
     public PlanningRequest() {
         requestList = new ArrayList<Request>();
     }
 
-    public PlanningRequest(ArrayList<Request> requestArrayList, Date departureTime, long startingPoint) {
+    public PlanningRequest(ArrayList<Request> requestArrayList, Date departureTime, Intersection startingPoint) {
         this.requestList = requestArrayList;
         this.departureTime = departureTime;
         this.startingPoint = startingPoint;
@@ -35,69 +35,29 @@ public class PlanningRequest {
         requestList.add(newRequest);
     }
 
+    public void setStartingPoint(Intersection startingPoint) {
+        this.startingPoint = startingPoint;
+    }
 
-    public void loadRequest(String fileName)
-    {
-        //Test extension of XML file name
-        String[] words = fileName.split(".");
-        assert(words[(words.length)-1].equals("XML") || words[(words.length)-1].equals("xml"));
+    public void setDepartureTime(Date departureTime) {
+        this.departureTime = departureTime;
+    }
 
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    public Intersection[] getIntersectionId() {
+        //return all Intersection from the request and add the starting point address at the first place
+        Intersection[] intersectionId = new Intersection[1 + requestList.size()];
+        intersectionId[0] = startingPoint;
 
-        try {
-            // parse XML file
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(new File(fileName));
-            doc.getDocumentElement().normalize();
-
-            // get all nodes <intersection>
-            NodeList nodeListRequest = doc.getElementsByTagName("request");
-
-            for (int temp = 0; temp < nodeListRequest.getLength(); temp++) {
-                Node node = nodeListRequest.item(temp);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-
-                    // get request's attribute
-                    long pickupAddress = Long.parseLong(element.getAttribute("pickupAddress"));
-                    long deliveryAddress = Long.parseLong(element.getAttribute("deliveryAddress"));
-                    int pickupDuration = Integer.parseInt(element.getAttribute("pickupDuration"));
-                    int deliveryDuration = Integer.parseInt(element.getAttribute("deliveryDuration"));
-
-
-                    System.out.println("Existing address ?");
-                    System.out.println("Request: pickupAddress:" + pickupAddress + "; deliveryAddress:" + deliveryAddress + "; pickupDuration: " + pickupDuration+" deliveryDuration: " + deliveryDuration + ";");
-
-                    requestList.add(new Request(pickupAddress, pickupDuration, deliveryAddress, deliveryDuration));
-                }
-            }
-
-            // get the depot
-            NodeList nodeListDepot = doc.getElementsByTagName("depot");
-            for (int temp = 0; temp < nodeListDepot.getLength(); temp++) {
-                Node node = nodeListDepot.item(temp);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-
-                    // get request's attribute
-                    long address = Long.parseLong(element.getAttribute("address"));
-                    String departTime = element.getAttribute("departureTime");
-
-                    startingPoint = address;
-                    departureTime = new SimpleDateFormat("HH:mm:ss").parse(departTime);
-
-                    System.out.println("Depot: Starting point: "+startingPoint+" ; departureTime: "+departTime+";");
-                }
-            }
-
-        } catch (ParserConfigurationException | SAXException | IOException | ParseException e) {
-            e.printStackTrace();
+        for(int i=1 ; i<1 + requestList.size() ; i++){
+            intersectionId[i] = requestList.get(i-1).getPickupAddress();
+            i++;
+            intersectionId[i] = requestList.get(i-1).getDeliveryAddress();
         }
+        return intersectionId;
     }
 
     public static void main(String[] args){
         PlanningRequest planning =new PlanningRequest();
-        planning.loadRequest("./data/fichiersXML2020/requestsSmall1.xml");
     }
 
 
