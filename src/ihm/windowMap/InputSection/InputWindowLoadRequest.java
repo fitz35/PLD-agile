@@ -102,7 +102,6 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         if(e.getSource()==back)
         {
             //methode Controller pour changer de fenetre
-            System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACK");
             Controller.backToWelcomeWindow();
         }
 

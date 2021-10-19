@@ -19,7 +19,7 @@ public abstract class MapInterface extends Observable {
     public abstract ArrayList<Segment>  getSegmentList();
     public abstract Tour getTour();
     public abstract void resetMap();
-    public abstract void resetPlanning();
+    public abstract void resetPlanningRequest();
     public abstract HashMap<Intersection, HashMap<Intersection, Segment>> getGraphe();
     public abstract PlanningRequest getPlanningRequest();
 

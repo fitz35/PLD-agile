@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.lang.Long;
 import java.lang.Double;
-import java.util.Observable;
 
 public class Map extends MapInterface {
     private ArrayList<Segment> segmentList;
@@ -37,7 +36,7 @@ public class Map extends MapInterface {
 
     public Map() {
         resetMap();
-        resetPlanning();
+        resetPlanningRequest();
         graphe= new HashMap<>();
     }
 
@@ -183,14 +182,17 @@ public class Map extends MapInterface {
     }
 
     @Override
-    public void resetPlanning()
+    public void resetPlanningRequest()
     {
-        planningRequest=new PlanningRequest();
+        planningRequest=null;
+        this.setChanged();
+        this.notifyObservers();
     }
 
     @Override
     public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException {
-        resetPlanning();
+        resetPlanningRequest();
+        planningRequest=new PlanningRequest();
 
         //Test extension of XML file name
         String[] words = fileName.split("\\.");

@@ -53,6 +53,11 @@ public class Controller {
         firstWindow= new WelcomeWindow();
         map= MapFactory.create();
     }
+    public static void backToWindowLoadRequest()
+    {
+        window2.changePanel(1);
+        map.resetPlanningRequest();
+    }
 
 
 }

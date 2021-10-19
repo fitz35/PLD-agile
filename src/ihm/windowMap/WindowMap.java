@@ -32,8 +32,10 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         mapPanel= new MapPanel();
         this.add(mapPanel);
 
-        panelWithRequests= new InputMapWithDeliveryNPickupPoints();
-        panelWithRequests.setBackground(Color.CYAN);
+        panelWithRequests= new InputMapWithDeliveryNPickupPoints(this);
+
+
+
 
 
 
@@ -45,19 +47,24 @@ public class WindowMap extends Frame implements Observer //implements ActionList
        switch(panelNumber)
        {
            case 0:
+
                changePanel(inputPanel, panelWithRequests);
+
                break ;
-           //case 1:
-              // changePanel(panelWithRequests);
+           case 1:
+               changePanel(panelWithRequests,inputPanel);
+               break;
        }
 
     }
     private void changePanel(JPanel panel, JPanel panelToAdd)
     {
         this.remove(panel);
+        this.remove(mapPanel);
         this.add(panelToAdd);
-        panelToAdd.revalidate();
-        panelToAdd.repaint();
+        this.add(mapPanel);
+        this.revalidate();
+        this.repaint();
 
     }
 
