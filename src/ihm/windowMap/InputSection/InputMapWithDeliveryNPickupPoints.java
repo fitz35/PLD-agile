@@ -1,4 +1,6 @@
 package ihm.windowMap.InputSection;
 
-public class InputMapWithDeliveryNPickupPoints {
+import javax.swing.*;
+
+public class InputMapWithDeliveryNPickupPoints extends JPanel {
 }

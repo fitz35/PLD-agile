@@ -330,4 +330,9 @@ public class Map extends MapInterface {
         System.out.println("passé");
     }
 
+    public PlanningRequest getPlanningRequest()
+    {
+        return this.planningRequest;
+    }
+
 }

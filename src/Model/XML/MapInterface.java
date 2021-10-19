@@ -1,8 +1,6 @@
 package Model.XML;
 
-import Model.Intersection;
-import Model.Segment;
-import Model.Tour;
+import Model.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -19,6 +17,7 @@ public abstract class MapInterface extends Observable {
     public abstract ArrayList<Intersection>  getIntersectionList();
     public abstract ArrayList<Segment>  getSegmentList();
     public abstract Tour getTour();
+    public abstract PlanningRequest getPlanningRequest();
 
 
     public abstract Intersection getIntersectionNorth();

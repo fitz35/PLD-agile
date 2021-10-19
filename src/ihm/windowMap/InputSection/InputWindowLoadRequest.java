@@ -1,8 +1,9 @@
 package ihm.windowMap.InputSection;
 
+import controller.Controller;
 import ihm.windowMap.Frame;
 import ihm.windowMap.WelcomeWindow;
-import ihm.windowMap.WindowMapLoadRequest;
+import ihm.windowMap.WindowMap;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,9 +22,10 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
     private JButton loadReqFile;
     private JButton back;
     private JLabel errorMsg;
-    private WindowMapLoadRequest window;
+    private WindowMap window;
+    private String  filePath;
 
-    public InputWindowLoadRequest (WindowMapLoadRequest window)
+    public InputWindowLoadRequest (WindowMap window)
     {
         super();
         this.window=window;
@@ -70,7 +72,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
             int returnValue = choice.showOpenDialog(null);
             if(returnValue == JFileChooser.APPROVE_OPTION){
                 String fileName=choice.getSelectedFile().getName();
-                String filePath=choice.getSelectedFile().getAbsolutePath();
+                filePath=choice.getSelectedFile().getAbsolutePath();
                 if(WelcomeWindow.acceptFile(fileName))
                 {
                     System.out.println("correct extension");
@@ -93,7 +95,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
             //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
             //Methode pour changer de fenetres
             //je change de panel de bouton
-            window.changePanel();
+            Controller.loadRequest(filePath);
 
         }
         if(e.getSource()==back)

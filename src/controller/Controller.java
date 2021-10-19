@@ -4,14 +4,13 @@ import Model.Tour;
 import Model.XML.MapFactory;
 import Model.XML.MapInterface;
 import ihm.windowMap.WelcomeWindow;
-import ihm.windowMap.WindowMapLoadRequest;
-import org.junit.platform.engine.support.descriptor.FileSystemSource;
+import ihm.windowMap.WindowMap;
 
 public class Controller {
     private static MapInterface map;
     private static Tour tour;
     private static WelcomeWindow firstWindow;
-    private static WindowMapLoadRequest window2;
+    private static WindowMap window2;
     public static void main(String []args)
     {
         map= MapFactory.create();
@@ -23,7 +22,7 @@ public class Controller {
     {
         try {
             map.loadMap(mapPath);
-            window2 = new WindowMapLoadRequest();
+            window2 = new WindowMap();
             map.addObserver(window2);
             firstWindow.dispose();
             map.notifyObservers();
@@ -40,11 +39,20 @@ public class Controller {
         try{
             map.loadRequest(mapPath);
             //load requests back method
-            window2.changePanel();
+            window2.changePanel(0);
             map.notifyObservers();
         }catch(Exception e)
         {
             e.printStackTrace();
+
+        }
+    }
+    public static void back(int toChange)
+    {
+        switch(toChange)
+        {
+            case 1:
+                    window2.dispose();
 
         }
     }

@@ -1,14 +1,12 @@
 package ihm.windowMap.InputSection;
 
 import ihm.windowMap.Frame;
-import ihm.windowMap.WelcomeWindow;
-import ihm.windowMap.WindowMapLoadRequest;
+import ihm.windowMap.WindowMap;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 public class InputWindowModifications extends JPanel implements ActionListener
 {
@@ -18,10 +16,10 @@ public class InputWindowModifications extends JPanel implements ActionListener
     private JButton findOptimalRoute;
     private JButton back;
     private JLabel key;
-    private WindowMapLoadRequest window;
+    private WindowMap window;
     private int x,y;
 
-    public InputWindowModifications (WindowMapLoadRequest window)
+    public InputWindowModifications (WindowMap window)
     {
         super();
         this.window=window;
@@ -62,7 +60,7 @@ public class InputWindowModifications extends JPanel implements ActionListener
             //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
             //Methode pour changer de fenetres
             //je change de panel de bouton
-            window.changePanel();
+
 
         }
 

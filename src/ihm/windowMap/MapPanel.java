@@ -42,7 +42,12 @@ public class MapPanel extends JPanel implements MouseListener
             for (Segment s : createdMap.getSegmentList()) {
                 paintSegment(g2d, s);
             }
+            if(createdMap.getPlanningRequest() != null)
+            {
+
+            }
         }
+
 
     }
 
