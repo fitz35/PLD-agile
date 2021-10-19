@@ -222,4 +222,46 @@ public class Map {
         System.out.println("passé");
     }
 
+    public pair<HashMap,HashMap> djikstra(Intersection startIntersection){
+        HashMap<Intersection,Double> d = new HashMap<>();
+        HashMap<Intersection,Intersection> pi = new HashMap<>();
+        ArrayList<Intersection> blanc= new ArrayList<>(),gris= new ArrayList<>(),noir = new ArrayList<>();
+        graphe.forEach((i, dest) -> {
+            if(i == startIntersection){
+                d.put(startIntersection,0.0);
+            }else {
+                d.put(i, Double.MAX_VALUE);
+            }
+            pi.put(i,null);
+            blanc.add(i);
+        });
+        gris.add(startIntersection);
+        while (!gris.isEmpty()){
+            Intersection minimalSuccessor = gris.get(0);
+            HashMap<Intersection,Segment> destinations = graphe.get(minimalSuccessor);
+            destinations.forEach((successor, segment)->{
+                if((blanc.contains(successor)) || (gris.contains(successor))){
+                    if(d.get(successor) > d.get(minimalSuccessor) + destinations.get(successor).getLength()){
+                        d.put(successor, d.get(minimalSuccessor) + destinations.get(successor).getLength());
+                        pi.replace(successor, minimalSuccessor);
+                    }
+                }
+                if(blanc.contains(successor)){
+                    int a=0;
+                    for(int i=0; i<gris.size(); i++){
+                        a=i;
+                        if( d.get(gris.get(i)) > d.get(successor) ){
+                            break;
+                        }
+                    }
+                    gris.add(a,successor);
+                    blanc.remove(successor);
+                }
+                noir.add(minimalSuccessor);
+                gris.remove(minimalSuccessor);
+            });
+        }
+        //on a besoin des tableaux pi et d, je ne crois pas qu'on puisse les retourner
+    }
+
 }
