@@ -5,6 +5,13 @@ public class Intersection {
     private double latitude;
     private double longitude;
 
+    /**
+     * Constructor
+     *
+     * @param id
+     * @param latitude
+     * @param longitude
+     */
     public Intersection(long id, double latitude, double longitude)
     {
         this.id=id;
@@ -12,24 +19,33 @@ public class Intersection {
         this.longitude=longitude;
     }
 
-    public long getId()
-    {
-        return id;
-    }
+    /**
+     * @return id
+     */
+    public long getId(){return id;}
 
-    public double getLatitude() {
-        return latitude;
-    }
+    /**
+     * @return latitude
+     */
+    public double getLatitude(){return latitude;}
 
-    public double getLongitude() {
-        return longitude;
-    }
+    /**
+     * @return longitude
+     */
+    public double getLongitude(){return longitude;}
 
+    /**
+     * This method return true if the intersection in parameter is equivalent
+     *
+     * @param intersectionToTest
+     * @return
+     */
     public boolean equals(Intersection intersectionToTest)
     {
         if( intersectionToTest.getId()==this.getId() &&
-                intersectionToTest.getLatitude()==this.getLatitude() &&
-                intersectionToTest.getLongitude()==this.getLongitude()){
+            intersectionToTest.getLatitude()==this.getLatitude() &&
+            intersectionToTest.getLongitude()==this.getLongitude())
+        {
             return true;
         }
         return false;

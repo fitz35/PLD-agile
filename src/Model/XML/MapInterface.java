@@ -16,17 +16,18 @@ public abstract class MapInterface extends Observable {
 
     public abstract void loadMap(String fileName) throws ParserConfigurationException, ParseException, SAXException, IOException;
     public abstract void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException;
-    public abstract Intersection getIntersectionById(long id);
-    public abstract ArrayList<Intersection>  getIntersectionList();
-    public abstract ArrayList<Segment>  getSegmentList();
-    public abstract Tour getTour();
+    public abstract void createGraph();
     public abstract void resetMap();
     public abstract void resetPlanning();
-    public abstract HashMap<Intersection, HashMap<Intersection, Segment>> getGraphe();
-
+    public abstract void resetGraphe();
+    public abstract boolean checkUniqueIntersection(long intersectionId,double latitude,double longitude);
+    public abstract Tour getTour();
     public abstract Intersection getIntersectionNorth();
     public abstract Intersection getIntersectionSouth();
     public abstract Intersection getIntersectionEast();
     public abstract Intersection getIntersectionWest();
-
+    public abstract ArrayList<Segment>  getSegmentList();
+    public abstract Intersection getIntersectionById(long id);
+    public abstract ArrayList<Intersection>  getIntersectionList();
+    public abstract HashMap<Intersection, HashMap<Intersection, Segment>> getGraphe();
 }
