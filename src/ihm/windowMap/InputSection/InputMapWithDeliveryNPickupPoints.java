@@ -48,15 +48,15 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.GREEN);
-        g2d.fillOval((int)(width/30),75, 10,10 );
+        g2d.fillOval((int)(Frame.width/30),75, 10,10 );
         g2d.setColor(Color.BLACK);
         g2d.drawString(": Starting Point", 60, 85 );
         g2d.setColor(Color.red);
-        g2d.fillOval((int)(width/30),100, 10,10 );
+        g2d.fillOval((int)(Frame.width/30),100, 10,10 );
         g2d.setColor(Color.BLACK);
         g2d.drawString(": Pickup point", 60, 110 );
         g2d.setColor(Color.BLACK);
-        g2d.fillOval((int)(width/30),125, 10,10 );
+        g2d.fillOval((int)(Frame.width/30),125, 10,10 );
         g2d.drawString(": Delivery point", 60, 135 );
 
     }
