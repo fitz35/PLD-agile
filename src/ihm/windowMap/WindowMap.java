@@ -36,6 +36,10 @@ public class WindowMap extends Frame implements Observer //implements ActionList
 
     }
 
+    /**
+     * change between panel
+     * @param panelNumber which panel to get (0 : panelWithRequests, 1 : inputPanel)
+     */
     public  void changePanel(int panelNumber)
     {
        switch(panelNumber)
@@ -51,6 +55,12 @@ public class WindowMap extends Frame implements Observer //implements ActionList
        }
 
     }
+
+    /**
+     * change the panel panel
+     * @param panel the panel to remove
+     * @param panelToAdd the panel to add
+     */
     private void changePanel(JPanel panel, JPanel panelToAdd)
     {
         this.remove(panel);
