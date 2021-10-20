@@ -1,14 +1,11 @@
 package ihm.windowMap;
 
-import Model.Tour;
-import Model.XML.MapInterface;
+import Model.MapInterface;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
 import ihm.windowMap.InputSection.InputWindowLoadRequest;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -23,19 +20,13 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         super();
 
         inputPanel= new InputWindowLoadRequest(this);
-        inputPanel.setBackground(Color.CYAN);
+        inputPanel.setBackground(Color.LIGHT_GRAY);
         this.add(inputPanel);
 
         mapPanel= new MapPanel();
         this.add(mapPanel);
 
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this);
-
-
-
-
-
-
 
     }
 

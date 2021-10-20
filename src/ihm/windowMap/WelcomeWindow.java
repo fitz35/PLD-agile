@@ -1,7 +1,7 @@
 package ihm.windowMap;
 
 
-import Model.XML.MapInterface;
+import Model.MapInterface;
 import controller.Controller;
 
 import javax.swing.*;
@@ -90,6 +90,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         if (e.getSource() ==browse)
         {
 
+            errorMsg.setVisible(false);
             JFileChooser choice = new JFileChooser(".");
             int returnValue = choice.showOpenDialog(null);
             if(returnValue == JFileChooser.APPROVE_OPTION){
@@ -128,6 +129,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
     {
         if (e.getSource() == path)
         {
+            errorMsg.setVisible(false);
             pathUrl= path.getText()+e.getKeyChar();
             System.out.println(pathUrl);
             if (acceptFile(pathUrl))

@@ -1,8 +1,8 @@
 package controller;
 
 import Model.Tour;
-import Model.XML.MapFactory;
-import Model.XML.MapInterface;
+import Model.MapFactory;
+import Model.MapInterface;
 import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 
@@ -68,6 +68,13 @@ public class Controller {
 
         }
     }
+
+    public static void loadTour()
+    {
+        map.computeTour(300);
+        System.out.println("tour loaded");
+    }
+
     public static void backToWelcomeWindow()
     {
         window2.dispose();

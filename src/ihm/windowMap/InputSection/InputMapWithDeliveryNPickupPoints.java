@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 
 public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionListener
 {
+    private static Dimension size = Frame.size;
+    private static int width = (int)size.getWidth();
+    private static int height = (int)size.getHeight();
     private JButton findOptimalRoute;
     private JButton backToLoadRequest;
     private JLabel key;
@@ -20,25 +23,45 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     {
         super();
         this.window=window;
-        this.setBounds(0, (Frame.height*2/3), Frame.width,(Frame.height*1/3));
-        this.setBackground(Color.cyan);
+        this.setBounds(0, (height*2/3), width,(height*1/3));
+        this.setBackground(Color.LIGHT_GRAY);
         this.setLayout(null);
 
-        key=new JLabel();
-        key.setBounds((int)(Frame.width/30),(int)(Frame.height*0.12),(int)(Frame.width*0.45),(int)(Frame.height/15));
+
 
 
         findOptimalRoute= new JButton("Find Optimal Tour");
-        findOptimalRoute.setBounds(Frame.width/3,Frame.height/5,200, 40);
+        findOptimalRoute.setBounds(width/3,height/5,200, 40);
         findOptimalRoute.addActionListener(this);
 
 
         backToLoadRequest= new JButton("BACK");
-        backToLoadRequest.setBounds((int)(Frame.width*0.7),Frame.height/5,90, 40);
+        backToLoadRequest.setBounds((int)(width*0.7),height/5,90, 40);
         backToLoadRequest.addActionListener(this);
 
-        this.add(key);
+
         this.add(backToLoadRequest);
+        this.add(findOptimalRoute);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.GREEN);
+        g2d.fillOval((int)(width/30),75, 10,10 );
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(": Starting Point", 60, 85 );
+        g2d.setColor(Color.red);
+        g2d.fillOval((int)(width/30),100, 10,10 );
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(": Pickup point", 60, 110 );
+        g2d.setColor(Color.BLACK);
+        g2d.fillOval((int)(width/30),125, 10,10 );
+        g2d.drawString(": Delivery point", 60, 135 );
+
     }
 
     @Override
@@ -47,7 +70,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
         if (e.getSource() ==findOptimalRoute)
         {
-
+            Controller.loadTour();
 
         }
 

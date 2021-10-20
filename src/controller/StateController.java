@@ -1,6 +1,6 @@
 package controller;
 
 public interface StateController {
-    void action(Controller context);
+    public default  void action(Controller context){};
     void nextState(Controller context);
 }

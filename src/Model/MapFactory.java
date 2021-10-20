@@ -1,6 +1,4 @@
-package Model.XML;
-
-import Model.Map;
+package Model;
 
 public class MapFactory {
 
