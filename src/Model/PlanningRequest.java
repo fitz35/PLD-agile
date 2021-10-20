@@ -43,17 +43,20 @@ public class PlanningRequest {
         this.departureTime = departureTime;
     }
 
-    public Intersection[] getIntersectionId() {
+    public ArrayList<Intersection> getIntersection() {
         //return all Intersection from the request and add the starting point address at the first place
-        Intersection[] intersectionId = new Intersection[1 + requestList.size()];
-        intersectionId[0] = startingPoint;
+        ArrayList<Intersection> intersection = new ArrayList<>(1 + requestList.size());
+        intersection.add(startingPoint);
 
-        for(int i=1 ; i<1 + requestList.size() ; i++){
-            intersectionId[i] = requestList.get(i-1).getPickupAddress();
-            i++;
-            intersectionId[i] = requestList.get(i-1).getDeliveryAddress();
+        for(Request req : requestList){
+            intersection.add(req.getPickupAddress());
+            intersection.add(req.getDeliveryAddress());
         }
-        return intersectionId;
+        return intersection;
+    }
+
+    public int size(){
+        return requestList.size();
     }
 
     public static void main(String[] args){
