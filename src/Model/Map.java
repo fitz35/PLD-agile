@@ -106,23 +106,20 @@ public class Map extends MapInterface {
                         Element element = (Element) node;
 
                         // get intersection's attribute
-                        long destinationId =  Long.parseLong(element.getAttribute("destination"));
-                        long originId =  Long.parseLong(element.getAttribute("origin"));
+                        long destinationId = Long.parseLong(element.getAttribute("destination"));
+                        long originId = Long.parseLong(element.getAttribute("origin"));
                         double length = Double.parseDouble(element.getAttribute("length"));
                         String name = element.getAttribute("name");
 
                         Intersection origin = getIntersectionById(originId);
                         Intersection destination = getIntersectionById(destinationId);
-                        if(origin != null && destination != null){
-                            segmentList.add(new Segment(origin,destination,name,length));
-                        }else{
+                        if (origin != null && destination != null) {
+                            segmentList.add(new Segment(origin, destination, name, length));
+                        } else {
                             // System.out.println("segment creation is impossible");
                         }
                     }
                 }
-                mapLoaded = true;
-                extremIntersection = getExtremIntersection();
-                System.out.println(extremIntersection.length);
 
             } catch (ParserConfigurationException |SAXException err){
                 this.setChanged();
@@ -139,6 +136,8 @@ public class Map extends MapInterface {
                 this.notifyObservers("Map is empty. Check your XML file.");
                 throw new IOException();
             }
+            mapLoaded = true;
+            extremIntersection = getExtremIntersection();
             this.setChanged();
         }
     }
