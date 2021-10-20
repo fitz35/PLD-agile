@@ -24,7 +24,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         super();
         this.window=window;
         this.setBounds(0, (height*2/3), width,(height*1/3));
-        this.setBackground(Color.cyan);
+        this.setBackground(Color.LIGHT_GRAY);
         this.setLayout(null);
 
 

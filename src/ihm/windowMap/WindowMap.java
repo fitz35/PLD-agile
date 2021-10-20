@@ -23,19 +23,13 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         super();
 
         inputPanel= new InputWindowLoadRequest(this);
-        inputPanel.setBackground(Color.CYAN);
+        inputPanel.setBackground(Color.LIGHT_GRAY);
         this.add(inputPanel);
 
         mapPanel= new MapPanel();
         this.add(mapPanel);
 
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this);
-
-
-
-
-
-
 
     }
 
