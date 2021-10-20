@@ -43,6 +43,10 @@ public class PlanningRequest {
         this.departureTime = departureTime;
     }
 
+    public ArrayList<Request> getRequestList() {
+        return requestList;
+    }
+
     public ArrayList<Intersection> getIntersection() {
         //return all Intersection from the request and add the starting point address at the first place
         ArrayList<Intersection> intersection = new ArrayList<>(1 + requestList.size());

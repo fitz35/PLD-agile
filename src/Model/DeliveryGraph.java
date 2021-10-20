@@ -30,9 +30,9 @@ public class DeliveryGraph implements Graph{
                 Double length = seg.getLength();
                 newVerticeCompositon.add(seg);
                 while (seg.getOrigin() != startIntersection && seg != null) {
+                    seg = pi.get(seg.getOrigin());
                     newVerticeCompositon.add(seg);
                     length += seg.getLength();
-                    seg = pi.get(seg.getOrigin());
                 }
                 Collections.reverse(newVerticeCompositon);
                 verticeCompositionList.put(newVertice, newVerticeCompositon);

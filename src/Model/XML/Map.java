@@ -335,7 +335,8 @@ public class Map extends MapInterface {
             HashMap<Intersection,Segment> pi = djikstra(listIntersections.get(i));
             deliveryGraph.addVertice(i,pi);
         }
-        LinkedList<Intersection> tourCalculated = deliveryGraph
+        LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
+        Tour tour = new Tour(tourCalculated);
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
@@ -346,7 +347,7 @@ public class Map extends MapInterface {
         // System.out.println("passé");
 
         //TEST DJIKSTRA
-        /*map.loadMap("src/Model/XML/mapTest.xml");
+        map.loadMap("src/Model/XML/mapTest.xml");
         map.loadRequest("src/Model/XML/planingTest.xml");
         HashMap<Intersection,LinkedList<Segment>> graphe = new HashMap<>();
         graphe = map.createGraph();
@@ -356,7 +357,9 @@ public class Map extends MapInterface {
         System.out.println("Test djikstra");
         testDjikstra.forEach((inte, segm)->{
             System.out.println(inte.getId());
-        });*/
+        });
+
+        map.computeTour(200000000);
 
         //System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
         System.out.println("passé");

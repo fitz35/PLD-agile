@@ -1,29 +1,24 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Tour{
-    private ArrayList<Segment> orderedSegmentList;
-    private ArrayList<Intersection> orderedIntersectionList;
+    private LinkedList<Segment> orderedSegmentList;
+    //private ArrayList<Intersection> orderedIntersectionList;
 
-    public Tour() {
-        orderedSegmentList = new ArrayList<Segment>();
-        orderedIntersectionList = new ArrayList<Intersection>();
+    public Tour(LinkedList<Segment> orderedSegmentList) {
+        this.orderedSegmentList = orderedSegmentList;
+        //orderedIntersectionList = new ArrayList<Intersection>();
     }
 
-    public ArrayList<Segment> getOrderedSegmentList() {
+    public LinkedList<Segment> getOrderedSegmentList() {
         return orderedSegmentList;
     }
 
-    public ArrayList<Intersection> getOrderedIntersectionList() {
-        return orderedIntersectionList;
-    }
 
-    public void setOrderedSegmentList(ArrayList<Segment> orderedSegmentList) {
+    public void setOrderedSegmentList(LinkedList<Segment> orderedSegmentList) {
         this.orderedSegmentList = orderedSegmentList;
     }
 
-    public void setOrderedIntersectionList(ArrayList<Intersection> orderedIntersectionList) {
-        this.orderedIntersectionList = orderedIntersectionList;
-    }
 }
