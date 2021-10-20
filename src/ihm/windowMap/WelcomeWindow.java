@@ -155,7 +155,6 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("test");
         if(o instanceof MapInterface && arg instanceof String){
             errorMsg.setText((String) arg);
             errorMsg.setVisible(true);
