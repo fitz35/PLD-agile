@@ -41,6 +41,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
         this.add(backToLoadRequest);
+        this.add(findOptimalRoute);
         this.revalidate();
         this.repaint();
     }

@@ -40,7 +40,7 @@ public class MapPanel extends JPanel implements MouseListener
                 paintIntersection(g2d, i, Color.white);
             }
             for (Segment s : createdMap.getSegmentList()) {
-                paintSegment(g2d, s);
+                paintSegment(g2d, s, Color.white);
             }
             if(createdMap.getPlanningRequest() != null)
             {
@@ -53,8 +53,13 @@ public class MapPanel extends JPanel implements MouseListener
                     Intersection i= createdMap.getPlanningRequest().getStartingPoint();
                     paintIntersection(g2d, i, Color.GREEN);
                 }
-
-
+            }
+            if(createdMap.getTour()!= null && createdMap.getTour().getOrderedSegmentList()!= null)
+            {
+                for (Segment segment : createdMap.getTour().getOrderedSegmentList())
+                {
+                    paintSegment(g2d, segment, Color.magenta);
+                }
             }
         }
 
@@ -96,9 +101,9 @@ public class MapPanel extends JPanel implements MouseListener
 
 
     }
-    public void paintSegment(Graphics2D g, Segment segment)
+    public void paintSegment(Graphics2D g, Segment segment, Color colour)
     {
-        g.setColor(Color.white);
+
         Intersection origin= segment.getOrigin();
         Intersection destination= segment.getDestination();
         double originLat= origin.getLatitude();

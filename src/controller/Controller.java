@@ -47,6 +47,12 @@ public class Controller {
 
         }
     }
+
+    public static void loadTour()
+    {
+
+    }
+
     public static void backToWelcomeWindow()
     {
         window2.dispose();
