@@ -29,37 +29,54 @@ public class Map extends MapInterface {
     private Intersection[] extremIntersection;
     private boolean mapLoaded = false;
     private boolean planningLoaded = false;
-    private DeliveryGraph deliveryGraph;
 
-    public Tour getTour(){return this.tour;}
-
+    /**
+     * Constructor
+     */
     public Map() {
         resetMap();
-        resetPlanningRequest();
-        graphe= new HashMap<>();
+        resetPlanning();
+        resetGraphe();
     }
 
-
-    public HashMap<Intersection,LinkedList<Segment>> createGraph() {
+    /**
+     * This method create the city graph
+     */
+    @Override
+    public void createGraph() {
+        resetGraphe();
+        // For each intersection
         for (Intersection inter : intersectionList) {
             //HashMap<Intersection, Segment> destinations = new HashMap<>();
             LinkedList<Segment> interSegments = new LinkedList<>();
             Long intersectionID = inter.getId();
-            //System.out.println("Intersection id :"+intersectionID);
+            System.out.println("Intersection id :"+intersectionID);
+            // For each segment
             for (Segment segment : segmentList) {
                 Long segmentOriginId = segment.getOrigin().getId();
+                Intersection segmentDest = segment.getDestination();
+                // If the segment's origin id corresponds to the intersection id
                 if (segmentOriginId.equals(intersectionID)) {
-                    interSegments.add(segment);
-                    Intersection segmentDest = segment.getDestination();
+                    // Add the segment to the list of destination of this intersection
+                    destinations.put(segmentDest, segment);
                     System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDest.getId());
                 }
             }
-            graphe.put(inter, interSegments);
+            // Add the intersection and its list of segment
+            graphe.put(inter, destinations);
         }
         //test
         return graphe;
     }
 
+    /**
+     * This method open and parse a xml map file
+     *
+     * @param fileName
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
     @Override
     public void loadMap(String fileName) throws ParserConfigurationException, SAXException, IOException {
         resetMap();
@@ -93,6 +110,7 @@ public class Map extends MapInterface {
                         //System.out.println("Intersection: "+id+"; latitude:"+latitude+"; longitude:"+longitude);
 
                         if(checkUniqueIntersection(id,latitude,longitude)){
+                            // create and add the intersection
                             intersectionList.add(new Intersection(id,latitude,longitude));
                         }else{
                             System.out.println("already in the list");
@@ -117,6 +135,7 @@ public class Map extends MapInterface {
 
                         Intersection origin = getIntersectionById(originId);
                         Intersection destination = getIntersectionById(destinationId);
+                        // check that the origin and the destination of the segment are existing intersections
                         if(origin != null && destination != null){
                             segmentList.add(new Segment(origin,destination,name,length));
                         }else{
@@ -190,6 +209,16 @@ public class Map extends MapInterface {
         this.notifyObservers();
     }
 
+
+    /**
+     * This method open and parse a xml planning file
+     *
+     * @param fileName
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @throws ParseException
+     */
     @Override
     public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException {
         resetPlanningRequest();
@@ -271,6 +300,39 @@ public class Map extends MapInterface {
         }
     }
 
+    /**
+     * Reset the map : create new segmentList and intersectionList
+     */
+    @Override
+    public void resetMap()
+    {
+        segmentList=new ArrayList<>();
+        intersectionList=new ArrayList<>();
+    }
+
+    /**
+     * Reset the graphe : create new graphe
+     */
+    @Override
+    public void resetGraphe()
+    {
+        graphe=new HashMap<>();
+    }
+
+    /**
+     * Reset the planning : create new planning
+     */
+    @Override
+    public void resetPlanning()
+    {
+        planningRequest=new PlanningRequest();
+    }
+
+    /**
+     * This method find the extrem intersections (north, south, east, west)
+     *
+     * @return extremum|null
+     */
     private Intersection[] getExtremIntersection(){
         System.out.println(mapLoaded);
         if(!mapLoaded){
@@ -292,6 +354,11 @@ public class Map extends MapInterface {
         return extremum;
     }
 
+    /**
+     * This method return the northern intersection
+     *
+     * @return intersection|null
+     */
     @Override
     public Intersection getIntersectionNorth(){
         if(!mapLoaded){
@@ -300,6 +367,11 @@ public class Map extends MapInterface {
         return extremIntersection[0];
     };
 
+    /**
+     * This method return the southern intersection
+     *
+     * @return intersection|null
+     */
     @Override
     public Intersection getIntersectionSouth(){
         if(!mapLoaded){
@@ -308,6 +380,11 @@ public class Map extends MapInterface {
         return extremIntersection[1];
     };
 
+    /**
+     * This method return the eastern intersection
+     *
+     * @return intersection|null
+     */
     @Override
     public Intersection getIntersectionEast(){
         if(!mapLoaded){
@@ -316,6 +393,11 @@ public class Map extends MapInterface {
         return extremIntersection[2];
     };
 
+    /**
+     * This method return the western intersection
+     *
+     * @return intersection|null
+     */
     @Override
     public Intersection getIntersectionWest(){
         if(!mapLoaded){
@@ -324,11 +406,66 @@ public class Map extends MapInterface {
         return extremIntersection[3];
     };
 
+    /**
+     * Check if the data provided correspond to an existing intersection in the list
+     *
+     * @param intersectionId
+     * @param latitude
+     * @param longitude
+     * @return res
+     */
+    @Override
+    public boolean checkUniqueIntersection(long intersectionId,double latitude,double longitude)
+    {
+        boolean res=true;
+        Intersection intersectionToTest= new Intersection(intersectionId,latitude,longitude);
+        for(Intersection intersection:intersectionList)
+        {
+            if(intersectionToTest.equals(intersection))
+            {
+                res=false;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * Return the intersection corresponding to the id
+     *
+     * @param intersectionId
+     * @return intersection|null
+     */
+    public Intersection getIntersectionById(long intersectionId)
+    {
+        for(Intersection intersection : intersectionList)
+        {
+            if(intersection.getId() == intersectionId )
+            {
+                return intersection;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @return graphe
+     */
+    @Override
+    public HashMap<Intersection, HashMap<Intersection, Segment>> getGraphe() {
+        return graphe;
+    }
+
+    /**
+     * @return intersectionList
+     */
     @Override
     public ArrayList<Intersection> getIntersectionList() {
         return intersectionList;
     }
 
+    /**
+     * @return segmentList
+     */
     @Override
     public ArrayList<Segment> getSegmentList() {
         return segmentList;
@@ -389,6 +526,11 @@ public class Map extends MapInterface {
         this.setChanged();
         this.notifyObservers();
     }
+    /**
+     * @return tour
+     */
+    @Override
+    public Tour getTour(){return this.tour;}
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
         Map map=new Map();
