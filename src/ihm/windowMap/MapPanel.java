@@ -45,9 +45,16 @@ public class MapPanel extends JPanel implements MouseListener
             }
             if(createdMap.getPlanningRequest() != null)
             {
-                for (Request r : createdMap.getPlanningRequest().getRequestList()) {
+                for (Request r : createdMap.getPlanningRequest().getRequestList())
+                {
                     paintRequest(g2d, r);
                 }
+                if(createdMap.getPlanningRequest().getStartingPoint()!= null)
+                {
+                    Intersection i= createdMap.getPlanningRequest().getStartingPoint();
+                    paintIntersection(g2d, i, Color.GREEN);
+                }
+
 
             }
         }

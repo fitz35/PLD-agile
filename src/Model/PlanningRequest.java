@@ -59,6 +59,10 @@ public class PlanningRequest {
     public ArrayList<Request> getRequestList() {
         return requestList;
     }
+    public Intersection getStartingPoint()
+    {
+        return startingPoint;
+    }
 
     public static void main(String[] args){
         PlanningRequest planning =new PlanningRequest();
