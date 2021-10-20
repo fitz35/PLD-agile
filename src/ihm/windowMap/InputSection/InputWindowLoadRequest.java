@@ -14,9 +14,6 @@ import java.awt.event.KeyListener;
 
 public class InputWindowLoadRequest extends JPanel implements ActionListener, KeyListener
 {
-    private static Dimension size = Frame.size;
-    private static int width = (int)size.getWidth();
-    private static int height = (int)size.getHeight();
     private JTextField path;
     private JButton browse;
     private JButton loadReqFile;
@@ -29,29 +26,29 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
     {
         super();
         this.window=window;
-        this.setBounds(0, (height*2/3), width,(height*1/3));
+        this.setBounds(0, (Frame.height*2/3), Frame.width,(Frame.height*1/3));
         this.setLayout(null);
         path=new JTextField();
 
         browse= new JButton("BROWSE");
-        browse.setBounds((int)width/2,(int)height/20,90,40);
+        browse.setBounds((int)Frame.width/2,(int)Frame.height/20,90,40);
         browse.addActionListener(this);
 
         path = new JTextField();
-        path.setBounds(width/30,height/20,(int)(width*0.45),(int)(height/15));
+        path.setBounds(Frame.width/30,Frame.height/20,(int)(Frame.width*0.45),(int)(Frame.height/15));
         path.addKeyListener(this);
 
         errorMsg=new JLabel();
-       errorMsg.setBounds(width/30,(int)(height*0.12),(int)(width*0.45),(int)(height/15));
+       errorMsg.setBounds(Frame.width/30,(int)(Frame.height*0.12),(int)(Frame.width*0.45),(int)(Frame.height/15));
 
 
         loadReqFile= new JButton("LOAD XML REQUEST FILE");
-        loadReqFile.setBounds(width/3,height/5,200, 40);
+        loadReqFile.setBounds(Frame.width/3,Frame.height/5,200, 40);
         loadReqFile.addActionListener(this);
 
 
         back= new JButton("BACK");
-        back.setBounds((int)(width*0.7),height/5,90, 40);
+        back.setBounds((int)(Frame.width*0.7),Frame.height/5,90, 40);
         back.addActionListener(this);
 
 
@@ -102,7 +99,6 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         if(e.getSource()==back)
         {
             //methode Controller pour changer de fenetre
-            System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACK");
             Controller.backToWelcomeWindow();
         }
 
