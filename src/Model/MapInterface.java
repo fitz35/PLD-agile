@@ -1,4 +1,4 @@
-package Model.XML;
+package Model;
 
 import Model.*;
 import org.xml.sax.SAXException;
@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Observable;
 
 public abstract class MapInterface extends Observable {
@@ -20,7 +21,7 @@ public abstract class MapInterface extends Observable {
     public abstract Tour getTour();
     public abstract void resetMap();
     public abstract void resetPlanningRequest();
-    public abstract HashMap<Intersection, HashMap<Intersection, Segment>> getGraphe();
+    public abstract HashMap<Intersection, LinkedList<Segment>> getGraphe();
     public abstract PlanningRequest getPlanningRequest();
 
 

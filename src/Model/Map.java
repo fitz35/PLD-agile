@@ -1,10 +1,9 @@
-package Model.XML;
+package Model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import Model.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -172,7 +171,7 @@ public class Map extends MapInterface {
         return null;
     }
 
-    public HashMap<Intersection, LinkedList<Segment>> getGraphe() {
+    public HashMap<Intersection,LinkedList<Segment>> getGraphe() {
         return graphe;
     }
 

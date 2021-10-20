@@ -1,8 +1,8 @@
 package controller;
 
 import Model.Tour;
-import Model.XML.MapFactory;
-import Model.XML.MapInterface;
+import Model.MapFactory;
+import Model.MapInterface;
 import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 

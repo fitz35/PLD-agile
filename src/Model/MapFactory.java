@@ -1,4 +1,4 @@
-package Model.XML;
+package Model;
 
 public class MapFactory {
 

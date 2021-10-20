@@ -3,8 +3,7 @@ package ihm.windowMap;
 import Model.Intersection;
 import Model.Request;
 import Model.Segment;
-import Model.XML.MapFactory;
-import Model.XML.MapInterface;
+import Model.MapInterface;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,7 +1,7 @@
 package ihm.windowMap;
 
 
-import Model.XML.MapInterface;
+import Model.MapInterface;
 import controller.Controller;
 
 import javax.swing.*;
