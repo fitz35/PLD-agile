@@ -105,14 +105,10 @@ public class Map extends MapInterface {
                         long id =  Long.parseLong(element.getAttribute("id"));
                         double latitude = Double.parseDouble(element.getAttribute("latitude"));
                         double longitude = Double.parseDouble(element.getAttribute("longitude"));
-                        System.out.println("unique ?"+checkUniqueIntersection(id,latitude,longitude));
-                        System.out.println("Intersection: "+id+"; latitude:"+latitude+"; longitude:"+longitude);
                         // if the intersection doesn't exist in the list
                         if(checkUniqueIntersection(id,latitude,longitude)){
                             // create and add the intersection
                             intersectionList.add(new Intersection(id,latitude,longitude));
-                        }else{
-                            System.out.println("already in the list");
                         }
                     }
                 }
@@ -138,21 +134,26 @@ public class Map extends MapInterface {
                         if(origin != null && destination != null){
                             segmentList.add(new Segment(origin,destination,name,length));
                         }else{
-                            System.out.println("segment creation is impossible");
+                            // System.out.println("segment creation is impossible");
                         }
-                        System.out.println("segment: origin:"+originId+"; destination:"+destinationId+"; length:"+length+"; name:"+name);
                     }
                 }
                 extremIntersection = getExtremIntersection();
                 mapLoaded = true;
             } catch (ParserConfigurationException |SAXException err){
                 this.setChanged();
-                this.notifyObservers("Parsing XML file failed");
+                this.notifyObservers("Parsing XML file failed.");
                 throw err;
             }catch( IOException err) {
                 this.setChanged();
-                this.notifyObservers("Opening XML file failed");
+                this.notifyObservers("Opening XML file failed.");
                 throw err;
+            }
+            if(intersectionList.isEmpty() || segmentList.isEmpty())
+            {
+                this.setChanged();
+                this.notifyObservers("Map is empty. Check your XML file.");
+                throw new IOException();
             }
             this.setChanged();
         }
@@ -177,13 +178,14 @@ public class Map extends MapInterface {
         String[] words = fileName.split("\\.");
         if(!mapLoaded){
             this.setChanged();
-            this.notifyObservers("No map loaded");
+            this.notifyObservers("No map loaded, load a map and try again.");
+            throw new IOException();
         }else if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
             this.setChanged();
-            this.notifyObservers("Filename extension is not correct");
+            this.notifyObservers("Filename extension is not correct.");
+            throw new IOException();
         }else {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-
             try {
                 // parse XML file
                 DocumentBuilder db = dbf.newDocumentBuilder();
@@ -192,7 +194,6 @@ public class Map extends MapInterface {
 
                 // get all nodes <intersection>
                 NodeList nodeListRequest = doc.getElementsByTagName("request");
-
                 for (int temp = 0; temp < nodeListRequest.getLength(); temp++) {
                     Node node = nodeListRequest.item(temp);
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -206,10 +207,10 @@ public class Map extends MapInterface {
                         int pickupDuration = Integer.parseInt(element.getAttribute("pickupDuration"));
                         int deliveryDuration = Integer.parseInt(element.getAttribute("deliveryDuration"));
 
-                        System.out.println("Existing address ?");
-                        System.out.println("Request: pickupAddress:" + pickupAddressId + "; deliveryAddress:" + deliveryAddressId + "; pickupDuration: " + pickupDuration + " deliveryDuration: " + deliveryDuration + ";");
-
-                        planningRequest.addRequest(new Request(pickupAddress, pickupDuration, deliveryAddress, deliveryDuration));
+                        if(deliveryAddress!=null && pickupAddress !=null)
+                        {
+                            planningRequest.addRequest(new Request(pickupAddress, pickupDuration, deliveryAddress, deliveryDuration));
+                        }
                     }
                 }
 
@@ -226,23 +227,28 @@ public class Map extends MapInterface {
 
                         planningRequest.setStartingPoint(getIntersectionById(addressId));
                         planningRequest.setDepartureTime(new SimpleDateFormat("HH:mm:ss").parse(departTime));
-
-                        System.out.println("Depot: Starting point: " + addressId + " ; departureTime: " + departTime + ";");
                     }
                 }
                 planningLoaded = true;
             } catch (ParserConfigurationException | SAXException err) {
                 this.setChanged();
-                this.notifyObservers("Parsing XML file failed");
+                this.notifyObservers("Parsing XML file failed.");
                 throw err;
             } catch (ParseException err) {
                 this.setChanged();
-                this.notifyObservers("Bad departureTime format");
+                this.notifyObservers("Bad departureTime format.");
                 throw err;
             } catch (IOException err) {
                 this.setChanged();
-                this.notifyObservers("Opening XML file failed");
+                this.notifyObservers("Opening XML file failed.");
                 throw err;
+            }
+
+            if(planningRequest.getRequestList().isEmpty())
+            {
+                this.setChanged();
+                this.notifyObservers("Planning is empty. Check your XML file.");
+                throw new IOException();
             }
             this.setChanged();
         }

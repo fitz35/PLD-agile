@@ -56,6 +56,10 @@ public class PlanningRequest {
         return intersectionId;
     }
 
+    public ArrayList<Request> getRequestList() {
+        return requestList;
+    }
+
     public static void main(String[] args){
         PlanningRequest planning =new PlanningRequest();
     }
