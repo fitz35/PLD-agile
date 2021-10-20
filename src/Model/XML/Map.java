@@ -31,7 +31,7 @@ public class Map extends MapInterface {
     private Intersection[] extremIntersection;
     private boolean mapLoaded = false;
     private boolean planningLoaded = false;
-
+    private DeliveryGraph deliveryGraph;
 
     public Tour getTour(){return this.tour;}
 
@@ -328,28 +328,35 @@ public class Map extends MapInterface {
         return pi;
     }
 
+    public void computeTour(int timeout){
+        ArrayList<Intersection> listIntersections = this.planningRequest.getIntersection();
+        this.deliveryGraph = new DeliveryGraph(listIntersections);
+        for(int i=0; i<listIntersections.size();i++){
+            HashMap<Intersection,Segment> pi = djikstra(listIntersections.get(i));
+            deliveryGraph.addVertice(i,pi);
+        }
+        LinkedList<Intersection> tourCalculated = deliveryGraph
+    }
+
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
         Map map=new Map();
         //map.loadMap("./data/fichiersXML2020/smallMap.xml");
         // PlanningRequest planning = new PlanningRequest();
         //map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
         // System.out.println("passé");
-        map.loadMap("src/Model/XML/mapTest.xml");
 
+        //TEST DJIKSTRA
+        /*map.loadMap("src/Model/XML/mapTest.xml");
         map.loadRequest("src/Model/XML/planingTest.xml");
-
         HashMap<Intersection,LinkedList<Segment>> graphe = new HashMap<>();
         graphe = map.createGraph();
-        //System.out.println(graphe.get(0).get(0).getOrigin().getId());
         Intersection inter = new Intersection(0,4.75,2.2);
-        //LinkedList<Segment> seg = graphe.get(inter);
-        //System.out.println(seg.get(0).getOrigin());
         HashMap<Intersection,Segment> testDjikstra = new HashMap<>();
         testDjikstra = map.djikstra(inter);
         System.out.println("Test djikstra");
         testDjikstra.forEach((inte, segm)->{
             System.out.println(inte.getId());
-        });
+        });*/
 
         //System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
         System.out.println("passé");
