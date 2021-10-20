@@ -69,10 +69,6 @@ public class PlanningRequest {
         return startingPoint;
     }
 
-    public ArrayList<Request> getRequestList() {
-        return requestList;
-    }
-
     public static void main(String[] args){
         PlanningRequest planning =new PlanningRequest();
     }
