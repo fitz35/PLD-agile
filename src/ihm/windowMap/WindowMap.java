@@ -20,20 +20,13 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         super();
 
         inputPanel= new InputWindowLoadRequest(this);
-        inputPanel.setBackground(Color.CYAN);
+        inputPanel.setBackground(Color.LIGHT_GRAY);
         this.add(inputPanel);
 
         mapPanel= new MapPanel();
         this.add(mapPanel);
 
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this);
-
-
-
-
-
-
-
     }
 
     /**
@@ -76,6 +69,12 @@ public class WindowMap extends Frame implements Observer //implements ActionList
     @Override
     public void update(Observable o, Object arg)
     {
+        if(o instanceof MapInterface && arg instanceof String){
+            inputPanel.setErrorMsg((String)arg);
+            this.revalidate();
+            this.repaint();
+        }
+
         if(o instanceof MapInterface)
         {
             mapPanel.DisplayMap((MapInterface) o);

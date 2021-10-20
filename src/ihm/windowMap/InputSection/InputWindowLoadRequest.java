@@ -58,6 +58,11 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         this.add(loadReqFile);
         this.add(back);
     }
+    public void setErrorMsg(String arg)
+    {
+        errorMsg.setText(arg);
+        errorMsg.setVisible(true);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e)
@@ -65,7 +70,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
 
         if (e.getSource() ==browse)
         {
-
+            errorMsg.setVisible(false);
             JFileChooser choice = new JFileChooser(".");
             int returnValue = choice.showOpenDialog(null);
             if(returnValue == JFileChooser.APPROVE_OPTION){
