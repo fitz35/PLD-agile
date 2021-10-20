@@ -14,6 +14,8 @@ import java.awt.event.MouseListener;
 public class MapPanel extends JPanel implements MouseListener
 {
     private MapInterface createdMap;
+    private double originLat;
+    private double originLong;
     public MapPanel()
     {
         super();
@@ -26,6 +28,8 @@ public class MapPanel extends JPanel implements MouseListener
     public void DisplayMap (MapInterface createdMap)
     {
         this.createdMap=createdMap;
+        this.originLat = createdMap.getIntersectionNorth().getLatitude();
+        this.originLong = createdMap.getIntersectionWest().getLongitude();
         this.revalidate();
         this.repaint();
 
@@ -74,7 +78,7 @@ public class MapPanel extends JPanel implements MouseListener
     {
         double latitude= i.getLatitude();
         double longitude= i.getLongitude();
-        int[] pixelCoords= latLonToOffsets( createdMap.getIntersectionNorth().getLatitude(), createdMap.getIntersectionWest().getLongitude(), latitude, longitude, Frame.width,(Frame.height*2)/3);
+        int[] pixelCoords= latLonToOffsets( this.originLat, this.originLong, latitude, longitude, Frame.width,(Frame.height*2)/3);
         return pixelCoords;
     }
 
@@ -99,8 +103,8 @@ public class MapPanel extends JPanel implements MouseListener
         double originLong= origin.getLongitude();
         double destinationLat= destination.getLatitude();
         double destinationLong= destination.getLongitude();
-        int[] pixelCoordsOrigin= latLonToOffsets( createdMap.getIntersectionNorth().getLatitude(), createdMap.getIntersectionWest().getLongitude(), originLat, originLong, Frame.width,Frame.height*2/3);
-        int[] pixelCoordsDestination= latLonToOffsets( createdMap.getIntersectionNorth().getLatitude(), createdMap.getIntersectionWest().getLongitude(), destinationLat, destinationLong, Frame.width,Frame.height*2/3);
+        int[] pixelCoordsOrigin= latLonToOffsets( this.originLat, this.originLong, originLat, originLong, Frame.width,Frame.height*2/3);
+        int[] pixelCoordsDestination= latLonToOffsets( this.originLat, this.originLong, destinationLat, destinationLong, Frame.width,Frame.height*2/3);
         int originPixelX= pixelCoordsOrigin[0];
         int originPixelY= pixelCoordsOrigin[1];
         int destinationPixelX= pixelCoordsDestination[0];
