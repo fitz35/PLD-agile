@@ -3,8 +3,7 @@ package ihm.windowMap;
 import Model.Intersection;
 import Model.Request;
 import Model.Segment;
-import Model.XML.MapFactory;
-import Model.XML.MapInterface;
+import Model.MapInterface;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,14 +44,26 @@ public class MapPanel extends JPanel implements MouseListener
                 paintIntersection(g2d, i, Color.white);
             }
             for (Segment s : createdMap.getSegmentList()) {
-                paintSegment(g2d, s);
+                paintSegment(g2d, s, Color.white);
             }
             if(createdMap.getPlanningRequest() != null)
             {
-                for (Request r : createdMap.getPlanningRequest().getRequestList()) {
+                for (Request r : createdMap.getPlanningRequest().getRequestList())
+                {
                     paintRequest(g2d, r);
                 }
-
+                if(createdMap.getPlanningRequest().getStartingPoint()!= null)
+                {
+                    Intersection i= createdMap.getPlanningRequest().getStartingPoint();
+                    paintIntersection(g2d, i, Color.GREEN);
+                }
+            }
+            if(createdMap.getTour()!= null && createdMap.getTour().getOrderedSegmentList()!= null)
+            {
+                for (Segment segment : createdMap.getTour().getOrderedSegmentList())
+                {
+                    paintSegment(g2d, segment, Color.magenta);
+                }
             }
         }
 
@@ -94,9 +105,10 @@ public class MapPanel extends JPanel implements MouseListener
 
 
     }
-    public void paintSegment(Graphics2D g, Segment segment)
+    public void paintSegment(Graphics2D g, Segment segment, Color colour)
     {
-        g.setColor(Color.white);
+
+        g.setColor(colour);
         Intersection origin= segment.getOrigin();
         Intersection destination= segment.getDestination();
         double originLat= origin.getLatitude();

@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.Objects;
+
 public class Intersection {
     private long id;
     private double latitude;
@@ -25,14 +27,17 @@ public class Intersection {
         return longitude;
     }
 
-    public boolean equals(Intersection intersectionToTest)
-    {
-        if( intersectionToTest.getId()==this.getId() &&
-                intersectionToTest.getLatitude()==this.getLatitude() &&
-                intersectionToTest.getLongitude()==this.getLongitude()){
-            return true;
-        }
-        return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Intersection that = (Intersection) o;
+        return id == that.id && Double.compare(that.latitude, latitude) == 0 && Double.compare(that.longitude, longitude) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id,latitude,longitude);
     }
     public static double calculDis(Intersection i1, Intersection i2){ //Calcul distance à vol d'oiseau
 

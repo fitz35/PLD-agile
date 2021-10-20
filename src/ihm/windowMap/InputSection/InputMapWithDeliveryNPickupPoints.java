@@ -24,8 +24,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         this.setBackground(Color.cyan);
         this.setLayout(null);
 
-        key=new JLabel();
-        key.setBounds((int)(Frame.width/30),(int)(Frame.height*0.12),(int)(Frame.width*0.45),(int)(Frame.height/15));
+
 
 
         findOptimalRoute= new JButton("Find Optimal Tour");
@@ -37,8 +36,29 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         backToLoadRequest.setBounds((int)(Frame.width*0.7),Frame.height/5,90, 40);
         backToLoadRequest.addActionListener(this);
 
-        this.add(key);
+
         this.add(backToLoadRequest);
+        this.add(findOptimalRoute);
+        this.revalidate();
+        this.repaint();
+    }
+
+    public void paint(Graphics g)
+    {
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.setColor(Color.GREEN);
+        g2d.fillOval((int)(width/30),75, 10,10 );
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(": Starting Point", 60, 85 );
+        g2d.setColor(Color.red);
+        g2d.fillOval((int)(width/30),100, 10,10 );
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(": Pickup point", 60, 110 );
+        g2d.setColor(Color.BLACK);
+        g2d.fillOval((int)(width/30),125, 10,10 );
+        g2d.drawString(": Delivery point", 60, 135 );
+
     }
 
     @Override
@@ -47,7 +67,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
         if (e.getSource() ==findOptimalRoute)
         {
-
+            Controller.loadTour();
 
         }
 
