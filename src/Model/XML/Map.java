@@ -2,7 +2,7 @@ package Model.XML;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.*;
 
 import Model.*;
 import org.w3c.dom.Document;
@@ -26,7 +26,7 @@ public class Map extends MapInterface {
     private ArrayList<Segment> segmentList;
     private ArrayList<Intersection> intersectionList;
     private PlanningRequest planningRequest;
-    private HashMap<Intersection,HashMap<Intersection,Segment>> graphe;
+    private HashMap<Intersection,LinkedList<Segment>> graphe;
     private Tour tour;
     private Intersection[] extremIntersection;
     private boolean mapLoaded = false;
@@ -43,21 +43,24 @@ public class Map extends MapInterface {
     }
 
 
-    public void createGraph() {
+    public HashMap<Intersection,LinkedList<Segment>> createGraph() {
         for (Intersection inter : intersectionList) {
-            HashMap<Intersection, Segment> destinations = new HashMap<>();
+            //HashMap<Intersection, Segment> destinations = new HashMap<>();
+            LinkedList<Segment> interSegments = new LinkedList<>();
             Long intersectionID = inter.getId();
             System.out.println("Intersection id :"+intersectionID);
             for (Segment segment : segmentList) {
                 Long segmentOriginId = segment.getOrigin().getId();
-                Intersection segmentDest = segment.getDestination();
                 if (segmentOriginId.equals(intersectionID)) {
-                    destinations.put(segmentDest, segment);
+                    interSegments.add(segment);
+                    Intersection segmentDest = segment.getDestination();
                     System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDest.getId());
                 }
             }
-            graphe.put(inter, destinations);
+            graphe.put(inter, interSegments);
         }
+        //test
+        return graphe;
     }
 
     @Override
@@ -166,7 +169,7 @@ public class Map extends MapInterface {
         return null;
     }
 
-    public HashMap<Intersection, HashMap<Intersection, Segment>> getGraphe() {
+    public HashMap<Intersection, LinkedList<Segment>> getGraphe() {
         return graphe;
     }
 
@@ -282,13 +285,12 @@ public class Map extends MapInterface {
         return segmentList;
     }
 
-    public Pair<HashMap<Intersection,Double>,HashMap<Intersection,Intersection>> djikstra(Intersection startIntersection){
+    public HashMap<Intersection,Segment> djikstra(Intersection startIntersection){
         HashMap<Intersection,Double> d = new HashMap<>();
-        HashMap<Intersection,Intersection> pi = new HashMap<>();
-        Pair<HashMap<Intersection,Double>,HashMap<Intersection,Intersection>> dAndPi = new Pair(d,pi);
+        HashMap<Intersection,Segment> pi = new HashMap<>();
         ArrayList<Intersection> blanc= new ArrayList<>(),gris= new ArrayList<>(),noir = new ArrayList<>();
         graphe.forEach((i, dest) -> {
-            if(i == startIntersection){
+            if(i.equals(startIntersection)){
                 d.put(startIntersection,0.0);
             }else {
                 d.put(i, Double.MAX_VALUE);
@@ -299,12 +301,13 @@ public class Map extends MapInterface {
         gris.add(startIntersection);
         while (!gris.isEmpty()){
             Intersection minimalSuccessor = gris.get(0);
-            HashMap<Intersection,Segment> destinations = graphe.get(minimalSuccessor);
-            destinations.forEach((successor, segment)->{
+            LinkedList<Segment> destinations = graphe.get(minimalSuccessor);
+            destinations.forEach((segment)->{
+                Intersection successor = segment.getDestination();
                 if((blanc.contains(successor)) || (gris.contains(successor))){
-                    if(d.get(successor) > d.get(minimalSuccessor) + destinations.get(successor).getLength()){
-                        d.put(successor, d.get(minimalSuccessor) + destinations.get(successor).getLength());
-                        pi.replace(successor, minimalSuccessor);
+                    if(d.get(successor) > d.get(minimalSuccessor) + segment.getLength()){
+                        d.put(successor, d.get(minimalSuccessor) + segment.getLength());
+                        pi.replace(successor, segment);
                     }
                 }
                 if(blanc.contains(successor)){
@@ -322,7 +325,7 @@ public class Map extends MapInterface {
                 gris.remove(minimalSuccessor);
             });
         }
-        return dAndPi;
+        return pi;
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
@@ -331,9 +334,24 @@ public class Map extends MapInterface {
         // PlanningRequest planning = new PlanningRequest();
         //map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
         // System.out.println("passé");
-        map.createGraph();
+        map.loadMap("src/Model/XML/mapTest.xml");
 
-        System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
+        map.loadRequest("src/Model/XML/planingTest.xml");
+
+        HashMap<Intersection,LinkedList<Segment>> graphe = new HashMap<>();
+        graphe = map.createGraph();
+        //System.out.println(graphe.get(0).get(0).getOrigin().getId());
+        Intersection inter = new Intersection(0,4.75,2.2);
+        //LinkedList<Segment> seg = graphe.get(inter);
+        //System.out.println(seg.get(0).getOrigin());
+        HashMap<Intersection,Segment> testDjikstra = new HashMap<>();
+        testDjikstra = map.djikstra(inter);
+        System.out.println("Test djikstra");
+        testDjikstra.forEach((inte, segm)->{
+            System.out.println(inte.getId());
+        });
+
+        //System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
         System.out.println("passé");
     }
 
