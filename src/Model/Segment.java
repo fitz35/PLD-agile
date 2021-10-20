@@ -36,11 +36,6 @@ public class Segment {
                 && Objects.equals(name, s.name) && Objects.equals(length, s.length);
     }
 
-    /*@Override
-    public boolean equals(Segment o) {
-        if (this.origin == o.origin && this.destination== o.destination && this.name==o.name && this.length== o.length ) return true;
-        else return false;
-    }*/
 
     public static void main(String[] args) {
         Intersection a = new Intersection(1, 20, 20);

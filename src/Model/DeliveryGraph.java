@@ -34,6 +34,7 @@ public class DeliveryGraph implements Graph{
                     length += seg.getLength();
                     seg = pi.get(seg.getOrigin());
                 }
+                Collections.reverse(newVerticeCompositon);
                 verticeCompositionList.put(newVertice, newVerticeCompositon);
                 cost[numberStartNode][numberDestinationNode] = length;
                 numberDestinationNode++;
@@ -52,7 +53,6 @@ public class DeliveryGraph implements Graph{
             currentVertice = new Pair<Intersection, Intersection>
                     (nodesToVisit.get(tsp.getSolution(i)), nodesToVisit.get(tsp.getSolution((i+1)%nbVertices)));
             intermediateResult = verticeCompositionList.get(currentVertice);
-            Collections.reverse(intermediateResult);
             for(Segment currentSegment : intermediateResult){
                 result.add(currentSegment);
             }
