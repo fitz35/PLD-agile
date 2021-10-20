@@ -266,6 +266,7 @@ public class Map extends MapInterface {
                 this.notifyObservers("Opening XML file failed");
                 throw err;
             }
+            this.createGraph();
             this.setChanged();
         }
     }
@@ -384,7 +385,9 @@ public class Map extends MapInterface {
             deliveryGraph.addVertice(i,pi);
         }
         LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
-        Tour tour = new Tour(tourCalculated);
+        tour = new Tour(tourCalculated);
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {

@@ -23,6 +23,7 @@ public abstract class MapInterface extends Observable {
     public abstract void resetPlanningRequest();
     public abstract HashMap<Intersection, LinkedList<Segment>> getGraphe();
     public abstract PlanningRequest getPlanningRequest();
+    public abstract void computeTour(int timeout);
 
 
     public abstract Intersection getIntersectionNorth();

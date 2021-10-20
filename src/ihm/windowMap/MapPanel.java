@@ -104,6 +104,7 @@ public class MapPanel extends JPanel implements MouseListener
     public void paintSegment(Graphics2D g, Segment segment, Color colour)
     {
 
+        g.setColor(colour);
         Intersection origin= segment.getOrigin();
         Intersection destination= segment.getDestination();
         double originLat= origin.getLatitude();

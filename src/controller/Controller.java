@@ -50,7 +50,8 @@ public class Controller {
 
     public static void loadTour()
     {
-
+        map.computeTour(300);
+        System.out.println("tour loaded");
     }
 
     public static void backToWelcomeWindow()
