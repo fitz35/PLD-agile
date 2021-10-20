@@ -2,5 +2,5 @@ package controller;
 
 public interface StateController {
     void action(Controller context);
-    void nextState(Controller controller);
+    void nextState(Controller context);
 }
