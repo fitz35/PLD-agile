@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import tsp.*;
@@ -33,6 +34,7 @@ public class DeliveryGraph implements Graph{
                     length += seg.getLength();
                     seg = pi.get(seg.getOrigin());
                 }
+                Collections.reverse(newVerticeCompositon);
                 verticeCompositionList.put(newVertice, newVerticeCompositon);
                 cost[numberStartNode][numberDestinationNode] = length;
                 numberDestinationNode++;
@@ -40,13 +42,22 @@ public class DeliveryGraph implements Graph{
         }
     }
 
-    public void calculateTSP(int timeout){
+    public LinkedList<Segment> solveTSP (int timeout){
         TSP1 tsp = new TSP1();
         tsp.searchSolution(timeout, this);
         System.out.print("Solution of cost "+tsp.getSolutionCost());
-        for (int i=0; i<nbVertices; i++)
-            System.out.print(tsp.getSolution(i)+" ");
-        System.out.println("0");
+        LinkedList<Segment> result = new LinkedList<>();
+        LinkedList<Segment> intermediateResult = new LinkedList<>();
+        Pair<Intersection, Intersection> currentVertice;
+        for (int i=0; i<nbVertices; i++) {
+            currentVertice = new Pair<Intersection, Intersection>
+                    (nodesToVisit.get(tsp.getSolution(i)), nodesToVisit.get(tsp.getSolution((i+1)%nbVertices)));
+            intermediateResult = verticeCompositionList.get(currentVertice);
+            for(Segment currentSegment : intermediateResult){
+                result.add(currentSegment);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -95,7 +106,7 @@ public class DeliveryGraph implements Graph{
         for(int i=0; i< 4; i++) {
             dg.addVertice(i, pi);
         }
-        dg.calculateTSP(2000000);
+        dg.solveTSP(2000000);
 
     }
 }
