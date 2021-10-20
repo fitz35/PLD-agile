@@ -19,9 +19,6 @@ import java.util.Observer;
 
 public class WelcomeWindow extends Frame implements Observer, ActionListener, KeyListener
 {
-    private static Dimension size = Frame.size;
-    private static int width = (int)size.getWidth();
-    private static int height = (int)size.getHeight();
     public static final String pathToImg= "./data/images/";
     private JButton browse;
     private JTextField path;
