@@ -30,7 +30,6 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         this.add(mapPanel);
 
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this);
-
     }
 
     public  void changePanel(int panelNumber)
@@ -63,6 +62,12 @@ public class WindowMap extends Frame implements Observer //implements ActionList
     @Override
     public void update(Observable o, Object arg)
     {
+        if(o instanceof MapInterface && arg instanceof String){
+            inputPanel.setErrorMsg((String)arg);
+            this.revalidate();
+            this.repaint();
+        }
+
         if(o instanceof MapInterface)
         {
             mapPanel.DisplayMap((MapInterface) o);
