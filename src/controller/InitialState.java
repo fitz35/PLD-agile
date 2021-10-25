@@ -2,7 +2,7 @@ package controller;
 
 import ihm.windowMap.WindowMap;
 
-public class ControllerBeforeLoadingMap implements StateController{
+public class InitialState implements StateController{
     @Override
     public void loadMap(Controller controller, String mapPath) {
         try {

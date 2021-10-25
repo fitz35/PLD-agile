@@ -1,6 +1,6 @@
 package controller;
 
-public class ControllerBeforeLoadingRequest implements StateController{
+public class WaitRequest implements StateController{
 
     @Override
     public void loadRequest(Controller controller, String path)
