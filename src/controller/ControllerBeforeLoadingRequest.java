@@ -3,9 +3,16 @@ package controller;
 public class ControllerBeforeLoadingRequest implements StateController{
 
     @Override
-    public void nextState(Controller controller){
-        System.out.println("No condition to go to next state ");
-        controller.setState(new ControllerBeforeComputeFirstTour());
+    public void loadRequest(Controller controller, String path)
+    {
+        try{
+            controller.getMap().loadRequest(path);
+            //load requests back method
+            controller.getWindow2().changePanel(0);
+            controller.getMap().notifyObservers();
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
-
 }

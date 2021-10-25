@@ -13,60 +13,17 @@ public class Controller {
     private static WelcomeWindow firstWindow;
     private static WindowMap window2;
 
-    public void setState(StateController newEtat) {
-        this.stateController = newEtat;
+    protected void setCurrentState(StateController state){
+        stateController = state;
     }
 
-    public void nextState() {
-        stateController.nextState(this);
+    public void loadMap(String path){
+        this.stateController.loadMap(this, path);
     }
 
-    public static void main(String []args)
+    public void  loadRequest(String path)
     {
-        Controller controller = new Controller();
-        controller.setState(new ControllerBeforeLoadingMap());
-        controller.nextState();
-        controller.nextState();
-        controller.nextState();
-        controller.nextState();
-        controller.nextState();
-        controller.nextState();
-        controller.nextState();
-        controller.nextState();
-
-        map= MapFactory.create();
-        tour=map.getTour();
-        firstWindow = new WelcomeWindow();
-        map.addObserver(firstWindow);
-    }
-    public static void  loadMap(String mapPath)
-    {
-        try {
-            map.loadMap(mapPath);
-            window2 = new WindowMap();
-            map.addObserver(window2);
-            firstWindow.dispose();
-            map.notifyObservers();
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-
-        }
-
-    }
-    public static void  loadRequest(String mapPath)
-    {
-        try{
-            map.loadRequest(mapPath);
-            //load requests back method
-            window2.changePanel(0);
-            map.notifyObservers();
-        }catch(Exception e)
-        {
-            e.printStackTrace();
-
-        }
+        this.stateController.loadMap(this, path);
     }
 
     public static void loadTour()
@@ -87,5 +44,55 @@ public class Controller {
         map.resetPlanningRequest();
     }
 
+
+    public StateController getStateController() {
+        return stateController;
+    }
+
+    public static MapInterface getMap() {
+        return map;
+    }
+
+    public static Tour getTour() {
+        return tour;
+    }
+
+    public static WelcomeWindow getFirstWindow() {
+        return firstWindow;
+    }
+
+    public static WindowMap getWindow2() {
+        return window2;
+    }
+
+    public void setStateController(StateController stateController) {
+        this.stateController = stateController;
+    }
+
+    public static void setMap(MapInterface map) {
+        Controller.map = map;
+    }
+
+    public static void setTour(Tour tour) {
+        Controller.tour = tour;
+    }
+
+    public static void setFirstWindow(WelcomeWindow firstWindow) {
+        Controller.firstWindow = firstWindow;
+    }
+
+    public static void setWindow2(WindowMap window2) {
+        Controller.window2 = window2;
+    }
+
+    public static void main(String []args)
+    {
+        Controller controller = new Controller();
+
+        map= MapFactory.create();
+        tour=map.getTour();
+        firstWindow = new WelcomeWindow();
+        map.addObserver(firstWindow);
+    }
 
 }

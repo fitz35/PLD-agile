@@ -93,7 +93,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
             //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
             //Methode pour changer de fenetres
             //je change de panel de bouton
-            Controller.loadRequest(filePath);
+            //Controller.loadRequest(filePath); methode plus static
 
         }
         if(e.getSource()==back)

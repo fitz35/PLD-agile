@@ -1,6 +1,9 @@
 package controller;
 
+import ihm.windowMap.WindowMap;
+
 public interface StateController {
-    public default  void action(Controller context){};
-    void nextState(Controller context);
+    public default void  loadMap(Controller context, String path){};
+    public  default void loadRequest(Controller controller, String path){};
+
 }
