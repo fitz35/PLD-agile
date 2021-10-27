@@ -22,9 +22,6 @@ import java.util.Observer;
 
 public class WelcomeWindow extends Frame implements Observer, ActionListener, KeyListener
 {
-    private static Dimension size = Frame.size;
-    private static int width = (int)size.getWidth();
-    private static int height = (int)size.getHeight();
     public static final String pathToImg= "./data/images/";
     private JButton browse;
     private JTextField path;
@@ -98,7 +95,11 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         panel.repaint();
     }
 
-
+    /**
+     * test if a file is an xml
+     * @param fileName the name of the file
+     * @return if it is acceptable
+     */
     public static boolean acceptFile(String fileName)
     {
         String extension= " ";
@@ -111,6 +112,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         return (extension.equals("xml"));
     }
 
+    @Override
     public void actionPerformed(ActionEvent e)
     {
         if (e.getSource() ==browse)

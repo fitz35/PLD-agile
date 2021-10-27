@@ -11,9 +11,6 @@ import java.util.Observer;
 
 public class WindowMap extends Frame implements Observer //implements ActionListener, KeyListener
 {
-    private static Dimension size = Frame.size;
-    private static int width = (int)size.getWidth();
-    private static int height = (int)size.getHeight();
     private InputWindowLoadRequest inputPanel;
     private MapPanel mapPanel;
     private InputMapWithDeliveryNPickupPoints panelWithRequests;
@@ -32,6 +29,10 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this);
     }
 
+    /**
+     * change between panel
+     * @param panelNumber which panel to get (0 : panelWithRequests, 1 : inputPanel)
+     */
     public  void changePanel(int panelNumber)
     {
        switch(panelNumber)
@@ -47,6 +48,12 @@ public class WindowMap extends Frame implements Observer //implements ActionList
        }
 
     }
+
+    /**
+     * change the panel panel
+     * @param panel the panel to remove
+     * @param panelToAdd the panel to add
+     */
     private void changePanel(JPanel panel, JPanel panelToAdd)
     {
         this.remove(panel);
