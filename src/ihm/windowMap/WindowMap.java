@@ -71,6 +71,9 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         if(o instanceof MapInterface)
         {
             mapPanel.DisplayMap((MapInterface) o);
+            this.revalidate();
+            this.repaint();
+
         }
 
 

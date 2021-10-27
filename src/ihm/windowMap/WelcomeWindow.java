@@ -30,6 +30,9 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
     private JLabel body;
     private JLabel errorMsg;
     private String pathUrl;
+    private ImageIcon appliName;
+    private JLabel appliLabel;
+    private JLabel instruction;
 
     public WelcomeWindow()
     {
@@ -51,30 +54,56 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         body.add(logoLabel);
         logoLabel.setIcon(logo);
 
+        appliName= new ImageIcon(new ImageIcon(pathToImg+"appli_name.jpg").getImage().getScaledInstance((int)(width*0.45),(height/4), Image.SCALE_AREA_AVERAGING));
+        appliLabel= new JLabel();
+        appliLabel.setBounds((width/4),(height/10), (int)(width*0.45),(height/4));
+        body.add(appliLabel);
+        appliLabel.setIcon(appliName);
+
+        instruction= new JLabel("CHOOSE A MAP (XML FILE)");
+        instruction.setBounds((width/3), (int)(height*0.4),(int)(width*0.45),(int)(height/15) );
+        instruction.setForeground(Color.white);
+        instruction.setFont(new Font("Serif", Font.PLAIN, 14));
+        body.add((instruction));
+
+
+
         path = new JTextField();
-        path.setBounds((int)(width*0.25),(height/6),(int)(width*0.45),(int)(height/15));
+        path.setBounds((int)(width*0.25),(height/2),(int)(width*0.45),(int)(height/15));
         path.addKeyListener(this);
         body.add(path);
 
         browse = new JButton("Browse");
-        browse.setBounds((int)(width*0.75),(height/6),(int)(width*0.1),(int)(height/15));
+        browse.setBounds((int)(width*0.75),(height/2),(int)(width*0.1),(int)(height/15));
         browse.addActionListener(this);
         body.add(browse);
 
         loadMap= new JButton("LOAD MAP");
-        loadMap.setBounds((int)(width*0.375),(int)(height*0.475),(int)(width*0.1),(int)(height/15));
+        loadMap.setBounds((int)(width*0.375),(int)(height*0.7),(int)(width*0.1),(int)(height/15));
         loadMap.addActionListener(this);
         loadMap.setVisible(false);
         body.add(loadMap);
 
-        errorMsg= new JLabel("error");
-        errorMsg.setBounds((int)(width*0.25),(int)(height*0.25),(int)(width*0.45),(int)(height/15));
-        errorMsg.setVisible(false);
+        errorMsg= new JLabel("LOAD A MAP FILE (EXTENSION= XML)");
+        errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
+        errorMsg.setForeground(Color.white);
+        errorMsg.setBounds((int)(width*0.25),(int)(height*0.6),(int)(width*0.45),(int)(height/15));
+        errorMsg.setVisible(true);
         body.add(errorMsg);
 
         panel.revalidate();
         panel.repaint();
     }
+
+   /* public void paint(Graphics g) {
+        super.paint(g);
+        if(appliName!= null)
+        {
+            appliName.paintIcon(appliLabel,g,(width/10),(height/10));
+        }
+
+
+    }*/
 
     public static boolean acceptFile(String fileName)
     {
@@ -108,7 +137,8 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
                 }
                 else
                 {
-                    errorMsg.setText("Not accepted extension. Please choose a file with a .xml extension");
+                    errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
+                    errorMsg.setText("EXTENSION NOT ACCEPTED. PLEASE CHOOSE A FILE WITH AN XML EXTENSION");
                     errorMsg.setForeground(Color.red);
                     errorMsg.setVisible(true);
                 }
