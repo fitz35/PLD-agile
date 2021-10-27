@@ -5,11 +5,14 @@ import Model.MapInterface;
 import controller.Controller;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -61,7 +64,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         appliLabel.setIcon(appliName);
 
         instruction= new JLabel("CHOOSE A MAP (XML FILE)");
-        instruction.setBounds((width/3), (int)(height*0.4),(int)(width*0.45),(int)(height/15) );
+        instruction.setBounds((int)(width*0.4), (int)(height*0.4),(int)(width*0.45),(int)(height/15) );
         instruction.setForeground(Color.white);
         instruction.setFont(new Font("Serif", Font.PLAIN, 14));
         body.add((instruction));
@@ -95,15 +98,6 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         panel.repaint();
     }
 
-   /* public void paint(Graphics g) {
-        super.paint(g);
-        if(appliName!= null)
-        {
-            appliName.paintIcon(appliLabel,g,(width/10),(height/10));
-        }
-
-
-    }*/
 
     public static boolean acceptFile(String fileName)
     {
@@ -124,6 +118,8 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
             errorMsg.setVisible(false);
             JFileChooser choice = new JFileChooser(".");
+            FileFilter filter = new FileNameExtensionFilter("XML File","xml");
+            choice.setFileFilter(filter);
             int returnValue = choice.showOpenDialog(null);
             if(returnValue == JFileChooser.APPROVE_OPTION){
                 String fileName=choice.getSelectedFile().getName();
