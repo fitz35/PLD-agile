@@ -21,23 +21,11 @@ public class Controller {
     //overrided method
     public void loadMap(String path){ this.stateController.loadMap(this, path);}
 
-    public void  loadRequest(String path){ this.stateController.loadRequest(this, path); }
+    public void loadRequest(String path){ this.stateController.loadRequest(this, path); }
 
     public void loadTour() { this.stateController.loadTour(this); }
 
-    // UNKNOWN
-    public static void backToWelcomeWindow()
-    {
-        window2.dispose();
-        firstWindow= new WelcomeWindow();
-        map= MapFactory.create();
-    }
-    public static void backToWindowLoadRequest()
-    {
-        window2.changePanel(1);
-        map.resetPlanningRequest();
-    }
-
+    public void back() {this.stateController.back(this);}
 
     //--------------- getter ---------------
 

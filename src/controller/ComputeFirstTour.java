@@ -13,4 +13,11 @@ class ComputeFirstTour implements StateController{
         }
     }
 
+    @Override
+    public void back(Controller controller)
+    {
+        controller.setStateController(new WaitRequest());
+        controller.getWindow2().changePanel(1);
+        controller.getMap().resetPlanningRequest();
+    }
 }

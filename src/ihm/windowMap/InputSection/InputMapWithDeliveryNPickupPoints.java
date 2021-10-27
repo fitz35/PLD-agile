@@ -81,7 +81,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             //Methode pour changer de fenetres
             //je change de panel de bouton
 
-            Controller.backToWindowLoadRequest();
+            //Controller.back(); to put non static
 
 
         }

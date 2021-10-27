@@ -99,7 +99,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         if(e.getSource()==back)
         {
             //methode Controller pour changer de fenetre
-            Controller.backToWelcomeWindow();
+            //Controller.back(); => to put non static
         }
 
     }

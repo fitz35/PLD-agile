@@ -1,5 +1,9 @@
 package controller;
 
 public class SetupState implements StateController{
-    //Add methodes
+    @Override
+    public void back(Controller controller)
+    {
+        controller.setStateController(new ComputeFirstTour());
+    }
 }
