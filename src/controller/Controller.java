@@ -29,7 +29,7 @@ public class Controller {
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+           // e.printStackTrace();
 
         }
 
@@ -43,7 +43,7 @@ public class Controller {
             map.notifyObservers();
         }catch(Exception e)
         {
-            e.printStackTrace();
+           // e.printStackTrace();
 
         }
     }
