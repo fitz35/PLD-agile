@@ -339,7 +339,7 @@ public class Map extends MapInterface {
         return segmentList;
     }
 
-    public HashMap<Intersection,Segment> djikstra(Intersection startIntersection){
+    public HashMap<Intersection,Segment> dijkstra(Intersection startIntersection){
         HashMap<Intersection,Double> d = new HashMap<>();
         HashMap<Intersection,Segment> pi = new HashMap<>();
         ArrayList<Intersection> blanc= new ArrayList<>(),gris= new ArrayList<>(),noir = new ArrayList<>();
@@ -375,9 +375,9 @@ public class Map extends MapInterface {
                     gris.add(a,successor);
                     blanc.remove(successor);
                 }
-                noir.add(minimalSuccessor);
-                gris.remove(minimalSuccessor);
             });
+            noir.add(minimalSuccessor);
+            gris.remove(minimalSuccessor);
         }
         return pi;
     }
@@ -386,7 +386,7 @@ public class Map extends MapInterface {
         ArrayList<Intersection> listIntersections = this.planningRequest.getIntersection();
         this.deliveryGraph = new DeliveryGraph(listIntersections);
         for(int i=0; i<listIntersections.size();i++){
-            HashMap<Intersection,Segment> pi = djikstra(listIntersections.get(i));
+            HashMap<Intersection,Segment> pi = dijkstra(listIntersections.get(i));
             deliveryGraph.addVertice(i,pi);
         }
         LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
@@ -409,7 +409,7 @@ public class Map extends MapInterface {
         graphe = map.createGraph();
         Intersection inter = new Intersection(0,4.75,2.2);
         HashMap<Intersection,Segment> testDjikstra = new HashMap<>();
-        testDjikstra = map.djikstra(inter);
+        testDjikstra = map.dijkstra(inter);
         System.out.println("Test djikstra");
         testDjikstra.forEach((inte, segm)->{
             System.out.println(inte.getId());
