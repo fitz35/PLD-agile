@@ -10,6 +10,10 @@ public class WaitRequest implements StateController{
             //load requests back method
             controller.getWindow2().changePanel(0);
             controller.getMap().notifyObservers();
+            if(controller.getMap().isPlanningLoaded())
+            {
+                controller.setStateController(new ComputeFirstTour());
+            }
         }catch(Exception e)
         {
             e.printStackTrace();

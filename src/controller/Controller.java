@@ -13,25 +13,19 @@ public class Controller {
     private static WelcomeWindow firstWindow;
     private static WindowMap window2;
 
+    //set state method
     protected void setCurrentState(StateController state){
         stateController = state;
     }
 
-    public void loadMap(String path){
-        this.stateController.loadMap(this, path);
-    }
+    //overrided method
+    public void loadMap(String path){ this.stateController.loadMap(this, path);}
 
-    public void  loadRequest(String path)
-    {
-        this.stateController.loadMap(this, path);
-    }
+    public void  loadRequest(String path){ this.stateController.loadRequest(this, path); }
 
-    public static void loadTour()
-    {
-        map.computeTour(300);
-        System.out.println("tour loaded");
-    }
+    public void loadTour() { this.stateController.loadTour(this); }
 
+    // UNKNOWN
     public static void backToWelcomeWindow()
     {
         window2.dispose();
@@ -44,6 +38,8 @@ public class Controller {
         map.resetPlanningRequest();
     }
 
+
+    //--------------- getter ---------------
 
     public StateController getStateController() {
         return stateController;
@@ -65,6 +61,7 @@ public class Controller {
         return window2;
     }
 
+    //--------------- setter ---------------
     public void setStateController(StateController stateController) {
         this.stateController = stateController;
     }
@@ -85,6 +82,8 @@ public class Controller {
         Controller.window2 = window2;
     }
 
+
+    //--------------- main ---------------
     public static void main(String []args)
     {
         Controller controller = new Controller();
