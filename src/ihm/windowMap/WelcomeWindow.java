@@ -148,7 +148,8 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
             //Methode a recuperer du back pour tester si le path vers le fichier existe
             //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
             //Methode pour changer de fenetres
-            Controller.loadMap(pathUrl);
+
+            //Controller.loadMap(pathUrl);
 
         }
 

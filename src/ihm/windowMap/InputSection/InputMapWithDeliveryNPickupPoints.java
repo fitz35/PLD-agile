@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 
 public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionListener
 {
+    private static Dimension size = Frame.size;
+    private static int width = (int)size.getWidth();
+    private static int height = (int)size.getHeight();
     private JButton findOptimalRoute;
     private JButton backToLoadRequest;
     private JLabel key;
@@ -28,12 +31,12 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
         findOptimalRoute= new JButton("Find Optimal Tour");
-        findOptimalRoute.setBounds(Frame.width/3,Frame.height/5,200, 40);
+        findOptimalRoute.setBounds(width/3,height/5,200, 40);
         findOptimalRoute.addActionListener(this);
 
 
         backToLoadRequest= new JButton("BACK");
-        backToLoadRequest.setBounds((int)(Frame.width*0.7),Frame.height/5,90, 40);
+        backToLoadRequest.setBounds((int)(width*0.7),height/5,90, 40);
         backToLoadRequest.addActionListener(this);
 
 
@@ -67,7 +70,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
         if (e.getSource() ==findOptimalRoute)
         {
-            Controller.loadTour();
+            //Controller.loadTour();
 
         }
 
@@ -78,7 +81,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             //Methode pour changer de fenetres
             //je change de panel de bouton
 
-            Controller.backToWindowLoadRequest();
+            //Controller.back(); to put non static
 
 
         }

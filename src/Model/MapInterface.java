@@ -31,4 +31,7 @@ public abstract class MapInterface extends Observable {
     public abstract Intersection getIntersectionEast();
     public abstract Intersection getIntersectionWest();
 
+    public abstract boolean isMapLoaded();
+    public abstract boolean isPlanningLoaded();
+    public abstract boolean isFirstTourComputed();
 }
