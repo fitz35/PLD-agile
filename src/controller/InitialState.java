@@ -6,16 +6,15 @@ public class InitialState implements StateController{
     @Override
     public void loadMap(Controller controller, String mapPath) {
         try {
-            controller.getMap().loadMap(mapPath);
-            controller.setWindow2(new WindowMap());
-            controller.getMap().addObserver(controller.getWindow2());
-            controller.getFirstWindow().dispose();
-            controller.getMap().notifyObservers();
-            if(controller.getMap().isMapLoaded())
+            Controller.getMap().loadMap(mapPath);
+            Controller.setWindow2(new WindowMap());
+            Controller.getMap().addObserver(Controller.getWindow2());
+            Controller.getFirstWindow().dispose();
+            Controller.getMap().notifyObservers();
+            if(Controller.getMap().isMapLoaded())
             {
                 controller.setStateController(new WaitRequest());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

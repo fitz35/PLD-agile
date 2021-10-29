@@ -9,11 +9,11 @@ public class WaitRequest implements StateController{
     public void loadRequest(Controller controller, String path)
     {
         try{
-            controller.getMap().loadRequest(path);
+            Controller.getMap().loadRequest(path);
             //load requests back method
-            controller.getWindow2().changePanel(0);
-            controller.getMap().notifyObservers();
-            if(controller.getMap().isPlanningLoaded())
+            Controller.getWindow2().changePanel(0);
+            Controller.getMap().notifyObservers();
+            if(Controller.getMap().isPlanningLoaded())
             {
                 controller.setStateController(new ComputeFirstTour());
             }
@@ -26,9 +26,9 @@ public class WaitRequest implements StateController{
     @Override
     public void back(Controller controller)
     {
-        controller.getWindow2().dispose();
-        controller.setFirstWindow(new WelcomeWindow());
-        controller.setMap( MapFactory.create());
+        Controller.getWindow2().dispose();
+        Controller.setFirstWindow(new WelcomeWindow());
+        Controller.setMap( MapFactory.create());
         controller.setStateController(new InitialState());
     }
 }
