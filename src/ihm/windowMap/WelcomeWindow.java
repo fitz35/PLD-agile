@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -62,7 +61,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
         instruction= new JLabel("CHOOSE A MAP (XML FILE)");
         instruction.setBounds((int)(width*0.4), (int)(height*0.4),(int)(width*0.45),(int)(height/15) );
-        instruction.setForeground(Color.white);
+        instruction.setForeground(ColorPalette.instruction);
         instruction.setFont(new Font("Serif", Font.PLAIN, 14));
         body.add((instruction));
 
@@ -86,7 +85,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
         errorMsg= new JLabel("LOAD A MAP FILE (EXTENSION= XML)");
         errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
-        errorMsg.setForeground(Color.white);
+        errorMsg.setForeground(ColorPalette.warningMessage);
         errorMsg.setBounds((int)(width*0.25),(int)(height*0.6),(int)(width*0.45),(int)(height/15));
         errorMsg.setVisible(true);
         body.add(errorMsg);
@@ -137,7 +136,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
                 {
                     errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
                     errorMsg.setText("EXTENSION NOT ACCEPTED. PLEASE CHOOSE A FILE WITH AN XML EXTENSION");
-                    errorMsg.setForeground(Color.red);
+                    errorMsg.setForeground(ColorPalette.errorMessage);
                     errorMsg.setVisible(true);
                 }
             }
@@ -155,7 +154,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
             {
                 errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
                 errorMsg.setText("YOU HAVE NOT CHOSEN A FILE. PLEASE CHOOSE A FILE WITH AN XML EXTENSION");
-                errorMsg.setForeground(Color.red);
+                errorMsg.setForeground(ColorPalette.errorMessage);
                 errorMsg.setVisible(true);
             }
 

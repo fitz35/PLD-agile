@@ -19,7 +19,7 @@ public class MapPanel extends JPanel implements MouseListener
     public MapPanel()
     {
         super();
-        this.setBackground(Color.PINK);
+        this.setBackground(ColorPalette.mapBackground);
       //  this.setBounds((int)(0.05*Frame.height), (int)(0.05*Frame.height),(int)(0.90*Frame.height), (int)(0.90*Frame.height));
         this.setLayout(null);
         this.revalidate();
@@ -47,10 +47,10 @@ public class MapPanel extends JPanel implements MouseListener
         g2d.setColor(Color.red);
         if(createdMap!=null) {
             for (Intersection i : createdMap.getIntersectionList()) {
-                paintIntersection(g2d, i, Color.white);
+                paintIntersection(g2d, i, ColorPalette.intersectionColor);
             }
             for (Segment s : createdMap.getSegmentList()) {
-                paintSegment(g2d, s, Color.white);
+                paintSegment(g2d, s, ColorPalette.segmentColor);
             }
             if(createdMap.getPlanningRequest() != null)
             {
@@ -61,14 +61,14 @@ public class MapPanel extends JPanel implements MouseListener
                 if(createdMap.getPlanningRequest().getStartingPoint()!= null)
                 {
                     Intersection i= createdMap.getPlanningRequest().getStartingPoint();
-                    paintIntersection(g2d, i, Color.GREEN);
+                    paintIntersection(g2d, i, ColorPalette.startingPoint);
                 }
             }
             if(createdMap.getTour()!= null && createdMap.getTour().getOrderedSegmentList()!= null)
             {
                 for (Segment segment : createdMap.getTour().getOrderedSegmentList())
                 {
-                    paintSegment(g2d, segment, Color.magenta);
+                    paintSegment(g2d, segment, ColorPalette.tourColor);
                 }
             }
         }
@@ -204,8 +204,8 @@ public class MapPanel extends JPanel implements MouseListener
     {
         Intersection pickup= request.getPickupAddress();
         Intersection delivery= request.getDeliveryAddress();
-        paintIntersection(g, pickup, Color.red);
-        paintIntersection(g,delivery, Color.BLACK);
+        paintIntersection(g, pickup, ColorPalette.pickupPoints);
+        paintIntersection(g,delivery, ColorPalette.deliveryPoints);
 
     }
 
