@@ -145,10 +145,20 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
         if (e.getSource() == loadMap)
         {
-            //Methode a recuperer du back pour tester si le path vers le fichier existe
-            //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
-            //Methode pour changer de fenetres
-            Controller.loadMap(pathUrl);
+
+            pathUrl= path.getText();
+            if(pathUrl.compareTo("")!=0)
+            {
+                Controller.loadMap(pathUrl);
+            }
+            else
+            {
+                errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
+                errorMsg.setText("YOU HAVE NOT CHOSEN A FILE. PLEASE CHOOSE A FILE WITH AN XML EXTENSION");
+                errorMsg.setForeground(Color.red);
+                errorMsg.setVisible(true);
+            }
+
 
         }
 
@@ -162,7 +172,6 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         {
             errorMsg.setVisible(false);
             pathUrl= path.getText()+e.getKeyChar();
-            System.out.println(pathUrl);
             if (acceptFile(pathUrl))
             {
                 loadMap.setVisible(true);

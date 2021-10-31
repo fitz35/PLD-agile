@@ -15,11 +15,12 @@ public class MapPanel extends JPanel implements MouseListener
     private MapInterface createdMap;
     private double originLat;
     private double originLong;
+    private int border= (int)(0.02* Frame.height);
     public MapPanel()
     {
         super();
         this.setBackground(Color.PINK);
-        this.setBounds(0, 0, Frame.width, (Frame.height*2/3));
+      //  this.setBounds((int)(0.05*Frame.height), (int)(0.05*Frame.height),(int)(0.90*Frame.height), (int)(0.90*Frame.height));
         this.setLayout(null);
         this.revalidate();
         this.repaint();
@@ -83,19 +84,28 @@ public class MapPanel extends JPanel implements MouseListener
      * @param longitude the longitude
      * @param mapWidth the display width
      * @param mapHeight the display height
-     * @return the coordonne (array of 2 coordonne x and y)
+     * @return the coordinates (array of 2 coordinates x and y)
+     * used in method depending on map width
      */
     public int[] latLonToOffsets( double latitudeOrigin, double longitudeOrigin, double latitude, double longitude, double mapWidth, double mapHeight) {
-        double maxLatHeight= Math.abs(createdMap.getIntersectionSouth().getLatitude()-createdMap.getIntersectionNorth().getLatitude() ) ;
-        double maxLongWidth= Math.abs(createdMap.getIntersectionEast().getLongitude()-createdMap.getIntersectionWest().getLongitude())  ;
+        Intersection south= createdMap.getIntersectionSouth();
+        Intersection east= createdMap.getIntersectionEast();
 
-        double lat = Math.abs(latitude - latitudeOrigin);
-        double lon = Math.abs(longitude-longitudeOrigin);
+        Intersection N= new Intersection(0, originLat,originLong);
+        Intersection E= new Intersection(1, originLat, east.getLongitude());
+        Intersection S= new Intersection(3, south.getLatitude(), originLong);
+        Intersection temporaryX= new Intersection(4, latitudeOrigin, longitude);
+        Intersection temporaryY= new Intersection(4, latitude, longitudeOrigin);
 
-        int y = (int) (lat*mapHeight/maxLatHeight);
-        int x = (int) (lon*mapWidth/maxLongWidth);
+        double distanceHorizontal= Intersection.calculDis(N,E);
+        double distanceVertical=Intersection.calculDis(N,S);
 
-        int res [] = {x,y};
+
+        double pixelPositionX= Intersection.calculDis(N,temporaryX);
+        double pixelPositionY= Intersection.calculDis(N,temporaryY);
+
+
+        int res [] = {(int)((pixelPositionX*mapWidth/distanceHorizontal)+border),(int)((pixelPositionY*mapHeight/distanceVertical)+border)};
 
         return res;
     }
@@ -103,15 +113,45 @@ public class MapPanel extends JPanel implements MouseListener
     /**
      * convert an intersection to a pixel
      * @param i the intersection
-     * @return the array of coordonne (x and y)
+     * @return the array of coordinates of pixels (x and y)
      */
-    private int[] convertIntersectionToPixel(Intersection i)
+    private int[] convertIntersectionToPixel(Intersection i, int height)
     {
         double latitude= i.getLatitude();
         double longitude= i.getLongitude();
-        int[] pixelCoords= latLonToOffsets( this.originLat, this.originLong, latitude, longitude, Frame.width,(Frame.height*2)/3);
-        return pixelCoords;
+        Intersection south= createdMap.getIntersectionSouth();
+        Intersection east= createdMap.getIntersectionEast();
+
+        Intersection N= new Intersection(0, originLat,originLong);
+        Intersection E= new Intersection(1, originLat, east.getLongitude());
+        Intersection S= new Intersection(3, south.getLatitude(), originLong);
+
+
+        double distanceHorizontal= Intersection.calculDis(N,E);
+        double distanceVertical=Intersection.calculDis(N,S);
+
+        if(distanceHorizontal==distanceVertical)
+        {
+            return latLonToOffsets( this.originLat, this.originLong, latitude, longitude, height,height);
+        }
+        else if(distanceHorizontal>distanceVertical)
+        {
+            return latLonToOffsets( this.originLat, this.originLong, latitude, longitude, height,(height* distanceVertical)/distanceHorizontal);
+
+        }
+        else if(distanceHorizontal<distanceVertical)
+        {
+            return latLonToOffsets( this.originLat, this.originLong, latitude, longitude, (height*distanceHorizontal)/distanceVertical,height);
+
+        }
+        else
+        {
+            System.out.println("wrong");
+            return null;
+        }
+
     }
+
 
     /**
      * paint an intersection
@@ -123,13 +163,14 @@ public class MapPanel extends JPanel implements MouseListener
     {
 
         g.setColor(colour);
-        int[] pixelCoords= convertIntersectionToPixel(intersection);
+        int[] pixelCoords= convertIntersectionToPixel(intersection, (int)(0.9*Frame.height));
         int pixelX= pixelCoords[0];
         int pixelY= pixelCoords[1];
         g.fillOval(pixelX-2,pixelY-2,4,4);
 
 
     }
+
 
     /**
      * paint a segment
@@ -143,17 +184,14 @@ public class MapPanel extends JPanel implements MouseListener
         g.setColor(colour);
         Intersection origin= segment.getOrigin();
         Intersection destination= segment.getDestination();
-        double originLat= origin.getLatitude();
-        double originLong= origin.getLongitude();
-        double destinationLat= destination.getLatitude();
-        double destinationLong= destination.getLongitude();
-        int[] pixelCoordsOrigin= latLonToOffsets( this.originLat, this.originLong, originLat, originLong, Frame.width,Frame.height*2/3);
-        int[] pixelCoordsDestination= latLonToOffsets( this.originLat, this.originLong, destinationLat, destinationLong, Frame.width,Frame.height*2/3);
+        int[] pixelCoordsOrigin= convertIntersectionToPixel(origin, (int)(0.9*Frame.height));
+        int[] pixelCoordsDestination= convertIntersectionToPixel(destination,(int)(0.9*Frame.height));
         int originPixelX= pixelCoordsOrigin[0];
         int originPixelY= pixelCoordsOrigin[1];
         int destinationPixelX= pixelCoordsDestination[0];
         int destinationPixelY= pixelCoordsDestination[1];
         g.drawLine((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
+        System.out.println(originPixelX + "."+ originPixelY+ "."+ destinationPixelX+ "."+ destinationPixelY);
 
     }
 
