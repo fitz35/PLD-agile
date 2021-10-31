@@ -16,11 +16,15 @@ public class MapPanel extends JPanel implements MouseListener
     private double originLat;
     private double originLong;
     private int border= (int)(0.02* Frame.height);
+    private Intersection startingPoint;
+    private Intersection pickup;
+    private Intersection delivery;
+
+
     public MapPanel()
     {
         super();
         this.setBackground(ColorPalette.mapBackground);
-      //  this.setBounds((int)(0.05*Frame.height), (int)(0.05*Frame.height),(int)(0.90*Frame.height), (int)(0.90*Frame.height));
         this.setLayout(null);
         this.revalidate();
         this.repaint();
@@ -60,8 +64,8 @@ public class MapPanel extends JPanel implements MouseListener
                 }
                 if(createdMap.getPlanningRequest().getStartingPoint()!= null)
                 {
-                    Intersection i= createdMap.getPlanningRequest().getStartingPoint();
-                    paintIntersection(g2d, i, ColorPalette.startingPoint);
+                    startingPoint= createdMap.getPlanningRequest().getStartingPoint();
+                    paintIntersection(g2d, startingPoint, ColorPalette.startingPoint);
                 }
             }
             if(createdMap.getTour()!= null && createdMap.getTour().getOrderedSegmentList()!= null)
@@ -191,7 +195,7 @@ public class MapPanel extends JPanel implements MouseListener
         int destinationPixelX= pixelCoordsDestination[0];
         int destinationPixelY= pixelCoordsDestination[1];
         g.drawLine((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
-        System.out.println(originPixelX + "."+ originPixelY+ "."+ destinationPixelX+ "."+ destinationPixelY);
+        //System.out.println(originPixelX + "."+ originPixelY+ "."+ destinationPixelX+ "."+ destinationPixelY);
 
     }
 
@@ -202,12 +206,13 @@ public class MapPanel extends JPanel implements MouseListener
      */
     public void paintRequest(Graphics2D g, Request request )
     {
-        Intersection pickup= request.getPickupAddress();
-        Intersection delivery= request.getDeliveryAddress();
+        pickup= request.getPickupAddress();
+        delivery= request.getDeliveryAddress();
         paintIntersection(g, pickup, ColorPalette.pickupPoints);
         paintIntersection(g,delivery, ColorPalette.deliveryPoints);
 
     }
+
 
 
     @Override

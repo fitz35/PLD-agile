@@ -127,7 +127,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
                 pathUrl=choice.getSelectedFile().getAbsolutePath();
                 if(acceptFile(fileName))
                 {
-                    System.out.println("correct extension");
+                    //System.out.println("correct extension");
                     path.setText(pathUrl);
                     loadMap.setVisible(true);
 

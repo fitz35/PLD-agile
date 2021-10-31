@@ -1,8 +1,9 @@
 package controller;
 
-import Model.Tour;
 import Model.MapFactory;
 import Model.MapInterface;
+import Model.PlanningRequest;
+import Model.Tour;
 import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 
@@ -11,6 +12,7 @@ public class Controller {
     private static Tour tour;
     private static WelcomeWindow firstWindow;
     private static WindowMap window2;
+    private static PlanningRequest planningRequest;
     public static void main(String []args)
     {
         map= MapFactory.create();
@@ -34,6 +36,8 @@ public class Controller {
         }
 
     }
+
+
     public static void  loadRequest(String mapPath)
     {
         try{
@@ -41,11 +45,20 @@ public class Controller {
             //load requests back method
             window2.changePanel(0);
             map.notifyObservers();
+            //System.out.println(map.getPlanningRequest().getRequestList());
+
         }catch(Exception e)
         {
            // e.printStackTrace();
 
         }
+    }
+
+    public static PlanningRequest getPlanningRequest()
+    {
+        System.out.println(map.getPlanningRequest().getRequestList());
+        map.getPlanningRequest().getStartingPoint();
+        return map.getPlanningRequest();
     }
 
     public static void loadTour()

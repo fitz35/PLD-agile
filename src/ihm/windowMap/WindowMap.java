@@ -12,8 +12,10 @@ import java.util.Observer;
 public class WindowMap extends Frame implements Observer //implements ActionListener, KeyListener
 {
     private InputWindowLoadRequest inputPanel;
+
     private MapPanel mapPanel;
     private InputMapWithDeliveryNPickupPoints panelWithRequests;
+
 
     public WindowMap()
     {
