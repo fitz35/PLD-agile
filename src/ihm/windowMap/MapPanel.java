@@ -51,21 +51,23 @@ public class MapPanel extends JPanel implements MouseListener
         g2d.setColor(Color.red);
         if(createdMap!=null) {
             for (Intersection i : createdMap.getIntersectionList()) {
-                paintIntersection(g2d, i, ColorPalette.intersectionColor);
+                paintIntersection(g2d, i, ColorPalette.intersectionColor,-2);
             }
             for (Segment s : createdMap.getSegmentList()) {
                 paintSegment(g2d, s, ColorPalette.segmentColor);
             }
             if(createdMap.getPlanningRequest() != null)
             {
+                int i=0;
                 for (Request r : createdMap.getPlanningRequest().getRequestList())
                 {
-                    paintRequest(g2d, r);
+                    paintRequest(g2d, r, i);
+                    i++;
                 }
                 if(createdMap.getPlanningRequest().getStartingPoint()!= null)
                 {
                     startingPoint= createdMap.getPlanningRequest().getStartingPoint();
-                    paintIntersection(g2d, startingPoint, ColorPalette.startingPoint);
+                    paintIntersection(g2d, startingPoint, ColorPalette.startingPoint,-1);
                 }
             }
             if(createdMap.getTour()!= null && createdMap.getTour().getOrderedSegmentList()!= null)
@@ -163,15 +165,22 @@ public class MapPanel extends JPanel implements MouseListener
      * @param intersection the intersection
      * @param colour the colour of the paint
      */
-    public void paintIntersection(Graphics2D g, Intersection intersection, Color colour)
+    public void paintIntersection(Graphics2D g, Intersection intersection, Color colour, int num)
     {
 
         g.setColor(colour);
         int[] pixelCoords= convertIntersectionToPixel(intersection, (int)(0.9*Frame.height));
         int pixelX= pixelCoords[0];
         int pixelY= pixelCoords[1];
-        g.fillOval(pixelX-2,pixelY-2,4,4);
 
+        if(num!= -1 && num !=-2) {
+            g.setColor(ColorPalette.texte);
+            g.setFont(new Font("Serif", Font.BOLD, 10));
+            g.drawString("" + (num+1), pixelX - 2, pixelY - 2);
+        }
+
+        g.setColor(colour);
+        g.fillOval(pixelX-2,pixelY-2,4,4);
 
     }
 
@@ -204,12 +213,14 @@ public class MapPanel extends JPanel implements MouseListener
      * @param g the graphiqs
      * @param request the request to paint
      */
-    public void paintRequest(Graphics2D g, Request request )
+    public void paintRequest(Graphics2D g, Request request, int num )
     {
+        System.out.println(num);
         pickup= request.getPickupAddress();
         delivery= request.getDeliveryAddress();
-        paintIntersection(g, pickup, ColorPalette.pickupPoints);
-        paintIntersection(g,delivery, ColorPalette.deliveryPoints);
+
+        paintIntersection(g, pickup, ColorPalette.pickupPoints, num);
+        paintIntersection(g,delivery, ColorPalette.deliveryPoints, num);
 
     }
 

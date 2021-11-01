@@ -72,6 +72,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
         this.add(text);
 
+
         this.revalidate();
         this.repaint();
     }
@@ -79,7 +80,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     public void paint(Graphics g)
     {
         super.paint(g);
-        Graphics2D g2d = (Graphics2D) g;
+        /*Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.GREEN);
         g2d.fillOval((int)(Frame.width/30),575, 10,10 );
         g2d.setColor(Color.BLACK);
@@ -91,13 +92,16 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         g2d.setColor(Color.BLACK);
         g2d.fillOval((int)(Frame.width/30),625, 10,10 );
         g2d.drawString(": Delivery point", 60, 635 );
+         */
 
         requestsList = Controller.getPlanningRequest().getRequestList();
         System.out.println(requestsList.size());
         Graphics2D g3d = (Graphics2D) g;
         g3d.setColor(ColorPalette.texte);
 
-
+        g3d.setColor(ColorPalette.startingPoint);
+        g3d.fillOval(80,90, 12,12 );
+        g3d.setColor(Color.BLACK);
         g3d.setFont(new Font("Serif", Font.BOLD, 15));
         g3d.drawString("Starting point : ",100,100);
         g3d.drawString("Latitude : " +Controller.getPlanningRequest().getStartingPoint().getLatitude(),250,100);
@@ -105,9 +109,19 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
         for(int i=0; i<requestsList.size(); i++ ){
             g3d.setFont(new Font("Serif", Font.BOLD, 20));
-            g3d.drawString("Request" +(i+1)+ " :",80,140 + (i*110));
+            g3d.drawString("Request " +(i+1)+ " :",80,140 + (i*110));
 
             g3d.setFont(new Font("Serif", Font.BOLD, 15));
+
+            g3d.setColor(ColorPalette.pickupPoints);
+            g3d.fillOval(80,150+ (i*110), 12,12 );
+            g3d.setColor(ColorPalette.text);
+            g3d.setFont(new Font("Serif", Font.BOLD, 10));
+            g3d.drawString( ""+(i+1),83,160 + (i*110));
+
+            g3d.setColor(Color.BLACK);
+            g3d.setFont(new Font("Serif", Font.BOLD, 15));
+
             g3d.drawString("Pickup point : ",100,160 + (i*110));
             g3d.drawString("Latitude : " +requestsList.get(i).getPickupAddress().getLatitude(),250,160 + (i*110));
             g3d.drawString("Longitude : " +requestsList.get(i).getPickupAddress().getLongitude(),400,160 + (i*110));
@@ -117,6 +131,17 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
             g3d.setFont(new Font("Serif", Font.BOLD, 15));
+
+            g3d.setColor(ColorPalette.deliveryPoints);
+
+            g3d.fillOval(80,190+ (i*110), 12,12 );
+            g3d.setColor(ColorPalette.text);
+            g3d.setFont(new Font("Serif", Font.BOLD, 10));
+            g3d.drawString( ""+(i+1),83,200 + (i*110));
+
+            g3d.setColor(Color.BLACK);
+            g3d.setFont(new Font("Serif", Font.BOLD, 15));
+
             g3d.drawString("Delivery point : ",100,200 + (i*110));
             g3d.drawString("Latitude : " +requestsList.get(i).getDeliveryAddress().getLatitude(),250,200 + (i*110));
             g3d.drawString("Longitude : " +requestsList.get(i).getDeliveryAddress().getLongitude(),400,200 + (i*110));
