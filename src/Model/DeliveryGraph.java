@@ -9,11 +9,11 @@ import tsp.*;
 public class DeliveryGraph implements Graph{
     private double [][] cost;
     private ArrayList<Intersection> nodesToVisit;
-    private HashMap<Pair<Intersection, Intersection> , LinkedList<Segment>> verticeCompositionList;
+    private LinkedList<Path> verticeCompositionList;
     private int nbVertices;
 
     public DeliveryGraph(ArrayList<Intersection> nodesToVisit) {
-        this.verticeCompositionList = new HashMap<>();
+        this.verticeCompositionList = new LinkedList<>();
         this.nodesToVisit = nodesToVisit;
         this.nbVertices = nodesToVisit.size();
         this.cost = new double[this.nbVertices][this.nbVertices];
@@ -25,8 +25,9 @@ public class DeliveryGraph implements Graph{
         for(Intersection intersect : nodesToVisit){
             if(intersect != startIntersection) {
                 Segment seg = pi.get(intersect);
-                Pair<Intersection, Intersection> newVertice = new Pair<>(startIntersection, intersect);
+                //Pair<Intersection, Intersection> newVertice = new Pair<>(startIntersection, intersect);
                 LinkedList<Segment> newVerticeCompositon = new LinkedList<>();
+                Path newVertice = new Path(startIntersection, intersect, newVerticeCompositon);
                 Double length = seg.getLength();
                 newVerticeCompositon.add(seg);
                 while (seg.getOrigin() != startIntersection && seg != null) {
@@ -35,7 +36,8 @@ public class DeliveryGraph implements Graph{
                     length += seg.getLength();
                 }
                 Collections.reverse(newVerticeCompositon);
-                verticeCompositionList.put(newVertice, newVerticeCompositon);
+                newVertice.setSegmentsOfPath(newVerticeCompositon);
+                verticeCompositionList.add(newVertice);
                 cost[numberStartNode][numberDestinationNode] = length;
                 numberDestinationNode++;
             }
@@ -48,11 +50,11 @@ public class DeliveryGraph implements Graph{
         System.out.print("Solution of cost "+tsp.getSolutionCost());
         LinkedList<Segment> result = new LinkedList<>();
         LinkedList<Segment> intermediateResult = new LinkedList<>();
-        Pair<Intersection, Intersection> currentVertice;
+        Path currentPath = new Path();
         for (int i=0; i<nbVertices; i++) {
-            currentVertice = new Pair<Intersection, Intersection>
-                    (nodesToVisit.get(tsp.getSolution(i)), nodesToVisit.get(tsp.getSolution((i+1)%nbVertices)));
-            intermediateResult = verticeCompositionList.get(currentVertice);
+            currentPath.setDeparture(nodesToVisit.get(tsp.getSolution(i)));
+            currentPath.setArrival(nodesToVisit.get(tsp.getSolution((i+1)%nbVertices)));
+            intermediateResult = verticeCompositionList.get(currentPath).getSegmentsOfPath();
             for(Segment currentSegment : intermediateResult){
                 result.add(currentSegment);
             }
