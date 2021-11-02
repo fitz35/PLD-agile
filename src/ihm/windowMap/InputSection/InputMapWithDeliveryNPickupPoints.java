@@ -32,9 +32,12 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
     private ArrayList <Request> requestsList;
 
-    public InputMapWithDeliveryNPickupPoints (WindowMap window)
+    private Controller controller;
+
+    public InputMapWithDeliveryNPickupPoints (WindowMap window, Controller controller)
     {
         super();
+        this.controller=controller;
         this.window=window;
         this.setBounds((Frame.width/2)+40, (Frame.height*1/400), Frame.width,(Frame.height));
         this.setBackground(ColorPalette.inputPannel);
@@ -162,7 +165,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
         if (e.getSource() ==findOptimalRoute)
         {
-            //Controller.loadTour();
+            controller.loadTour();
 
         }
 
@@ -173,7 +176,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             //Methode pour changer de fenetres
             //je change de panel de bouton
 
-            //Controller.back(); to put non static
+            controller.back();
 
 
         }

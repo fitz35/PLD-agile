@@ -7,7 +7,7 @@ public class InitialState implements StateController{
     public void loadMap(Controller controller, String mapPath) {
         try {
             Controller.getMap().loadMap(mapPath);
-            Controller.setWindow2(new WindowMap());
+            Controller.setWindow2(new WindowMap(controller));
             Controller.getMap().addObserver(Controller.getWindow2());
             Controller.getFirstWindow().dispose();
             Controller.getMap().notifyObservers();

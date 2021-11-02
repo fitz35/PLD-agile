@@ -23,11 +23,13 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
     private JLabel text;
     private WindowMap window;
     private String  filePath;
+    private Controller controller;
     //private ArrayList<Request> requestArrayList;
 
-    public InputWindowLoadRequest (WindowMap window)
+    public InputWindowLoadRequest (WindowMap window, Controller controller)
     {
         super();
+        this.controller=controller;
         this.window=window;
         this.setBounds((Frame.width/2)+40, Frame.height/400, Frame.width,Frame.height);
         System.out.println(Frame.width/2);
@@ -110,13 +112,12 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
             //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
             //Methode pour changer de fenetres
             //je change de panel de bouton
-            //Controller.loadRequest(filePath); methode plus static
+            controller.loadRequest(filePath);
 
         }
         if(e.getSource()==back)
         {
-            //methode Controller pour changer de fenetre
-            //Controller.back(); => to put non static
+            controller.back(); 
         }
 
     }

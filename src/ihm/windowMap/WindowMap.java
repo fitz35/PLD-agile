@@ -1,6 +1,7 @@
 package ihm.windowMap;
 
 import Model.MapInterface;
+import controller.Controller;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
 import ihm.windowMap.InputSection.InputWindowLoadRequest;
 
@@ -15,13 +16,14 @@ public class WindowMap extends Frame implements Observer //implements ActionList
 
     private MapPanel mapPanel;
     private InputMapWithDeliveryNPickupPoints panelWithRequests;
+    private Controller controller;
 
 
-    public WindowMap()
+    public WindowMap(Controller controller)
     {
         super();
-
-        inputPanel= new InputWindowLoadRequest(this);
+        this.controller=controller;
+        inputPanel= new InputWindowLoadRequest(this, controller);
         inputPanel.setBackground(ColorPalette.inputPannel);
         this.add(inputPanel);
 
@@ -30,7 +32,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         this.add(mapPanel);
         this.setBackground(Color.BLACK);
 
-        panelWithRequests= new InputMapWithDeliveryNPickupPoints(this);
+        panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller);
     }
 
     /**
