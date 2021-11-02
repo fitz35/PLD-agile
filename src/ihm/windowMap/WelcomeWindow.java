@@ -32,10 +32,12 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
     private ImageIcon appliName;
     private JLabel appliLabel;
     private JLabel instruction;
+    private Controller controller;
 
-    public WelcomeWindow()
+    public WelcomeWindow(Controller controller)
     {
         super();
+        this.controller=controller;
         panel= new JPanel();
         panel.setBounds(0,0, width, height);
         body= new JLabel();
@@ -144,11 +146,8 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
         if (e.getSource() == loadMap)
         {
-            //Methode a recuperer du back pour tester si le path vers le fichier existe
-            //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
-            //Methode pour changer de fenetres
 
-            //Controller.loadMap(pathUrl);
+            controller.loadMap(pathUrl);
 
         }
 

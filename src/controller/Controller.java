@@ -38,11 +38,11 @@ public class Controller {
         return map;
     }
 
-    public static void backToWelcomeWindow()
-    {
+    public void backToWelcomeWindow() {
         window2.dispose();
-        firstWindow= new WelcomeWindow();
-        map= MapFactory.create();
+        firstWindow = new WelcomeWindow(this);
+        map = MapFactory.create();
+    }
     public static Tour getTour() {
         return tour;
     }
@@ -84,7 +84,7 @@ public class Controller {
 
         map= MapFactory.create();
         tour=map.getTour();
-        firstWindow = new WelcomeWindow();
+        firstWindow = new WelcomeWindow(controller);
         map.addObserver(firstWindow);
     }
 

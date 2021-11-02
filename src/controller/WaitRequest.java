@@ -27,7 +27,7 @@ public class WaitRequest implements StateController{
     public void back(Controller controller)
     {
         Controller.getWindow2().dispose();
-        Controller.setFirstWindow(new WelcomeWindow());
+        Controller.setFirstWindow(new WelcomeWindow(controller));
         Controller.setMap( MapFactory.create());
         controller.setStateController(new InitialState());
     }
