@@ -8,63 +8,34 @@ import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 
 public class Controller {
+    private StateController stateController;
     private static MapInterface map;
     private static Tour tour;
     private static WelcomeWindow firstWindow;
     private static WindowMap window2;
-    private static PlanningRequest planningRequest;
-    public static void main(String []args)
-    {
-        map= MapFactory.create();
-        tour=map.getTour();
-        firstWindow = new WelcomeWindow();
-        map.addObserver(firstWindow);
-    }
-    public static void  loadMap(String mapPath)
-    {
-        try {
-            map.loadMap(mapPath);
-            window2 = new WindowMap();
-            map.addObserver(window2);
-            firstWindow.dispose();
-            map.notifyObservers();
-        }
-        catch(Exception e)
-        {
-           // e.printStackTrace();
 
-        }
-
+    //set state method
+    protected void setCurrentState(StateController state){
+        stateController = state;
     }
 
+    //overrided method
+    public void loadMap(String path){ this.stateController.loadMap(this, path);}
 
-    public static void  loadRequest(String mapPath)
-    {
-        try{
-            map.loadRequest(mapPath);
-            //load requests back method
-            window2.changePanel(0);
-            map.notifyObservers();
-            //System.out.println(map.getPlanningRequest().getRequestList());
+    public void loadRequest(String path){ this.stateController.loadRequest(this, path); }
 
-        }catch(Exception e)
-        {
-           // e.printStackTrace();
+    public void loadTour() { this.stateController.loadTour(this); }
 
-        }
+    public void back() {this.stateController.back(this);}
+
+    //--------------- getter ---------------
+
+    public StateController getStateController() {
+        return stateController;
     }
 
-    public static PlanningRequest getPlanningRequest()
-    {
-        System.out.println(map.getPlanningRequest().getRequestList());
-        map.getPlanningRequest().getStartingPoint();
-        return map.getPlanningRequest();
-    }
-
-    public static void loadTour()
-    {
-        map.computeTour(300);
-        System.out.println("tour loaded");
+    public static MapInterface getMap() {
+        return map;
     }
 
     public static void backToWelcomeWindow()
@@ -72,12 +43,49 @@ public class Controller {
         window2.dispose();
         firstWindow= new WelcomeWindow();
         map= MapFactory.create();
-    }
-    public static void backToWindowLoadRequest()
-    {
-        window2.changePanel(1);
-        map.resetPlanningRequest();
+    public static Tour getTour() {
+        return tour;
     }
 
+    public static WelcomeWindow getFirstWindow() {
+        return firstWindow;
+    }
+
+    public static WindowMap getWindow2() {
+        return window2;
+    }
+
+    //--------------- setter ---------------
+    public void setStateController(StateController stateController) {
+        this.stateController = stateController;
+    }
+
+    public static void setMap(MapInterface map) {
+        Controller.map = map;
+    }
+
+    public static void setTour(Tour tour) {
+        Controller.tour = tour;
+    }
+
+    public static void setFirstWindow(WelcomeWindow firstWindow) {
+        Controller.firstWindow = firstWindow;
+    }
+
+    public static void setWindow2(WindowMap window2) {
+        Controller.window2 = window2;
+    }
+
+
+    //--------------- main ---------------
+    public static void main(String []args)
+    {
+        Controller controller = new Controller();
+
+        map= MapFactory.create();
+        tour=map.getTour();
+        firstWindow = new WelcomeWindow();
+        map.addObserver(firstWindow);
+    }
 
 }
