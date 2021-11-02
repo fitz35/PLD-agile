@@ -13,6 +13,7 @@ public class InitialState implements StateController{
             Controller.getMap().notifyObservers();
             if(Controller.getMap().isMapLoaded())
             {
+                System.out.println("Go in state 2");
                 controller.setStateController(new WaitRequest());
             }
         } catch (Exception e) {

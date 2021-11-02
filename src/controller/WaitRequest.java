@@ -8,6 +8,7 @@ public class WaitRequest implements StateController{
     @Override
     public void loadRequest(Controller controller, String path)
     {
+        System.out.println("In state 2");
         try{
             Controller.getMap().loadRequest(path);
             //load requests back method

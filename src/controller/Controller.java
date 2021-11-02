@@ -14,6 +14,11 @@ public class Controller {
     private static WelcomeWindow firstWindow;
     private static WindowMap window2;
 
+    public Controller()
+    {
+        stateController = new InitialState();
+    }
+
     //set state method
     protected void setCurrentState(StateController state){
         stateController = state;
@@ -22,7 +27,7 @@ public class Controller {
     //overrided method
     public void loadMap(String path){ this.stateController.loadMap(this, path);}
 
-    public void loadRequest(String path){ this.stateController.loadRequest(this, path); }
+    public void loadRequest(String path){ this.stateController.loadRequest(this, path);}
 
     public void loadTour() { this.stateController.loadTour(this); }
 
