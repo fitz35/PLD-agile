@@ -163,10 +163,9 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     public void actionPerformed(ActionEvent e)
     {
 
-        if (e.getSource() ==findOptimalRoute)
+        if (e.getSource() == findOptimalRoute)
         {
             controller.loadTour();
-
         }
 
         if (e.getSource() == backToLoadRequest)

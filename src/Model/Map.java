@@ -189,6 +189,14 @@ public class Map extends MapInterface {
     }
 
     @Override
+    public void resetTour()
+    {
+        tour=null;
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    @Override
     public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException {
         resetPlanningRequest();
         planningRequest=new PlanningRequest();
