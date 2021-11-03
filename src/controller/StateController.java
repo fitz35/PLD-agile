@@ -7,6 +7,4 @@ public interface StateController {
     public default void loadRequest(Controller controller, String path){};
     public default void loadTour(Controller controller){};
     public default void back(Controller controller){};
-
-
 }
