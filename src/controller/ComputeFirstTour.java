@@ -6,8 +6,8 @@ class ComputeFirstTour implements StateController{
     public void loadTour(Controller controller)
     {
         try{
-            Controller.getMap().computeTour(300);
-            if(Controller.getMap().isFirstTourComputed())
+            controller.getMap().computeTour(300);
+            if(controller.getMap().isFirstTourComputed())
             {
                 controller.setStateController(new SetupState());
             }
@@ -20,7 +20,7 @@ class ComputeFirstTour implements StateController{
     public void back(Controller controller)
     {
         controller.setStateController(new WaitRequest());
-        Controller.getWindow2().changePanel(1);
-        Controller.getMap().resetPlanningRequest();
+        controller.getWindow2().changePanel(1);
+        controller.getMap().resetPlanningRequest();
     }
 }
