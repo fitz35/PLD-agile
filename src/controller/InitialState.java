@@ -8,9 +8,8 @@ public class InitialState implements StateController{
     public void loadMap(Controller controller, String mapPath) {
         try {
             controller.getMap().loadMap(mapPath);
-            controller.setWindow2(new WindowMap(controller));
-            controller.getMap().addObserver(controller.getWindow2());
-            controller.getFirstWindow().dispose();
+            controller.getWindow2().setVisible(true);
+            controller.getFirstWindow().setVisible(false);
             if(controller.getMap().isMapLoaded())
             {
                 controller.setStateController(new WaitRequest());

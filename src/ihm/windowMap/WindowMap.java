@@ -28,7 +28,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         this.add(inputPanel);
 
         mapPanel= new MapPanel();
-       // mapPanel.setBounds((int)(0.05*Frame.height), (int)(0.05*Frame.height),(int)(0.9*Frame.height), (int)(0.9*Frame.height));
+        //mapPanel.setBounds((int)(0.05*Frame.height), (int)(0.05*Frame.height),(int)(0.9*Frame.height), (int)(0.9*Frame.height));
         this.add(mapPanel);
         this.setBackground(Color.BLACK);
 

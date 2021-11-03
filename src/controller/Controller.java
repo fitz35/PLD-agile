@@ -18,8 +18,11 @@ public class Controller {
     {
         stateController = new InitialState();
         this.createMap();
+        window2 = new WindowMap(this);
+        window2.setVisible(false);
         firstWindow = new WelcomeWindow(this);
         map.addObserver(getFirstWindow());
+        map.addObserver(getWindow2());
     }
 
     //set state method
@@ -71,14 +74,6 @@ public class Controller {
         this.tour = tour;
     }
 
-    public void setFirstWindow(WelcomeWindow firstWindow) {
-        this.firstWindow = firstWindow;
-    }
-
-    public void setWindow2(WindowMap window2) {
-        this.window2 = window2;
-    }
-
     public void createMap()
     {
         map = MapFactory.create();
@@ -87,7 +82,7 @@ public class Controller {
     //--------------- main ---------------
     public static void main(String []args)
     {
-        Controller controller = new Controller();
+        new Controller();
     }
 
 }
