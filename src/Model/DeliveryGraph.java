@@ -8,11 +8,11 @@ import tsp.*;
 
 public class DeliveryGraph implements Graph{
     private double [][] cost;
-    private ArrayList<Intersection> nodesToVisit;
+    private ArrayList<Address> nodesToVisit;
     private LinkedList<Path> verticeCompositionList;
     private int nbVertices;
 
-    public DeliveryGraph(ArrayList<Intersection> nodesToVisit) {
+    public DeliveryGraph(ArrayList<Address> nodesToVisit) {
         this.verticeCompositionList = new LinkedList<>();
         this.nodesToVisit = nodesToVisit;
         this.nbVertices = nodesToVisit.size();
@@ -21,8 +21,8 @@ public class DeliveryGraph implements Graph{
 
     public void addVertice(int numberStartNode, HashMap<Intersection, Segment> pi){
         int numberDestinationNode = 0;
-        Intersection startIntersection = nodesToVisit.get(numberStartNode);
-        for(Intersection intersect : nodesToVisit){
+        Address startIntersection = nodesToVisit.get(numberStartNode);
+        for(Address intersect : nodesToVisit){
             if(intersect != startIntersection) {
                 Segment seg = pi.get(intersect);
                 //Pair<Intersection, Intersection> newVertice = new Pair<>(startIntersection, intersect);
@@ -30,8 +30,10 @@ public class DeliveryGraph implements Graph{
                 Path newVertice = new Path(startIntersection, intersect, newVerticeCompositon);
                 Double length = seg.getLength();
                 newVerticeCompositon.add(seg);
-                while (seg.getOrigin() != startIntersection && seg != null) {
-                    seg = pi.get(seg.getOrigin());
+                while (!seg.getOrigin().equals(startIntersection)) {
+                    Intersection s = seg.getOrigin();
+                    //seg = pi.get(seg.getOrigin());
+                    seg = pi.get(s);
                     newVerticeCompositon.add(seg);
                     length += seg.getLength();
                 }
@@ -54,7 +56,8 @@ public class DeliveryGraph implements Graph{
         for (int i=0; i<nbVertices; i++) {
             currentPath.setDeparture(nodesToVisit.get(tsp.getSolution(i)));
             currentPath.setArrival(nodesToVisit.get(tsp.getSolution((i+1)%nbVertices)));
-            intermediateResult = verticeCompositionList.get(currentPath).getSegmentsOfPath();
+            int j = verticeCompositionList.indexOf(currentPath);
+            intermediateResult = verticeCompositionList.get(j).getSegmentsOfPath();
             for(Segment currentSegment : intermediateResult){
                 result.add(currentSegment);
             }
@@ -104,11 +107,11 @@ public class DeliveryGraph implements Graph{
         nodesToVisit.add(two);
         nodesToVisit.add(three);
 
-        DeliveryGraph dg = new DeliveryGraph(nodesToVisit);
+        /*DeliveryGraph dg = new DeliveryGraph(nodesToVisit);
         for(int i=0; i< 4; i++) {
             dg.addVertice(i, pi);
         }
-        dg.solveTSP(2000000);
+        dg.solveTSP(2000000);*/
 
     }
 }
