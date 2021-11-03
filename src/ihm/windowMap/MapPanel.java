@@ -252,7 +252,10 @@ public class MapPanel extends JPanel implements MouseListener
     public void mouseClicked(MouseEvent e) {
         int PixelX= e.getX();
         int PixelY= e.getY();
-        convertPixeltoIntersection(PixelX,PixelY,(int)(0.9*Frame.height));
+        if(PixelX< Frame.height)
+        {
+            convertPixeltoIntersection(PixelX,PixelY,(int)(0.9*Frame.height));
+        }
     }
 
     @Override
