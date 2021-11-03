@@ -32,10 +32,12 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
     private ImageIcon appliName;
     private JLabel appliLabel;
     private JLabel instruction;
+    private Controller controller;
 
-    public WelcomeWindow()
+    public WelcomeWindow(Controller controller)
     {
         super();
+        this.controller=controller;
         panel= new JPanel();
         panel.setBounds(0,0, width, height);
         body= new JLabel();
@@ -145,19 +147,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         if (e.getSource() == loadMap)
         {
 
-            pathUrl= path.getText();
-            if(pathUrl.compareTo("")!=0)
-            {
-                Controller.loadMap(pathUrl);
-            }
-            else
-            {
-                errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
-                errorMsg.setText("YOU HAVE NOT CHOSEN A FILE. PLEASE CHOOSE A FILE WITH AN XML EXTENSION");
-                errorMsg.setForeground(ColorPalette.errorMessage);
-                errorMsg.setVisible(true);
-            }
-
+            controller.loadMap(pathUrl);
 
         }
 

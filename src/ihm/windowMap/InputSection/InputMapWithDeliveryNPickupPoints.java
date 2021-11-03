@@ -14,6 +14,9 @@ import java.util.ArrayList;
 
 public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionListener
 {
+    private static Dimension size = Frame.size;
+    private static int width = (int)size.getWidth();
+    private static int height = (int)size.getHeight();
     private JButton findOptimalRoute;
     private JButton backToLoadRequest;
     private JButton addRequest;
@@ -29,9 +32,12 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
     private ArrayList <Request> requestsList;
 
-    public InputMapWithDeliveryNPickupPoints (WindowMap window)
+    private Controller controller;
+
+    public InputMapWithDeliveryNPickupPoints (WindowMap window, Controller controller)
     {
         super();
+        this.controller=controller;
         this.window=window;
         this.setBounds((Frame.width/2)+40, (Frame.height*1/400), Frame.width,(Frame.height));
         this.setBackground(ColorPalette.inputPannel);
@@ -94,7 +100,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         g2d.drawString(": Delivery point", 60, 635 );
          */
 
-        requestsList = Controller.getPlanningRequest().getRequestList();
+        requestsList = controller.getMap().getPlanningRequest().getRequestList();
         System.out.println(requestsList.size());
         Graphics2D g3d = (Graphics2D) g;
         g3d.setColor(ColorPalette.texte);
@@ -104,8 +110,8 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         g3d.setColor(Color.BLACK);
         g3d.setFont(new Font("Serif", Font.BOLD, 15));
         g3d.drawString("Starting point : ",100,100);
-        g3d.drawString("Latitude : " +Controller.getPlanningRequest().getStartingPoint().getLatitude(),250,100);
-        g3d.drawString("Longitude : " +Controller.getPlanningRequest().getStartingPoint().getLongitude(),400,100);
+        g3d.drawString("Latitude : " +controller.getMap().getPlanningRequest().getStartingPoint().getLatitude(),250,100);
+        g3d.drawString("Longitude : " +controller.getMap().getPlanningRequest().getStartingPoint().getLongitude(),400,100);
 
         for(int i=0; i<requestsList.size(); i++ ){
             g3d.setFont(new Font("Serif", Font.BOLD, 20));
@@ -157,10 +163,9 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     public void actionPerformed(ActionEvent e)
     {
 
-        if (e.getSource() ==findOptimalRoute)
+        if (e.getSource() == findOptimalRoute)
         {
-            Controller.loadTour();
-
+            controller.loadTour();
         }
 
         if (e.getSource() == backToLoadRequest)
@@ -170,7 +175,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             //Methode pour changer de fenetres
             //je change de panel de bouton
 
-            Controller.backToWindowLoadRequest();
+            controller.back();
 
 
         }

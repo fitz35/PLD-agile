@@ -26,6 +26,7 @@ public class Map extends MapInterface {
     private Intersection[] extremIntersection;
     private boolean mapLoaded = false;
     private boolean planningLoaded = false;
+    private boolean firstTourComputed = false;
     private DeliveryGraph deliveryGraph;
 
     public Tour getTour(){return this.tour;}
@@ -136,6 +137,7 @@ public class Map extends MapInterface {
             mapLoaded = true;
             extremIntersection = getExtremIntersection();
             this.setChanged();
+            this.notifyObservers();
         }
     }
 
@@ -183,6 +185,14 @@ public class Map extends MapInterface {
     public void resetPlanningRequest()
     {
         planningRequest=null;
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    @Override
+    public void resetTour()
+    {
+        tour=null;
         this.setChanged();
         this.notifyObservers();
     }
@@ -390,6 +400,10 @@ public class Map extends MapInterface {
         tour = new Tour(tourCalculated);
         this.setChanged();
         this.notifyObservers();
+        if(tourCalculated!=null)//mettre condition de validation d'un tour
+        {
+            firstTourComputed = true;
+        }
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
@@ -423,4 +437,17 @@ public class Map extends MapInterface {
         return this.planningRequest;
     }
 
+    public boolean isMapLoaded() {
+        return mapLoaded;
+    }
+
+    public boolean isPlanningLoaded() {
+        return planningLoaded;
+    }
+
+    public boolean isFirstTourComputed() { return firstTourComputed; }
+
+    public DeliveryGraph getDeliveryGraph() {
+        return deliveryGraph;
+    }
 }
