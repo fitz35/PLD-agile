@@ -97,7 +97,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         g2d.drawString(": Delivery point", 60, 635 );
          */
 
-        requestsList = Controller.getMap().getPlanningRequest().getRequestList();
+        requestsList = controller.getMap().getPlanningRequest().getRequestList();
         System.out.println(requestsList.size());
         Graphics2D g3d = (Graphics2D) g;
         g3d.setColor(ColorPalette.texte);
