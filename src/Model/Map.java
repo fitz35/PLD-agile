@@ -49,7 +49,6 @@ public class Map extends MapInterface {
                 if (segmentOriginId.equals(intersectionID)) {
                     interSegments.add(segment);
                     Intersection segmentDest = segment.getDestination();
-                    //System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDest.getId());
                 }
             }
             graphe.put(inter, interSegments);
