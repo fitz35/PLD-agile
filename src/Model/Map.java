@@ -66,6 +66,7 @@ public class Map extends MapInterface {
         if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
             this.setChanged();
             this.notifyObservers("Filename extension is not correct");
+            throw new IOException();
         }else{
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
@@ -74,6 +75,12 @@ public class Map extends MapInterface {
                 DocumentBuilder db = dbf.newDocumentBuilder();
                 Document doc = db.parse(new File(fileName));
                 doc.getDocumentElement().normalize();
+
+                // Check the document root name
+                Element root = doc.getDocumentElement();
+                if(!root.getNodeName().equals("map")){
+                    throw new NumberFormatException();
+                }
 
                 // get all nodes <intersection>
                 NodeList nodeListIntersection = doc.getElementsByTagName("intersection");
@@ -127,7 +134,8 @@ public class Map extends MapInterface {
                 this.setChanged();
                 this.notifyObservers("Opening XML file failed.");
                 throw err;
-            }
+            }catch (NumberFormatException err){}
+
             if(intersectionList.isEmpty() || segmentList.isEmpty())
             {
                 this.setChanged();
@@ -136,6 +144,7 @@ public class Map extends MapInterface {
             }
             mapLoaded = true;
             extremIntersection = getExtremIntersection();
+            this.createGraph();
             this.setChanged();
         }
     }
@@ -211,6 +220,12 @@ public class Map extends MapInterface {
                 Document doc = db.parse(new File(fileName));
                 doc.getDocumentElement().normalize();
 
+                // Check the document root name
+                Element root = doc.getDocumentElement();
+                if(!root.getNodeName().equals("planningRequest")){
+                    throw new NumberFormatException();
+                }
+
                 // get all nodes <intersection>
                 NodeList nodeListRequest = doc.getElementsByTagName("request");
                 for (int temp = 0; temp < nodeListRequest.getLength(); temp++) {
@@ -261,7 +276,7 @@ public class Map extends MapInterface {
                 this.setChanged();
                 this.notifyObservers("Opening XML file failed.");
                 throw err;
-            }
+            }catch (NumberFormatException err){}
 
             if(planningRequest.getRequestList().isEmpty())
             {
@@ -269,7 +284,6 @@ public class Map extends MapInterface {
                 this.notifyObservers("Planning is empty. Check your XML file.");
                 throw new IOException();
             }
-            this.createGraph();
             this.setChanged();
         }
     }
