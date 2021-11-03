@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<map>
+<planningRequest>
     <intersection id="975886496" latitude="45.756874" longitude="4.8574047"/>
     <intersection id="26033277" latitude="45.756165" longitude="4.8574095"/>
     <segment destination="26033277" length="78.72686" name="Rue Danton" origin="975886496"/>
-</map>
+</planningRequest>
