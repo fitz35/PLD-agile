@@ -468,7 +468,7 @@ public class Map extends MapInterface {
         return planningLoaded;
     }
 
-    public boolean isFirstTourComputed() { return tour != null; }
+    //public boolean isFirstTourComputed() { return tour != null; }
 
     public DeliveryGraph getDeliveryGraph() {
         return deliveryGraph;

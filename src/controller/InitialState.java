@@ -1,7 +1,5 @@
 package controller;
 
-import ihm.windowMap.WindowMap;
-
 public class InitialState implements StateController{
 
     @Override
@@ -12,7 +10,7 @@ public class InitialState implements StateController{
             controller.getFirstWindow().setVisible(false);
             if(controller.getMap().isMapLoaded())
             {
-                controller.setStateController(new WaitRequest());
+                controller.setStateController(new MapLoaded());
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,15 +1,18 @@
 package controller;
 
-class ComputeFirstTour implements StateController{
+class RequestLoaded implements StateController{
 
     @Override
     public void loadTour(Controller controller)
     {
         try{
             controller.getMap().computeTour(300);
-            if(controller.getMap().isFirstTourComputed())
+            if(controller.getMap().getTimedOutError() == 0)
             {
-                controller.setStateController(new SetupState());
+                controller.setStateController(new FirstTourComputed());
+            }else if(controller.getMap().getTimedOutError() == 1)
+            {
+                controller.setStateController(new WaitOrder());
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -19,7 +22,7 @@ class ComputeFirstTour implements StateController{
     @Override
     public void back(Controller controller)
     {
-        controller.setStateController(new WaitRequest());
+        controller.setStateController(new MapLoaded());
         controller.getWindow2().changePanel(1);
         controller.getMap().resetPlanningRequest();
     }

@@ -1,9 +1,8 @@
 package controller;
 
 import Model.MapFactory;
-import ihm.windowMap.WelcomeWindow;
 
-public class WaitRequest implements StateController{
+public class MapLoaded implements StateController{
 
     @Override
     public void loadRequest(Controller controller, String path)
@@ -16,7 +15,7 @@ public class WaitRequest implements StateController{
             controller.getMap().notifyObservers();
             if(controller.getMap().isPlanningLoaded())
             {
-                controller.setStateController(new ComputeFirstTour());
+                controller.setStateController(new RequestLoaded());
             }
         }catch(Exception e)
         {
