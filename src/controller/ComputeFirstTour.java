@@ -22,6 +22,5 @@ class ComputeFirstTour implements StateController{
         controller.setStateController(new WaitRequest());
         controller.getWindow2().changePanel(1);
         controller.getMap().resetPlanningRequest();
-        controller.getMap().resetTour();
     }
 }

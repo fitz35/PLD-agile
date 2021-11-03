@@ -14,7 +14,6 @@ public class InitialState implements StateController{
             controller.getMap().notifyObservers();
             if(controller.getMap().isMapLoaded())
             {
-                System.out.println("Go in state 2");
                 controller.setStateController(new WaitRequest());
             }
         } catch (Exception e) {

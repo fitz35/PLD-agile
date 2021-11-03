@@ -5,5 +5,6 @@ public class SetupState implements StateController{
     public void back(Controller controller)
     {
         controller.setStateController(new ComputeFirstTour());
+        controller.getMap().resetTour();
     }
 }
