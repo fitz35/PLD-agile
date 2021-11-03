@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class MapPanel extends JPanel implements MouseListener
 {
@@ -24,6 +25,7 @@ public class MapPanel extends JPanel implements MouseListener
     public MapPanel()
     {
         super();
+        this.addMouseListener(this);
         this.setBackground(ColorPalette.mapBackground);
         this.setLayout(null);
         this.revalidate();
@@ -51,7 +53,7 @@ public class MapPanel extends JPanel implements MouseListener
         g2d.setColor(Color.red);
         if(createdMap!=null) {
             for (Intersection i : createdMap.getIntersectionList()) {
-                paintIntersection(g2d, i, ColorPalette.intersectionColor,-2);
+                paintIntersection(g2d, i, ColorPalette.intersectionColor,-2, 4);
             }
             for (Segment s : createdMap.getSegmentList()) {
                 paintSegment(g2d, s, ColorPalette.segmentColor);
@@ -67,7 +69,7 @@ public class MapPanel extends JPanel implements MouseListener
                 if(createdMap.getPlanningRequest().getStartingPoint()!= null)
                 {
                     startingPoint= createdMap.getPlanningRequest().getStartingPoint();
-                    paintIntersection(g2d, startingPoint, ColorPalette.startingPoint,-1);
+                    paintIntersection(g2d, startingPoint, ColorPalette.startingPoint,-1, 8);
                 }
             }
             if(createdMap.getTour()!= null && createdMap.getTour().getOrderedSegmentList()!= null)
@@ -159,13 +161,34 @@ public class MapPanel extends JPanel implements MouseListener
     }
 
 
+    public Intersection convertPixeltoIntersection(int pixelX, int pixelY, int height)
+    {
+        ArrayList<Intersection> listOfAllIntersections= createdMap.getIntersectionList();
+        int[] pixelResult={-1,-1};
+        Intersection intersectionResult= null;
+        for(Intersection i : listOfAllIntersections)
+        {
+            int [] temporaryPixelResult= convertIntersectionToPixel(i, height);
+            int distance= ((temporaryPixelResult[0]- pixelX)*(temporaryPixelResult[0]- pixelX))+((temporaryPixelResult[1]- pixelY)*(temporaryPixelResult[1]- pixelY));
+            if(distance<((pixelResult[0]- pixelX)*(pixelResult[0]- pixelX))+((pixelResult[1]- pixelY)*(pixelResult[1]- pixelY)))
+            {
+                pixelResult[0]=temporaryPixelResult[0];
+                pixelResult[1]=temporaryPixelResult[1];
+                intersectionResult=i;
+            }
+        }
+        System.out.println(intersectionResult.getLatitude()+ "."+ intersectionResult.getLongitude());
+        return intersectionResult;
+    }
+
+
     /**
      * paint an intersection
      * @param g the graphics
      * @param intersection the intersection
      * @param colour the colour of the paint
      */
-    public void paintIntersection(Graphics2D g, Intersection intersection, Color colour, int num)
+    public void paintIntersection(Graphics2D g, Intersection intersection, Color colour, int num, int size)
     {
 
         g.setColor(colour);
@@ -180,7 +203,7 @@ public class MapPanel extends JPanel implements MouseListener
         }
 
         g.setColor(colour);
-        g.fillOval(pixelX-2,pixelY-2,4,4);
+        g.fillOval(pixelX-2,pixelY-2,size,size);
 
     }
 
@@ -219,16 +242,17 @@ public class MapPanel extends JPanel implements MouseListener
         pickup= request.getPickupAddress();
         delivery= request.getDeliveryAddress();
 
-        paintIntersection(g, pickup, ColorPalette.pickupPoints, num);
-        paintIntersection(g,delivery, ColorPalette.deliveryPoints, num);
-
+        paintIntersection(g, pickup, ColorPalette.pickupPoints, num,8);
+        paintIntersection(g,delivery, ColorPalette.deliveryPoints, num,8);
     }
 
 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        int PixelX= e.getX();
+        int PixelY= e.getY();
+        convertPixeltoIntersection(PixelX,PixelY,(int)(0.9*Frame.height));
     }
 
     @Override
