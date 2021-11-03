@@ -13,9 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Map extends MapInterface {
     private ArrayList<Segment> segmentList;
@@ -405,6 +403,10 @@ public class Map extends MapInterface {
         tour = new Tour(tourCalculated);
         this.setChanged();
         this.notifyObservers();
+    }
+
+    public int getTimedOutError() {
+        return timedOutError;
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
