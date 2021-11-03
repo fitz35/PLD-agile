@@ -27,6 +27,7 @@ public class Map extends MapInterface {
     private boolean mapLoaded = false;
     private boolean planningLoaded = false;
     private DeliveryGraph deliveryGraph;
+    private int timedOutError;
 
     public Tour getTour(){return this.tour;}
 
@@ -387,6 +388,15 @@ public class Map extends MapInterface {
             deliveryGraph.addVertice(i,pi);
         }
         LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
+        this.timedOutError = deliveryGraph.getTimedOutError();
+        tour = new Tour(tourCalculated);
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public void continueTour(int timeout){
+        LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
+        this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
         this.setChanged();
         this.notifyObservers();

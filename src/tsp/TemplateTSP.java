@@ -3,6 +3,7 @@ package tsp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
 
 public abstract class TemplateTSP implements TSP {
 	private Integer[] bestSol;
@@ -10,21 +11,26 @@ public abstract class TemplateTSP implements TSP {
 	private int bestSolCost;
 	private int timeLimit;
 	private long startTime;
+	private Collection<Integer> unvisited;
+	private Collection<Integer> unvisitable;
+	private Collection<Integer> visited;
 
-	public void searchSolution(int timeLimit, Graph g) {
-		if (timeLimit <= 0) return;
+	public int searchSolution(int timeLimit, Graph g) {
+		if (timeLimit <= 0)  return 1;
 		startTime = System.currentTimeMillis();
 		this.timeLimit = timeLimit;
-		this.g = g;
-		bestSol = new Integer[g.getNbVertices()];
-		Collection<Integer> unvisited = new ArrayList<Integer>(g.getNbVertices() - 1);
-		Collection<Integer> unvisitable = new ArrayList<>(g.getNbVertices() - 1);
-		for (int i = 1; i < g.getNbVertices(); i += 2) unvisited.add(i);
-		for (int i = 2; i < g.getNbVertices(); i += 2) unvisitable.add(i);
-		Collection<Integer> visited = new ArrayList<Integer>(g.getNbVertices());
-		visited.add(0); // The first visited vertex is 0
-		bestSolCost = Integer.MAX_VALUE;
-		branchAndBound(0, unvisited, visited, unvisitable,0);
+		if(bestSol == null) {
+			this.g = g;
+			bestSol = new Integer[g.getNbVertices()];
+			this.unvisited = new ArrayList<Integer>(g.getNbVertices() - 1);
+			this.unvisitable = new ArrayList<>(g.getNbVertices() - 1);
+			for (int i = 1; i < g.getNbVertices(); i += 2) unvisited.add(i);
+			for (int i = 2; i < g.getNbVertices(); i += 2) unvisitable.add(i);
+			this.visited = new ArrayList<Integer>(g.getNbVertices());
+			visited.add(0); // The first visited vertex is 0
+			bestSolCost = Integer.MAX_VALUE;
+		}
+		return branchAndBound(0, unvisited, visited, unvisitable,0);
 	}
 
 	public Integer getSolution(int i) {
@@ -65,11 +71,13 @@ public abstract class TemplateTSP implements TSP {
 	 * @param currentVertex the last visited vertex
 	 * @param unvisited     the set of vertex that have not yet been visited
 	 * @param visited       the sequence of vertices that have been already visited (including currentVertex)
+	 * @param unvisitable   the ser of vertex that can't be visited at this time, it will evolve each time we visit an unvisitable
 	 * @param currentCost   the cost of the path corresponding to <code>visited</code>
 	 */
-	private void branchAndBound(int currentVertex, Collection<Integer> unvisited,
+	private int branchAndBound(int currentVertex, Collection<Integer> unvisited,
 								Collection<Integer> visited, Collection<Integer> unvisitable, int currentCost) {
-		if (System.currentTimeMillis() - startTime > timeLimit) return;
+		int error = 0;
+		if (System.currentTimeMillis() - startTime > timeLimit && bestSol[g.getNbVertices()-1] != null) return 1;
 		if (unvisited.size() == 0) {
 			if (g.isArc(currentVertex, 0)) {
 				if (currentCost + g.getCost(currentVertex, 0) < bestSolCost) {
@@ -82,15 +90,12 @@ public abstract class TemplateTSP implements TSP {
 			while (it.hasNext()) {
 				Integer nextVertex = it.next();
 				addToVisited(unvisited, visited, unvisitable, nextVertex);
-				// visited.add(nextVertex);
-				// unvisited.remove(nextVertex);
-				branchAndBound(nextVertex, unvisited, visited, unvisitable,
+				error = branchAndBound(nextVertex, unvisited, visited, unvisitable,
 						currentCost + g.getCost(currentVertex, nextVertex));
 				removeFromVisited(unvisited, visited, unvisitable, nextVertex);
-				//visited.remove(nextVertex);
-				//unvisited.add(nextVertex);
 			}
 		}
+		return error;
 	}
 
 	private void addToVisited(Collection<Integer> unvisited, Collection<Integer> visited, Collection<Integer> unvisitable, int nextVertex) {
