@@ -39,8 +39,11 @@ public class MapPanel extends JPanel implements MouseListener
     public void DisplayMap (MapInterface createdMap)
     {
         this.createdMap=createdMap;
-        this.originLat = createdMap.getIntersectionNorth().getLatitude();
-        this.originLong = createdMap.getIntersectionWest().getLongitude();
+        if( createdMap.getIntersectionNorth() != null && createdMap.getIntersectionWest() != null){
+            this.originLat = createdMap.getIntersectionNorth().getLatitude();
+            this.originLong = createdMap.getIntersectionWest().getLongitude();
+        }
+
         this.revalidate();
         this.repaint();
     }
@@ -121,6 +124,7 @@ public class MapPanel extends JPanel implements MouseListener
     /**
      * convert an intersection to a pixel
      * @param i the intersection
+     * @param height the height ofthe map
      * @return the array of coordinates of pixels (x and y)
      */
     private int[] convertIntersectionToPixel(Intersection i, int height)
