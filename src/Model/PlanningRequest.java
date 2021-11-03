@@ -45,16 +45,17 @@ public class PlanningRequest {
 
 
 
-    public ArrayList<Intersection> getIntersection() {
+    public ArrayList<Address> getListAddress() {
         //return all Intersection from the request and add the starting point address at the first place
-        ArrayList<Intersection> intersection = new ArrayList<>(1 + requestList.size());
-        intersection.add(startingPoint);
+        ArrayList<Address> listAddress = new ArrayList<>(1 + requestList.size());
+        Address startingAddress = new Address(startingPoint.getId(), startingPoint.getLatitude(),startingPoint.getLongitude(), 0);
+        listAddress.add(startingAddress);
 
         for(Request req : requestList){
-            intersection.add(req.getPickupAddress());
-            intersection.add(req.getDeliveryAddress());
+            listAddress.add(req.getPickupAddress());
+            listAddress.add(req.getDeliveryAddress());
         }
-        return intersection;
+        return listAddress;
     }
 
     public int size(){
