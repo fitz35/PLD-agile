@@ -14,12 +14,19 @@ import java.util.ArrayList;
 
 public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionListener
 {
+    public static final String pathToImg= "./data/images/";
     private static Dimension size = Frame.size;
     private static int width = (int)size.getWidth();
     private static int height = (int)size.getHeight();
     private JButton findOptimalRoute;
     private JButton backToLoadRequest;
+    private JButton startingPoint, startingPointLatLong;
+    private JButton requestButton;
+    private JButton pickupIcon, pickupButton, pickupDuration, deliveryIcon, deliveryButton, deliveryDuration;
+
+
     private JButton addRequest;
+    private JButton deleteRequest;
 
     private JPanel requests;
     private JLabel text;
@@ -44,7 +51,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         this.setLayout(null);
 
         text= new JLabel("Your planning requests : ");
-        text.setBounds(30, 40, 600,40);
+        text.setBounds(30, 70, 600,40);
         text.setFont(new Font("Serif", Font.BOLD, 25));
 
 
@@ -55,6 +62,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         addRequest= new JButton("Add a request");
         addRequest.setBounds(240, 10, 200,30);
         addRequest.addActionListener(this);
+
 
         backToLoadRequest= new JButton("BACK");
         backToLoadRequest.setBounds(460,10,100, 30);
@@ -76,83 +84,127 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         this.add(findOptimalRoute);
         this.add(addRequest);
 
+
         this.add(text);
 
 
         this.revalidate();
         this.repaint();
+
     }
 
     public void paint(Graphics g)
     {
         super.paint(g);
-        /*Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.GREEN);
-        g2d.fillOval((int)(Frame.width/30),575, 10,10 );
-        g2d.setColor(Color.BLACK);
-        g2d.drawString(": Starting Point", 60, 585 );
-        g2d.setColor(Color.red);
-        g2d.fillOval((int)(Frame.width/30),600, 10,10 );
-        g2d.setColor(Color.BLACK);
-        g2d.drawString(": Pickup point", 60, 610 );
-        g2d.setColor(Color.BLACK);
-        g2d.fillOval((int)(Frame.width/30),625, 10,10 );
-        g2d.drawString(": Delivery point", 60, 635 );
-         */
+
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
-        System.out.println(requestsList.size());
+        //Give numbers to pickup and delivery points
         Graphics2D g3d = (Graphics2D) g;
         g3d.setColor(ColorPalette.texte);
+        for(int i=0; i<requestsList.size(); i++ ) {
+            g3d.drawString("" + (i+1),60,185+ (i*110));
+            g3d.drawString("" + (i+1),60,225+ (i*110));
+        }
+    }
 
-        g3d.setColor(ColorPalette.startingPoint);
-        g3d.fillOval(80,90, 12,12 );
-        g3d.setColor(Color.BLACK);
-        g3d.setFont(new Font("Serif", Font.BOLD, 15));
-        g3d.drawString("Starting point : ",100,100);
-        g3d.drawString("Latitude : " +controller.getMap().getPlanningRequest().getStartingPoint().getLatitude(),250,100);
-        g3d.drawString("Longitude : " +controller.getMap().getPlanningRequest().getStartingPoint().getLongitude(),400,100);
-
-        for(int i=0; i<requestsList.size(); i++ ){
-            g3d.setFont(new Font("Serif", Font.BOLD, 20));
-            g3d.drawString("Request " +(i+1)+ " :",80,140 + (i*110));
-
-            g3d.setFont(new Font("Serif", Font.BOLD, 15));
-
-            g3d.setColor(ColorPalette.pickupPoints);
-            g3d.fillOval(80,150+ (i*110), 12,12 );
-            g3d.setColor(ColorPalette.text);
-            g3d.setFont(new Font("Serif", Font.BOLD, 10));
-            g3d.drawString( ""+(i+1),83,160 + (i*110));
-
-            g3d.setColor(Color.BLACK);
-            g3d.setFont(new Font("Serif", Font.BOLD, 15));
-
-            g3d.drawString("Pickup point : ",100,160 + (i*110));
-            g3d.drawString("Latitude : " +requestsList.get(i).getPickupAddress().getLatitude(),250,160 + (i*110));
-            g3d.drawString("Longitude : " +requestsList.get(i).getPickupAddress().getLongitude(),400,160 + (i*110));
-            g3d.drawString("Pickup duration : " ,100,180 + (i*110));
-            g3d.drawString("" +requestsList.get(i).getPickupDuration(),250,180 + (i*110));
+    public void updatePlanningRequestNotNull(){
+        //Icons
+        ImageIcon iconeDelete= new ImageIcon(new ImageIcon(pathToImg+"iconeDelete.png").getImage().getScaledInstance((width/70),(height/30), Image.SCALE_AREA_AVERAGING));
+        ImageIcon sPoint= new ImageIcon(new ImageIcon(pathToImg+"startingPoint.png").getImage().getScaledInstance((width/70),(height/40), Image.SCALE_AREA_AVERAGING));
+        ImageIcon pPoint= new ImageIcon(new ImageIcon(pathToImg+"pickupPoint.png").getImage().getScaledInstance((width/70),(height/40), Image.SCALE_AREA_AVERAGING));
+        ImageIcon dPoint= new ImageIcon(new ImageIcon(pathToImg+"deliveryPoint.png").getImage().getScaledInstance((width/70),(height/40), Image.SCALE_AREA_AVERAGING));
 
 
+        if(controller.getMap().getPlanningRequest()!= null) {
 
-            g3d.setFont(new Font("Serif", Font.BOLD, 15));
+            //Get the planning request list from the controller
+            requestsList = controller.getMap().getPlanningRequest().getRequestList();
 
-            g3d.setColor(ColorPalette.deliveryPoints);
+            //Starting point
+            startingPoint = new JButton(sPoint);
+            startingPoint.setBackground(ColorPalette.inputPannel);
+            startingPoint.setBorderPainted(false);
+            startingPoint.setBounds(75,110, (width/70),(height/40));
+            startingPoint.addActionListener(this);
+            startingPointLatLong = new JButton("Starting Point :" +
+                    "       Latitude : "+
+                    controller.getMap().getPlanningRequest().getStartingPoint().getLatitude()+
+                    "       Longitude : "+
+                    controller.getMap().getPlanningRequest().getStartingPoint().getLongitude());
+            startingPointLatLong.setBackground(ColorPalette.inputPannel);
+            startingPointLatLong.setBorderPainted(false);
+            startingPointLatLong.setBounds(100,110, 420,20);
 
-            g3d.fillOval(80,190+ (i*110), 12,12 );
-            g3d.setColor(ColorPalette.text);
-            g3d.setFont(new Font("Serif", Font.BOLD, 10));
-            g3d.drawString( ""+(i+1),83,200 + (i*110));
+            this.add(startingPoint);
+            this.add(startingPointLatLong);
 
-            g3d.setColor(Color.BLACK);
-            g3d.setFont(new Font("Serif", Font.BOLD, 15));
+            //Requests with pickup and delivery points
+            System.out.println(requestsList.size());
+            for(int i=0; i<requestsList.size(); i++ ) {
+                //Button request
+                requestButton = new JButton("Request "+(i+1)+ " : ");
+                requestButton.setBackground(ColorPalette.inputPannel);
+                requestButton.setBorderPainted(false);
+                requestButton.setBounds(80,145 + (i*110), 130,20);
+                requestButton.addActionListener(this);
+                this.add(requestButton);
 
-            g3d.drawString("Delivery point : ",100,200 + (i*110));
-            g3d.drawString("Latitude : " +requestsList.get(i).getDeliveryAddress().getLatitude(),250,200 + (i*110));
-            g3d.drawString("Longitude : " +requestsList.get(i).getDeliveryAddress().getLongitude(),400,200 + (i*110));
-            g3d.drawString("Delivery duration : ",100,220 + (i*110));
-            g3d.drawString("" +requestsList.get(i).getDeliveryDuration(),250,220 + (i*110));
+                //Pickup point
+                pickupIcon = new JButton(pPoint);
+                pickupIcon.setBackground(ColorPalette.inputPannel);
+                pickupIcon.setBorderPainted(false);
+                pickupIcon.setBounds(75,170 + (i*110), (width/70),(height/40));
+                pickupIcon.addActionListener(this);
+                pickupButton = new JButton("Pickup Point :" +
+                        "       Latitude : "+
+                        requestsList.get(i).getPickupAddress().getLatitude()+
+                        "       Longitude : "+
+                        requestsList.get(i).getPickupAddress().getLongitude());
+                pickupButton.setBackground(ColorPalette.inputPannel);
+                pickupButton.setBorderPainted(false);
+                pickupButton.setBounds(100,170 + (i*110), 420,20);
+                pickupDuration = new JButton("Pickup Duration : " +
+                        requestsList.get(i).getPickupDuration()+ " ");
+                pickupDuration.setBackground(ColorPalette.inputPannel);
+                pickupDuration.setBorderPainted(false);
+                pickupDuration.setBounds(100,190 + (i*110), 190,20);
+                this.add(pickupIcon);
+                this.add(pickupButton);
+                this.add(pickupDuration);
+
+                //Delivery point
+                deliveryIcon = new JButton(dPoint);
+                deliveryIcon.setBackground(ColorPalette.inputPannel);
+                deliveryIcon.setBorderPainted(false);
+                deliveryIcon.setBounds(75,210 + (i*110), (width/70),(height/40));
+                deliveryIcon.addActionListener(this);
+                deliveryButton = new JButton("Delivery Point :" +
+                        "       Latitude : "+
+                        requestsList.get(i).getDeliveryAddress().getLatitude()+
+                        "       Longitude : "+
+                        requestsList.get(i).getDeliveryAddress().getLongitude());
+                deliveryButton.setBackground(ColorPalette.inputPannel);
+                deliveryButton.setBorderPainted(false);
+                deliveryButton.setBounds(100,210 + (i*110), 420,20);
+                deliveryDuration = new JButton("Delivery Duration : " +
+                        requestsList.get(i).getDeliveryDuration()+ " ");
+                deliveryDuration.setBackground(ColorPalette.inputPannel);
+                deliveryDuration.setBorderPainted(false);
+                deliveryDuration.setBounds(100,230 + (i*110), 190,20);
+                this.add(deliveryIcon);
+                this.add(deliveryButton);
+                this.add(deliveryDuration);
+
+
+
+                //Button to delete a request
+                deleteRequest = new JButton(iconeDelete);
+                deleteRequest.setBackground(ColorPalette.inputPannel);
+                deleteRequest.setBounds(50,145 + (i*110), (width/60),(height/30));
+                deleteRequest.addActionListener(this);
+                this.add(deleteRequest);
+            }
 
 
         }
