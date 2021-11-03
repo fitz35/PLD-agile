@@ -62,12 +62,12 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
         //*****
 
-        JScrollPane scrollPane;
+        /*JScrollPane scrollPane;
         scrollPane = new JScrollPane(requests,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(570, 0, 20, 700);
         this.add(scrollPane);
-        scrollPane.setVisible(true);
+        scrollPane.setVisible(true);*/
 
         //this.add(contentPane);
         //*********
