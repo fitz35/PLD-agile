@@ -179,6 +179,8 @@ public class Map extends MapInterface {
     {
         segmentList=new ArrayList<>();
         intersectionList=new ArrayList<>();
+        this.setChanged();
+        this.notifyObservers();
     }
 
     @Override
