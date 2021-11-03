@@ -11,7 +11,6 @@ public class InitialState implements StateController{
             controller.setWindow2(new WindowMap(controller));
             controller.getMap().addObserver(controller.getWindow2());
             controller.getFirstWindow().dispose();
-            controller.getMap().notifyObservers();
             if(controller.getMap().isMapLoaded())
             {
                 controller.setStateController(new WaitRequest());

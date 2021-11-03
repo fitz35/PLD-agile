@@ -137,6 +137,7 @@ public class Map extends MapInterface {
             mapLoaded = true;
             extremIntersection = getExtremIntersection();
             this.setChanged();
+            this.notifyObservers();
         }
     }
 
