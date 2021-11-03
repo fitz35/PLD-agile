@@ -8,6 +8,7 @@ public class WaitRequest implements StateController{
     @Override
     public void loadRequest(Controller controller, String path)
     {
+        System.out.println("In state 2");
         try{
             controller.getMap().loadRequest(path);
             //load requests back method
@@ -26,8 +27,8 @@ public class WaitRequest implements StateController{
     @Override
     public void back(Controller controller)
     {
-        controller.getWindow2().dispose();
-        controller.setFirstWindow(new WelcomeWindow());
+        controller.getWindow2().setVisible(false);
+        controller.getFirstWindow().setVisible(true);
         controller.setMap( MapFactory.create());
         controller.setStateController(new InitialState());
     }

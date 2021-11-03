@@ -1,9 +1,5 @@
 package Model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,10 +11,11 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.lang.Long;
-import java.lang.Double;
+import java.util.LinkedList;
 
 public class Map extends MapInterface {
     private ArrayList<Segment> segmentList;
@@ -52,7 +49,7 @@ public class Map extends MapInterface {
                 if (segmentOriginId.equals(intersectionID)) {
                     interSegments.add(segment);
                     Intersection segmentDest = segment.getDestination();
-                    System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDest.getId());
+                    //System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDest.getId());
                 }
             }
             graphe.put(inter, interSegments);
@@ -140,6 +137,7 @@ public class Map extends MapInterface {
             mapLoaded = true;
             extremIntersection = getExtremIntersection();
             this.setChanged();
+            this.notifyObservers();
         }
     }
 
@@ -187,6 +185,14 @@ public class Map extends MapInterface {
     public void resetPlanningRequest()
     {
         planningRequest=null;
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    @Override
+    public void resetTour()
+    {
+        tour=null;
         this.setChanged();
         this.notifyObservers();
     }
@@ -278,7 +284,7 @@ public class Map extends MapInterface {
     }
 
     private Intersection[] getExtremIntersection(){
-        System.out.println(mapLoaded);
+        //System.out.println(mapLoaded);
         if(!mapLoaded){
             return null;
         }
@@ -340,7 +346,7 @@ public class Map extends MapInterface {
         return segmentList;
     }
 
-    public HashMap<Intersection,Segment> djikstra(Intersection startIntersection){
+    public HashMap<Intersection,Segment> dijkstra(Intersection startIntersection){
         HashMap<Intersection,Double> d = new HashMap<>();
         HashMap<Intersection,Segment> pi = new HashMap<>();
         ArrayList<Intersection> blanc= new ArrayList<>(),gris= new ArrayList<>(),noir = new ArrayList<>();
@@ -376,9 +382,9 @@ public class Map extends MapInterface {
                     gris.add(a,successor);
                     blanc.remove(successor);
                 }
-                noir.add(minimalSuccessor);
-                gris.remove(minimalSuccessor);
             });
+            noir.add(minimalSuccessor);
+            gris.remove(minimalSuccessor);
         }
         return pi;
     }
@@ -387,7 +393,7 @@ public class Map extends MapInterface {
         ArrayList<Intersection> listIntersections = this.planningRequest.getIntersection();
         this.deliveryGraph = new DeliveryGraph(listIntersections);
         for(int i=0; i<listIntersections.size();i++){
-            HashMap<Intersection,Segment> pi = djikstra(listIntersections.get(i));
+            HashMap<Intersection,Segment> pi = dijkstra(listIntersections.get(i));
             deliveryGraph.addVertice(i,pi);
         }
         LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
@@ -414,16 +420,16 @@ public class Map extends MapInterface {
         graphe = map.createGraph();
         Intersection inter = new Intersection(0,4.75,2.2);
         HashMap<Intersection,Segment> testDjikstra = new HashMap<>();
-        testDjikstra = map.djikstra(inter);
-        System.out.println("Test djikstra");
+        testDjikstra = map.dijkstra(inter);
+        //System.out.println("Test djikstra");
         testDjikstra.forEach((inte, segm)->{
-            System.out.println(inte.getId());
+            //System.out.println(inte.getId());
         });
 
         map.computeTour(200000000);
 
         //System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
-        System.out.println("passé");
+        //System.out.println("passé");
     }
 
     public PlanningRequest getPlanningRequest()

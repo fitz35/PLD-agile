@@ -1,17 +1,29 @@
 package controller;
 
-import Model.Tour;
 import Model.MapFactory;
 import Model.MapInterface;
+import Model.PlanningRequest;
+import Model.Tour;
 import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 
 public class Controller {
     private StateController stateController;
-    private static MapInterface map;
-    private static Tour tour;
-    private static WelcomeWindow firstWindow;
-    private static WindowMap window2;
+    private MapInterface map;
+    private Tour tour;
+    private WelcomeWindow firstWindow;
+    private WindowMap window2;
+
+    public Controller()
+    {
+        stateController = new InitialState();
+        this.createMap();
+        window2 = new WindowMap(this);
+        window2.setVisible(false);
+        firstWindow = new WelcomeWindow(this);
+        map.addObserver(getFirstWindow());
+        map.addObserver(getWindow2());
+    }
 
     //set state method
     protected void setCurrentState(StateController state){
@@ -21,7 +33,7 @@ public class Controller {
     //overrided method
     public void loadMap(String path){ this.stateController.loadMap(this, path);}
 
-    public void loadRequest(String path){ this.stateController.loadRequest(this, path); }
+    public void loadRequest(String path){ this.stateController.loadRequest(this, path);}
 
     public void loadTour() { this.stateController.loadTour(this); }
 
@@ -33,19 +45,19 @@ public class Controller {
         return stateController;
     }
 
-    public static MapInterface getMap() {
+    public MapInterface getMap() {
         return map;
     }
 
-    public static Tour getTour() {
+    public Tour getTour() {
         return tour;
     }
 
-    public static WelcomeWindow getFirstWindow() {
+    public WelcomeWindow getFirstWindow() {
         return firstWindow;
     }
 
-    public static WindowMap getWindow2() {
+    public WindowMap getWindow2() {
         return window2;
     }
 
@@ -54,32 +66,23 @@ public class Controller {
         this.stateController = stateController;
     }
 
-    public static void setMap(MapInterface map) {
-        Controller.map = map;
+    public void setMap(MapInterface map) {
+        this.map = map;
     }
 
-    public static void setTour(Tour tour) {
-        Controller.tour = tour;
+    public void setTour(Tour tour) {
+        this.tour = tour;
     }
 
-    public static void setFirstWindow(WelcomeWindow firstWindow) {
-        Controller.firstWindow = firstWindow;
+    public void createMap()
+    {
+        map = MapFactory.create();
     }
-
-    public static void setWindow2(WindowMap window2) {
-        Controller.window2 = window2;
-    }
-
 
     //--------------- main ---------------
     public static void main(String []args)
     {
-        Controller controller = new Controller();
-
-        map= MapFactory.create();
-        tour=map.getTour();
-        firstWindow = new WelcomeWindow();
-        map.addObserver(firstWindow);
+        new Controller();
     }
 
 }

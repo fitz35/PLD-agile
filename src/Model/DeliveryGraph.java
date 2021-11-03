@@ -1,10 +1,12 @@
 package Model;
 
+import tsp.Graph;
+import tsp.TSP1;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import tsp.*;
 
 public class DeliveryGraph implements Graph{
     private double [][] cost;
@@ -45,7 +47,7 @@ public class DeliveryGraph implements Graph{
     public LinkedList<Segment> solveTSP (int timeout){
         TSP1 tsp = new TSP1();
         tsp.searchSolution(timeout, this);
-        System.out.print("Solution of cost "+tsp.getSolutionCost());
+        //System.out.print("Solution of cost "+tsp.getSolutionCost());
         LinkedList<Segment> result = new LinkedList<>();
         LinkedList<Segment> intermediateResult = new LinkedList<>();
         Pair<Intersection, Intersection> currentVertice;

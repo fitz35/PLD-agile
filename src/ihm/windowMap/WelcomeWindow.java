@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -33,10 +32,12 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
     private ImageIcon appliName;
     private JLabel appliLabel;
     private JLabel instruction;
+    private Controller controller;
 
-    public WelcomeWindow()
+    public WelcomeWindow(Controller controller)
     {
         super();
+        this.controller=controller;
         panel= new JPanel();
         panel.setBounds(0,0, width, height);
         body= new JLabel();
@@ -62,7 +63,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
         instruction= new JLabel("CHOOSE A MAP (XML FILE)");
         instruction.setBounds((int)(width*0.4), (int)(height*0.4),(int)(width*0.45),(int)(height/15) );
-        instruction.setForeground(Color.white);
+        instruction.setForeground(ColorPalette.instruction);
         instruction.setFont(new Font("Serif", Font.PLAIN, 14));
         body.add((instruction));
 
@@ -86,7 +87,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
         errorMsg= new JLabel("LOAD A MAP FILE (EXTENSION= XML)");
         errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
-        errorMsg.setForeground(Color.white);
+        errorMsg.setForeground(ColorPalette.warningMessage);
         errorMsg.setBounds((int)(width*0.25),(int)(height*0.6),(int)(width*0.45),(int)(height/15));
         errorMsg.setVisible(true);
         body.add(errorMsg);
@@ -128,7 +129,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
                 pathUrl=choice.getSelectedFile().getAbsolutePath();
                 if(acceptFile(fileName))
                 {
-                    System.out.println("correct extension");
+                    //System.out.println("correct extension");
                     path.setText(pathUrl);
                     loadMap.setVisible(true);
 
@@ -137,7 +138,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
                 {
                     errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
                     errorMsg.setText("EXTENSION NOT ACCEPTED. PLEASE CHOOSE A FILE WITH AN XML EXTENSION");
-                    errorMsg.setForeground(Color.red);
+                    errorMsg.setForeground(ColorPalette.errorMessage);
                     errorMsg.setVisible(true);
                 }
             }
@@ -145,11 +146,8 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
         if (e.getSource() == loadMap)
         {
-            //Methode a recuperer du back pour tester si le path vers le fichier existe
-            //Methode a recuperer du back pour verifier si le fichier est dans le format correcte
-            //Methode pour changer de fenetres
 
-            //Controller.loadMap(pathUrl);
+            controller.loadMap(pathUrl);
 
         }
 
@@ -163,7 +161,6 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         {
             errorMsg.setVisible(false);
             pathUrl= path.getText()+e.getKeyChar();
-            System.out.println(pathUrl);
             if (acceptFile(pathUrl))
             {
                 loadMap.setVisible(true);
