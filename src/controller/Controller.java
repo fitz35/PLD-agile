@@ -18,6 +18,7 @@ public class Controller {
     {
         stateController = new InitialState();
         this.createMap();
+        firstWindow = new WelcomeWindow(this);
         map.addObserver(getFirstWindow());
     }
 

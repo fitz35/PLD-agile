@@ -110,8 +110,8 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         g3d.setColor(Color.BLACK);
         g3d.setFont(new Font("Serif", Font.BOLD, 15));
         g3d.drawString("Starting point : ",100,100);
-        g3d.drawString("Latitude : " +Controller.getMap().getPlanningRequest().getStartingPoint().getLatitude(),250,100);
-        g3d.drawString("Longitude : " +Controller.getMap().getPlanningRequest().getStartingPoint().getLongitude(),400,100);
+        g3d.drawString("Latitude : " +controller.getMap().getPlanningRequest().getStartingPoint().getLatitude(),250,100);
+        g3d.drawString("Longitude : " +controller.getMap().getPlanningRequest().getStartingPoint().getLongitude(),400,100);
 
         for(int i=0; i<requestsList.size(); i++ ){
             g3d.setFont(new Font("Serif", Font.BOLD, 20));
