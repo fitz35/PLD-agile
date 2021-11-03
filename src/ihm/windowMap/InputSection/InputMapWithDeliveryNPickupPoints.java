@@ -132,7 +132,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             g3d.drawString("Latitude : " +requestsList.get(i).getPickupAddress().getLatitude(),250,160 + (i*110));
             g3d.drawString("Longitude : " +requestsList.get(i).getPickupAddress().getLongitude(),400,160 + (i*110));
             g3d.drawString("Pickup duration : " ,100,180 + (i*110));
-            g3d.drawString("" +requestsList.get(i).getPickupDuration(),250,180 + (i*110));
+            g3d.drawString("" +requestsList.get(i).getPickupAddress().getAddressDuration(),250,180 + (i*110));
 
 
 
@@ -152,7 +152,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             g3d.drawString("Latitude : " +requestsList.get(i).getDeliveryAddress().getLatitude(),250,200 + (i*110));
             g3d.drawString("Longitude : " +requestsList.get(i).getDeliveryAddress().getLongitude(),400,200 + (i*110));
             g3d.drawString("Delivery duration : ",100,220 + (i*110));
-            g3d.drawString("" +requestsList.get(i).getDeliveryDuration(),250,220 + (i*110));
+            g3d.drawString("" +requestsList.get(i).getDeliveryAddress().getAddressDuration(),250,220 + (i*110));
 
 
         }
