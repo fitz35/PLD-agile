@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Tour{
+    @Deprecated
     private LinkedList<Segment> orderedSegmentList;
-    //private ArrayList<Intersection> orderedIntersectionList;
+    //liste de path
+    //methode pour retrouver un path a partir de 2 adresses
+    // public getPath(Adress origin, Adress destination)
 
     public Tour(LinkedList<Segment> orderedSegmentList) {
         this.orderedSegmentList = orderedSegmentList;
