@@ -1,14 +1,13 @@
 package controller;
 
 import Model.MapFactory;
-import ihm.windowMap.WelcomeWindow;
 
-public class WaitRequest implements StateController{
+public class MapLoaded implements StateController{
 
     @Override
     public void loadRequest(Controller controller, String path)
     {
-        System.out.println("In state 2");
+        //System.out.println("In state 2");
         try{
             controller.getMap().loadRequest(path);
             //load requests back method
@@ -16,7 +15,7 @@ public class WaitRequest implements StateController{
             controller.getMap().notifyObservers();
             if(controller.getMap().isPlanningLoaded())
             {
-                controller.setStateController(new ComputeFirstTour());
+                controller.setStateController(new RequestLoaded());
             }
         }catch(Exception e)
         {
@@ -29,7 +28,7 @@ public class WaitRequest implements StateController{
     {
         controller.getWindow2().setVisible(false);
         controller.getFirstWindow().setVisible(true);
-        controller.setMap( MapFactory.create());
+        controller.getMap().resetMap();
         controller.setStateController(new InitialState());
     }
 }

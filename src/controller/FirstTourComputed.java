@@ -1,10 +1,10 @@
 package controller;
 
-public class SetupState implements StateController{
+public class FirstTourComputed implements StateController{
     @Override
     public void back(Controller controller)
     {
-        controller.setStateController(new ComputeFirstTour());
+        controller.setStateController(new RequestLoaded());
         controller.getMap().resetTour();
     }
 }

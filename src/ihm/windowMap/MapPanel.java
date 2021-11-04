@@ -248,7 +248,7 @@ public class MapPanel extends JPanel implements MouseListener
      */
     public void paintRequest(Graphics2D g, Request request, int num )
     {
-        System.out.println(num);
+        //System.out.println(num);
         pickup= request.getPickupAddress();
         delivery= request.getDeliveryAddress();
 

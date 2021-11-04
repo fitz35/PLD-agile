@@ -125,10 +125,15 @@ public abstract class MapInterface extends Observable {
     public abstract boolean isPlanningLoaded();
 
     /**
-     * test if the first tour is computed
-     * @return test if the first tour is computed
+     * get a timeout Error (0 : no error, 1 : error)
+     * @return the timeout
      */
-    public abstract boolean isFirstTourComputed();
+    public abstract int getTimedOutError();
+
+    /**
+     * reset the timeout to 0
+     */
+    public abstract void resetTimedOutError();
 
     /**
      * reset a tour (null)

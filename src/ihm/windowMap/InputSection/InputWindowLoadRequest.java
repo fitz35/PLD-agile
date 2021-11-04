@@ -32,7 +32,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         this.controller=controller;
         this.window=window;
         this.setBounds((Frame.width/2)+40, Frame.height/400, Frame.width,Frame.height);
-        System.out.println(Frame.width/2);
+        //System.out.println(Frame.width/2);
         this.setLayout(null);
         path=new JTextField();
 
@@ -92,7 +92,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
                 filePath=choice.getSelectedFile().getAbsolutePath();
                 if(WelcomeWindow.acceptFile(fileName))
                 {
-                    System.out.println("correct extension");
+                    //fSystem.out.println("correct extension");
                     path.setText(filePath);
                     loadReqFile.setVisible(true);
 
