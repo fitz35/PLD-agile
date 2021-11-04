@@ -4,6 +4,7 @@ import Model.Intersection;
 import Model.Request;
 import Model.Segment;
 import Model.MapInterface;
+import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
 
 import javax.swing.*;
 import java.awt.*;
@@ -316,9 +317,12 @@ public class MapPanel extends JPanel implements MouseListener
     public void mouseClicked(MouseEvent e) {
         int PixelX= e.getX();
         int PixelY= e.getY();
+        Intersection i= null;
         if(PixelX< Frame.height)
         {
-            convertPixeltoIntersection(PixelX,PixelY,(int)(0.9*Frame.height));
+            i=convertPixeltoIntersection(PixelX,PixelY,(int)(0.9*Frame.height));
+            JLabel label= InputMapWithDeliveryNPickupPoints.getJLabel();
+            InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The Intersection Clicked:"+ i.getLongitude()+ ","+ i.getLatitude(), label);
         }
     }
 
