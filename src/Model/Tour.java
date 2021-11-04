@@ -35,6 +35,18 @@ public class Tour{
         return orderedSegmentList;
     }
 
+    public void replaceOldPath(Path oldPath, Path newPath1, Path newPath2){
+        if (this.orderedPathList.contains(oldPath)){
+            int index= this.orderedPathList.indexOf(oldPath);
+            LinkedList<Path> newPath= new LinkedList<Path>();
+            newPath.add(1,newPath1);
+            newPath.add(2,newPath2);
+            this.orderedPathList.addAll(index,newPath);
+            this.orderedPathList.remove(oldPath);
+
+        }
+    }
+
     public LinkedList<Path> getOrderedPathList() {return orderedPathList; }
 
     public void setOrderedSegmentList(LinkedList<Segment> orderedSegmentList) {
