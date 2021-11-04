@@ -101,7 +101,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
          */
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
-        System.out.println(requestsList.size());
+        //System.out.println(requestsList.size());
         Graphics2D g3d = (Graphics2D) g;
         g3d.setColor(ColorPalette.texte);
 

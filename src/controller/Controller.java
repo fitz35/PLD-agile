@@ -39,6 +39,8 @@ public class Controller {
 
     public void stopComputing() {this.stateController.stopComputing(this); }
 
+    public void continueComputing() {this.stateController.continueTour(this, 10000); }
+
     public void back() {this.stateController.back(this);}
 
     //--------------- getter ---------------

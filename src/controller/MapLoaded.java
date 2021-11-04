@@ -7,7 +7,7 @@ public class MapLoaded implements StateController{
     @Override
     public void loadRequest(Controller controller, String path)
     {
-        System.out.println("In state 2");
+        //System.out.println("In state 2");
         try{
             controller.getMap().loadRequest(path);
             //load requests back method
@@ -28,7 +28,7 @@ public class MapLoaded implements StateController{
     {
         controller.getWindow2().setVisible(false);
         controller.getFirstWindow().setVisible(true);
-        controller.setMap( MapFactory.create());
+        controller.getMap().resetMap();
         controller.setStateController(new InitialState());
     }
 }

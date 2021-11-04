@@ -8,10 +8,13 @@ public class WaitOrder implements StateController{
             controller.getMap().continueTour(timeout);
             if(controller.getMap().getTimedOutError() == 0)
             {
+                controller.getMap().resetTimedOutError();
                 controller.setStateController(new FirstTourComputed());
             }else if(controller.getMap().getTimedOutError() == 1)
             {
+                controller.getMap().resetTimedOutError();
                 controller.setStateController(new WaitOrder());
+                controller.getWindow2().askToContinueTour();
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -21,6 +24,7 @@ public class WaitOrder implements StateController{
     @Override
     public void stopComputing(Controller controller)
     {
+        controller.getMap().resetTimedOutError();
         controller.setStateController(new FirstTourComputed());
     }
 
@@ -28,6 +32,7 @@ public class WaitOrder implements StateController{
     public void back(Controller controller) {
         try {
             controller.getMap().resetTour();
+            controller.getMap().resetTimedOutError();
             controller.setStateController(new RequestLoaded());
         } catch (Exception e) {
             e.printStackTrace();
