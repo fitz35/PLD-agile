@@ -2,8 +2,9 @@ package controller;
 
 import Model.MapFactory;
 import Model.MapInterface;
-import Model.PlanningRequest;
 import Model.Tour;
+import controller.state.InitialState;
+import controller.state.StateController;
 import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 

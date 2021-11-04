@@ -2,7 +2,7 @@ package ihm.windowMap;
 
 import Model.MapInterface;
 import controller.Controller;
-import controller.WaitOrder;
+import controller.state.WaitOrder;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
 import ihm.windowMap.InputSection.InputWindowLoadRequest;
 

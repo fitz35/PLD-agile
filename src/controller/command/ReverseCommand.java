@@ -1,6 +1,8 @@
-package controller;
+package controller.command;
 
-public class ReverseCommand implements Command{
+import controller.command.Command;
+
+public class ReverseCommand implements Command {
     private Command cmd;
 
     /**
