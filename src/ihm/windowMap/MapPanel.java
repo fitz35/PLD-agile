@@ -164,7 +164,13 @@ public class MapPanel extends JPanel implements MouseListener
 
     }
 
-
+    /**
+     * get the nearest intersection of the pixel
+     * @param pixelX the x coordinate on the map
+     * @param pixelY the y coordinate on the map
+     * @param height the height of the map
+     * @return the intersection
+     */
     public Intersection convertPixeltoIntersection(int pixelX, int pixelY, int height)
     {
         ArrayList<Intersection> listOfAllIntersections= createdMap.getIntersectionList();
