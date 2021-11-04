@@ -26,11 +26,11 @@ public class Path {
                 /*&& Objects.equals(segmentsOfPath, p.segmentsOfPath)*/;
     }
 
-    public Intersection getDeparture() {
+    public Address getDeparture() {
         return departure;
     }
 
-    public Intersection getArrival() {
+    public Address getArrival() {
         return arrival;
     }
 
