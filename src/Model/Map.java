@@ -135,6 +135,7 @@ public class Map extends MapInterface {
 
             if(intersectionList.isEmpty() || segmentList.isEmpty())
             {
+                resetMap();
                 this.setChanged();
                 this.notifyObservers("Map is empty. Check your XML file.");
                 throw new IOException();
@@ -192,7 +193,7 @@ public class Map extends MapInterface {
     @Override
     public void resetPlanningRequest()
     {
-        planningRequest=null;
+        planningRequest=new PlanningRequest();
         this.setChanged();
         this.notifyObservers();
     }
@@ -208,8 +209,6 @@ public class Map extends MapInterface {
     @Override
     public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException {
         resetPlanningRequest();
-        planningRequest=new PlanningRequest();
-
         //Test extension of XML file name
         String[] words = fileName.split("\\.");
         if(!mapLoaded){
@@ -246,6 +245,9 @@ public class Map extends MapInterface {
                         Intersection pickupIntersection = getIntersectionById(pickupIntersectionId);
                         long deliveryIntersectionId = Long.parseLong(element.getAttribute("deliveryAddress"));
                         Intersection deliveryIntersection = getIntersectionById(deliveryIntersectionId);
+                        if(pickupIntersection==null || deliveryIntersection==null){
+                            throw new NumberFormatException();
+                        }
                         int pickupDuration = Integer.parseInt(element.getAttribute("pickupDuration"));
                         int deliveryDuration = Integer.parseInt(element.getAttribute("deliveryDuration"));
                         Address pickupAddress = new Address(pickupIntersectionId,pickupIntersection.getLatitude(),pickupIntersection.getLongitude(),pickupDuration);
@@ -267,12 +269,11 @@ public class Map extends MapInterface {
                         // get request's attribute
                         long addressId = Long.parseLong(element.getAttribute("address"));
                         String departTime = element.getAttribute("departureTime");
-
                         planningRequest.setStartingPoint(getIntersectionById(addressId));
                         planningRequest.setDepartureTime(new SimpleDateFormat("HH:mm:ss").parse(departTime));
                     }
                 }
-                planningLoaded = true;
+
             } catch (ParserConfigurationException | SAXException err) {
                 this.setChanged();
                 this.notifyObservers("Parsing XML file failed.");
@@ -286,15 +287,16 @@ public class Map extends MapInterface {
                 this.notifyObservers("Opening XML file failed.");
                 throw err;
             }catch (NumberFormatException err){}
-
             if(planningRequest.getRequestList().isEmpty()
                 || planningRequest.getStartingPoint()==null
                 || planningRequest.getDepartureTime()==null)
             {
+                resetPlanningRequest();
                 this.setChanged();
                 this.notifyObservers("Planning is empty. Check your XML file.");
                 throw new IOException();
             }
+            planningLoaded = true;
             this.setChanged();
         }
     }
@@ -430,29 +432,28 @@ public class Map extends MapInterface {
     };
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
-        //Map map=new Map();
+        Map map=new Map();
         //map.loadMap("./data/fichiersXML2020/smallMap.xml");
         // PlanningRequest planning = new PlanningRequest();
         //map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
         // System.out.println("passé");
 
         //TEST DJIKSTRA
-        /*map.loadMap("src/Model/XML/mapTest.xml");
-        map.loadRequest("src/Model/XML/planingTest.xml");
-        HashMap<Intersection,LinkedList<Segment>> graphe = new HashMap<>();
-        graphe = map.createGraph();
-        Intersection inter = new Intersection(0,4.75,2.2);
+        /*map.loadMap("data/fichiersXML2020/largeMap.xml");
+        //map.loadRequest("data/fichiersXML2020/requestsLarge7.xml");
+        map.createGraph();
+        Intersection inter = map.getIntersectionList().get(0);
         HashMap<Intersection,Segment> testDjikstra = new HashMap<>();
         testDjikstra = map.dijkstra(inter);
         //System.out.println("Test djikstra");
         testDjikstra.forEach((inte, segm)->{
-            //System.out.println(inte.getId());
-        });
+            System.out.println(inte.getId());
+        });*/
 
-        map.computeTour(200000000);*/
+        /*map.computeTour(200000000);*/
 
         //Test égalité adresse / intersection
-        HashMap<Address,Intersection> h = new HashMap<>();
+        /*HashMap<Address,Intersection> h = new HashMap<>();
         HashMap<Intersection,Address> h2 = new HashMap<>();
         Intersection inter = new Intersection(0,4.75,2.2);
         Intersection int2 = new Intersection(0,4.75,2.2);
@@ -472,7 +473,7 @@ public class Map extends MapInterface {
         }
 
         //System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
-        //System.out.println("passé");
+        //System.out.println("passé");*/
     }
 
     public PlanningRequest getPlanningRequest()

@@ -151,7 +151,7 @@ class MapTest extends Observable {
     }
 
     /**
-     * Creation of segment impossible beacause an intersection is missing
+     * Creation of segment impossible because an intersection is missing
      */
     @Test
     void loadMapTest7(){
@@ -181,14 +181,24 @@ class MapTest extends Observable {
         assert(map.isMapLoaded());
     }
 
-    //A FAIRE
-    //Correct => test les obj générés
-    //vide
-    //mal formé = miss depot / balise / ..?
-    //file inexistant
-    //wrong extention
-    //reuest en dehors de la map
+    /**
+     * Check the result when we have an empty xml file
+     */
+    @Test
+    void loadMapTest9(){
+        try{
+            map.loadMap("tests/ressource/empty.xml");
+        }catch(Exception e){
+            exceptionRaised=true;
+        }
+        assert(exceptionRaised);
+        assert(updateCalled);
+        assert(!map.isMapLoaded());
+    }
 
+    /**
+     * Check the result when we have a correct planning request file given
+     */
     @Test
     void loadPlanningRequestTest1(){
         //Well formed PlanningRequest
@@ -220,28 +230,145 @@ class MapTest extends Observable {
         Intersection startingPoint = new Intersection(342873658,45.76038,4.8775625);
         planingTest.setStartingPoint(startingPoint);
         assert(planingTest.equals(map.getPlanningRequest()));
+        assert(updateCalled);
     }
-
-    @Test void loadPlanningRequestTest2(){
-        //Empty PlanningRequest
+    /**
+     * Check the result when we have an empty xml file
+     */
+    @Test
+    void loadPlanningRequestTest2(){
         try{
             map.loadMap("data/fichiersXML2020/largeMap.xml");
-            map.loadRequest("tests/ressource/request2.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/empty.xml");
         }catch(Exception e){
             exceptionRaised=true;
         }
+        assertTrue(map.getPlanningRequest().getRequestList().isEmpty());
+        assertNull(map.getPlanningRequest().getStartingPoint());
+        assertNull(map.getPlanningRequest().getDepartureTime());
+        assert(!map.isPlanningLoaded());
         assert(exceptionRaised);
         assert(updateCalled);
     }
 
-    @Test void loadPlanningRequestTest3(){
-        //Empty PlanningRequest
+
+    /**
+     * Check the result when we have a file with an extension different than xml
+     */
+    @Test
+    void loadPlanningRequestTest3(){
         try{
             map.loadMap("data/fichiersXML2020/largeMap.xml");
-            map.loadRequest("tests/ressource/request2.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/request.pdf");
         }catch(Exception e){
             exceptionRaised=true;
         }
+        assertTrue(map.getPlanningRequest().getRequestList().isEmpty());
+        assertNull(map.getPlanningRequest().getStartingPoint());
+        assertNull(map.getPlanningRequest().getDepartureTime());
+        assert(!map.isPlanningLoaded());
+        assert(exceptionRaised);
+        assert(updateCalled);
+    }
+
+    /**
+     * Check the result when we have an existant file
+     */
+    @Test
+    void loadPlanningRequestTest4(){
+        try{
+            map.loadMap("data/fichiersXML2020/largeMap.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/request.xml");
+        }catch(Exception e){
+            exceptionRaised=true;
+        }
+        assertTrue(map.getPlanningRequest().getRequestList().isEmpty());
+        assertNull(map.getPlanningRequest().getStartingPoint());
+        assertNull(map.getPlanningRequest().getDepartureTime());
+        assert(!map.isPlanningLoaded());
+        assert(exceptionRaised);
+        assert(updateCalled);
+    }
+
+    /**
+     * Check the result when we have a root tag different than "planningRequest"
+     */
+    @Test
+    void loadPlanningRequestTest5(){
+        try{
+            map.loadMap("data/fichiersXML2020/largeMap.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/request3.xml");
+        }catch(Exception e){
+            exceptionRaised=true;
+        }
+        assertTrue(map.getPlanningRequest().getRequestList().isEmpty());
+        assertNull(map.getPlanningRequest().getStartingPoint());
+        assertNull(map.getPlanningRequest().getDepartureTime());
+        assert(!map.isPlanningLoaded());
+        assert(exceptionRaised);
+        assert(updateCalled);
+    }
+
+    /**
+     * Check the result when we have a tag different than "depot"
+     */
+    @Test
+    void loadPlanningRequestTest6(){
+        try{
+            map.loadMap("data/fichiersXML2020/largeMap.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/request4.xml");
+        }catch(Exception e){
+            exceptionRaised=true;
+        }
+        assertTrue(map.getPlanningRequest().getRequestList().isEmpty());
+        assertNull(map.getPlanningRequest().getStartingPoint());
+        assertNull(map.getPlanningRequest().getDepartureTime());
+        assert(!map.isPlanningLoaded());
+        assert(exceptionRaised);
+        assert(updateCalled);
+    }
+
+    /**
+     * Check the result when we have a tag different than "request"
+     */
+    @Test
+    void loadPlanningRequestTest7(){
+        try{
+            map.loadMap("data/fichiersXML2020/largeMap.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/request5.xml");
+        }catch(Exception e){
+            exceptionRaised=true;
+        }
+        assertTrue(map.getPlanningRequest().getRequestList().isEmpty());
+        assertNull(map.getPlanningRequest().getStartingPoint());
+        assertNull(map.getPlanningRequest().getDepartureTime());
+        assert(!map.isPlanningLoaded());
+        assert(exceptionRaised);
+        assert(updateCalled);
+    }
+
+    /**
+     * Check the result when we have a request with an unknown intersection
+     */
+    @Test
+    void loadPlanningRequestTest8(){
+        try{
+            map.loadMap("data/fichiersXML2020/largeMap.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/request6.xml");
+        }catch(Exception e){
+            exceptionRaised=true;
+        }
+        assertTrue(map.getPlanningRequest().getRequestList().isEmpty());
+        assertNull(map.getPlanningRequest().getStartingPoint());
+        assertNull(map.getPlanningRequest().getDepartureTime());
+        assert(!map.isPlanningLoaded());
         assert(exceptionRaised);
         assert(updateCalled);
     }
@@ -249,6 +376,80 @@ class MapTest extends Observable {
     @Test
     void getExtremIntersectionTest(){
 
+    }
+
+    /**
+     * Test the efficiency of dijkstra
+     */
+    @Test
+    void dijkstraTest1(){
+        try {
+            map.loadMap("data/fichiersXML2020/largeMap.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        assert(map.isMapLoaded());
+        long start=System.currentTimeMillis();
+        HashMap<Intersection,Segment> calculatedResult=map.dijkstra(map.getIntersectionList().get(0));
+        long end=System.currentTimeMillis();
+        assert((end-start)<300);
+    }
+
+    /**
+     * Test the result given by dijkstra on a small map
+     */
+    @Test
+    void dijkstraTest2(){
+        try {
+            map.loadMap("tests/ressource/dijkstraMap.xml");
+        } catch (Exception e) {
+            e.printStackTrace();
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        assert(map.isMapLoaded());
+
+        HashMap<Intersection,Segment> theoricalResult=createMapDijkstra();
+        HashMap<Intersection,Segment> calculatedResult=map.dijkstra(new Intersection(0,4.75,3.0));
+        assertEquals(theoricalResult,calculatedResult);
+        // http://graphonline.ru/fr/?graph=IOoCFszcSchRFjSB
+    }
+
+    private HashMap<Intersection,Segment> createMapDijkstra(){
+        HashMap<Intersection,Segment> theoricalResult=new HashMap<>();
+        Intersection inter0=new Intersection(0,4.75,3.0);
+        Intersection inter1=new Intersection(1,4.7,3.6);
+        Intersection inter2=new Intersection(2,4.6,4.5);
+        Intersection inter3=new Intersection(3,3.75,2.3);
+        Intersection inter4=new Intersection(4,3.80,3.7);
+
+        Segment seg01=new Segment(inter0,inter1,"Rue d'Arménie",8);
+        Segment seg02=new Segment(inter0,inter2,"Rue Vendôme",3);
+        Segment seg04=new Segment(inter0,inter4,"Rue Bonnefoi",1);
+
+        Segment seg10=new Segment(inter1,inter0,"Rue Ancienne",6);
+        Segment seg12=new Segment(inter1,inter2,"Rue Neuve",3);
+        Segment seg14=new Segment(inter1,inter4,"Rue d'Anvers",2);
+
+        Segment seg21=new Segment(inter2,inter1,"Rue Montesquieu",5);
+        Segment seg24=new Segment(inter2,inter4,"Avenue Jean Jaurès",2);
+
+        Segment seg32=new Segment(inter3,inter2,"Rue D'or",4);
+        Segment seg34=new Segment(inter3,inter4,"Rue Saint-Michel",2);
+
+        Segment seg40=new Segment(inter4,inter0,"Rue Sébastien Gryphe",3);
+        Segment seg41=new Segment(inter4,inter1,"Rue Béchevelin",6);
+        Segment seg42=new Segment(inter4,inter2,"Route de Vienne",2);
+        Segment seg43=new Segment(inter4,inter3,"Rue Saint-Michel",7);
+
+        theoricalResult.put(inter0,null);
+        theoricalResult.put(inter1,seg41);
+        theoricalResult.put(inter2,seg02);
+        theoricalResult.put(inter3,seg43);
+        theoricalResult.put(inter4,seg04);
+        return theoricalResult;
     }
 
 
