@@ -5,8 +5,17 @@ import controller.state.InitialState;
 import controller.state.RequestLoaded;
 import controller.state.StateController;
 
+/**
+ * 2nd state
+ * has methode loadRequest and back
+ */
 public class MapLoaded implements StateController {
 
+    /**
+     * load the planning request, notifie the observer and go to the next state if everything went well
+     * @param controller
+     * @param path
+     */
     @Override
     public void loadRequest(Controller controller, String path)
     {
@@ -26,6 +35,10 @@ public class MapLoaded implements StateController {
         }
     }
 
+    /**
+     * go to the previous state and reset the map 
+     * @param controller
+     */
     @Override
     public void back(Controller controller)
     {

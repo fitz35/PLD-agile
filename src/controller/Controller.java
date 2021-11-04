@@ -1,5 +1,6 @@
 package controller;
 
+import Model.Intersection;
 import Model.MapFactory;
 import Model.MapInterface;
 import Model.Tour;
@@ -8,6 +9,9 @@ import controller.state.StateController;
 import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 
+/**
+ * Class Controller
+ */
 public class Controller {
     private StateController stateController;
     private MapInterface map;
@@ -15,6 +19,9 @@ public class Controller {
     private WelcomeWindow firstWindow;
     private WindowMap window2;
 
+    /**
+     * Constructeur
+     */
     public Controller()
     {
         stateController = new InitialState();
@@ -26,6 +33,10 @@ public class Controller {
         map.addObserver(getWindow2());
     }
 
+    /**
+     * change the controller state
+     * @param state
+     */
     //set state method
     protected void setCurrentState(StateController state){
         stateController = state;
@@ -41,6 +52,17 @@ public class Controller {
     public void stopComputing() {this.stateController.stopComputing(this); }
 
     public void continueComputing() {this.stateController.continueTour(this, 10000); }
+
+    public void addNewRequest(Intersection newPickup,
+                              Intersection beforNewPickup,
+                              int pickupDuration,
+                              Intersection newDelivery,
+                              Intersection beforNewDelivery,
+                              int deliveryDuration)
+    {
+        this.stateController.addNewRequest(this, newPickup, beforNewPickup,
+                                            pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
+    }
 
     public void back() {this.stateController.back(this);}
 

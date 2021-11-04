@@ -35,7 +35,6 @@ public class Map extends MapInterface {
         graphe= new HashMap<>();
     }
 
-
     public HashMap<Intersection,LinkedList<Segment>> createGraph() {
         for (Intersection inter : intersectionList) {
             //HashMap<Intersection, Segment> destinations = new HashMap<>();
@@ -429,7 +428,37 @@ public class Map extends MapInterface {
 
     public void resetTimedOutError(){
         this.timedOutError = 0;
-    };
+    }
+
+    public void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery){
+        Request newRequest = new Request(newPickup, newDelivery);
+        this.planningRequest.addRequest(newRequest);
+        replaceOldPathInTour(beforeNewPickup, newPickup);
+        replaceOldPathInTour(beforeNewDelivery, newDelivery);
+
+    }
+
+    private void replaceOldPathInTour(Address toVisitBefore, Address destination) {
+        Path oldPath = tour.findPath(toVisitBefore);
+        Path newPath1 = findShortestPath(toVisitBefore, destination);
+        Path newPath2 = findShortestPath(destination, oldPath.getArrival());
+    }
+
+    private Path findShortestPath(Address start, Address destination){
+        HashMap<Intersection, Segment> pi = dijkstra(start);
+        Segment seg = pi.get(destination);
+        LinkedList<Segment> newPathComposition = new LinkedList<>();
+        Path newPath = new Path(start, destination, newPathComposition);
+        newPathComposition.add(seg);
+        while (!seg.getOrigin().equals(start)) {
+            Intersection s = seg.getOrigin();
+            seg = pi.get(s);
+            newPathComposition.add(seg);
+        }
+        Collections.reverse(newPathComposition);
+        newPath.setSegmentsOfPath(newPathComposition);
+        return newPath;
+    }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
         Map map=new Map();
