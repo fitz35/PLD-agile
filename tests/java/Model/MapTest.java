@@ -23,7 +23,7 @@ class MapTest extends Observable {
             @Override
             public void update(Observable o, Object arg) {
                 updateCalled=true;
-                System.out.println(arg);
+                //System.out.println(arg);
             }
         };
         map.addObserver(observer);
@@ -181,8 +181,6 @@ class MapTest extends Observable {
         assert(map.isMapLoaded());
     }
 
-    //-- merge
-
     //A FAIRE
     //Correct => test les obj générés
     //vide
@@ -191,33 +189,37 @@ class MapTest extends Observable {
     //wrong extention
     //reuest en dehors de la map
 
-    @Test void loadPlanningRequestTest1(){
+    @Test
+    void loadPlanningRequestTest1(){
         //Well formed PlanningRequest
         try{
             map.loadMap("data/fichiersXML2020/largeMap.xml");
+            assert(map.isMapLoaded());
             map.loadRequest("tests/ressource/request1.xml");
+            assert(map.isPlanningLoaded());
         }catch(Exception e){
+            e.printStackTrace();
             System.out.println("error "+e);
             exceptionRaised=true;
         }
-
+        assert(!exceptionRaised);
+        PlanningRequest planingTest = new PlanningRequest();
         Intersection pickup = new Intersection(208769039,45.76069, 4.8749375);
-        Intersection delivery = new Intersection(208769039,45.749996, 4.858258);
+        Intersection delivery = new Intersection(25173820,45.749996, 4.858258);
         Request req1 = new Request(pickup,180,delivery,240);
         ArrayList<Request> requestList = new ArrayList<Request>();
         requestList.add(req1);
+        planingTest.setRequestList(requestList);
         try {
-            Date departureTime = new SimpleDateFormat("HH:mm:ss").parse("8:0:0");
+            Date departureTime = new SimpleDateFormat("HH:mm:ss").parse("08:00:00");
+            planingTest.setDepartureTime(departureTime);
         } catch (ParseException e) {
-            e.printStackTrace();
+            exceptionRaised=true;
         }
-        Intersection startingPoint = new Intersection(342873658,45.76038,4.8775625);
-        PlanningRequest planingTest = new PlanningRequest();
-
-        assert(planingTest.equals(map.getPlanningRequest()));
-
-
         assert(!exceptionRaised);
+        Intersection startingPoint = new Intersection(342873658,45.76038,4.8775625);
+        planingTest.setStartingPoint(startingPoint);
+        assert(planingTest.equals(map.getPlanningRequest()));
     }
 
     @Test void loadPlanningRequestTest2(){
