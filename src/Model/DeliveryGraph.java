@@ -50,21 +50,18 @@ public class DeliveryGraph implements Graph{
         }
     }
 
-    public LinkedList<Segment> solveTSP (int timeout){
+    public LinkedList<Path> solveTSP (int timeout){
         TSP1 tsp = new TSP1();
         this.timedOutError = tsp.searchSolution(timeout, this);
         //System.out.print("Solution of cost "+tsp.getSolutionCost());
-        LinkedList<Segment> result = new LinkedList<>();
+        LinkedList<Path> result = new LinkedList<>();
         Path currentPath = new Path();
         LinkedList<Segment> intermediateResult = new LinkedList<>();
         for (int i=0; i<nbVertices; i++) {
             currentPath.setDeparture(nodesToVisit.get(tsp.getSolution(i)));
             currentPath.setArrival(nodesToVisit.get(tsp.getSolution((i+1)%nbVertices)));
             int j = verticeCompositionList.indexOf(currentPath);
-            intermediateResult = verticeCompositionList.get(j).getSegmentsOfPath();
-            for(Segment currentSegment : intermediateResult){
-                result.add(currentSegment);
-            }
+            result.add(verticeCompositionList.get(j));
         }
         return result;
     }

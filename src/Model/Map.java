@@ -384,13 +384,13 @@ public class Map extends MapInterface {
     }
 
     public void computeTour(int timeout){
-        ArrayList<Address> listIntersections = this.planningRequest.getListAddress();
-        this.deliveryGraph = new DeliveryGraph(listIntersections);
-        for(int i=0; i<listIntersections.size();i++){
-            HashMap<Intersection,Segment> pi = dijkstra(listIntersections.get(i));
+        ArrayList<Address> listAddress = this.planningRequest.getListAddress();
+        this.deliveryGraph = new DeliveryGraph(listAddress);
+        for(int i=0; i<listAddress.size();i++){
+            HashMap<Intersection,Segment> pi = dijkstra(listAddress.get(i));
             deliveryGraph.addVertice(i,pi);
         }
-        LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
+        LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
         this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
         this.setChanged();
@@ -398,7 +398,7 @@ public class Map extends MapInterface {
     }
 
     public void continueTour(int timeout){
-        LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
+        LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
         this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
         this.setChanged();
