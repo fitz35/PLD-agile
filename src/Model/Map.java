@@ -235,8 +235,8 @@ public class Map extends MapInterface {
                         Address pickupAddress = new Address(pickupIntersectionId,pickupIntersection.getLatitude(),pickupIntersection.getLongitude(),pickupDuration);
                         Address deliveryAddress = new Address(deliveryIntersectionId,deliveryIntersection.getLatitude(),deliveryIntersection.getLongitude(),deliveryDuration);
 
-                        System.out.println("Existing address ?");
-                        System.out.println("Request: pickupAddress:" + pickupIntersectionId + "; deliveryAddress:" + deliveryIntersectionId + "; pickupDuration: " + pickupDuration + " deliveryDuration: " + deliveryDuration + ";");
+                        //System.out.println("Existing address ?");
+                        //System.out.println("Request: pickupAddress:" + pickupIntersectionId + "; deliveryAddress:" + deliveryIntersectionId + "; pickupDuration: " + pickupDuration + " deliveryDuration: " + deliveryDuration + ";");
 
                         planningRequest.addRequest(new Request(pickupAddress, deliveryAddress));
                     }
@@ -408,6 +408,10 @@ public class Map extends MapInterface {
     public int getTimedOutError() {
         return timedOutError;
     }
+
+    public void resetTimedOutError(){
+        this.timedOutError = 0;
+    };
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
         //Map map=new Map();

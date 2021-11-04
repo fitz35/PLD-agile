@@ -6,13 +6,14 @@ class RequestLoaded implements StateController{
     public void loadTour(Controller controller)
     {
         try{
-            controller.getMap().computeTour(300);
+            controller.getMap().computeTour(10000);
             if(controller.getMap().getTimedOutError() == 0)
             {
                 controller.setStateController(new FirstTourComputed());
             }else if(controller.getMap().getTimedOutError() == 1)
             {
                 controller.setStateController(new WaitOrder());
+                controller.getWindow2().askToContinueTour();
             }
         }catch(Exception e){
             e.printStackTrace();

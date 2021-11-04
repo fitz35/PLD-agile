@@ -35,6 +35,7 @@ public abstract class MapInterface extends Observable {
     public abstract boolean isMapLoaded();
     public abstract boolean isPlanningLoaded();
     public abstract int getTimedOutError();
+    public abstract void resetTimedOutError();
 
     //public abstract boolean isFirstTourComputed();
 
