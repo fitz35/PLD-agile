@@ -1,8 +1,11 @@
-package controller;
+package controller.state;
 
-import Model.MapFactory;
+import controller.Controller;
+import controller.state.InitialState;
+import controller.state.RequestLoaded;
+import controller.state.StateController;
 
-public class MapLoaded implements StateController{
+public class MapLoaded implements StateController {
 
     @Override
     public void loadRequest(Controller controller, String path)

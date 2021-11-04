@@ -1,6 +1,8 @@
-package controller;
+package controller.state;
 
-public class InitialState implements StateController{
+import controller.Controller;
+
+public class InitialState implements StateController {
 
     @Override
     public void loadMap(Controller controller, String mapPath) {

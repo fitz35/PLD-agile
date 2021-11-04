@@ -1,4 +1,6 @@
-package controller;
+package controller.command;
+
+import controller.command.Command;
 
 import java.util.LinkedList;
 

@@ -1,6 +1,8 @@
-package controller;
+package controller.state;
 
-class RequestLoaded implements StateController{
+import controller.Controller;
+
+public class RequestLoaded implements StateController {
 
     @Override
     public void loadTour(Controller controller)

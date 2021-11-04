@@ -1,6 +1,7 @@
-package controller;
+package controller.command;
 
 import Model.Tour;
+import controller.command.Command;
 
 public class AddCommand implements Command {
 

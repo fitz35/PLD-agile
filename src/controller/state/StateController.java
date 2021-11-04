@@ -1,5 +1,6 @@
-package controller;
+package controller.state;
 
+import controller.Controller;
 import ihm.windowMap.WindowMap;
 
 public interface StateController {
