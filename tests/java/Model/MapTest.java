@@ -71,7 +71,7 @@ class MapTest extends Observable {
         assert(intersectionDestination.equals(map.getIntersectionList().get(1)));
         assert(segmentTest.equals((map.getSegmentList().get(0))));
         assert(!exceptionRaised);
-        assert(!updateCalled);
+        assert(updateCalled);
         assert(map.isMapLoaded());
     }
 
@@ -177,7 +177,7 @@ class MapTest extends Observable {
         }
         assertEquals(2,map.getIntersectionList().size());
         assert(!exceptionRaised);
-        assert(!updateCalled);
+        assert(updateCalled);
         assert(map.isMapLoaded());
     }
 
@@ -204,9 +204,9 @@ class MapTest extends Observable {
         }
         assert(!exceptionRaised);
         PlanningRequest planingTest = new PlanningRequest();
-        Intersection pickup = new Intersection(208769039,45.76069, 4.8749375);
-        Intersection delivery = new Intersection(25173820,45.749996, 4.858258);
-        Request req1 = new Request(pickup,180,delivery,240);
+        Address pickup = new Address(208769039,45.76069,4.8749375,180);
+        Address delivery = new Address(25173820,45.749996,4.858258,240);
+        Request req1 = new Request(pickup,delivery);
         ArrayList<Request> requestList = new ArrayList<Request>();
         requestList.add(req1);
         planingTest.setRequestList(requestList);

@@ -13,7 +13,7 @@ class DeliveryGraphTest {
 
     private boolean exceptionRaised;
     private DeliveryGraph deliveryGraph;
-    private ArrayList<Intersection> nodesToVisit;
+    private ArrayList<Address> nodesToVisit;
 
     @BeforeEach
     void setUp() {
@@ -36,10 +36,10 @@ class DeliveryGraphTest {
         pi.put(start, s4);
 
         nodesToVisit = new ArrayList<>();
-        nodesToVisit.add(start);
+        /*nodesToVisit.add(start);
         nodesToVisit.add(one);
         nodesToVisit.add(two);
-        nodesToVisit.add(three);
+        nodesToVisit.add(three);*/
     }
 
     @Test
@@ -54,7 +54,7 @@ class DeliveryGraphTest {
     void construct2 ()
     // Test with nempty Intersection list
     {
-        nodesToVisit = new ArrayList<Intersection>();
+        nodesToVisit = new ArrayList<>();
         deliveryGraph = new DeliveryGraph(nodesToVisit);
         assertEquals(deliveryGraph.getNbVertices(), 0);
     }
