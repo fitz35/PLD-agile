@@ -246,7 +246,6 @@ public class Map extends MapInterface {
                         }
                     }
                 }
-
                 // get the depot
                 NodeList nodeListDepot = doc.getElementsByTagName("depot");
                 for (int temp = 0; temp < nodeListDepot.getLength(); temp++) {
@@ -277,7 +276,9 @@ public class Map extends MapInterface {
                 throw err;
             }catch (NumberFormatException err){}
 
-            if(planningRequest.getRequestList().isEmpty())
+            if(planningRequest.getRequestList().isEmpty()
+                || planningRequest.getStartingPoint()==null
+                || planningRequest.getDepartureTime()==null)
             {
                 this.setChanged();
                 this.notifyObservers("Planning is empty. Check your XML file.");

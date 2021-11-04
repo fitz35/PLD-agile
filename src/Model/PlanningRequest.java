@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class PlanningRequest {
     private ArrayList<Request> requestList;
@@ -42,6 +43,9 @@ public class PlanningRequest {
     public void setDepartureTime(Date departureTime) {
         this.departureTime = departureTime;
     }
+    public void setRequestList(ArrayList<Request> requestList) {
+        this.requestList = requestList;
+    }
 
 
 
@@ -68,7 +72,20 @@ public class PlanningRequest {
     {
         return startingPoint;
     }
+    public Date getDepartureTime()
+    {
+        return departureTime;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlanningRequest planningTest= (PlanningRequest) o;
+        return Objects.equals(startingPoint,planningTest.getStartingPoint())
+                && Objects.equals(departureTime,planningTest.departureTime)
+                && Objects.equals(requestList,planningTest.getRequestList());
+    }
     public static void main(String[] args){
         PlanningRequest planning =new PlanningRequest();
     }

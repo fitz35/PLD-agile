@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Request {
     private Intersection pickupAddress;
@@ -39,5 +40,16 @@ public class Request {
 
     public int getDeliveryDuration() {
         return deliveryDuration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Request requestTest= (Request) o;
+        return Objects.equals(pickupAddress,requestTest.getPickupAddress())
+                && Objects.equals(deliveryAddress,requestTest.getDeliveryAddress())
+                && Objects.equals(pickupDuration,requestTest.getPickupDuration())
+                && Objects.equals(deliveryDuration,requestTest.getDeliveryDuration());
     }
 }
