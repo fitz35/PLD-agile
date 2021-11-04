@@ -202,7 +202,7 @@ public class MapPanel extends JPanel implements MouseListener
     public Segment convertPointToSegment(int pixelX, int pixelY, int height){
         ArrayList<Segment> listOfAllSegments= createdMap.getSegmentList();
         Segment minSegment = listOfAllSegments.get(0);
-        double minDistance = -1;
+        double minDistance = Double.MAX_VALUE;
 
         for (Segment s : listOfAllSegments) {
             int[] origin = convertIntersectionToPixel(s.getOrigin(), height);
@@ -317,12 +317,15 @@ public class MapPanel extends JPanel implements MouseListener
     public void mouseClicked(MouseEvent e) {
         int PixelX= e.getX();
         int PixelY= e.getY();
-        Intersection i= null;
+        Intersection i;
+        Segment s;
         if(PixelX< Frame.height)
         {
             i=convertPixeltoIntersection(PixelX,PixelY,(int)(0.9*Frame.height));
+            s=convertPointToSegment(PixelX, PixelY, (int)(0.9*Frame.height));
             JLabel label= InputMapWithDeliveryNPickupPoints.getJLabel();
-            InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The Intersection Clicked:"+ i.getLongitude()+ ","+ i.getLatitude(), label);
+            InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked:"+ s.getName(), label);
+            System.out.println(PixelX + " " + PixelY + " " + s.getName());
         }
     }
 
