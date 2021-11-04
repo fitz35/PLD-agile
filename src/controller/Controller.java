@@ -1,5 +1,6 @@
 package controller;
 
+import Model.Intersection;
 import Model.MapFactory;
 import Model.MapInterface;
 import Model.Tour;
@@ -51,6 +52,17 @@ public class Controller {
     public void stopComputing() {this.stateController.stopComputing(this); }
 
     public void continueComputing() {this.stateController.continueTour(this, 10000); }
+
+    public void addNewRequest(Intersection newPickup,
+                              Intersection beforNewPickup,
+                              int pickupDuration,
+                              Intersection newDelivery,
+                              Intersection beforNewDelivery,
+                              int deliveryDuration)
+    {
+        this.stateController.addNewRequest(this, newPickup, beforNewPickup,
+                                            pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
+    }
 
     public void back() {this.stateController.back(this);}
 

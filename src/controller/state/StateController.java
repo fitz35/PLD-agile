@@ -1,5 +1,6 @@
 package controller.state;
 
+import Model.Intersection;
 import controller.Controller;
 import ihm.windowMap.WindowMap;
 
@@ -13,4 +14,5 @@ public interface StateController {
     public default void back(Controller controller){};
     public default void continueTour(Controller controller, int timeout){};
     public default void stopComputing(Controller controller){};
+    public default void addNewRequest(Controller controller, Intersection newPickup, Intersection beforNewPickup, int pickupDuration, Intersection newDelivery, Intersection beforNewDelivery, int deliveryDuration){};
 }

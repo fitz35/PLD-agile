@@ -17,7 +17,7 @@ public class AddCommand implements Command {
 
     @Override
     public void doCommand() {
-        //plan.add(shape);
+        //Map.add(shape);
     }
 
     @Override

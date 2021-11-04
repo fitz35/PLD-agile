@@ -35,7 +35,6 @@ public class Map extends MapInterface {
         graphe= new HashMap<>();
     }
 
-
     public HashMap<Intersection,LinkedList<Segment>> createGraph() {
         for (Intersection inter : intersectionList) {
             //HashMap<Intersection, Segment> destinations = new HashMap<>();
