@@ -19,6 +19,12 @@ public class WaitOrder implements StateController{
     }
 
     @Override
+    public void stopComputing(Controller controller)
+    {
+        controller.setStateController(new FirstTourComputed());
+    }
+
+    @Override
     public void back(Controller controller) {
         try {
             controller.getMap().resetTour();

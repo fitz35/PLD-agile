@@ -37,6 +37,8 @@ public class Controller {
 
     public void loadTour() { this.stateController.loadTour(this); }
 
+    public void stopComputing() {this.stateController.stopComputing(this); }
+
     public void back() {this.stateController.back(this);}
 
     //--------------- getter ---------------

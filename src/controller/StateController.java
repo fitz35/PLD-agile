@@ -8,4 +8,5 @@ public interface StateController {
     public default void loadTour(Controller controller){};
     public default void back(Controller controller){};
     public default void continueTour(Controller controller, int timeout){};
+    public default void stopComputing(Controller controller){};
 }
