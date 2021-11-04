@@ -8,6 +8,9 @@ import controller.state.StateController;
 import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 
+/**
+ * Class Controller
+ */
 public class Controller {
     private StateController stateController;
     private MapInterface map;
@@ -15,6 +18,9 @@ public class Controller {
     private WelcomeWindow firstWindow;
     private WindowMap window2;
 
+    /**
+     * Constructeur
+     */
     public Controller()
     {
         stateController = new InitialState();
@@ -26,6 +32,10 @@ public class Controller {
         map.addObserver(getWindow2());
     }
 
+    /**
+     * change the controller state
+     * @param state
+     */
     //set state method
     protected void setCurrentState(StateController state){
         stateController = state;

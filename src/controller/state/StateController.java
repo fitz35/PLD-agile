@@ -3,6 +3,9 @@ package controller.state;
 import controller.Controller;
 import ihm.windowMap.WindowMap;
 
+/**
+ * Interface implemented from the contoller design pattern
+ */
 public interface StateController {
     public default void  loadMap(Controller context, String path){};
     public default void loadRequest(Controller controller, String path){};
