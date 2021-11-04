@@ -11,45 +11,22 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 public class Request {
-    private Intersection pickupAddress;
-    private int pickupDuration;
-    private Intersection deliveryAddress;
-    private int deliveryDuration;
+    private Address pickupAddress;
+    private Address deliveryAddress;
 
-    public Request(Intersection pickupAddress, int pickupDuration, Intersection deliveryAddress, int deliveryDuration) {
+    public Request(Address pickupAddress, Address deliveryAddress) {
         this.pickupAddress = pickupAddress;
-        this.pickupDuration = pickupDuration;
         this.deliveryAddress = deliveryAddress;
-        this.deliveryDuration = deliveryDuration;
     }
 
-    public Intersection getPickupAddress() {
+    public Address getPickupAddress() {
         return pickupAddress;
     }
 
-    public int getPickupDuration() {
-        return pickupDuration;
-    }
-
-    public Intersection getDeliveryAddress() {
+    public Address getDeliveryAddress() {
         return deliveryAddress;
     }
 
-    public int getDeliveryDuration() {
-        return deliveryDuration;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Request requestTest= (Request) o;
-        return Objects.equals(pickupAddress,requestTest.getPickupAddress())
-                && Objects.equals(deliveryAddress,requestTest.getDeliveryAddress())
-                && Objects.equals(pickupDuration,requestTest.getPickupDuration())
-                && Objects.equals(deliveryDuration,requestTest.getDeliveryDuration());
-    }
 }
