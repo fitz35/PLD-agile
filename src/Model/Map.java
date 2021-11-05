@@ -461,7 +461,7 @@ public class Map extends MapInterface {
     }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
-        Map map=new Map();
+        Map map = new Map();
         //map.loadMap("./data/fichiersXML2020/smallMap.xml");
         // PlanningRequest planning = new PlanningRequest();
         //map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");

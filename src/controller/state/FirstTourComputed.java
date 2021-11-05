@@ -2,20 +2,31 @@ package controller.state;
 
 import Model.Address;
 import Model.Intersection;
+import Model.Map;
 import controller.Controller;
+import controller.command.AddNewRequest;
+import controller.command.ListOfCommands;
 import controller.state.RequestLoaded;
 import controller.state.StateController;
+
+import java.io.IOException;
 
 public class FirstTourComputed implements StateController {
 
     @Override
-    public void addNewRequest(Controller controller, Intersection newPickup, Intersection beforNewPickup, int pickupDuration, Intersection newDelivery, Intersection beforNewDelivery, int deliveryDuration)
+    public void addNewRequest(Controller controller, ListOfCommands listeOfCommand, Intersection newPickup, Intersection beforNewPickup, int pickupDuration, Intersection newDelivery, Intersection beforNewDelivery, int deliveryDuration)
     {
-        Address pickup = new Address(newPickup, pickupDuration);
-        Address delivery = new Address(newDelivery, deliveryDuration);
-        System.out.println("Adding new request");
-        //getAddressById dans map *2 !! erreur si l address n'existe pas
-        //controller.getMap().addNewRequest();
+        try {
+            Address pickup = new Address(newPickup, pickupDuration);
+            Address delivery = new Address(newDelivery, deliveryDuration);
+            Address addressBeforNewPickup = controller.getMap().getPlanningRequest().getAddressById(beforNewPickup.getId());
+            Address addressBeforNewDelivery = controller.getMap().getPlanningRequest().getAddressById(beforNewDelivery.getId());
+
+            AddNewRequest requestToAdd = new AddNewRequest((Map) controller.getMap(), pickup, delivery, addressBeforNewPickup, addressBeforNewDelivery );
+            listeOfCommand.add(requestToAdd);
+        } catch (Exception e){
+            throw (e);
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@ import Model.Intersection;
 import Model.MapFactory;
 import Model.MapInterface;
 import Model.Tour;
+import controller.command.ListOfCommands;
 import controller.state.InitialState;
 import controller.state.StateController;
 import ihm.windowMap.WelcomeWindow;
@@ -13,6 +14,7 @@ import ihm.windowMap.WindowMap;
  * Class Controller
  */
 public class Controller {
+    private ListOfCommands listeOfCommands;
     private StateController stateController;
     private MapInterface map;
     private Tour tour;
@@ -58,11 +60,11 @@ public class Controller {
                               int pickupDuration,
                               Intersection newDelivery,
                               Intersection beforNewDelivery,
-                              int deliveryDuration)
-    {
-        this.stateController.addNewRequest(this, newPickup, beforNewPickup,
-                                            pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
+                              int deliveryDuration) {
+        this.stateController.addNewRequest(this, listeOfCommands, newPickup, beforNewPickup,
+                pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
     }
+
 
     public void back() {this.stateController.back(this);}
 
