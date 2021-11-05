@@ -40,8 +40,11 @@ public class MapPanel extends JPanel implements MouseListener
     public void DisplayMap (MapInterface createdMap)
     {
         this.createdMap=createdMap;
-        this.originLat = createdMap.getIntersectionNorth().getLatitude();
-        this.originLong = createdMap.getIntersectionWest().getLongitude();
+        if( createdMap.getIntersectionNorth() != null && createdMap.getIntersectionWest() != null){
+            this.originLat = createdMap.getIntersectionNorth().getLatitude();
+            this.originLong = createdMap.getIntersectionWest().getLongitude();
+        }
+
         this.revalidate();
         this.repaint();
     }
@@ -122,6 +125,7 @@ public class MapPanel extends JPanel implements MouseListener
     /**
      * convert an intersection to a pixel
      * @param i the intersection
+     * @param height the height ofthe map
      * @return the array of coordinates of pixels (x and y)
      */
     private int[] convertIntersectionToPixel(Intersection i, int height)
@@ -161,7 +165,13 @@ public class MapPanel extends JPanel implements MouseListener
 
     }
 
-
+    /**
+     * get the nearest intersection of the pixel
+     * @param pixelX the x coordinate on the map
+     * @param pixelY the y coordinate on the map
+     * @param height the height of the map
+     * @return the intersection
+     */
     public Intersection convertPixeltoIntersection(int pixelX, int pixelY, int height)
     {
         ArrayList<Intersection> listOfAllIntersections= createdMap.getIntersectionList();
@@ -182,6 +192,60 @@ public class MapPanel extends JPanel implements MouseListener
         return intersectionResult;
     }
 
+    /**
+     * get the closest segment to a point
+     * @param pixelX the x coordinate of the point
+     * @param pixelY the y coordinate of the point
+     * @param height the height of the window
+     * @return the segment
+     */
+    public Segment convertPointToSegment(int pixelX, int pixelY, int height){
+        ArrayList<Segment> listOfAllSegments= createdMap.getSegmentList();
+        Segment minSegment = listOfAllSegments.get(0);
+        double minDistance = Double.MAX_VALUE;
+
+        for (Segment s : listOfAllSegments) {
+            int[] origin = convertIntersectionToPixel(s.getOrigin(), height);
+            int[] destination = convertIntersectionToPixel(s.getDestination(), height);
+
+            // compute the distance
+            int distXPixelToOrigin = pixelX - origin[0];
+            int distYPixelToOrigin = pixelY - origin[1];
+            int distXSegment = destination[0] - origin[0];
+            int distYSegment = destination[1] - origin[1];
+
+            int dot = distXPixelToOrigin * distXSegment + distYPixelToOrigin * distYSegment;
+            int len_sq = distXSegment * distXSegment + distYSegment * distYSegment;
+            int param = -1;
+            if (len_sq != 0) //in case of 0 length line
+                param = dot / len_sq;
+
+            int xx, yy;
+
+            if (param < 0) {
+                xx = origin[0];
+                yy = origin[1];
+            } else if (param > 1) {
+                xx = destination[0];
+                yy = destination[1];
+            } else {
+                xx = origin[0] + param * distXSegment;
+                yy = origin[1] + param * distYSegment;
+            }
+
+            int dx = pixelX - xx;
+            int dy = pixelY - yy;
+
+            double distance = Math.sqrt(dx * dx + dy * dy);
+            if(distance < minDistance) {
+                minDistance = distance;
+                minSegment = s;
+
+            }
+        }
+
+        return minSegment;
+    }
 
     /**
      * paint an intersection
@@ -239,7 +303,7 @@ public class MapPanel extends JPanel implements MouseListener
      */
     public void paintRequest(Graphics2D g, Request request, int num )
     {
-        System.out.println(num);
+        //System.out.println(num);
         pickup= request.getPickupAddress();
         delivery= request.getDeliveryAddress();
 
@@ -253,12 +317,15 @@ public class MapPanel extends JPanel implements MouseListener
     public void mouseClicked(MouseEvent e) {
         int PixelX= e.getX();
         int PixelY= e.getY();
-        Intersection i= null;
+        Intersection i;
+        Segment s;
         if(PixelX< Frame.height)
         {
             i=convertPixeltoIntersection(PixelX,PixelY,(int)(0.9*Frame.height));
+            s=convertPointToSegment(PixelX, PixelY, (int)(0.9*Frame.height));
             JLabel label= InputMapWithDeliveryNPickupPoints.getJLabel();
-            InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The Intersection Clicked:"+ i.getLongitude()+ ","+ i.getLatitude(), label);
+            InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked:"+ s.getName(), label);
+            System.out.println(PixelX + " " + PixelY + " " + s.getName());
         }
     }
 

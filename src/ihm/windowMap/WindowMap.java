@@ -2,6 +2,7 @@ package ihm.windowMap;
 
 import Model.MapInterface;
 import controller.Controller;
+import controller.WaitOrder;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
 import ihm.windowMap.InputSection.InputWindowLoadRequest;
 
@@ -70,6 +71,26 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         this.revalidate();
         this.repaint();
 
+    }
+
+    /**
+     * ask the user if he want to continue tour (only in wait order state)
+     */
+    public void askToContinueTour(){
+        if(controller.getStateController() instanceof WaitOrder) {
+            int result = JOptionPane.showConfirmDialog(
+                    this,
+                    "Timeout occurred, the tour may be not optimal. Would you continue to computing ?");
+            if (result == 0)
+                //System.out.println("You pressed Yes");
+                controller.continueComputing();
+            else if (result == 1)
+                //System.out.println("You pressed NO");
+                controller.stopComputing();
+            else
+                //System.out.println("You pressed Cancel");
+                controller.back();
+        }
     }
 
 

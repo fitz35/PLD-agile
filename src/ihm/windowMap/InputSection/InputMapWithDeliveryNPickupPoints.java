@@ -187,7 +187,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                 listPickupButton.add(pickupButton);
 
                 pickupDuration = new JButton("Pickup Duration : " +
-                        requestsList.get(i).getPickupDuration()+ " ");
+                        requestsList.get(i).getPickupAddress().getAddressDuration()+ " ");
                 pickupDuration.setBackground(ColorPalette.inputPannel);
                 pickupDuration.setBorderPainted(false);
                 listPickupDurationButton.add(pickupDuration);
@@ -209,7 +209,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                 listDeliveryButton.add(deliveryButton);
 
                 deliveryDuration = new JButton("Delivery Duration : " +
-                        requestsList.get(i).getDeliveryDuration()+ " ");
+                        requestsList.get(i).getDeliveryAddress().getAddressDuration() + " ");
                 deliveryDuration.setBackground(ColorPalette.inputPannel);
                 deliveryDuration.setBorderPainted(false);
                 listDeliveryDurationButton.add(deliveryDuration);

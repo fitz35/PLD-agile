@@ -13,9 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Map extends MapInterface {
     private ArrayList<Segment> segmentList;
@@ -26,8 +24,8 @@ public class Map extends MapInterface {
     private Intersection[] extremIntersection;
     private boolean mapLoaded = false;
     private boolean planningLoaded = false;
-    private boolean firstTourComputed = false;
     private DeliveryGraph deliveryGraph;
+    private int timedOutError;
 
     public Tour getTour(){return this.tour;}
 
@@ -179,6 +177,8 @@ public class Map extends MapInterface {
     {
         segmentList=new ArrayList<>();
         intersectionList=new ArrayList<>();
+        this.setChanged();
+        this.notifyObservers();
     }
 
     @Override
@@ -228,17 +228,19 @@ public class Map extends MapInterface {
                         Element element = (Element) node;
 
                         // get request's attribute
-                        long pickupAddressId = Long.parseLong(element.getAttribute("pickupAddress"));
-                        Intersection pickupAddress = getIntersectionById(pickupAddressId);
-                        long deliveryAddressId = Long.parseLong(element.getAttribute("deliveryAddress"));
-                        Intersection deliveryAddress = getIntersectionById(deliveryAddressId);
+                        long pickupIntersectionId = Long.parseLong(element.getAttribute("pickupAddress"));
+                        Intersection pickupIntersection = getIntersectionById(pickupIntersectionId);
+                        long deliveryIntersectionId = Long.parseLong(element.getAttribute("deliveryAddress"));
+                        Intersection deliveryIntersection = getIntersectionById(deliveryIntersectionId);
                         int pickupDuration = Integer.parseInt(element.getAttribute("pickupDuration"));
                         int deliveryDuration = Integer.parseInt(element.getAttribute("deliveryDuration"));
+                        Address pickupAddress = new Address(pickupIntersectionId,pickupIntersection.getLatitude(),pickupIntersection.getLongitude(),pickupDuration);
+                        Address deliveryAddress = new Address(deliveryIntersectionId,deliveryIntersection.getLatitude(),deliveryIntersection.getLongitude(),deliveryDuration);
 
-                        if(deliveryAddress!=null && pickupAddress !=null)
-                        {
-                            planningRequest.addRequest(new Request(pickupAddress, pickupDuration, deliveryAddress, deliveryDuration));
-                        }
+                        //System.out.println("Existing address ?");
+                        //System.out.println("Request: pickupAddress:" + pickupIntersectionId + "; deliveryAddress:" + deliveryIntersectionId + "; pickupDuration: " + pickupDuration + " deliveryDuration: " + deliveryDuration + ";");
+
+                        planningRequest.addRequest(new Request(pickupAddress, deliveryAddress));
                     }
                 }
 
@@ -349,7 +351,8 @@ public class Map extends MapInterface {
     public HashMap<Intersection,Segment> dijkstra(Intersection startIntersection){
         HashMap<Intersection,Double> d = new HashMap<>();
         HashMap<Intersection,Segment> pi = new HashMap<>();
-        ArrayList<Intersection> blanc= new ArrayList<>(),gris= new ArrayList<>(),noir = new ArrayList<>();
+        ArrayList<Intersection> blanc= new ArrayList<>(),noir = new ArrayList<>();
+        PriorityQueue<Intersection> gris = new PriorityQueue<>(Comparator.comparingDouble(d::get));
         graphe.forEach((i, dest) -> {
             if(i.equals(startIntersection)){
                 d.put(startIntersection,0.0);
@@ -361,7 +364,7 @@ public class Map extends MapInterface {
         });
         gris.add(startIntersection);
         while (!gris.isEmpty()){
-            Intersection minimalSuccessor = gris.get(0);
+            Intersection minimalSuccessor = gris.peek();
             LinkedList<Segment> destinations = graphe.get(minimalSuccessor);
             destinations.forEach((segment)->{
                 Intersection successor = segment.getDestination();
@@ -372,14 +375,7 @@ public class Map extends MapInterface {
                     }
                 }
                 if(blanc.contains(successor)){
-                    int a=0;
-                    for(int i=0; i<gris.size(); i++){
-                        a=i;
-                        if( d.get(gris.get(i)) > d.get(successor) ){
-                            break;
-                        }
-                    }
-                    gris.add(a,successor);
+                    gris.add(successor);
                     blanc.remove(successor);
                 }
             });
@@ -390,31 +386,44 @@ public class Map extends MapInterface {
     }
 
     public void computeTour(int timeout){
-        ArrayList<Intersection> listIntersections = this.planningRequest.getIntersection();
+        ArrayList<Address> listIntersections = this.planningRequest.getListAddress();
         this.deliveryGraph = new DeliveryGraph(listIntersections);
         for(int i=0; i<listIntersections.size();i++){
             HashMap<Intersection,Segment> pi = dijkstra(listIntersections.get(i));
             deliveryGraph.addVertice(i,pi);
         }
         LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
+        this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
         this.setChanged();
         this.notifyObservers();
-        if(tourCalculated!=null)//mettre condition de validation d'un tour
-        {
-            firstTourComputed = true;
-        }
     }
 
+    public void continueTour(int timeout){
+        LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
+        this.timedOutError = deliveryGraph.getTimedOutError();
+        tour = new Tour(tourCalculated);
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public int getTimedOutError() {
+        return timedOutError;
+    }
+
+    public void resetTimedOutError(){
+        this.timedOutError = 0;
+    };
+
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
-        Map map=new Map();
-        map.loadMap("./data/fichiersXML2020/smallMap.xml");
+        //Map map=new Map();
+        //map.loadMap("./data/fichiersXML2020/smallMap.xml");
         // PlanningRequest planning = new PlanningRequest();
         //map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
         // System.out.println("passé");
 
         //TEST DJIKSTRA
-        map.loadMap("src/Model/XML/mapTest.xml");
+        /*map.loadMap("src/Model/XML/mapTest.xml");
         map.loadRequest("src/Model/XML/planingTest.xml");
         HashMap<Intersection,LinkedList<Segment>> graphe = new HashMap<>();
         graphe = map.createGraph();
@@ -426,7 +435,27 @@ public class Map extends MapInterface {
             //System.out.println(inte.getId());
         });
 
-        map.computeTour(200000000);
+        map.computeTour(200000000);*/
+
+        //Test égalité adresse / intersection
+        HashMap<Address,Intersection> h = new HashMap<>();
+        HashMap<Intersection,Address> h2 = new HashMap<>();
+        Intersection inter = new Intersection(0,4.75,2.2);
+        Intersection int2 = new Intersection(0,4.75,2.2);
+        Address address = new Address(0,4.75,2.2,6);
+        Address ad2 = new Address(0,4.75,2.2,6);
+        //if (address == ad2 ){
+        //if (address.equals(inter) ){
+        h.put(address,inter);
+        Intersection int3 = h.get(int2);
+        h2.put(inter,address);
+        Address ad3 = h2.get(ad2);
+        h2.replace(address,ad2);
+        if(inter == int2){
+            System.out.println("EGALITE INTERSECTION/ADDRESS REUSSIE");
+        }else{
+            System.out.println("EGALITE INTERSECTION/ADDRESS ECHOUE");
+        }
 
         //System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
         //System.out.println("passé");
@@ -445,7 +474,7 @@ public class Map extends MapInterface {
         return planningLoaded;
     }
 
-    public boolean isFirstTourComputed() { return firstTourComputed; }
+    //public boolean isFirstTourComputed() { return tour != null; }
 
     public DeliveryGraph getDeliveryGraph() {
         return deliveryGraph;
