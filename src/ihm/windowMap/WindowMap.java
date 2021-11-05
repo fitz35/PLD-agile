@@ -33,6 +33,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         this.setBackground(Color.BLACK);
 
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller);
+
     }
 
     /**
