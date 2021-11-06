@@ -55,6 +55,7 @@ public class Controller {
 
     public void continueComputing() {this.stateController.continueTour(this, 10000); }
 
+    @Deprecated
     public void addNewRequest(Intersection newPickup,
                               Intersection beforNewPickup,
                               int pickupDuration,
@@ -71,7 +72,7 @@ public class Controller {
 
     public void chooseNewDelivery(Intersection theNewDelivery, int deliveryDuration){this.stateController.chooseNewDelivery(this, theNewDelivery, deliveryDuration);}
 
-    public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery);};
+    public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery, listeOfCommands);};
 
     public void back() {this.stateController.back(this);}
 
