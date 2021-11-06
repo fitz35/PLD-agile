@@ -139,4 +139,13 @@ public abstract class MapInterface extends Observable {
      * reset a tour (null)
      */
     public abstract void resetTour();
+
+    /**
+     * Add a new request to the previously computed tour
+     * @param beforeNewPickup the address to visit before visiting the new pick up address
+     * @param newPickup the new pick up address
+     * @param beforeNewDelivery the address to visit before visiting the new delivery address
+     * @param newDelivery the new delivery address
+     */
+    public abstract void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery);
 }

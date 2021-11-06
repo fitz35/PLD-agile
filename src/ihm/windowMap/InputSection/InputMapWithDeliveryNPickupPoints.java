@@ -142,7 +142,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
 
-        if(controller.getMap().getPlanningRequest()!= null) {
+        if(controller.getMap().getPlanningRequest()!= null && controller.getMap().getPlanningRequest().getStartingPoint() != null) {
             //Get the planning request list from the controller
             requestsList = controller.getMap().getPlanningRequest().getRequestList();
             verticalScroller.setMaximum ((requestsList.size()/5)+1);
@@ -176,6 +176,10 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
             //Requests with pickup and delivery points
+
+            deleteRequestListeners = new ArrayList<>();
+
+
             for(int i=0; i<requestsList.size(); i++ ) {
                 //Button request
                 requestButton = new JButton("Request " + (i + 1) + " : ");
@@ -198,7 +202,14 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                         requestsList.get(i).getPickupAddress().getLongitude());
                 pickupButton.setBackground(ColorPalette.inputPannel);
                 pickupButton.setBorderPainted(false);
+
                 listPickupButton.add(pickupButton);
+
+
+                pickupButton.addActionListener(this);
+                listPickupButton.add(pickupButton);
+
+
 
                 pickupDuration = new JButton("Pickup Duration : " +
                         requestsList.get(i).getPickupAddress().getAddressDuration()+ " ");
@@ -220,18 +231,26 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                         requestsList.get(i).getDeliveryAddress().getLongitude());
                 deliveryButton.setBackground(ColorPalette.inputPannel);
                 deliveryButton.setBorderPainted(false);
+
                 deliveryButton.setBounds(99,210 + (i*110), 420,20);
                 deliveryButton.addActionListener(this);
                 listDeliveryButton.add(deliveryButton);
+
+
+                listDeliveryButton.add(deliveryButton);
+
+                deliveryButton.addActionListener(this);
 
                 deliveryDuration = new JButton("Delivery Duration : " +
                         requestsList.get(i).getDeliveryAddress().getAddressDuration() + " ");
                 deliveryDuration.setBackground(ColorPalette.inputPannel);
                 deliveryDuration.setBorderPainted(false);
+
                 deliveryDuration.setBounds(99,230 + (i*110), 190,20);
                 this.add(deliveryIcon);
                 this.add(deliveryButton);
                 this.add(deliveryDuration);
+
                 listDeliveryDurationButton.add(deliveryDuration);
 
 
@@ -239,11 +258,13 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                 //Button to delete a request
                 deleteRequest = new JButton(iconeDelete);
                 deleteRequest.setBackground(ColorPalette.inputPannel);
+
                 deleteRequest.setBounds(50,146 + (i*110), (width/60),(height/30));
                 deleteRequest.addActionListener(this);
                 this.add(deleteRequest);
 
                 deleteRequestListeners.add(this);
+
                 deleteRequest.addActionListener(this);
                 listDeleteButton.add(deleteRequest);
 
