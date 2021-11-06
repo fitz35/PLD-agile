@@ -26,7 +26,6 @@ public class RequestLoaded implements StateController {
     public void back(Controller controller)
     {
         controller.setStateController(new MapLoaded());
-        controller.getWindow2().changePanel(1);
         controller.getMap().resetPlanningRequest();
     }
 }

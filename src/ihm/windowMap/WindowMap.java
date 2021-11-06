@@ -2,6 +2,9 @@ package ihm.windowMap;
 
 import Model.MapInterface;
 import controller.Controller;
+import controller.state.FirstTourComputed;
+import controller.state.MapLoaded;
+import controller.state.RequestLoaded;
 import controller.state.WaitOrder;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
 import ihm.windowMap.InputSection.InputWindowLoadRequest;
@@ -38,39 +41,32 @@ public class WindowMap extends Frame implements Observer //implements ActionList
     }
 
     /**
-     * change between panel
-     * @param panelNumber which panel to get (0 : panelWithRequests, 1 : inputPanel)
+     * update the panel with state of controller
      */
-    public  void changePanel(int panelNumber)
+    public void updatePanel()
     {
-       switch(panelNumber)
-       {
-           case 0:
+       this.removeAllPanel();
 
-               changePanel(inputPanel, panelWithRequests);
-
-               break ;
-           case 1:
-               changePanel(panelWithRequests,inputPanel);
-               break;
+       if(this.controller.getStateController() instanceof MapLoaded){
+           this.add(inputPanel);
+       }else if(
+               this.controller.getStateController() instanceof RequestLoaded ||
+                       this.controller.getStateController() instanceof WaitOrder ||
+                       this.controller.getStateController() instanceof FirstTourComputed
+       ){
+           this.add(panelWithRequests);
        }
 
+       this.add(mapPanel);
     }
 
     /**
-     * change the panel panel
-     * @param panel the panel to remove
-     * @param panelToAdd the panel to add
+     * remove all the panel of the window
      */
-    private void changePanel(JPanel panel, JPanel panelToAdd)
-    {
-        this.remove(panel);
+    private void removeAllPanel(){
         this.remove(mapPanel);
-        this.add(panelToAdd);
-        this.add(mapPanel);
-        this.revalidate();
-        this.repaint();
-
+        this.remove(inputPanel);
+        this.remove(panelWithRequests);
     }
 
     /**
@@ -112,6 +108,6 @@ public class WindowMap extends Frame implements Observer //implements ActionList
 
         }
 
-
+        this.updatePanel();
     }
 }

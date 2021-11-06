@@ -35,15 +35,6 @@ public class Controller {
         map.addObserver(getWindow2());
     }
 
-    /**
-     * change the controller state
-     * @param state
-     */
-    //set state method
-    protected void setCurrentState(StateController state){
-        stateController = state;
-    }
-
     //overrided method
     public void loadMap(String path){ this.stateController.loadMap(this, path);}
 
@@ -93,6 +84,7 @@ public class Controller {
     //--------------- setter ---------------
     public void setStateController(StateController stateController) {
         this.stateController = stateController;
+        window2.updatePanel();
     }
 
     public void setMap(MapInterface map) {
