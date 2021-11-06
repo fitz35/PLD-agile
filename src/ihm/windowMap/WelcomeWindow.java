@@ -23,7 +23,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 {
     public static final String pathToImg= "./data/images/";
     private JButton browse;
-    private JTextField path;
+    private JLabel path;
     private JButton loadMap;
     private JPanel panel;
     private JLabel body;
@@ -31,7 +31,6 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
     private String pathUrl;
     private ImageIcon appliName;
     private JLabel appliLabel;
-    private JLabel instruction;
     private Controller controller;
 
     public WelcomeWindow(Controller controller)
@@ -61,26 +60,24 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         body.add(appliLabel);
         appliLabel.setIcon(appliName);
 
-        instruction= new JLabel("CHOOSE A MAP (XML FILE)");
-        instruction.setBounds((int)(width*0.4), (int)(height*0.4),(int)(width*0.45),(int)(height/15) );
-        instruction.setForeground(ColorPalette.instruction);
-        instruction.setFont(new Font("Serif", Font.PLAIN, 14));
-        body.add((instruction));
 
 
-
-        path = new JTextField();
-        path.setBounds((int)(width*0.25),(height/2),(int)(width*0.45),(int)(height/15));
+        path = new JLabel();
+        path.setBounds((int)(width*0.25),(int)(height*0.58),(int)(width*0.45),(int)(height/30));
+        path.setOpaque(true);
+        path.setBackground(new Color(220,220,220));
         path.addKeyListener(this);
+        path.setVisible(false);
         body.add(path);
 
-        browse = new JButton("Browse");
-        browse.setBounds((int)(width*0.75),(height/2),(int)(width*0.1),(int)(height/15));
+        ImageIcon browseIcon = new ImageIcon(new ImageIcon(pathToImg+"browseIcon.png").getImage().getScaledInstance((width/70),(height/30), Image.SCALE_AREA_AVERAGING));
+        browse = new JButton( "CHOOSE A MAP (XML file)" ,browseIcon);
+        browse.setBounds((int)(width*0.25),(height/2),(int)(width*0.45),(int)(height/15));
         browse.addActionListener(this);
         body.add(browse);
 
         loadMap= new JButton("LOAD MAP");
-        loadMap.setBounds((int)(width*0.375),(int)(height*0.7),(int)(width*0.1),(int)(height/15));
+        loadMap.setBounds((int)(width*0.43),(int)(height*0.7),(int)(width*0.1),(int)(height/15));
         loadMap.addActionListener(this);
         loadMap.setVisible(false);
         body.add(loadMap);
@@ -89,7 +86,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
         errorMsg.setForeground(ColorPalette.warningMessage);
         errorMsg.setBounds((int)(width*0.25),(int)(height*0.6),(int)(width*0.45),(int)(height/15));
-        errorMsg.setVisible(true);
+        errorMsg.setVisible(false);
         body.add(errorMsg);
 
         panel.revalidate();
@@ -130,7 +127,8 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
                 if(acceptFile(fileName))
                 {
                     //System.out.println("correct extension");
-                    path.setText(pathUrl);
+                    path.setText( pathUrl);
+                    path.setVisible(true);
                     loadMap.setVisible(true);
 
                 }
@@ -146,9 +144,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
         if (e.getSource() == loadMap)
         {
-
             controller.loadMap(pathUrl);
-
         }
 
     }

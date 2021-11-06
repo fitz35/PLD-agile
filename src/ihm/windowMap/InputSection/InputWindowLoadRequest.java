@@ -15,6 +15,7 @@ import java.awt.event.KeyListener;
 
 public class InputWindowLoadRequest extends JPanel implements ActionListener, KeyListener
 {
+    public static final String pathToImg= "./data/images/";
     private JTextField path;
     private JButton browse;
     private JButton loadReqFile;
@@ -40,13 +41,17 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         text.setBounds((Frame.width*1/30), (Frame.height*1/20), 600,40);
         text.setFont(new Font("Serif", Font.BOLD, 30));
 
-        browse= new JButton("BROWSE");
-        browse.setBounds((Frame.width*1/3), (Frame.height*1/20)+50, 100,40);
+        ImageIcon browseIcon = new ImageIcon(new ImageIcon(pathToImg+"browseIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
+        browse = new JButton( "CHOOSE A MAP (XML file)" ,browseIcon);
+        browse.setBounds((Frame.width*1/30)+100, (Frame.height*1/20)+50, Frame.width*1/4,40);
         //browse.setBounds((int)Frame.width/2,(int)Frame.height/20,90,40);
         browse.addActionListener(this);
 
         path = new JTextField();
-        path.setBounds((Frame.width*1/30), (Frame.height*1/20)+50, Frame.width*1/4,40);
+        path.setBounds((Frame.width*1/30), (Frame.height*1/20)+100, Frame.width*1/4,15);
+        path.setVisible(false);
+        path.setOpaque(true);
+        path.setBackground(new Color(220,220,220));
         //path.setBounds(Frame.width/30,Frame.height/20,(int)(Frame.width*0.45),(int)(Frame.height/15));
         path.addKeyListener(this);
 
@@ -55,7 +60,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
 
 
         loadReqFile= new JButton("LOAD XML REQUEST FILE");
-        loadReqFile.setBounds(Frame.width/5,Frame.height/4-10,200, 40);
+        loadReqFile.setBounds(Frame.width/5-60,Frame.height/4-10,200, 40);
         loadReqFile.addActionListener(this);
 
 
@@ -94,6 +99,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
                 {
                     //fSystem.out.println("correct extension");
                     path.setText(filePath);
+                    path.setVisible(true);
                     loadReqFile.setVisible(true);
 
                 }

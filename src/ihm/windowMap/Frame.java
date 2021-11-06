@@ -18,7 +18,7 @@ public class Frame extends JFrame
 
         ImageIcon logo=new ImageIcon (WelcomeWindow.pathToImg+"logo.png");
         this.setIconImage(logo.getImage());
-        this.getContentPane().setBackground(Color.LIGHT_GRAY);
+        this.getContentPane().setBackground(ColorPalette.inputPannel);
 
     }
 
