@@ -14,7 +14,7 @@ import ihm.windowMap.WindowMap;
  * Class Controller
  */
 public class Controller {
-    private ListOfCommands listeOfCommands;
+    private ListOfCommands listOfCommands;
     private StateController stateController;
     private MapInterface map;
     private Tour tour;
@@ -62,7 +62,7 @@ public class Controller {
                               Intersection newDelivery,
                               Intersection beforNewDelivery,
                               int deliveryDuration) {
-        this.stateController.addNewRequest(this, listeOfCommands, newPickup, beforNewPickup,
+        this.stateController.addNewRequest(this, listOfCommands, newPickup, beforNewPickup,
                 pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
     }
 
@@ -72,9 +72,13 @@ public class Controller {
 
     public void chooseNewDelivery(Intersection theNewDelivery, int deliveryDuration){this.stateController.chooseNewDelivery(this, theNewDelivery, deliveryDuration);}
 
-    public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery, listeOfCommands);};
+    public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery, listOfCommands);};
 
     public void back() {this.stateController.back(this);}
+
+    public void redo(){this.stateController.redo(listOfCommands);}
+
+    public void undo(){this.stateController.undo(listOfCommands);}
 
     //--------------- getter ---------------
 

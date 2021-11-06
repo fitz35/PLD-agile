@@ -9,7 +9,7 @@ import ihm.windowMap.WindowMap;
  * Interface implemented from the contoller design pattern
  */
 public interface StateController {
-    public default void  loadMap(Controller context, String path){};
+    public default void loadMap(Controller context, String path){};
     public default void loadRequest(Controller controller, String path){};
     public default void loadTour(Controller controller){};
     public default void back(Controller controller){};
@@ -20,5 +20,6 @@ public interface StateController {
     public default void chooseBeforNewPickup(Controller controller, Intersection theBeforNewPickup){};
     public default void chooseNewDelivery(Controller controller, Intersection theNewDelivery, int deliveryDuration){};
     public default void chooseBeforNewDelivery(Controller controller, Intersection theBeforNewDelivery, ListOfCommands listeOfCommands){};
-
+    public default void redo(ListOfCommands listOfCommands){};
+    public default void undo(ListOfCommands listOfCommands){};
 }
