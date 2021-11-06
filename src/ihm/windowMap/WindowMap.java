@@ -2,11 +2,9 @@ package ihm.windowMap;
 
 import Model.MapInterface;
 import controller.Controller;
-import controller.state.FirstTourComputed;
-import controller.state.MapLoaded;
-import controller.state.RequestLoaded;
-import controller.state.WaitOrder;
+import controller.state.*;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
+import ihm.windowMap.InputSection.InputWindowAddPickup;
 import ihm.windowMap.InputSection.InputWindowLoadRequest;
 
 import javax.swing.*;
@@ -16,10 +14,14 @@ import java.util.Observer;
 
 public class WindowMap extends Frame implements Observer //implements ActionListener, KeyListener
 {
-    private InputWindowLoadRequest inputPanel;
+
 
     private MapPanel mapPanel;
+
     private InputMapWithDeliveryNPickupPoints panelWithRequests;
+    private InputWindowLoadRequest inputPanel;
+    private InputWindowAddPickup inputAddPickup;
+
     private Controller controller;
 
 
@@ -37,6 +39,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         this.setBackground(Color.BLACK);
 
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller);
+        inputAddPickup = new InputWindowAddPickup(this, controller);
 
     }
 
@@ -55,6 +58,8 @@ public class WindowMap extends Frame implements Observer //implements ActionList
                        this.controller.getStateController() instanceof FirstTourComputed
        ){
            this.add(panelWithRequests);
+       }else if(this.controller.getStateController() instanceof AddRequestState1){
+           this.add(inputAddPickup);
        }
 
        this.add(mapPanel);
@@ -66,6 +71,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
     private void removeAllPanel(){
         this.remove(mapPanel);
         this.remove(inputPanel);
+        this.remove(inputAddPickup);
         this.remove(panelWithRequests);
     }
 

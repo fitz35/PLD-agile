@@ -343,6 +343,8 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             }
         }
 
+        if(e.getSource() == this.addRequest){
+        }
     }
 
     @Override
