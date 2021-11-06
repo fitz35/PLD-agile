@@ -247,8 +247,8 @@ public class Map extends MapInterface {
                         }
                         int pickupDuration = Integer.parseInt(element.getAttribute("pickupDuration"));
                         int deliveryDuration = Integer.parseInt(element.getAttribute("deliveryDuration"));
-                        Address pickupAddress = new Address(pickupIntersectionId,pickupIntersection.getLatitude(),pickupIntersection.getLongitude(),pickupDuration);
-                        Address deliveryAddress = new Address(deliveryIntersectionId,deliveryIntersection.getLatitude(),deliveryIntersection.getLongitude(),deliveryDuration);
+                        Address pickupAddress = new Address(pickupIntersectionId,pickupIntersection.getLatitude(),pickupIntersection.getLongitude(),pickupDuration, 1 /*for pickup*/);
+                        Address deliveryAddress = new Address(deliveryIntersectionId,deliveryIntersection.getLatitude(),deliveryIntersection.getLongitude(),deliveryDuration, 2 /*for delivery*/);
 
                         //System.out.println("Existing address ?");
                         //System.out.println("Request: pickupAddress:" + pickupIntersectionId + "; deliveryAddress:" + deliveryIntersectionId + "; pickupDuration: " + pickupDuration + " deliveryDuration: " + deliveryDuration + ";");
@@ -436,10 +436,31 @@ public class Map extends MapInterface {
 
     }
 
+    /**
+     * Retrieves a list of address necessary for the undo redo functionality
+     * @param pickupOrDelivery The pickup or delivery used to retrieve the aforementioned list
+     * @return Returns a list of address as follows, the pickup address, the delivery address, the address we visit before
+     * going to the pickup address and the address we visit before going to de delivery address
+     */
+    public List<Address> addressForUndoDelete(Address pickupOrDelivery){
+        Request req = planningRequest.getRequestByAddress(pickupOrDelivery);
+        Path beforePickupPickup = tour.findPathDestination(req.getPickupAddress());
+        Path beforeDeliveryDelivery = tour.findPathDestination(req.getDeliveryAddress());
+
+        ArrayList<Address> answer = new ArrayList<>();
+        answer.add(req.getPickupAddress());
+        answer.add(req.getDeliveryAddress());
+        answer.add(beforePickupPickup.getDeparture());
+        answer.add(beforeDeliveryDelivery.getDeparture());
+
+        return answer;
+    }
+
     private void replaceOldPathInTour(Address toVisitBefore, Address destination) {
-        Path oldPath = tour.findPath(toVisitBefore);
+        Path oldPath = tour.findPathOrigin(toVisitBefore);
         Path newPath1 = findShortestPath(toVisitBefore, destination);
         Path newPath2 = findShortestPath(destination, oldPath.getArrival());
+        tour.replaceOldPath(oldPath, newPath1, newPath2);
     }
 
     private Path findShortestPath(Address start, Address destination){
