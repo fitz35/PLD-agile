@@ -30,6 +30,16 @@ public class FirstTourComputed implements StateController {
     }
 
     @Override
+    public void redo(ListOfCommands listOfCommands){
+        listOfCommands.redo();
+    };
+
+    @Override
+    public void undo(ListOfCommands listOfCommands){
+        listOfCommands.undo();
+    };
+
+    @Override
     public void back(Controller controller)
     {
         controller.setStateController(new RequestLoaded());
