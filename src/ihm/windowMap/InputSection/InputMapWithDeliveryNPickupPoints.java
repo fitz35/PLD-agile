@@ -168,6 +168,13 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             g3d.drawString("" + (num2 + 1), 60, 215 + (i * 110));
         }*/
     }
+    public int getMaxRequestsPerPage()
+    {
+        int heightPixels= Frame.height-145;
+        int widthPixels= Frame.width;
+        int oneRequestHeight= 230-145+30;
+        return ((int)(heightPixels/oneRequestHeight))-1;
+    }
 
     public void updatePlanningRequestNotNull() {
         //Icons
@@ -180,6 +187,16 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         if (controller.getMap().getPlanningRequest() != null && controller.getMap().getPlanningRequest().getStartingPoint() != null) {
             //Get the planning request list from the controller
             requestsList = controller.getMap().getPlanningRequest().getRequestList();
+            int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
+            verticalScroller.setMaximum ((requestsList.size()/maxNoOfRequestsPerPage)+1);
+            ArrayList<JButton> listRequestButton= new ArrayList<>();
+            ArrayList<JButton> listPickupButton= new ArrayList<>();
+            ArrayList<JButton> listIconPickupButton= new ArrayList<>();
+            ArrayList<JButton> listPickupDurationButton= new ArrayList<>();
+            ArrayList<JButton> listDeliveryButton= new ArrayList<>();
+            ArrayList<JButton> listIconDeliveryButton= new ArrayList<>();
+            ArrayList<JButton> listDeliveryDurationButton= new ArrayList<>();
+            ArrayList<JButton> listDeleteButton= new ArrayList<>();
             verticalScroller.setMaximum((requestsList.size() / 5) + 1);
             listRequestButton = new ArrayList<>();
             listPickupButton = new ArrayList<>();
@@ -210,6 +227,8 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
             //Requests with pickup and delivery points
+
+            deleteRequestListeners = new ArrayList<>();
 
             for (int i = 0; i < requestsList.size(); i++) {
                 //Button request
@@ -257,8 +276,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                         requestsList.get(i).getDeliveryAddress().getLongitude());
                 deliveryButton.setBackground(ColorPalette.inputPannel);
                 deliveryButton.setBorderPainted(false);
-                listDeliveryButton.add(deliveryButton);
-
                 deliveryButton.addActionListener(this);
                 deliveryDuration = new JButton("Delivery Duration : " +
                         requestsList.get(i).getDeliveryAddress().getAddressDuration() + " ");
@@ -271,33 +288,38 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                 deleteRequest = new JButton(iconeDelete);
                 deleteRequest.setBackground(ColorPalette.inputPannel);
                 deleteRequest.addActionListener(this);
+                deleteRequestListeners.add(this);
                 listDeleteButton.add(deleteRequest);
 
 
             }
 
-            int positionScrollBar = verticalScroller.getValue();
+            int positionScrollBar= verticalScroller.getValue();
+            System.out.println("PSB"+positionScrollBar);
+            System.out.println("SizePickupList"+listPickupButton.size());
+            System.out.println("SizeDeliveryList"+listDeliveryButton.size());
 
-            for (int j = 0; j < 5 && ((positionScrollBar * 5) + j) < requestsList.size(); j++) {
+            for(int j=0; j<maxNoOfRequestsPerPage && ((positionScrollBar*maxNoOfRequestsPerPage)+j)< requestsList.size(); j++)
+            {
+                System.out.println("index"+(positionScrollBar*maxNoOfRequestsPerPage)+j);
+                listRequestButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(80,145 + (j*110), 130,20);
+                listIconPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(75,170 + (j*110), 20,20);
+                listPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,170 + (j*110), 420,20);
+                listPickupDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,190 + (j*110), 190,20);
+                listIconDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(75,210 + (j*110),20,20);
+                listDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,210 + (j*110), 420,20);
+                listDeliveryDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,230 + (j*110), 190,20);
+                listDeleteButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(50,146 + (j*110), 20,25);
+                this.add(listRequestButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listIconPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listPickupDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listIconDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listDeliveryDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listDeleteButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
 
-                listRequestButton.get((positionScrollBar * 5) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 110)), 130, 20);
-                listIconPickupButton.get((positionScrollBar * 5) + j).setBounds((int) (0.1 * Frame.height), (int) (0.24 * Frame.height + (j * 110)), (width / 70), (height / 40));
-                listPickupButton.get((positionScrollBar * 5) + j).setBounds((int) (0.2 * Frame.height), (int) (0.24 * Frame.height + (j * 110)), 420, 20);
-                listPickupDurationButton.get((positionScrollBar * 5) + j).setBounds((int) (0.14 * Frame.height), (int) (0.26 * Frame.height + (j * 110)), 190, 20);
-                listIconDeliveryButton.get((positionScrollBar * 5) + j).setBounds((int) (0.1 * Frame.height), (int) (0.3 * Frame.height) + (j * 110), (width / 70), (height / 40));
-                listDeliveryButton.get((positionScrollBar * 5) + j).setBounds((int) (0.14 * Frame.height), (int) (0.3 * Frame.height) + (j * 110), 420, 20);
-                listDeliveryDurationButton.get((positionScrollBar * 5) + j).setBounds((int) (0.14 * Frame.height), (int) (0.32 * Frame.height) + (j * 110), 190, 20);
-                listDeleteButton.get((positionScrollBar * 5) + j).setBounds(((int) (0.07 * Frame.height)), (int) (0.195 * Frame.height) + (j * 110), (width / 60), (height / 30));
-                this.add(listRequestButton.get((positionScrollBar * 5) + j));
-                this.add(listIconPickupButton.get((positionScrollBar * 5) + j));
-                this.add(listPickupButton.get((positionScrollBar * 5) + j));
-                this.add(listPickupDurationButton.get((positionScrollBar * 5) + j));
-                this.add(listIconDeliveryButton.get((positionScrollBar * 5) + j));
-                this.add(listDeliveryButton.get((positionScrollBar * 5) + j));
-                this.add(listDeliveryDurationButton.get((positionScrollBar * 5) + j));
-                this.add(listDeleteButton.get((positionScrollBar * 5) + j));
-
-            }
+                }
 
 
         }
@@ -460,9 +482,9 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             }
         }
 
-
+        if(e.getSource() == this.addRequest){
+        }
     }
-
 
     @Override
     public void adjustmentValueChanged(AdjustmentEvent e)

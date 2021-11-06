@@ -23,7 +23,6 @@ public class MapLoaded implements StateController {
         try{
             controller.getMap().loadRequest(path);
             //load requests back method
-            controller.getWindow2().changePanel(0);
             controller.getMap().notifyObservers();
             if(controller.getMap().isPlanningLoaded())
             {

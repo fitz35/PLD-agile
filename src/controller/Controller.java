@@ -14,7 +14,7 @@ import ihm.windowMap.WindowMap;
  * Class Controller
  */
 public class Controller {
-    private ListOfCommands listeOfCommands;
+    private ListOfCommands listOfCommands;
     private StateController stateController;
     private MapInterface map;
     private Tour tour;
@@ -35,15 +35,6 @@ public class Controller {
         map.addObserver(getWindow2());
     }
 
-    /**
-     * change the controller state
-     * @param state
-     */
-    //set state method
-    protected void setCurrentState(StateController state){
-        stateController = state;
-    }
-
     //overrided method
     public void loadMap(String path){ this.stateController.loadMap(this, path);}
 
@@ -56,18 +47,32 @@ public class Controller {
 
     public void continueComputing() {this.stateController.continueTour(this, 10000); }
 
+    @Deprecated
     public void addNewRequest(Intersection newPickup,
                               Intersection beforNewPickup,
                               int pickupDuration,
                               Intersection newDelivery,
                               Intersection beforNewDelivery,
                               int deliveryDuration) {
-        this.stateController.addNewRequest(this, listeOfCommands, newPickup, beforNewPickup,
+        this.stateController.addNewRequest(this, listOfCommands, newPickup, beforNewPickup,
                 pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
     }
 
+    public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){ this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );}
+
+    public void chooseBeforNewPickup(Intersection theBeforNewPickup){this.stateController.chooseBeforNewPickup(this, theBeforNewPickup);}
+
+    public void chooseNewDelivery(Intersection theNewDelivery, int deliveryDuration){this.stateController.chooseNewDelivery(this, theNewDelivery, deliveryDuration);}
+
+    public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery, listOfCommands);};
+
+    public void deleteRequest(Intersection intersectioToDelete){this.stateController.deleteRequest(this, intersectioToDelete, listOfCommands);}
 
     public void back() {this.stateController.back(this);}
+
+    public void redo(){this.stateController.redo(listOfCommands);}
+
+    public void undo(){this.stateController.undo(listOfCommands);}
 
     //--------------- getter ---------------
 
@@ -94,6 +99,7 @@ public class Controller {
     //--------------- setter ---------------
     public void setStateController(StateController stateController) {
         this.stateController = stateController;
+        window2.updatePanel();
     }
 
     public void setMap(MapInterface map) {

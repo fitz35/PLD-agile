@@ -17,11 +17,11 @@ public class InitialState implements StateController {
     public void loadMap(Controller controller, String mapPath) {
         try {
             controller.getMap().loadMap(mapPath);
-            controller.getWindow2().setVisible(true);
-            controller.getFirstWindow().setVisible(false);
             if(controller.getMap().isMapLoaded())
             {
                 controller.setStateController(new MapLoaded());
+                controller.getWindow2().setVisible(true);
+                controller.getFirstWindow().setVisible(false);
             }
         } catch (Exception e) {
             e.printStackTrace();
