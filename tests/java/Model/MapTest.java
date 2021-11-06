@@ -214,8 +214,8 @@ class MapTest extends Observable {
         }
         assert(!exceptionRaised);
         PlanningRequest planingTest = new PlanningRequest();
-        Address pickup = new Address(208769039,45.76069,4.8749375,180);
-        Address delivery = new Address(25173820,45.749996,4.858258,240);
+        Address pickup = new Address(208769039,45.76069,4.8749375,180, 1 /*for pickup*/);
+        Address delivery = new Address(25173820,45.749996,4.858258,240, 2 /*for delivery*/);
         Request req1 = new Request(pickup,delivery);
         ArrayList<Request> requestList = new ArrayList<Request>();
         requestList.add(req1);

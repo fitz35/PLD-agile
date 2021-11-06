@@ -15,23 +15,36 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class PlanningRequest {
     private ArrayList<Request> requestList;
+    private HashMap<Address, Integer> addressRequestHashMap;
     private Date departureTime;
     private Intersection startingPoint;
     private ArrayList<Address> AddressList;
     private boolean adressRCreated = false;
 
     public PlanningRequest() {
-        requestList = new ArrayList<Request>();
+        requestList = new ArrayList<>();
+        initAddressMap();
     }
 
     public PlanningRequest(ArrayList<Request> requestArrayList, Date departureTime, Intersection startingPoint) {
         this.requestList = requestArrayList;
         this.departureTime = departureTime;
         this.startingPoint = startingPoint;
+        initAddressMap();
+    }
+
+    /**
+     * Finds a request with the desired delivery or pickup address
+     * @param pickupOrDelivery The address in the request to be found
+     * @return The request, containing pickupOrDelivery and de pick up or delivery that corresponds
+     */
+    public Request getRequestByAddress(Address pickupOrDelivery){
+        return requestList.get(addressRequestHashMap.get(pickupOrDelivery));
     }
 
     public void addRequest(Request newRequest) {
@@ -59,7 +72,7 @@ public class PlanningRequest {
         }else {
             //return all Intersection from the request and add the starting point address at the first place
             AddressList = new ArrayList<>(1 + requestList.size());
-            Address startingAddress = new Address(startingPoint.getId(), startingPoint.getLatitude(), startingPoint.getLongitude(), 0);
+            Address startingAddress = new Address(startingPoint.getId(), startingPoint.getLatitude(), startingPoint.getLongitude(), 0, 0/*for depot*/);
             AddressList.add(startingAddress);
 
             for (Request req : requestList) {
@@ -107,6 +120,16 @@ public class PlanningRequest {
         return Objects.equals(startingPoint,planningTest.getStartingPoint())
                 && Objects.equals(departureTime,planningTest.departureTime)
                 && Objects.equals(requestList,planningTest.getRequestList());
+    }
+
+    private void initAddressMap(){
+        addressRequestHashMap = new HashMap<>();
+        int i = 0;
+        for(Request req : requestList){
+            addressRequestHashMap.put(req.getDeliveryAddress(), i);
+            addressRequestHashMap.put(req.getPickupAddress(), i);
+            i++;
+        }
     }
     public static void main(String[] args){
         PlanningRequest planning =new PlanningRequest();
