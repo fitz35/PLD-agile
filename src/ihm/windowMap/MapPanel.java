@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 public class MapPanel extends JPanel implements MouseListener
 {
@@ -21,12 +23,15 @@ public class MapPanel extends JPanel implements MouseListener
     private Intersection startingPoint;
     private Intersection pickup;
     private Intersection delivery;
+    private InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints;
 
 
-    public MapPanel()
+
+    public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints)
     {
         super();
         this.addMouseListener(this);
+        this.inputMapWithDeliveryNPickupPoints = inputMapWithDeliveryNPickupPoints;
         this.setBackground(ColorPalette.mapBackground);
         this.setLayout(null);
         this.revalidate();
@@ -50,9 +55,9 @@ public class MapPanel extends JPanel implements MouseListener
     }
 
     @Override
-    public void paint(Graphics g)
+    public void paintComponent(Graphics g)
     {
-        super.paint(g);
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.red);
         if(createdMap!=null) {
@@ -87,6 +92,7 @@ public class MapPanel extends JPanel implements MouseListener
 
 
     }
+
 
     /**
      * compute the coordonnee of a point define by his latitude and longitude
@@ -159,7 +165,7 @@ public class MapPanel extends JPanel implements MouseListener
         }
         else
         {
-            System.out.println("wrong");
+            //System.out.println("wrong");
             return null;
         }
 
@@ -188,7 +194,7 @@ public class MapPanel extends JPanel implements MouseListener
                 intersectionResult=i;
             }
         }
-        System.out.println(intersectionResult.getLatitude()+ "."+ intersectionResult.getLongitude());
+        //System.out.println(intersectionResult.getLatitude()+ "."+ intersectionResult.getLongitude());
         return intersectionResult;
     }
 
@@ -303,12 +309,24 @@ public class MapPanel extends JPanel implements MouseListener
      */
     public void paintRequest(Graphics2D g, Request request, int num )
     {
-        //System.out.println(num);
         pickup= request.getPickupAddress();
         delivery= request.getDeliveryAddress();
 
-        paintIntersection(g, pickup, ColorPalette.pickupPoints, num,8);
-        paintIntersection(g,delivery, ColorPalette.deliveryPoints, num,8);
+        if(inputMapWithDeliveryNPickupPoints.getHighlightPickupNumber()==num) {
+            paintIntersection(g, pickup, ColorPalette.pickupPoints, num, 16);
+            paintIntersection(g, delivery, ColorPalette.deliveryPoints, num, 8);
+
+        }else if(inputMapWithDeliveryNPickupPoints.getHighlightDeliveryNumber()==num) {
+            paintIntersection(g, pickup, ColorPalette.pickupPoints, num, 8);
+            paintIntersection(g, delivery, ColorPalette.deliveryPoints, num, 16);
+
+        }else if(inputMapWithDeliveryNPickupPoints.getHighlightRequestNumber()==num){
+            paintIntersection(g, pickup, ColorPalette.pickupPoints, num, 16);
+            paintIntersection(g, delivery, ColorPalette.deliveryPoints, num, 16);
+        }else{
+            paintIntersection(g, pickup, ColorPalette.pickupPoints, num, 8);
+            paintIntersection(g, delivery, ColorPalette.deliveryPoints, num, 8);
+        }
     }
 
 
@@ -325,7 +343,7 @@ public class MapPanel extends JPanel implements MouseListener
             s=convertPointToSegment(PixelX, PixelY, (int)(0.9*Frame.height));
             JLabel label= InputMapWithDeliveryNPickupPoints.getJLabel();
             InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked:"+ s.getName(), label);
-            System.out.println(PixelX + " " + PixelY + " " + s.getName());
+            //System.out.println(PixelX + " " + PixelY + " " + s.getName());
         }
     }
 

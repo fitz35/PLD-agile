@@ -51,6 +51,7 @@ public class Controller {
 
     public void loadTour() { this.stateController.loadTour(this); }
 
+
     public void stopComputing() {this.stateController.stopComputing(this); }
 
     public void continueComputing() {this.stateController.continueTour(this, 10000); }
