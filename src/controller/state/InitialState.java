@@ -19,7 +19,7 @@ public class InitialState implements StateController {
             controller.getMap().loadMap(mapPath);
             if(controller.getMap().isMapLoaded())
             {
-                controller.setStateController(new WaitRequest());
+                controller.setStateController(new MapLoaded());
                 controller.getWindow2().setVisible(true);
                 controller.getFirstWindow().setVisible(false);
             }
