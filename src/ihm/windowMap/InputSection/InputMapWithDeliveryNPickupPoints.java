@@ -131,6 +131,13 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         g2d.setColor(Color.red);
         //mapPanel.paintRequest(g2d,r,num??);
     }
+    public int getMaxRequestsPerPage()
+    {
+        int heightPixels= Frame.height-145;
+        int widthPixels= Frame.width;
+        int oneRequestHeight= 230-145+30;
+        return ((int)(heightPixels/oneRequestHeight))-1;
+    }
 
     public void updatePlanningRequestNotNull(){
         //Icons
@@ -145,7 +152,8 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         if(controller.getMap().getPlanningRequest()!= null && controller.getMap().getPlanningRequest().getStartingPoint() != null) {
             //Get the planning request list from the controller
             requestsList = controller.getMap().getPlanningRequest().getRequestList();
-            verticalScroller.setMaximum ((requestsList.size()/5)+1);
+            int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
+            verticalScroller.setMaximum ((requestsList.size()/maxNoOfRequestsPerPage)+1);
             ArrayList<JButton> listRequestButton= new ArrayList<>();
             ArrayList<JButton> listPickupButton= new ArrayList<>();
             ArrayList<JButton> listIconPickupButton= new ArrayList<>();
@@ -202,13 +210,8 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                         requestsList.get(i).getPickupAddress().getLongitude());
                 pickupButton.setBackground(ColorPalette.inputPannel);
                 pickupButton.setBorderPainted(false);
-
-                listPickupButton.add(pickupButton);
-
-
                 pickupButton.addActionListener(this);
                 listPickupButton.add(pickupButton);
-
 
 
                 pickupDuration = new JButton("Pickup Duration : " +
@@ -231,41 +234,22 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                         requestsList.get(i).getDeliveryAddress().getLongitude());
                 deliveryButton.setBackground(ColorPalette.inputPannel);
                 deliveryButton.setBorderPainted(false);
-
-                deliveryButton.setBounds(99,210 + (i*110), 420,20);
                 deliveryButton.addActionListener(this);
                 listDeliveryButton.add(deliveryButton);
-
-
-                listDeliveryButton.add(deliveryButton);
-
-                deliveryButton.addActionListener(this);
 
                 deliveryDuration = new JButton("Delivery Duration : " +
                         requestsList.get(i).getDeliveryAddress().getAddressDuration() + " ");
                 deliveryDuration.setBackground(ColorPalette.inputPannel);
                 deliveryDuration.setBorderPainted(false);
-
-                deliveryDuration.setBounds(99,230 + (i*110), 190,20);
-                this.add(deliveryIcon);
-                this.add(deliveryButton);
-                this.add(deliveryDuration);
-
-                listDeliveryDurationButton.add(deliveryDuration);
+                 listDeliveryDurationButton.add(deliveryDuration);
 
 
 
                 //Button to delete a request
                 deleteRequest = new JButton(iconeDelete);
                 deleteRequest.setBackground(ColorPalette.inputPannel);
-
-                deleteRequest.setBounds(50,146 + (i*110), (width/60),(height/30));
                 deleteRequest.addActionListener(this);
-                this.add(deleteRequest);
-
                 deleteRequestListeners.add(this);
-
-                deleteRequest.addActionListener(this);
                 listDeleteButton.add(deleteRequest);
 
 
@@ -273,25 +257,28 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
             int positionScrollBar= verticalScroller.getValue();
             System.out.println("PSB"+positionScrollBar);
-            for(int j=0; j<5 && ((positionScrollBar*5)+j)< requestsList.size(); j++)
+            System.out.println("SizePickupList"+listPickupButton.size());
+            System.out.println("SizeDeliveryList"+listDeliveryButton.size());
+
+            for(int j=0; j<maxNoOfRequestsPerPage && ((positionScrollBar*maxNoOfRequestsPerPage)+j)< requestsList.size(); j++)
             {
-                System.out.println("index"+(positionScrollBar*5)+j);
-                listRequestButton.get((positionScrollBar*5)+j).setBounds(Frame.height/9,(int)(0.2* Frame.height + (j*110)), 130,20);
-                listIconPickupButton.get((positionScrollBar*5)+j).setBounds((int)(0.1* Frame.height),(int)(0.24* Frame.height + (j*110)), (width/70),(height/40));
-                listPickupButton.get((positionScrollBar*5)+j).setBounds((int)(0.2* Frame.height),(int)(0.24* Frame.height + (j*110)), 420,20);
-                listPickupDurationButton.get((positionScrollBar*5)+j).setBounds((int)(0.14* Frame.height),(int)(0.26* Frame.height  + (j*110)), 190,20);
-                listIconDeliveryButton.get((positionScrollBar*5)+j).setBounds((int)(0.1* Frame.height),(int)(0.3* Frame.height) + (j*110), (width/70),(height/40));
-                listDeliveryButton.get((positionScrollBar*5)+j).setBounds((int)(0.14* Frame.height),(int)(0.3* Frame.height) + (j*110), 420,20);
-                listDeliveryDurationButton.get((positionScrollBar*5)+j).setBounds((int)(0.14* Frame.height),(int)(0.32* Frame.height) + (j*110), 190,20);
-                listDeleteButton.get((positionScrollBar*5)+j).setBounds(((int)(0.07* Frame.height)),(int)(0.195* Frame.height) + (j*110), (width/60),(height/30));
-                this.add(listRequestButton.get((positionScrollBar*5)+j));
-                this.add(listIconPickupButton.get((positionScrollBar*5)+j));
-                this.add(listPickupButton.get((positionScrollBar*5)+j));
-                this.add(listPickupDurationButton.get((positionScrollBar*5)+j));
-                this.add(listIconDeliveryButton.get((positionScrollBar*5)+j));
-                this.add(listDeliveryButton.get((positionScrollBar*5)+j));
-                this.add(listDeliveryDurationButton.get((positionScrollBar*5)+j));
-                this.add(listDeleteButton.get((positionScrollBar*5)+j));
+                System.out.println("index"+(positionScrollBar*maxNoOfRequestsPerPage)+j);
+                listRequestButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(80,145 + (j*110), 130,20);
+                listIconPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(75,170 + (j*110), 20,20);
+                listPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,170 + (j*110), 420,20);
+                listPickupDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,190 + (j*110), 190,20);
+                listIconDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(75,210 + (j*110),20,20);
+                listDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,210 + (j*110), 420,20);
+                listDeliveryDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,230 + (j*110), 190,20);
+                listDeleteButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(50,146 + (j*110), 20,25);
+                this.add(listRequestButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listIconPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listPickupDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listIconDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listDeliveryDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                this.add(listDeleteButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
 
                 }
 
@@ -350,7 +337,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     @Override
     public void adjustmentValueChanged(AdjustmentEvent e)
     {
-        System.out.println("Horozintal: "+ verticalScroller.getValue());
+        System.out.println("Vertical: "+ verticalScroller.getValue());
         this.removeAll();
         this.add(verticalScroller);
         this.add(backToLoadRequest);
