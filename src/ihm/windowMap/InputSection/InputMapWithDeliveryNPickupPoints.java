@@ -128,7 +128,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
 
-        if(controller.getMap().getPlanningRequest()!= null) {
+        if(controller.getMap().getPlanningRequest()!= null && controller.getMap().getPlanningRequest().getStartingPoint() != null) {
             //Get the planning request list from the controller
             requestsList = controller.getMap().getPlanningRequest().getRequestList();
             verticalScroller.setMaximum ((requestsList.size()/5)+1);
