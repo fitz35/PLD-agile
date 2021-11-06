@@ -2,6 +2,7 @@ package ihm.windowMap.InputSection;
 
 import Model.Intersection;
 import Model.MapInterface;
+import Model.Path;
 import Model.Request;
 import controller.Controller;
 import controller.state.MapLoaded;
@@ -16,9 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
 public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionListener, AdjustmentListener {
     public static final String pathToImg = "./data/images/";
@@ -32,6 +31,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     private JButton startingPoint, startingPointLatLong;
     private JButton requestButton;
     private JButton pickupIcon, pickupButton, pickupDuration, deliveryIcon, deliveryButton, deliveryDuration;
+    private JButton pathButton, arrivalButton;
 
 
     private JButton addRequest;
@@ -42,6 +42,8 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     private int highlightDeliveryNumber = -2;
     private int highlightRequestNumber = -2;
 
+    private boolean optimalTour = false;
+
 
     private ArrayList<JButton> listDeleteButton;
     private ArrayList<JButton> listRequestButton;
@@ -51,11 +53,22 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     private ArrayList<JButton> listDeliveryButton;
     private ArrayList<JButton> listIconDeliveryButton;
     private ArrayList<JButton> listDeliveryDurationButton;
+
+    private ArrayList<JButton> listPath;
+
+    private Date startDate;
+
     private JPanel requests;
     private JLabel text;
     private static JLabel text1;
+    private JLabel text2;
+    private JLabel startDateLabel;
+
+
 
     private JScrollBar verticalScroller;
+    private JScrollBar verticalScrollerTour;
+
 
 
     JTextField t = new JTextField(10);
@@ -66,6 +79,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
     private ArrayList<Request> requestsList;
+    private LinkedList<Path> pathListOptimalTour;
 
     private Controller controller;
 
@@ -85,9 +99,18 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         text1.setBounds(30, 40, 600, 40);
         text1.setFont(new Font("Serif", Font.BOLD, 25));
 
+        text2 = new JLabel("Your optimal tour : ");
+        text2.setBounds(30, 70, 600, 40);
+        text2.setFont(new Font("Serif", Font.BOLD, 25));
+
         verticalScroller = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
         verticalScroller.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));
         verticalScroller.addAdjustmentListener(this);
+
+        verticalScrollerTour = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
+        System.out.println(window.getWidth());
+        verticalScrollerTour.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));
+        verticalScrollerTour.addAdjustmentListener(this);
 
 
         findOptimalRoute = new JButton("Find Optimal Tour");
@@ -104,6 +127,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         backToLoadRequest.addActionListener(this);
 
         this.add(verticalScroller);
+        this.add(verticalScrollerTour);
         this.add(backToLoadRequest);
         this.add(findOptimalRoute);
         this.add(addRequest);
@@ -138,12 +162,11 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             g3d.drawString("" + (num + 1), 60, 175 + (i * 110));
             g3d.drawString("" + (num + 1), 60, 215 + (i * 110));
         }
-
-        //Highlight the pickup and delivery points when necessary
-        //Pickup
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.red);
-        //mapPanel.paintRequest(g2d,r,num??);
+        /*for (int i = 0; i < 12; i++) {
+            int num2 = verticalScrollerTour.getValue() * 12 + i;
+            g3d.drawString("" + (num2 + 1), 60, 175 + (i * 110));
+            g3d.drawString("" + (num2 + 1), 60, 215 + (i * 110));
+        }*/
     }
 
     public void updatePlanningRequestNotNull() {
@@ -278,7 +301,87 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
         }
+    }
 
+    public int[] computeTime(int time){
+        int[] tab = new int[3];
+        tab[0] = (time % 86400 ) / 3600 ; //Heure
+        tab[1] = ((time % 86400 ) % 3600 ) / 60; //Minute
+        tab[2] = ((time % 86400 ) % 3600 ) % 60 ; //Seconde
+        return tab;
+    }
+
+    public String getString(int time){
+        String timeString = "";
+        if(time<10){ timeString = String.valueOf(time).format("%02d", time);
+        }else{
+            timeString = String.valueOf(time);
+        }
+        return timeString;
+    }
+    public void updatePlanningRequestOptimalTour() {
+        System.out.println((computeTime(119))[0]);
+        System.out.println((computeTime(119))[1]);
+        System.out.println((computeTime(119))[2]);
+
+        //Time
+        startDate = controller.getMap().getPlanningRequest().getDepartureTime();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = calendar.get(Calendar.MINUTE);
+        int seconds = calendar.get(Calendar.SECOND);
+
+        if (controller.getMap().getTour() != null && controller.getMap().getTour().getOrderedPathList() != null) {
+            pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();
+            verticalScrollerTour.setMaximum((pathListOptimalTour.size() / 12) + 1);
+
+            listPath = new ArrayList<>();
+
+            for (int i = 0; i < pathListOptimalTour.size(); i++) {
+                System.out.println(pathListOptimalTour.get(i).getDeparture());
+                System.out.println(pathListOptimalTour.get(pathListOptimalTour.size()-1).getArrival());
+                if(i==0) { //Starting point
+                    pathButton = new JButton( getString(hours) + ":"+getString(minutes)+" " +
+                            "          Departure : " + pathListOptimalTour.get(i).getDeparture());
+
+                }else{
+                    hours += computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
+                    minutes += computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
+
+                    pathButton = new JButton(getString(hours) + ":"+getString(minutes)+" " +
+                            "        Address "+ i + " : "+ pathListOptimalTour.get(i).getDeparture()+
+                            "        Duration : "  + pathListOptimalTour.get(i).getDeparture().getAddressDuration());
+
+                }
+                pathButton.setHorizontalAlignment(SwingConstants.LEFT);
+                pathButton.setBackground(ColorPalette.inputPannel);
+                pathButton.setBorderPainted(false);
+                pathButton.addActionListener(this);
+                listPath.add(pathButton);
+
+                if(i==(pathListOptimalTour.size())-1) { //For the last point, take the departure AND arrival
+                    hours += computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
+                    minutes += computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
+                    arrivalButton = new JButton( getString(hours) + ":"+getString(minutes)+" " +
+                            "          Arrival : " + pathListOptimalTour.get(i).getArrival());
+                    arrivalButton.setHorizontalAlignment(SwingConstants.LEFT);
+                    arrivalButton.setBackground(ColorPalette.inputPannel);
+                    arrivalButton.setBorderPainted(false);
+                    arrivalButton.addActionListener(this);
+                    listPath.add(arrivalButton);
+                }
+            }
+            System.out.println(listPath.size());
+        }
+
+        //ScrollBar
+        int positionScrollBarTour = verticalScrollerTour.getValue();
+        for (int j = 0; j < 12 && ((positionScrollBarTour * 12) + j) < pathListOptimalTour.size()+1; j++) {
+            listPath.get((positionScrollBarTour * 12) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 40)), 500, 20);
+            this.add(listPath.get((positionScrollBarTour * 12) + j));
+        }
+        this.add(text2);
     }
 
     public int getHighlightStartingNumber() {
@@ -297,6 +400,9 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         return highlightRequestNumber;
     }
 
+    public boolean getOptimalTourPressed(){
+        return optimalTour;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -307,9 +413,18 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
         if (e.getSource() == findOptimalRoute) {
             controller.loadTour();
+            optimalTour = true;
+
+            this.removeAll(); this.add(verticalScrollerTour); this.add(backToLoadRequest);
+            this.add(findOptimalRoute); this.add(addRequest); this.add(text2); this.add(text1);
+            updatePlanningRequestOptimalTour();
+            this.revalidate(); this.repaint();
         }
 
         if (e.getSource() == backToLoadRequest) {
+            this.removeAll(); this.add(verticalScroller); this.add(backToLoadRequest);
+            this.add(findOptimalRoute); this.add(addRequest); this.add(text); this.add(text1);
+            this.revalidate(); this.repaint();
             controller.back();
         }
         //Request
@@ -360,16 +475,31 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     public void adjustmentValueChanged(AdjustmentEvent e)
     {
         //System.out.println("Horozintal: "+ verticalScroller.getValue());
-        this.removeAll();
-        this.add(verticalScroller);
-        this.add(backToLoadRequest);
-        this.add(findOptimalRoute);
-        this.add(addRequest);
-        this.add(text);
-        this.add(text1);
-        updatePlanningRequestNotNull();
-        this.revalidate();
-        this.repaint();
+
+        if(e.getSource()==verticalScroller) {
+            this.removeAll();
+            this.add(verticalScroller);
+            this.add(backToLoadRequest);
+            this.add(findOptimalRoute);
+            this.add(addRequest);
+            this.add(text);
+            this.add(text1);
+            updatePlanningRequestNotNull();
+            this.revalidate();
+            this.repaint();
+        }
+        if(e.getSource()==verticalScrollerTour) {
+            this.removeAll();
+            this.add(verticalScrollerTour);
+            this.add(backToLoadRequest);
+            this.add(findOptimalRoute);
+            this.add(addRequest);
+            this.add(text2);
+            this.add(text1);
+            updatePlanningRequestOptimalTour();
+            this.revalidate();
+            this.repaint();
+        }
 
     }
 }

@@ -55,9 +55,9 @@ public class MapPanel extends JPanel implements MouseListener
     }
 
     @Override
-    public void paintComponent(Graphics g)
+    public void paint(Graphics g)
     {
-        super.paintComponent(g);
+        super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.red);
         if(createdMap!=null) {
@@ -67,20 +67,19 @@ public class MapPanel extends JPanel implements MouseListener
             for (Segment s : createdMap.getSegmentList()) {
                 paintSegment(g2d, s, ColorPalette.segmentColor);
             }
-            if(createdMap.getPlanningRequest() != null)
-            {
-                int i=0;
-                for (Request r : createdMap.getPlanningRequest().getRequestList())
-                {
+            if(createdMap.getPlanningRequest() != null) {
+                int i = 0;
+                for (Request r : createdMap.getPlanningRequest().getRequestList()) {
                     paintRequest(g2d, r, i);
                     i++;
                 }
+            }
                 if(createdMap.getPlanningRequest().getStartingPoint()!= null)
                 {
                     startingPoint= createdMap.getPlanningRequest().getStartingPoint();
                     paintIntersection(g2d, startingPoint, ColorPalette.startingPoint,-1, 8);
                 }
-            }
+
             if(createdMap.getTour()!= null && createdMap.getTour().getOrderedSegmentList()!= null)
             {
                 for (Segment segment : createdMap.getTour().getOrderedSegmentList())
@@ -92,6 +91,8 @@ public class MapPanel extends JPanel implements MouseListener
 
 
     }
+
+
 
 
     /**
