@@ -153,9 +153,7 @@ public class Map extends MapInterface {
         boolean res=true;
         for(Intersection intersection:intersectionList)
         {
-            if( intersection.getId() == intersectionId &&
-                intersection.getLatitude()== latitude &&
-                intersection.getLongitude()==longitude)
+            if( intersection.equals(new Intersection(intersectionId,latitude,longitude)))
             {
                 res=false;
             }
@@ -462,9 +460,9 @@ public class Map extends MapInterface {
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
         Map map = new Map();
-        //map.loadMap("./data/fichiersXML2020/smallMap.xml");
+        // map.loadMap("./data/fichiersXML2020/largeMap.xml");
         // PlanningRequest planning = new PlanningRequest();
-        //map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
+        // map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
         // System.out.println("passé");
 
         //TEST DJIKSTRA
@@ -479,7 +477,18 @@ public class Map extends MapInterface {
             System.out.println(inte.getId());
         });*/
 
-        /*map.computeTour(200000000);*/
+        map.loadMap("tests/ressource/mapTour.xml");
+        map.loadRequest("tests/ressource/requestTour.xml");
+        map.computeTour(200000000);
+        Tour tour = map.getTour();
+        LinkedList<Path> result=tour.getOrderedPathList();
+        for(Path path:result){
+            System.out.println("Path : "+ path.getDeparture().getId()+"   "+path.getArrival().getId());
+            for(Segment seg: path.getSegmentsOfPath()){
+                System.out.println(seg.getOrigin().getId()+"   "+seg.getDestination().getId());
+            }
+
+        }
 
         //Test égalité adresse / intersection
         /*HashMap<Address,Intersection> h = new HashMap<>();

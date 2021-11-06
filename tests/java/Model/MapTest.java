@@ -452,5 +452,190 @@ class MapTest extends Observable {
         return theoricalResult;
     }
 
+    /**
+     * Verify the result of the method checkUniqueIntersection when an intersection already exist
+     */
+    @Test
+    void checkUniqueIntersectionTest1(){
+        try{
+            map.loadMap("tests/ressource/map1.xml");
+            assert(map.isMapLoaded());
+        }catch (Exception e){
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        boolean test=map.checkUniqueIntersection(975886496,45.756874,4.8574047);
+        assert(!test);
+    }
 
+    /**
+     * Verify the result of the method checkUniqueIntersection when an intersection don't exist
+     */
+    @Test
+    void checkUniqueIntersectionTest2(){
+        try{
+            map.loadMap("tests/ressource/map1.xml");
+            assert(map.isMapLoaded());
+        }catch (Exception e){
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        boolean test=map.checkUniqueIntersection(97588649,45.75684,4.84047);
+        assert(test);
+    }
+
+    /**
+     * Verify the result of the method getIntersectionById when an intersection already exist
+     */
+    @Test
+    void getIntersectionByIdTest1(){
+        try{
+            map.loadMap("tests/ressource/map1.xml");
+            assert(map.isMapLoaded());
+        }catch (Exception e){
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        Intersection theoricalResult=new Intersection(975886496,45.756874,4.8574047);
+        Intersection realResult=map.getIntersectionById(975886496);
+        assertEquals(theoricalResult,realResult);
+    }
+
+    /**
+     * Verify the result of the method getIntersectionById when an intersection don't exist
+     */
+    @Test
+    void getIntersectionByIdTest2(){
+        try{
+            map.loadMap("tests/ressource/map1.xml");
+            assert(map.isMapLoaded());
+        }catch (Exception e){
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        Intersection realResult=map.getIntersectionById(9);
+        assertNull(realResult);
+    }
+
+    /**
+     * Verify the result extrem intersections
+     */
+    @Test
+    void getExtremIntersectionTest1(){
+        try{
+            map.loadMap("tests/ressource/mapExtremIntersection1.xml");
+            assert(map.isMapLoaded());
+        }catch (Exception e){
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        Intersection theroricalNorth=new Intersection(0,45,30);
+        Intersection theroricalSouth=new Intersection(1,20,30);
+        Intersection theroricalWest=new Intersection(2,30,20);
+        Intersection theroricalEast=new Intersection(3,30,45);
+        assertEquals(theroricalNorth,map.getIntersectionNorth());
+        assertEquals(theroricalSouth,map.getIntersectionSouth());
+        assertEquals(theroricalWest,map.getIntersectionWest());
+        assertEquals(theroricalEast,map.getIntersectionEast());
+    }
+
+    /**
+     * Verify the efficiency to compute a tour : less than 10 000ms on a largeMap.xml with requestsLarge7.xml
+     */
+    @Test
+    void computeTourTest1(){
+        try{
+            map.loadMap("data/fichiersXML2020/largeMap.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("data/fichiersXML2020/requestsLarge7.xml");
+            assert(map.isPlanningLoaded());
+        }catch (Exception e){
+            e.printStackTrace();
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        map.computeTour(10000);
+        assert(map.getTimedOutError()==0);
+    }
+
+    /**
+     * Verify the tour computed : interest vertex are taken in the ascending order (not optimized)
+     */
+    @Test
+    void computeTourTest2(){
+        try{
+            map.loadMap("tests/ressource/mapTour.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/requestTour.xml");
+            assert(map.isPlanningLoaded());
+        }catch (Exception e){
+            e.printStackTrace();
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        LinkedList<Path> theoricalTour=createTheoricalTour();
+        map.computeTour(200);
+        assert(map.getTimedOutError()==0);
+        LinkedList<Path> calculatedTour=map.getTour().getOrderedPathList();
+        assertEquals(theoricalTour,calculatedTour);
+    }
+
+    private LinkedList<Path> createTheoricalTour(){
+        Address inter0=new Address(new Intersection(0,4,1.0),0);
+        Address inter1=new Address(new Intersection(1,6,2.5),180);
+        Address inter2=new Address(new Intersection(2,6,4),180);
+        Address inter3=new Address(new Intersection(3,4,4),240);
+        Address inter4=new Address(new Intersection(4,4,2.5),240);
+
+        Segment seg01=new Segment(inter0,inter1,"Rue d'Arménie",8);
+        Segment seg02=new Segment(inter0,inter2,"Rue Vendôme",3);
+        Segment seg04=new Segment(inter0,inter4,"Rue Bonnefoi",1);
+
+        Segment seg10=new Segment(inter1,inter0,"Rue Ancienne",6);
+        Segment seg12=new Segment(inter1,inter2,"Rue Neuve",3);
+        Segment seg14=new Segment(inter1,inter4,"Rue d'Anvers",2);
+
+        Segment seg21=new Segment(inter2,inter1,"Rue Montesquieu",5);
+        Segment seg24=new Segment(inter2,inter4,"Avenue Jean Jaurès",2);
+
+        Segment seg32=new Segment(inter3,inter2,"Rue D'or",4);
+        Segment seg34=new Segment(inter3,inter4,"Rue Saint-Michel",2);
+
+        Segment seg40=new Segment(inter4,inter0,"Rue Sébastien Gryphe",3);
+        Segment seg41=new Segment(inter4,inter1,"Rue Béchevelin",6);
+        Segment seg42=new Segment(inter4,inter2,"Route de Vienne",2);
+        Segment seg43=new Segment(inter4,inter3,"Rue Saint-Michel",7);
+
+
+        LinkedList<Path> theoricalTour=new LinkedList<>();
+        LinkedList<Segment> intermediate=new LinkedList<>();
+
+        intermediate.add(seg04);
+        intermediate.add(seg41);
+        Path path1=new Path(inter0,inter1,intermediate);
+        theoricalTour.add(path1);
+
+        intermediate=new LinkedList<>();
+        intermediate.add(seg12);
+        Path path2=new Path(inter1,inter2,intermediate);
+        theoricalTour.add(path2);
+
+        intermediate=new LinkedList<>();
+        intermediate.add(seg24);
+        intermediate.add(seg43);
+        Path path3=new Path(inter2,inter3,intermediate);
+        theoricalTour.add(path3);
+
+        intermediate=new LinkedList<>();
+        intermediate.add(seg34);
+        Path path4=new Path(inter3,inter4,intermediate);
+        theoricalTour.add(path4);
+
+        intermediate=new LinkedList<>();
+        intermediate.add(seg40);
+        Path path5=new Path(inter4,inter0,intermediate);
+        theoricalTour.add(path5);
+
+        return theoricalTour;
+    }
 }

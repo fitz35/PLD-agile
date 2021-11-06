@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<map>
+    <intersection id="0" latitude="45" longitude="30"/><!-- North -->
+    <intersection id="1" latitude="20" longitude="30"/><!-- South -->
+    <intersection id="2" latitude="30" longitude="20"/><!-- West -->
+    <intersection id="3" latitude="30" longitude="45"/><!-- East -->
+    <intersection id="4" latitude="30" longitude="30"/>
+    <intersection id="5" latitude="35" longitude="35"/>
+    <segment destination="2" length="8" name="Rue Danton" origin="0"/>
+</map>
