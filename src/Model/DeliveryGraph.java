@@ -72,20 +72,26 @@ public class DeliveryGraph implements Graph{
 
     @Override
     public int getNbVertices() {
-        return this.nbVertices;
+        return nbVertices;
+    }
+
+    public LinkedList<Path> getVerticeCompositionList() {
+        return verticeCompositionList;
     }
 
     @Override
     public int getCost(int i, int j) {
-        if (i<0 || i>=nbVertices || j<0 || j>=nbVertices)
+        if ((i<0) || (i>=nbVertices) || (j<0) || (j>=nbVertices)){
             return -1;
+        }
         return (int) cost[i][j];
     }
 
     @Override
     public boolean isArc(int i, int j) {
-        if (i<0 || i>=nbVertices || j<0 || j>=nbVertices)
+        if ((i<0) || (i>=nbVertices) || (j<0) || (j>=nbVertices)){
             return false;
+        }
         return i != j;
     }
 
@@ -120,9 +126,5 @@ public class DeliveryGraph implements Graph{
         for(Path path:result){
             System.out.println(path.getDeparture().getId()+"   "+path.getArrival().getId());
         }
-
-    }
-    public LinkedList<Path> getVerticeCompositionList() {
-        return verticeCompositionList;
     }
 }

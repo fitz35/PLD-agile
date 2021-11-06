@@ -20,7 +20,8 @@ public abstract class MapInterface extends Observable {
      * @throws SAXException
      * @throws IOException
      */
-    public abstract void loadMap(String fileName) throws ParserConfigurationException, ParseException, SAXException, IOException;
+    public abstract void loadMap(String fileName) throws ParserConfigurationException, ParseException, SAXException,
+            IOException;
 
     /**
      * load a xml request
@@ -30,7 +31,8 @@ public abstract class MapInterface extends Observable {
      * @throws IOException
      * @throws ParseException
      */
-    public abstract void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException;
+    public abstract void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException,
+            ParseException;
 
     /**
      * get an intersection by an id

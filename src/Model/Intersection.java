@@ -7,8 +7,7 @@ public class Intersection {
     private double latitude;
     private double longitude;
 
-    public Intersection(long id, double latitude, double longitude)
-    {
+    public Intersection(long id, double latitude, double longitude){
         this.id=id;
         this.latitude=latitude;
         this.longitude=longitude;
@@ -17,8 +16,7 @@ public class Intersection {
     public Intersection() {
     }
 
-    public long getId()
-    {
+    public long getId(){
         return id;
     }
 
@@ -32,10 +30,15 @@ public class Intersection {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || !(o instanceof Intersection) ) return false;
+        if (this == o){
+            return true;
+        }
+        if ((o == null) || !(o instanceof Intersection) ){
+            return false;
+        }
         Intersection that = (Intersection) o;
-        return id == that.id && Double.compare(that.latitude, latitude) == 0 && Double.compare(that.longitude, longitude) == 0;
+        return (id == that.id) && (Double.compare(that.latitude, latitude) == 0)
+                    && (Double.compare(that.longitude, longitude) == 0);
     }
 
     @Override
@@ -44,7 +47,6 @@ public class Intersection {
     }
 
     public static double calculDis(Intersection i1, Intersection i2){ //Calcul distance à vol d'oiseau
-
         double R = 6371e3; //Rayon de la terre
         double res = 0;
 
@@ -59,5 +61,4 @@ public class Intersection {
         res = R * c; // in metres
         return res;
     }
-
 }

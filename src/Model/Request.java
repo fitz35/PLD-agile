@@ -32,10 +32,14 @@ public class Request {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())){
+            return false;
+        }
         Request requestTest = (Request) o;
-        return Objects.equals(pickupAddress, requestTest.getPickupAddress())
-                && Objects.equals(deliveryAddress, requestTest.getDeliveryAddress());
+        return (Objects.equals(pickupAddress, requestTest.getPickupAddress()))
+                    && (Objects.equals(deliveryAddress, requestTest.getDeliveryAddress()));
     }
 }

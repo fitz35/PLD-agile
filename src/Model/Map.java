@@ -27,8 +27,6 @@ public class Map extends MapInterface {
     private DeliveryGraph deliveryGraph;
     private int timedOutError;
 
-    public Tour getTour(){return this.tour;}
-
     public Map() {
         resetMap();
         resetPlanningRequest();
@@ -50,7 +48,6 @@ public class Map extends MapInterface {
             }
             graphe.put(inter, interSegments);
         }
-        //test
         return graphe;
     }
 
@@ -59,7 +56,7 @@ public class Map extends MapInterface {
         resetMap();
         //Test extension of XML file name
         String[] words = fileName.split("\\.");
-        if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
+        if(!(words[(words.length)-1].equals("XML")) && !(words[(words.length)-1].equals("xml"))){
             this.setChanged();
             this.notifyObservers("Filename extension is not correct");
             throw new IOException();
@@ -114,7 +111,7 @@ public class Map extends MapInterface {
 
                         Intersection origin = getIntersectionById(originId);
                         Intersection destination = getIntersectionById(destinationId);
-                        if (origin != null && destination != null) {
+                        if ((origin != null) && (destination != null)) {
                             segmentList.add(new Segment(origin, destination, name, length));
                         } else {
                             // System.out.println("segment creation is impossible");
@@ -132,8 +129,7 @@ public class Map extends MapInterface {
                 throw err;
             }catch (NumberFormatException err){}
 
-            if(intersectionList.isEmpty() || segmentList.isEmpty())
-            {
+            if((intersectionList.isEmpty()) || (segmentList.isEmpty())){
                 resetMap();
                 this.setChanged();
                 this.notifyObservers("Map is empty. Check your XML file.");
@@ -147,64 +143,9 @@ public class Map extends MapInterface {
         }
     }
 
-    // Check if the data provided correspond to an existant intersection in the list
-    public boolean checkUniqueIntersection(long intersectionId,double latitude,double longitude)
-    {
-        boolean res=true;
-        for(Intersection intersection:intersectionList)
-        {
-            if( intersection.equals(new Intersection(intersectionId,latitude,longitude)))
-            {
-                res=false;
-            }
-        }
-        return res;
-    }
-
-    // Return the intersection corresponding to the id
-    public Intersection getIntersectionById(long intersectionId)
-    {
-        for(Intersection intersection : intersectionList)
-        {
-            if(intersection.getId() == intersectionId )
-            {
-                return intersection;
-            }
-        }
-        return null;
-    }
-
-    public HashMap<Intersection,LinkedList<Segment>> getGraphe() {
-        return graphe;
-    }
-
     @Override
-    public void resetMap()
-    {
-        segmentList=new ArrayList<>();
-        intersectionList=new ArrayList<>();
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    @Override
-    public void resetPlanningRequest()
-    {
-        planningRequest=new PlanningRequest();
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    @Override
-    public void resetTour()
-    {
-        tour=null;
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-    @Override
-    public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException {
+    public void loadRequest(String fileName)
+            throws ParserConfigurationException, SAXException, IOException, ParseException {
         resetPlanningRequest();
         //Test extension of XML file name
         String[] words = fileName.split("\\.");
@@ -212,7 +153,7 @@ public class Map extends MapInterface {
             this.setChanged();
             this.notifyObservers("No map loaded, load a map and try again.");
             throw new IOException();
-        }else if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
+        }else if(!(words[(words.length)-1].equals("XML")) && !(words[(words.length)-1].equals("xml"))){
             this.setChanged();
             this.notifyObservers("Filename extension is not correct.");
             throw new IOException();
@@ -242,16 +183,13 @@ public class Map extends MapInterface {
                         Intersection pickupIntersection = getIntersectionById(pickupIntersectionId);
                         long deliveryIntersectionId = Long.parseLong(element.getAttribute("deliveryAddress"));
                         Intersection deliveryIntersection = getIntersectionById(deliveryIntersectionId);
-                        if(pickupIntersection==null || deliveryIntersection==null){
+                        if((pickupIntersection==null) || (deliveryIntersection==null)){
                             throw new NumberFormatException();
                         }
                         int pickupDuration = Integer.parseInt(element.getAttribute("pickupDuration"));
                         int deliveryDuration = Integer.parseInt(element.getAttribute("deliveryDuration"));
                         Address pickupAddress = new Address(pickupIntersectionId,pickupIntersection.getLatitude(),pickupIntersection.getLongitude(),pickupDuration, 1 /*for pickup*/);
                         Address deliveryAddress = new Address(deliveryIntersectionId,deliveryIntersection.getLatitude(),deliveryIntersection.getLongitude(),deliveryDuration, 2 /*for delivery*/);
-
-                        //System.out.println("Existing address ?");
-                        //System.out.println("Request: pickupAddress:" + pickupIntersectionId + "; deliveryAddress:" + deliveryIntersectionId + "; pickupDuration: " + pickupDuration + " deliveryDuration: " + deliveryDuration + ";");
 
                         planningRequest.addRequest(new Request(pickupAddress, deliveryAddress));
                     }
@@ -270,7 +208,6 @@ public class Map extends MapInterface {
                         planningRequest.setDepartureTime(new SimpleDateFormat("HH:mm:ss").parse(departTime));
                     }
                 }
-
             } catch (ParserConfigurationException | SAXException err) {
                 this.setChanged();
                 this.notifyObservers("Parsing XML file failed.");
@@ -284,10 +221,9 @@ public class Map extends MapInterface {
                 this.notifyObservers("Opening XML file failed.");
                 throw err;
             }catch (NumberFormatException err){}
-            if(planningRequest.getRequestList().isEmpty()
-                || planningRequest.getStartingPoint()==null
-                || planningRequest.getDepartureTime()==null)
-            {
+            if((planningRequest.getRequestList().isEmpty())
+                    || (planningRequest.getStartingPoint()==null)
+                    || (planningRequest.getDepartureTime()==null)){
                 resetPlanningRequest();
                 this.setChanged();
                 this.notifyObservers("Planning is empty. Check your XML file.");
@@ -298,8 +234,56 @@ public class Map extends MapInterface {
         }
     }
 
+    // Check if the data provided correspond to an existant intersection in the list
+    public boolean checkUniqueIntersection(long intersectionId,double latitude,double longitude){
+        boolean res=true;
+        for(Intersection intersection:intersectionList){
+            if( intersection.equals(new Intersection(intersectionId,latitude,longitude))){
+                res=false;
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public void resetMap(){
+        segmentList=new ArrayList<>();
+        intersectionList=new ArrayList<>();
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    @Override
+    public void resetPlanningRequest(){
+        planningRequest=new PlanningRequest();
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    @Override
+    public void resetTour(){
+        tour=null;
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    @Override
+    public void resetTimedOutError(){
+        this.timedOutError = 0;
+    }
+
+    // Return the intersection corresponding to the id
+    @Override
+    public Intersection getIntersectionById(long intersectionId){
+        for(Intersection intersection : intersectionList){
+            if(intersection.getId() == intersectionId ){
+                return intersection;
+            }
+        }
+        return null;
+    }
+
     private Intersection[] getExtremIntersection(){
-        //System.out.println(mapLoaded);
         if(!mapLoaded){
             return null;
         }
@@ -310,10 +294,22 @@ public class Map extends MapInterface {
 
         for(int i=0 ; i<intersectionList.size() ; i++){
             Intersection testedIntersection = intersectionList.get(i);
-            if(northernmost.getLatitude() < testedIntersection.getLatitude()) { northernmost = testedIntersection; } //north
-            if(southernmost.getLatitude() > testedIntersection.getLatitude()) { southernmost = testedIntersection; } //south
-            if(easternmost.getLongitude() < testedIntersection.getLongitude()) { easternmost = testedIntersection; } //east
-            if(westernmost.getLongitude() > testedIntersection.getLongitude()) { westernmost = testedIntersection; } //west
+            //north
+            if(northernmost.getLatitude() < testedIntersection.getLatitude()) {
+                northernmost = testedIntersection;
+            }
+            //south
+            if(southernmost.getLatitude() > testedIntersection.getLatitude()) {
+                southernmost = testedIntersection;
+            }
+            //east
+            if(easternmost.getLongitude() < testedIntersection.getLongitude()) {
+                easternmost = testedIntersection;
+            }
+            //west
+            if(westernmost.getLongitude() > testedIntersection.getLongitude()) {
+                westernmost = testedIntersection;
+            }
         }
         Intersection[] extremum = {northernmost , southernmost , easternmost , westernmost};
         return extremum;
@@ -361,6 +357,45 @@ public class Map extends MapInterface {
         return segmentList;
     }
 
+    @Override
+    public Tour getTour(){
+        return this.tour;
+    }
+
+    @Override
+    public HashMap<Intersection,LinkedList<Segment>> getGraphe() {
+        return graphe;
+    }
+
+    @Override
+    public int getTimedOutError() {
+        return timedOutError;
+    }
+
+    @Override
+    public PlanningRequest getPlanningRequest()
+    {
+        return this.planningRequest;
+    }
+
+    @Override
+    public boolean isMapLoaded() {
+        return mapLoaded;
+    }
+
+    @Override
+    public boolean isPlanningLoaded() {
+        return planningLoaded;
+    }
+
+    //public boolean isFirstTourComputed() {
+    //      return tour != null;
+    //}
+
+    public DeliveryGraph getDeliveryGraph() {
+        return deliveryGraph;
+    }
+
     public HashMap<Intersection,Segment> dijkstra(Intersection startIntersection){
         HashMap<Intersection,Double> d = new HashMap<>();
         HashMap<Intersection,Segment> pi = new HashMap<>();
@@ -398,6 +433,7 @@ public class Map extends MapInterface {
         return pi;
     }
 
+    @Override
     public void computeTour(int timeout){
         ArrayList<Address> listAddress = this.planningRequest.getListAddress();
         this.deliveryGraph = new DeliveryGraph(listAddress);
@@ -412,6 +448,7 @@ public class Map extends MapInterface {
         this.notifyObservers();
     }
 
+    @Override
     public void continueTour(int timeout){
         LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
         this.timedOutError = deliveryGraph.getTimedOutError();
@@ -420,20 +457,12 @@ public class Map extends MapInterface {
         this.notifyObservers();
     }
 
-    public int getTimedOutError() {
-        return timedOutError;
-    }
-
-    public void resetTimedOutError(){
-        this.timedOutError = 0;
-    }
-
+    @Override
     public void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery){
         Request newRequest = new Request(newPickup, newDelivery);
         this.planningRequest.addRequest(newRequest);
         replaceOldPathInTour(beforeNewPickup, newPickup);
         replaceOldPathInTour(beforeNewDelivery, newDelivery);
-
     }
 
     /**
@@ -535,22 +564,4 @@ public class Map extends MapInterface {
         //System.out.println("passé");*/
     }
 
-    public PlanningRequest getPlanningRequest()
-    {
-        return this.planningRequest;
-    }
-
-    public boolean isMapLoaded() {
-        return mapLoaded;
-    }
-
-    public boolean isPlanningLoaded() {
-        return planningLoaded;
-    }
-
-    //public boolean isFirstTourComputed() { return tour != null; }
-
-    public DeliveryGraph getDeliveryGraph() {
-        return deliveryGraph;
-    }
 }
