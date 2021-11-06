@@ -65,6 +65,13 @@ public class Controller {
                 pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
     }
 
+    public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){ this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );}
+
+    public void chooseBeforNewPickup(Intersection theBeforNewPickup){this.stateController.chooseBeforNewPickup(this, theBeforNewPickup);}
+
+    public void chooseNewDelivery(Intersection theNewDelivery, int deliveryDuration){this.stateController.chooseNewDelivery(this, theNewDelivery, deliveryDuration);}
+
+    public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery);};
 
     public void back() {this.stateController.back(this);}
 

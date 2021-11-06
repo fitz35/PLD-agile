@@ -12,10 +12,11 @@ public class AddRequestState1 implements StateController{
     }
 
     @Override
-    public void chooseNewPickup(Controller controller, Intersection theNewPickup)
+    public void chooseNewPickup(Controller controller, Intersection theNewPickup, int pickupDuration)
     {
         try{
-            newPickup = controller.getMap().getPlanningRequest().getAddressById(newPickup.getId());
+            // ajouter une vérification que l'intersection existe ?
+            newPickup = new Address(theNewPickup, pickupDuration);
             controller.setStateController(new AddRequestState2(newPickup));
         }catch (Exception e){
             throw(e);
