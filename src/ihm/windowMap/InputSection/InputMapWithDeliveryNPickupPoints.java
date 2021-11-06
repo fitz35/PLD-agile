@@ -108,7 +108,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         verticalScroller.addAdjustmentListener(this);
 
         verticalScrollerTour = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
-        System.out.println(window.getWidth());
+
         verticalScrollerTour.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));
         verticalScrollerTour.addAdjustmentListener(this);
 
@@ -277,9 +277,9 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             }
 
             int positionScrollBar = verticalScroller.getValue();
-            //System.out.println("PSB"+positionScrollBar);
+
             for (int j = 0; j < 5 && ((positionScrollBar * 5) + j) < requestsList.size(); j++) {
-                //System.out.println("index"+(positionScrollBar*5)+j);
+
                 listRequestButton.get((positionScrollBar * 5) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 110)), 130, 20);
                 listIconPickupButton.get((positionScrollBar * 5) + j).setBounds((int) (0.1 * Frame.height), (int) (0.24 * Frame.height + (j * 110)), (width / 70), (height / 40));
                 listPickupButton.get((positionScrollBar * 5) + j).setBounds((int) (0.2 * Frame.height), (int) (0.24 * Frame.height + (j * 110)), 420, 20);
@@ -320,10 +320,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         return timeString;
     }
     public void updatePlanningRequestOptimalTour() {
-        System.out.println((computeTime(119))[0]);
-        System.out.println((computeTime(119))[1]);
-        System.out.println((computeTime(119))[2]);
-
         //Time
         startDate = controller.getMap().getPlanningRequest().getDepartureTime();
         Calendar calendar = Calendar.getInstance();
@@ -339,8 +335,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             listPath = new ArrayList<>();
 
             for (int i = 0; i < pathListOptimalTour.size(); i++) {
-                System.out.println(pathListOptimalTour.get(i).getDeparture());
-                System.out.println(pathListOptimalTour.get(pathListOptimalTour.size()-1).getArrival());
                 if(i==0) { //Starting point
                     pathButton = new JButton( getString(hours) + ":"+getString(minutes)+" " +
                             "          Departure : " + pathListOptimalTour.get(i).getDeparture());
@@ -372,7 +366,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                     listPath.add(arrivalButton);
                 }
             }
-            System.out.println(listPath.size());
         }
 
         //ScrollBar
@@ -474,7 +467,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     @Override
     public void adjustmentValueChanged(AdjustmentEvent e)
     {
-        //System.out.println("Horozintal: "+ verticalScroller.getValue());
 
         if(e.getSource()==verticalScroller) {
             this.removeAll();
