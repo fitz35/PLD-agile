@@ -74,6 +74,8 @@ public class Controller {
 
     public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery, listOfCommands);};
 
+    public void deleteRequest(Intersection intersectioToDelete){this.stateController.deleteRequest(this, intersectioToDelete, listOfCommands);}
+
     public void back() {this.stateController.back(this);}
 
     public void redo(){this.stateController.redo(listOfCommands);}
