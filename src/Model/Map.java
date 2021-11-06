@@ -121,11 +121,11 @@ public class Map extends MapInterface {
 
             } catch (ParserConfigurationException |SAXException err){
                 this.setChanged();
-                this.notifyObservers("Parsing XML file failed.");
+                this.notifyObservers("Parsing XML file failed. Please choose another XML file.");
                 throw err;
             }catch( IOException err) {
                 this.setChanged();
-                this.notifyObservers("Opening XML file failed.");
+                this.notifyObservers("Opening XML file failed. Please choose another XML file.");
                 throw err;
             }
             if(intersectionList.isEmpty() || segmentList.isEmpty())
@@ -260,7 +260,7 @@ public class Map extends MapInterface {
                 planningLoaded = true;
             } catch (ParserConfigurationException | SAXException err) {
                 this.setChanged();
-                this.notifyObservers("Parsing XML file failed.");
+                this.notifyObservers("Parsing XML file failed.  Please choose another XML file.");
                 throw err;
             } catch (ParseException err) {
                 this.setChanged();
@@ -268,7 +268,7 @@ public class Map extends MapInterface {
                 throw err;
             } catch (IOException err) {
                 this.setChanged();
-                this.notifyObservers("Opening XML file failed.");
+                this.notifyObservers("Opening XML file failed.  Please choose another XML file.");
                 throw err;
             }
 
