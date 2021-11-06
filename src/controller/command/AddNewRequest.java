@@ -28,7 +28,12 @@ public class AddNewRequest implements Command {
 
     @Override
     public void undoCommand() {
-        //plan.remove(shape);
+        //delete the request that have juste been added
+        //try {
+        //  map.deleteRequest(newPickup);
+        //}catch (Exception e) {
+        //  throw (e);
+        //}
     }
 
 }

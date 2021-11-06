@@ -7,7 +7,6 @@ import controller.command.AddNewRequest;
 import controller.command.ListOfCommands;
 
 public class AddRequestState4 implements StateController{
-    ListOfCommands listeOfCommands;
     private Address newPickup;
     private Address beforNewPickup;
     private Address newDelivery;

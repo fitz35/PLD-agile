@@ -20,6 +20,7 @@ public interface StateController {
     public default void chooseBeforNewPickup(Controller controller, Intersection theBeforNewPickup){};
     public default void chooseNewDelivery(Controller controller, Intersection theNewDelivery, int deliveryDuration){};
     public default void chooseBeforNewDelivery(Controller controller, Intersection theBeforNewDelivery, ListOfCommands listeOfCommands){};
+    public default void deleteRequest(Controller controller , Intersection intersectionToDelete, ListOfCommands listOfCommands){};
     public default void redo(ListOfCommands listOfCommands){};
     public default void undo(ListOfCommands listOfCommands){};
 }
