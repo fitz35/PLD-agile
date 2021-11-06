@@ -1,6 +1,8 @@
-package controller;
+package controller.state;
 
-public class WaitOrder implements StateController{
+import controller.Controller;
+
+public class WaitOrder implements StateController {
 
     @Override
     public void continueTour(Controller controller, int timeout){

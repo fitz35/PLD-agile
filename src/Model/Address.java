@@ -10,6 +10,15 @@ public class Address extends Intersection{
         this.addressDuration = addressDuration;
     }
 
+    public Address(Intersection intersection, int addressDuration) {
+        super(intersection.getId(), intersection.getLatitude(), intersection.getLongitude());
+        this.addressDuration = addressDuration;
+    }
+
+    public Address(){
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

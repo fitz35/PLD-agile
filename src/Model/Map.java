@@ -35,7 +35,6 @@ public class Map extends MapInterface {
         graphe= new HashMap<>();
     }
 
-
     public HashMap<Intersection,LinkedList<Segment>> createGraph() {
         for (Intersection inter : intersectionList) {
             //HashMap<Intersection, Segment> destinations = new HashMap<>();
@@ -47,7 +46,6 @@ public class Map extends MapInterface {
                 if (segmentOriginId.equals(intersectionID)) {
                     interSegments.add(segment);
                     Intersection segmentDest = segment.getDestination();
-                    //System.out.println("Segment originId :"+segmentOriginId+"; destId :"+segmentDest.getId());
                 }
             }
             graphe.put(inter, interSegments);
@@ -64,6 +62,7 @@ public class Map extends MapInterface {
         if(!words[(words.length)-1].equals("XML") && !words[(words.length)-1].equals("xml")){
             this.setChanged();
             this.notifyObservers("Filename extension is not correct");
+            throw new IOException();
         }else{
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 
@@ -72,6 +71,12 @@ public class Map extends MapInterface {
                 DocumentBuilder db = dbf.newDocumentBuilder();
                 Document doc = db.parse(new File(fileName));
                 doc.getDocumentElement().normalize();
+
+                // Check the document root name
+                Element root = doc.getDocumentElement();
+                if(!root.getNodeName().equals("map")){
+                    throw new NumberFormatException();
+                }
 
                 // get all nodes <intersection>
                 NodeList nodeListIntersection = doc.getElementsByTagName("intersection");
@@ -125,15 +130,18 @@ public class Map extends MapInterface {
                 this.setChanged();
                 this.notifyObservers("Opening XML file failed.");
                 throw err;
-            }
+            }catch (NumberFormatException err){}
+
             if(intersectionList.isEmpty() || segmentList.isEmpty())
             {
+                resetMap();
                 this.setChanged();
                 this.notifyObservers("Map is empty. Check your XML file.");
                 throw new IOException();
             }
             mapLoaded = true;
             extremIntersection = getExtremIntersection();
+            this.createGraph();
             this.setChanged();
             this.notifyObservers();
         }
@@ -184,7 +192,7 @@ public class Map extends MapInterface {
     @Override
     public void resetPlanningRequest()
     {
-        planningRequest=null;
+        planningRequest=new PlanningRequest();
         this.setChanged();
         this.notifyObservers();
     }
@@ -200,8 +208,6 @@ public class Map extends MapInterface {
     @Override
     public void loadRequest(String fileName) throws ParserConfigurationException, SAXException, IOException, ParseException {
         resetPlanningRequest();
-        planningRequest=new PlanningRequest();
-
         //Test extension of XML file name
         String[] words = fileName.split("\\.");
         if(!mapLoaded){
@@ -220,6 +226,12 @@ public class Map extends MapInterface {
                 Document doc = db.parse(new File(fileName));
                 doc.getDocumentElement().normalize();
 
+                // Check the document root name
+                Element root = doc.getDocumentElement();
+                if(!root.getNodeName().equals("planningRequest")){
+                    throw new NumberFormatException();
+                }
+
                 // get all nodes <intersection>
                 NodeList nodeListRequest = doc.getElementsByTagName("request");
                 for (int temp = 0; temp < nodeListRequest.getLength(); temp++) {
@@ -232,6 +244,9 @@ public class Map extends MapInterface {
                         Intersection pickupIntersection = getIntersectionById(pickupIntersectionId);
                         long deliveryIntersectionId = Long.parseLong(element.getAttribute("deliveryAddress"));
                         Intersection deliveryIntersection = getIntersectionById(deliveryIntersectionId);
+                        if(pickupIntersection==null || deliveryIntersection==null){
+                            throw new NumberFormatException();
+                        }
                         int pickupDuration = Integer.parseInt(element.getAttribute("pickupDuration"));
                         int deliveryDuration = Integer.parseInt(element.getAttribute("deliveryDuration"));
                         Address pickupAddress = new Address(pickupIntersectionId,pickupIntersection.getLatitude(),pickupIntersection.getLongitude(),pickupDuration);
@@ -243,7 +258,6 @@ public class Map extends MapInterface {
                         planningRequest.addRequest(new Request(pickupAddress, deliveryAddress));
                     }
                 }
-
                 // get the depot
                 NodeList nodeListDepot = doc.getElementsByTagName("depot");
                 for (int temp = 0; temp < nodeListDepot.getLength(); temp++) {
@@ -254,12 +268,11 @@ public class Map extends MapInterface {
                         // get request's attribute
                         long addressId = Long.parseLong(element.getAttribute("address"));
                         String departTime = element.getAttribute("departureTime");
-
                         planningRequest.setStartingPoint(getIntersectionById(addressId));
                         planningRequest.setDepartureTime(new SimpleDateFormat("HH:mm:ss").parse(departTime));
                     }
                 }
-                planningLoaded = true;
+
             } catch (ParserConfigurationException | SAXException err) {
                 this.setChanged();
                 this.notifyObservers("Parsing XML file failed.");
@@ -272,15 +285,17 @@ public class Map extends MapInterface {
                 this.setChanged();
                 this.notifyObservers("Opening XML file failed.");
                 throw err;
-            }
-
-            if(planningRequest.getRequestList().isEmpty())
+            }catch (NumberFormatException err){}
+            if(planningRequest.getRequestList().isEmpty()
+                || planningRequest.getStartingPoint()==null
+                || planningRequest.getDepartureTime()==null)
             {
+                resetPlanningRequest();
                 this.setChanged();
                 this.notifyObservers("Planning is empty. Check your XML file.");
                 throw new IOException();
             }
-            this.createGraph();
+            planningLoaded = true;
             this.setChanged();
         }
     }
@@ -386,13 +401,13 @@ public class Map extends MapInterface {
     }
 
     public void computeTour(int timeout){
-        ArrayList<Address> listIntersections = this.planningRequest.getListAddress();
-        this.deliveryGraph = new DeliveryGraph(listIntersections);
-        for(int i=0; i<listIntersections.size();i++){
-            HashMap<Intersection,Segment> pi = dijkstra(listIntersections.get(i));
+        ArrayList<Address> listAddress = this.planningRequest.getListAddress();
+        this.deliveryGraph = new DeliveryGraph(listAddress);
+        for(int i=0; i<listAddress.size();i++){
+            HashMap<Intersection,Segment> pi = dijkstra(listAddress.get(i));
             deliveryGraph.addVertice(i,pi);
         }
-        LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
+        LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
         this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
         this.setChanged();
@@ -400,7 +415,7 @@ public class Map extends MapInterface {
     }
 
     public void continueTour(int timeout){
-        LinkedList<Segment> tourCalculated = deliveryGraph.solveTSP(timeout);
+        LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
         this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
         this.setChanged();
@@ -413,32 +428,61 @@ public class Map extends MapInterface {
 
     public void resetTimedOutError(){
         this.timedOutError = 0;
-    };
+    }
+
+    public void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery){
+        Request newRequest = new Request(newPickup, newDelivery);
+        this.planningRequest.addRequest(newRequest);
+        replaceOldPathInTour(beforeNewPickup, newPickup);
+        replaceOldPathInTour(beforeNewDelivery, newDelivery);
+
+    }
+
+    private void replaceOldPathInTour(Address toVisitBefore, Address destination) {
+        Path oldPath = tour.findPath(toVisitBefore);
+        Path newPath1 = findShortestPath(toVisitBefore, destination);
+        Path newPath2 = findShortestPath(destination, oldPath.getArrival());
+    }
+
+    private Path findShortestPath(Address start, Address destination){
+        HashMap<Intersection, Segment> pi = dijkstra(start);
+        Segment seg = pi.get(destination);
+        LinkedList<Segment> newPathComposition = new LinkedList<>();
+        Path newPath = new Path(start, destination, newPathComposition);
+        newPathComposition.add(seg);
+        while (!seg.getOrigin().equals(start)) {
+            Intersection s = seg.getOrigin();
+            seg = pi.get(s);
+            newPathComposition.add(seg);
+        }
+        Collections.reverse(newPathComposition);
+        newPath.setSegmentsOfPath(newPathComposition);
+        return newPath;
+    }
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
-        //Map map=new Map();
+        Map map = new Map();
         //map.loadMap("./data/fichiersXML2020/smallMap.xml");
         // PlanningRequest planning = new PlanningRequest();
         //map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
         // System.out.println("passé");
 
         //TEST DJIKSTRA
-        /*map.loadMap("src/Model/XML/mapTest.xml");
-        map.loadRequest("src/Model/XML/planingTest.xml");
-        HashMap<Intersection,LinkedList<Segment>> graphe = new HashMap<>();
-        graphe = map.createGraph();
-        Intersection inter = new Intersection(0,4.75,2.2);
+        /*map.loadMap("data/fichiersXML2020/largeMap.xml");
+        //map.loadRequest("data/fichiersXML2020/requestsLarge7.xml");
+        map.createGraph();
+        Intersection inter = map.getIntersectionList().get(0);
         HashMap<Intersection,Segment> testDjikstra = new HashMap<>();
         testDjikstra = map.dijkstra(inter);
         //System.out.println("Test djikstra");
         testDjikstra.forEach((inte, segm)->{
-            //System.out.println(inte.getId());
-        });
+            System.out.println(inte.getId());
+        });*/
 
-        map.computeTour(200000000);*/
+        /*map.computeTour(200000000);*/
 
         //Test égalité adresse / intersection
-        HashMap<Address,Intersection> h = new HashMap<>();
+        /*HashMap<Address,Intersection> h = new HashMap<>();
         HashMap<Intersection,Address> h2 = new HashMap<>();
         Intersection inter = new Intersection(0,4.75,2.2);
         Intersection int2 = new Intersection(0,4.75,2.2);
@@ -458,7 +502,7 @@ public class Map extends MapInterface {
         }
 
         //System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
-        //System.out.println("passé");
+        //System.out.println("passé");*/
     }
 
     public PlanningRequest getPlanningRequest()

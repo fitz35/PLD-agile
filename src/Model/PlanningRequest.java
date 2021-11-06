@@ -15,11 +15,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class PlanningRequest {
     private ArrayList<Request> requestList;
     private Date departureTime;
     private Intersection startingPoint;
+    private ArrayList<Address> AddressList;
+    private boolean adressRCreated = false;
 
     public PlanningRequest() {
         requestList = new ArrayList<Request>();
@@ -43,19 +46,41 @@ public class PlanningRequest {
         this.departureTime = departureTime;
     }
 
-
+    public void setRequestList(ArrayList<Request> requestList) {
+        this.requestList = requestList;
+    }
 
     public ArrayList<Address> getListAddress() {
-        //return all Intersection from the request and add the starting point address at the first place
-        ArrayList<Address> listAddress = new ArrayList<>(1 + requestList.size());
-        Address startingAddress = new Address(startingPoint.getId(), startingPoint.getLatitude(),startingPoint.getLongitude(), 0);
-        listAddress.add(startingAddress);
 
-        for(Request req : requestList){
-            listAddress.add(req.getPickupAddress());
-            listAddress.add(req.getDeliveryAddress());
+        if(adressRCreated)
+        {
+            System.out.println("Si pb lorsqu'on efface un planning puis on en créer un nouveau voir ic (PlanningRequest l57)");
+            return AddressList;
+        }else {
+            //return all Intersection from the request and add the starting point address at the first place
+            AddressList = new ArrayList<>(1 + requestList.size());
+            Address startingAddress = new Address(startingPoint.getId(), startingPoint.getLatitude(), startingPoint.getLongitude(), 0);
+            AddressList.add(startingAddress);
+
+            for (Request req : requestList) {
+                AddressList.add(req.getPickupAddress());
+                AddressList.add(req.getDeliveryAddress());
+            }
+            adressRCreated = true;
+            return AddressList;
         }
-        return listAddress;
+    }
+
+    public Address getAddressById(long id){
+        for(Address address : AddressList)
+        {
+            if(id == address.getId())
+            {
+                return address ;
+            }
+        }
+        Address defaultAdress = new Address();
+        return defaultAdress;
     }
 
     public int size(){
@@ -69,7 +94,20 @@ public class PlanningRequest {
     {
         return startingPoint;
     }
+    public Date getDepartureTime()
+    {
+        return departureTime;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlanningRequest planningTest= (PlanningRequest) o;
+        return Objects.equals(startingPoint,planningTest.getStartingPoint())
+                && Objects.equals(departureTime,planningTest.departureTime)
+                && Objects.equals(requestList,planningTest.getRequestList());
+    }
     public static void main(String[] args){
         PlanningRequest planning =new PlanningRequest();
     }
