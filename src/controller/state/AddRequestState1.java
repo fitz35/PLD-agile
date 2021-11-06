@@ -27,5 +27,6 @@ public class AddRequestState1 implements StateController{
     public void back(Controller controller)
     {
         System.out.println("Go back to state FirstTourComputed");
+        controller.setStateController(new FirstTourComputed());
     }
 }

@@ -26,6 +26,7 @@ public class AddRequestState2 implements StateController{
     @Override
     public void back(Controller controller)
     {
+        controller.setStateController(new AddRequestState1());
         System.out.println("Go back to state AddRequestState1");
     }
 

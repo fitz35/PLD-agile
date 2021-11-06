@@ -30,6 +30,7 @@ public class AddRequestState3 implements StateController{
     @Override
     public void back(Controller controller)
     {
+        controller.setStateController(new AddRequestState2(newPickup));
         System.out.println("Go back to state AddRequestState2");
     }
 }
