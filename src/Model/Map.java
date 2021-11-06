@@ -442,6 +442,7 @@ public class Map extends MapInterface {
         Path oldPath = tour.findPath(toVisitBefore);
         Path newPath1 = findShortestPath(toVisitBefore, destination);
         Path newPath2 = findShortestPath(destination, oldPath.getArrival());
+        tour.replaceOldPath(oldPath, newPath1, newPath2);
     }
 
     private Path findShortestPath(Address start, Address destination){
