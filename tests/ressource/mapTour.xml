@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<map>
+    <intersection id="0" latitude="4" longitude="1.0"/>
+    <intersection id="1" latitude="6" longitude="2.5"/>
+    <intersection id="2" latitude="6" longitude="4"/>
+    <intersection id="3" latitude="4" longitude="4"/>
+    <intersection id="4" latitude="4" longitude="2.5"/>
+    <segment origin="0" destination="1" length="8" name="Rue d'Arménie" />
+    <segment origin="0" destination="2" length="3" name="Rue Vendôme"/>
+    <segment origin="0" destination="4" length="1" name="Rue Bonnefoi"/>
+    <segment origin="1" destination="0" length="6" name="Rue Ancienne"/>
+    <segment origin="1" destination="2" length="3" name="Rue Neuve"/>
+    <segment origin="1" destination="4" length="2" name="Rue d'Anvers"/>
+    <segment origin="2" destination="1" length="5" name="Rue Montesquieu"/>
+    <segment origin="2" destination="4" length="2" name="Avenue Jean Jaurès"/>
+    <segment origin="3" destination="2" length="4" name="Rue D'or"/>
+    <segment origin="3" destination="4" length="2" name="Rue Saint-Michel"/>
+    <segment origin="4" destination="0" length="3" name="Rue Sébastien Gryphe"/>
+    <segment origin="4" destination="1" length="6" name="Rue Béchevelin"/>
+    <segment origin="4" destination="2" length="2" name="Route de Vienne"/>
+    <segment origin="4" destination="3" length="7" name="Rue Saint-Michel"/>
+</map>

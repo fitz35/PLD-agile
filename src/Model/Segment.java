@@ -34,11 +34,15 @@ public class Segment {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o){
+            return true;
+        }
+        if ((o == null) || (getClass() != o.getClass())){
+            return false;
+        }
         Segment s = (Segment) o;
-        return Objects.equals(origin, s.origin) && Objects.equals(destination, s.destination)
-                && Objects.equals(name, s.name) && Objects.equals(length, s.length);
+        return (Objects.equals(origin, s.origin) && Objects.equals(destination, s.destination))
+                    && (Objects.equals(name, s.name) && Objects.equals(length, s.length));
     }
 
 
@@ -64,7 +68,5 @@ public class Segment {
         s2.equals(s3);
         System.out.println("test d'égalité de s2 et s6");
         s2.equals(s6);
-
-
     }
 }

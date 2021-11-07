@@ -16,8 +16,7 @@ public class AddRequestState3 implements StateController{
     }
 
     @Override
-    public void chooseNewDelivery(Controller controller, Intersection theNewDelivery, int deliveryDuration)
-    {
+    public void chooseNewDelivery(Controller controller, Intersection theNewDelivery, int deliveryDuration) {
         try{
             // ajouter une vérification que l'intersection existe ?
             newDelivery = new Address(theNewDelivery, deliveryDuration);
@@ -28,8 +27,7 @@ public class AddRequestState3 implements StateController{
     }
 
     @Override
-    public void back(Controller controller)
-    {
+    public void back(Controller controller){
         controller.setStateController(new AddRequestState2(newPickup));
         System.out.println("Go back to state AddRequestState2");
     }

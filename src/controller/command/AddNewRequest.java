@@ -10,7 +10,8 @@ public class AddNewRequest implements Command {
     private Address beforNewPickup;
     private Address beforNewDelivery;
 
-    public AddNewRequest(Map map, Address newPickup, Address newDelivery, Address beforNewPickup, Address beforNewDelivery ) {
+    public AddNewRequest(Map map, Address newPickup, Address newDelivery, Address beforNewPickup,
+                         Address beforNewDelivery ) {
         this.map = map;
         this.newPickup = newPickup;
         this.newDelivery = newDelivery;
