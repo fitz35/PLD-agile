@@ -101,7 +101,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         text1.setBounds(30, 40, 600, 40);
         text1.setFont(new Font("Serif", Font.BOLD, 25));
 
-        text2 = new JLabel("Your optimal tour : ");
+        text2 = new JLabel("Your tour : ");
         text2.setBounds(30, 70, 600, 40);
         text2.setFont(new Font("Serif", Font.BOLD, 25));
 
