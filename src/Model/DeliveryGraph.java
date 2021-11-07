@@ -96,7 +96,7 @@ public class DeliveryGraph implements Graph{
     }
 
     public static void main(String[] args){
-        Intersection start = new Intersection(1, 1, 1);
+        /*Intersection start = new Intersection(1, 1, 1);
         Intersection one = new Intersection(2, 2, 2);
         Intersection two = new Intersection(3, 3, 3);
         Intersection three = new Intersection(4, 4, 4);
@@ -125,6 +125,6 @@ public class DeliveryGraph implements Graph{
         LinkedList<Path> result=dg.solveTSP(2000000);
         for(Path path:result){
             System.out.println(path.getDeparture().getId()+"   "+path.getArrival().getId());
-        }
+        }*/
     }
 }

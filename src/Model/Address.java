@@ -21,9 +21,10 @@ public class Address extends Intersection{
         this.type = type;
     }
 
-    public Address(Intersection intersection, int addressDuration) {
+    public Address(Intersection intersection, int addressDuration,int type) {
         super(intersection.getId(), intersection.getLatitude(), intersection.getLongitude());
         this.addressDuration = addressDuration;
+        this.type=type;
     }
 
     public Address(){
