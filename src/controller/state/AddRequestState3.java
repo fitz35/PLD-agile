@@ -19,7 +19,7 @@ public class AddRequestState3 implements StateController{
     public void chooseNewDelivery(Controller controller, Intersection theNewDelivery, int deliveryDuration) {
         try{
             // ajouter une vérification que l'intersection existe ?
-            newDelivery = new Address(theNewDelivery, deliveryDuration);
+            newDelivery = new Address(theNewDelivery, deliveryDuration,2);
             controller.setStateController(new AddRequestState4(newPickup, beforNewPickup, newDelivery));
         }catch (Exception e){
             throw(e);
