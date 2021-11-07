@@ -191,7 +191,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             requestsList = controller.getMap().getPlanningRequest().getRequestList();
             int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
             verticalScroller.setMaximum((requestsList.size()/maxNoOfRequestsPerPage)+1);
-            verticalScroller.setMaximum((requestsList.size() / 5) + 1);
             listRequestButton = new ArrayList<>();
             listPickupButton = new ArrayList<>();
             listIconPickupButton = new ArrayList<>();
@@ -336,7 +335,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
     public String getString(int time){
         String timeString = "";
-        if(time<10){ timeString = String.valueOf(time).format("%02d", time);
+        if(time<10){ timeString = String.format("%02d", time);
         }else{
             timeString = String.valueOf(time);
         }
