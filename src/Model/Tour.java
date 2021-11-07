@@ -11,8 +11,7 @@ public class Tour{
     private HashMap<Intersection, Integer> destinationPathMap;
 
 
-    public Path findPathOrigin(Address origin)
-    {
+    public Path findPathOrigin(Address origin){
         Path path = orderedPathList.get(originPathMap.get(origin));
         return path;
     }
@@ -28,13 +27,11 @@ public class Tour{
         destinationPathMap = new HashMap<>();
         this.orderedPathList = orderedPathList;
         int i = 0;
-        for(Path path: orderedPathList)
-        {
+        for(Path path: orderedPathList){
             originPathMap.put(path.getDeparture(), i);
             destinationPathMap.put(path.getArrival(), i);
             orderedSegmentList.addAll(path.getSegmentsOfPath());
             i++;
-
         }
     }
     @Deprecated
@@ -50,14 +47,14 @@ public class Tour{
             newPath.add(2,newPath2);
             this.orderedPathList.addAll(index,newPath);
             this.orderedPathList.remove(oldPath);
-
         }
     }
 
-    public LinkedList<Path> getOrderedPathList() {return orderedPathList; }
+    public LinkedList<Path> getOrderedPathList() {
+        return orderedPathList;
+    }
 
     public void setOrderedSegmentList(LinkedList<Segment> orderedSegmentList) {
         this.orderedSegmentList = orderedSegmentList;
     }
-
 }
