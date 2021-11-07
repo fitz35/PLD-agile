@@ -23,7 +23,7 @@ import java.util.LinkedList;
 
 public class InputWindowWithRoute extends JPanel implements ActionListener, AdjustmentListener {
 
-    //public static final String pathToImg = "./data/images/";
+    public static final String pathToImg = "./data/images/";
     private static Dimension size = Frame.size;
     private static int width = (int) size.getWidth();
     private static int height = (int) size.getHeight();
@@ -31,15 +31,17 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
     private final JFrame popup = new JFrame();
     private JButton findOptimalRoute;
     private JButton backToLoadRequest;
-    private JButton pathButton, arrivalButton;
+    private JButton pathButton, arrivalButton, deleteRequest;
 
 
     private JButton addRequest;
 
     //private boolean optimalTour = false;
 
-
     //private ArrayList<JButton> listDeleteButton;
+
+    private ArrayList <ActionListener> deleteRequestListeners;
+    private ArrayList<JButton> listDeleteButton;
 
     private ArrayList<JButton> listPath;
 
@@ -160,6 +162,8 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
     }
 
     public void updatePlanningRequestOptimalTour() {
+        ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
+
         //Time
         if(controller.getMap().getPlanningRequest()!=null && controller.getMap().getPlanningRequest().getDepartureTime()!=null) {
             startDate = controller.getMap().getPlanningRequest().getDepartureTime();
@@ -173,6 +177,9 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
                 verticalScrollerTour.setMaximum((pathListOptimalTour.size() / 12) + 1);
 
                 listPath = new ArrayList<>();
+                deleteRequestListeners = new ArrayList<>();
+                listDeleteButton = new ArrayList<>();
+
 
                 for (int i = 0; i < pathListOptimalTour.size(); i++) {
                     if (i == 0) { //Starting point
@@ -237,14 +244,36 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
                         arrivalButton.addActionListener(this);
                         listPath.add(arrivalButton);
                     }
+                    //Button to delete a request
+                    deleteRequest = new JButton(iconeDelete);
+                    deleteRequest.setBackground(ColorPalette.inputPannel);
+                    deleteRequest.addActionListener(this);
+                    deleteRequestListeners.add(this);
+                    listDeleteButton.add(deleteRequest);
                 }
+
+                //Button to delete the arrival point
+                deleteRequest = new JButton(iconeDelete);
+                deleteRequest.setBackground(ColorPalette.inputPannel);
+                deleteRequest.addActionListener(this);
+                deleteRequestListeners.add(this);
+                listDeleteButton.add(deleteRequest);
 
                 //ScrollBar
                 int positionScrollBarTour = verticalScrollerTour.getValue();
                 for (int j = 0; j < 12 && ((positionScrollBarTour * 12) + j) < pathListOptimalTour.size()+1; j++) {
-                    listPath.get((positionScrollBarTour * 12) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 40)), 500, 40);
+                    listPath.get((positionScrollBarTour * 12) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 50)), 500, 40);
                     this.add(listPath.get((positionScrollBarTour * 12) + j));
                 }
+
+                for (int j = 0; j < 12 && ((positionScrollBarTour * 12) + j) < listDeleteButton.size(); j++) {
+                    System.out.println(listDeleteButton.size());
+                    System.out.println((positionScrollBarTour * 12) + j);
+                    listDeleteButton.get((positionScrollBarTour * 12) + j).setBounds((Frame.height / 9)-20, (int) (0.21 * Frame.height + (j * 50)), 20, 25);
+                    this.add(listDeleteButton.get((positionScrollBarTour * 12) + j));
+                }
+
+
                 this.add(text2);
             }
         }
@@ -266,17 +295,24 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
 
 
         //Delete request
-        /*
         for (int j = 0; j < listDeleteButton.size(); j++) {
+            int answer;
             //Use of the substring : The imageIcon of e.getSource() and the button aren't the same
             if (e.getSource().toString().substring(0, 50).equals(listDeleteButton.get(j).toString().substring(0, 50))) {
-                int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the request " + (j + 1) + " ?", "Delete a request", JOptionPane.YES_NO_OPTION);
+                if(j==0){
+                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the departure? ", "Delete the departure", JOptionPane.YES_NO_OPTION);
+                }else if(j==listDeleteButton.size()-1){
+                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the arrival? ", "Delete the arrival", JOptionPane.YES_NO_OPTION);
+
+                }else {
+                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the address " + (j) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
+                }
                 if (answer == 0) {
                     // Remove the request from the planning request, the calculation of the new
                     // optimal tour has also to be handled
                 }
             }
-        }*/
+        }
 
         if(e.getSource() == this.addRequest){
         }
