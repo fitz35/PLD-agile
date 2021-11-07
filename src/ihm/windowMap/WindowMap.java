@@ -3,10 +3,7 @@ package ihm.windowMap;
 import Model.MapInterface;
 import controller.Controller;
 import controller.state.*;
-import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
-import ihm.windowMap.InputSection.InputWindowAddPickup;
-import ihm.windowMap.InputSection.InputWindowLoadRequest;
-import ihm.windowMap.InputSection.InputWindowWithRoute;
+import ihm.windowMap.InputSection.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +19,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
     private InputMapWithDeliveryNPickupPoints panelWithRequests;
     private InputWindowLoadRequest inputPanel;
     private InputWindowAddPickup inputWindowAddPickup;
-    private InputWindowAddPickup inputAddPickup;
+    private InputWindowAddDelivery inputWindowAddDelivery;
     private InputWindowWithRoute inputWindowWithRoute;
 
     private Controller controller;
@@ -38,8 +35,10 @@ public class WindowMap extends Frame implements Observer //implements ActionList
 
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller);
         inputWindowAddPickup= new InputWindowAddPickup(controller);
+        inputWindowAddPickup.setBounds(Frame.height, 0, Frame.width-Frame.height,Frame.height);
+        inputWindowAddDelivery= new InputWindowAddDelivery(controller);
         inputWindowWithRoute = new InputWindowWithRoute(this,controller);
-        mapPanel= new MapPanel(panelWithRequests,inputWindowWithRoute,inputWindowAddPickup);
+        mapPanel= new MapPanel(panelWithRequests,inputWindowWithRoute,inputWindowAddPickup,controller);
         //mapPanel.setBounds((int)(0.05*Frame.height), (int)(0.05*Frame.height),(int)(0.9*Frame.height), (int)(0.9*Frame.height));
         this.add(mapPanel);
         this.setBackground(Color.BLACK);
@@ -60,15 +59,19 @@ public class WindowMap extends Frame implements Observer //implements ActionList
                this.controller.getStateController() instanceof RequestLoaded
        ){
            this.add(panelWithRequests);
-       }else if(this.controller.getStateController() instanceof AddRequestState1){
+       }else if(this.controller.getStateController() instanceof AddRequestState1) {
+           System.out.println("Update Panel Add Request");
            this.add(inputWindowAddPickup);
-       }else if(this.controller.getStateController() instanceof FirstTourComputed||
+       }
+       else if(this.controller.getStateController() instanceof FirstTourComputed||
                this.controller.getStateController() instanceof WaitOrder){
            //this.add(panelWithRequests);
            this.add(inputWindowWithRoute);
        }
 
        this.add(mapPanel);
+       this.revalidate();
+       this.repaint();
     }
 
     /**
@@ -77,9 +80,11 @@ public class WindowMap extends Frame implements Observer //implements ActionList
     private void removeAllPanel(){
         this.remove(mapPanel);
         this.remove(inputPanel);
-        this.remove(inputWindowAddPickup);
         this.remove(panelWithRequests);
         this.remove(inputWindowWithRoute);
+        this.remove(inputWindowAddPickup);
+        this.remove(inputWindowAddDelivery);
+
     }
 
     /**

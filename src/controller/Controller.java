@@ -66,7 +66,11 @@ public class Controller {
                 pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
     }*/
 
-    public void addNewRequest(){this.stateController.addNewRequest(this);}
+    public void addNewRequest()
+    {
+        System.out.println("Controller: adding a new request");
+        this.stateController.addNewRequest(this);
+    }
 
     public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){
         this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );
