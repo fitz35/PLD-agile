@@ -62,6 +62,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         loadReqFile= new JButton("LOAD XML REQUEST FILE");
         loadReqFile.setBounds(Frame.width/5-60,Frame.height/4-10,200, 40);
         loadReqFile.addActionListener(this);
+        loadReqFile.setVisible(false);
 
 
         back= new JButton("BACK");

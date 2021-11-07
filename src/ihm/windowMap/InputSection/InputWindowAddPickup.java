@@ -35,7 +35,7 @@ public class InputWindowAddPickup extends JPanel implements ActionListener
     {
         super();
         this.controller = controller;
-        this.setBackground(Color.PINK);
+        this.setBackground(ColorPalette.inputPannel);
         this.setLayout(null);
 
 
@@ -145,10 +145,14 @@ public class InputWindowAddPickup extends JPanel implements ActionListener
             }
             catch (NumberFormatException exception)
             {
-                errorMessage.setText(exception.getLocalizedMessage());
+                errorMessage.setText("Not a number. Please refer to https://en.wikipedia.org/wiki/Natural_number for a list of acceptable natural numbers(N)");
                 errorMessage.setVisible(true);
             }
 
+        }
+        if(e.getSource()==back)
+        {
+            controller.back();
         }
     }
 }

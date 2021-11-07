@@ -5,6 +5,8 @@ import Model.Path;
 import Model.Request;
 import Model.Segment;
 import controller.Controller;
+import controller.state.AddRequestState2;
+import controller.state.FirstTourComputed;
 import ihm.windowMap.ColorPalette;
 import ihm.windowMap.Frame;
 import ihm.windowMap.MapPanel;
@@ -29,7 +31,6 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
     private static int height = (int) size.getHeight();
 
     private final JFrame popup = new JFrame();
-    private JButton findOptimalRoute;
     private JButton backToLoadRequest;
     private JButton pathButton, arrivalButton, deleteRequest;
 
@@ -95,10 +96,6 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
         verticalScrollerTour.addAdjustmentListener(this);
 
 
-        findOptimalRoute = new JButton("Find Optimal Tour");
-        findOptimalRoute.setBounds(10, 10, 200, 30);
-        findOptimalRoute.addActionListener(this);
-
         addRequest = new JButton("Add a request");
         addRequest.setBounds(240, 10, 200, 30);
         addRequest.addActionListener(this);
@@ -110,7 +107,6 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
 
         this.add(verticalScrollerTour);
         this.add(backToLoadRequest);
-        this.add(findOptimalRoute);
         this.add(addRequest);
         this.add(text1);
 
@@ -163,7 +159,10 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
 
     public void updatePlanningRequestOptimalTour() {
         ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
-
+        if(!(controller.getStateController() instanceof  AddRequestState2))
+        {
+            this.add(addRequest);
+        }
         //Time
         if(controller.getMap().getPlanningRequest()!=null && controller.getMap().getPlanningRequest().getDepartureTime()!=null) {
             startDate = controller.getMap().getPlanningRequest().getDepartureTime();
@@ -277,6 +276,13 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
                 this.add(text2);
             }
         }
+        if(controller.getStateController() instanceof AddRequestState2)
+        {
+            for(int i=0; i<listDeleteButton.size(); i++)
+            {
+                this.remove(listDeleteButton.get(i));
+            }
+        }
     }
 
     @Override
@@ -284,10 +290,6 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
     {
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
-        if (e.getSource() == findOptimalRoute) {
-            //controller.loadTour();
-            //optimalTour = true;
-        }
 
         if (e.getSource() == backToLoadRequest) {
             controller.back();
@@ -316,6 +318,7 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
 
         if(e.getSource() == this.addRequest)
         {
+            this.remove(addRequest);
             controller.addNewRequest();
         }
     }
@@ -325,8 +328,10 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
             this.removeAll();
             this.add(verticalScrollerTour);
             this.add(backToLoadRequest);
-            this.add(findOptimalRoute);
-            this.add(addRequest);
+            if(!(controller.getStateController() instanceof  AddRequestState2))
+            {
+                this.add(addRequest);
+            }
             this.add(text2);
             this.add(text1);
             updatePlanningRequestOptimalTour();
