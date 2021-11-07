@@ -363,6 +363,7 @@ public class MapPanel extends JPanel implements MouseListener
             {
 
                 inputWindowAddPickup.updateIntersectionClicked(i);
+
             }
         }
     }
