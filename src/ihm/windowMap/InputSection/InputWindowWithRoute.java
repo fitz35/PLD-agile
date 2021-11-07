@@ -1,7 +1,9 @@
 package ihm.windowMap.InputSection;
 
+import Model.Address;
 import Model.Path;
 import Model.Request;
+import Model.Segment;
 import controller.Controller;
 import ihm.windowMap.ColorPalette;
 import ihm.windowMap.Frame;
@@ -61,7 +63,10 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
 
 
     private ArrayList<Request> requestsList;
+    private ArrayList<Segment> segmentsList;
     private LinkedList<Path> pathListOptimalTour;
+    ArrayList<String> streetNames;
+
 
     private Controller controller;
 
@@ -134,6 +139,26 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
         return timeString;
     }
 
+    public ArrayList<String> getStreetNames(Address address){
+        streetNames = new ArrayList<>();
+        segmentsList = controller.getMap().getSegmentList();
+        for(int i=0; i<segmentsList.size();i++){
+            if(address.equals(segmentsList.get(i).getOrigin()) ||
+                    address.equals(segmentsList.get(i).getDestination())){
+                streetNames.add(segmentsList.get(i).getName());
+            }
+        }
+        //Get rid of the duplicates streets
+        /*for(int i=0;i<streetNames.size();i++){
+            for (int j=0; j<streetNames.size();j++){
+                if(i!=j && streetNames.get(i).equals(streetNames.get(j))){
+                    streetNames.remove(streetNames.get(j));
+                }
+            }
+        }*/
+        return streetNames;
+    }
+
     public void updatePlanningRequestOptimalTour() {
         //Time
         if(controller.getMap().getPlanningRequest()!=null && controller.getMap().getPlanningRequest().getDepartureTime()!=null) {
@@ -151,8 +176,14 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
 
                 for (int i = 0; i < pathListOptimalTour.size(); i++) {
                     if (i == 0) { //Starting point
-                        pathButton = new JButton(getString(hours) + ":" + getString(minutes) + " " +
-                                "          Departure : " + pathListOptimalTour.get(i).getDeparture());
+                        if (getStreetNames(pathListOptimalTour.get(i).getDeparture()).size() == 1) {
+                            pathButton = new JButton(getString(hours) + ":" + getString(minutes) + " " +
+                                    "          Departure : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0));
+                        } else {
+                            pathButton = new JButton(getString(hours) + ":" + getString(minutes) + " " +
+                                    "          Departure : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0) +
+                                    ", " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(1));
+                        }
 
                     } else {
                         hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
@@ -163,9 +194,18 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
                             minutes = minutes - 60;
                         }
 
-                        pathButton = new JButton(getString(hours) + ":" + getString(minutes) + " " +
-                                "        Address " + i + " : " + pathListOptimalTour.get(i).getDeparture() +
-                                "        Duration : " + pathListOptimalTour.get(i).getDeparture().getAddressDuration());
+                        if (getStreetNames(pathListOptimalTour.get(i).getDeparture()).size() == 1) {
+                            pathButton = new JButton();
+                            pathButton.setText("<html>" + getString(hours) + ":" + getString(minutes) + " " +
+                                    "        Address " + i + " : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0) +
+                                    " <br />   Duration : " + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + "</html>");
+                        }else{
+                            pathButton = new JButton();
+                            pathButton.setText("<html>" + getString(hours) + ":" + getString(minutes) + " " +
+                                    "        Address " + i + " : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0) +
+                                    ", " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(1)+
+                                    " <br />   Duration : " + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + "</html>");
+                        }
 
                     }
                     pathButton.setHorizontalAlignment(SwingConstants.LEFT);
@@ -183,8 +223,14 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
                             minutes = minutes - 60;
                         }
 
-                        arrivalButton = new JButton(getString(hours) + ":" + getString(minutes) + " " +
-                                "          Arrival : " + pathListOptimalTour.get(i).getArrival());
+                        if (getStreetNames(pathListOptimalTour.get(i).getArrival()).size() == 1) {
+                            arrivalButton = new JButton(getString(hours) + ":" + getString(minutes) + " " +
+                                    "         Arrival : " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(0));
+                        } else {
+                            arrivalButton = new JButton(getString(hours) + ":" + getString(minutes) + " " +
+                                    "         Arrival : " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(0) +
+                                    ", " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(1));
+                        }
                         arrivalButton.setHorizontalAlignment(SwingConstants.LEFT);
                         arrivalButton.setBackground(ColorPalette.inputPannel);
                         arrivalButton.setBorderPainted(false);
@@ -193,13 +239,13 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
                     }
                 }
 
-        //ScrollBar
-        int positionScrollBarTour = verticalScrollerTour.getValue();
-        for (int j = 0; j < 12 && ((positionScrollBarTour * 12) + j) < pathListOptimalTour.size()+1; j++) {
-            listPath.get((positionScrollBarTour * 12) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 40)), 500, 20);
-            this.add(listPath.get((positionScrollBarTour * 12) + j));
-        }
-        this.add(text2);
+                //ScrollBar
+                int positionScrollBarTour = verticalScrollerTour.getValue();
+                for (int j = 0; j < 12 && ((positionScrollBarTour * 12) + j) < pathListOptimalTour.size()+1; j++) {
+                    listPath.get((positionScrollBarTour * 12) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 40)), 500, 40);
+                    this.add(listPath.get((positionScrollBarTour * 12) + j));
+                }
+                this.add(text2);
             }
         }
     }
