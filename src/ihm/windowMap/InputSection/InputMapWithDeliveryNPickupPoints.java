@@ -330,7 +330,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         tab[0] = (time % 86400 ) / 3600 ; //Heure
         tab[1] = ((time % 86400 ) % 3600 ) / 60; //Minute
         tab[2] = ((time % 86400 ) % 3600 ) % 60 ; //Seconde
-        if(tab[1]>=60){ tab[0]=tab[0]+1; tab[1] = tab[1]-60;}
         return tab;
     }
 
@@ -345,12 +344,14 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     public void updatePlanningRequestOptimalTour() {
         //Time
 
+
         startDate = controller.getMap().getPlanningRequest().getDepartureTime();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);
         int hours = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
         int seconds = calendar.get(Calendar.SECOND);
+
 
         if (controller.getMap().getTour() != null && controller.getMap().getTour().getOrderedPathList() != null) {
             pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();
@@ -367,6 +368,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                     hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
                     minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
 
+                    if(minutes>=60){ hours++; minutes = minutes-60;}
 
                     pathButton = new JButton(getString(hours) + ":"+getString(minutes)+" " +
                             "        Address "+ i + " : "+ pathListOptimalTour.get(i).getDeparture()+
@@ -382,6 +384,9 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                 if(i==(pathListOptimalTour.size())-1) { //For the last point, take the departure AND arrival
                     hours += computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
                     minutes += computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
+
+                    if(minutes>=60){ hours++; minutes = minutes-60;}
+
                     arrivalButton = new JButton( getString(hours) + ":"+getString(minutes)+" " +
                             "          Arrival : " + pathListOptimalTour.get(i).getArrival());
                     arrivalButton.setHorizontalAlignment(SwingConstants.LEFT);
