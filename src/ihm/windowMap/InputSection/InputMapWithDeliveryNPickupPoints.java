@@ -29,7 +29,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     private JButton pathButton, arrivalButton;
 
 
-    private JButton addRequest;
     private JButton deleteRequest;
 
     private int highlightStartingNumber = -2;
@@ -87,9 +86,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         findOptimalRoute.setBounds(10, 10, 200, 30);
         findOptimalRoute.addActionListener(this);
 
-        addRequest = new JButton("Add a request");
-        addRequest.setBounds(240, 10, 200, 30);
-        addRequest.addActionListener(this);
 
 
         backToLoadRequest = new JButton("BACK");
@@ -99,7 +95,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         this.add(verticalScroller);
         this.add(backToLoadRequest);
         this.add(findOptimalRoute);
-        this.add(addRequest);
 
         this.add(text);
         this.add(text1);
@@ -302,9 +297,14 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         }
 
         if (e.getSource() == backToLoadRequest) {
-            this.removeAll(); this.add(verticalScroller); this.add(backToLoadRequest);
-            this.add(findOptimalRoute); this.add(addRequest); this.add(text); this.add(text1);
-            this.revalidate(); this.repaint();
+            this.removeAll();
+            this.add(verticalScroller);
+            this.add(backToLoadRequest);
+            this.add(findOptimalRoute);
+            this.add(text);
+            this.add(text1);
+            this.revalidate();
+            this.repaint();
             controller.back();
         }
 
@@ -345,8 +345,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             }
         }
 
-        if(e.getSource() == this.addRequest){
-        }
     }
 
     @Override
@@ -357,7 +355,6 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             this.add(verticalScroller);
             this.add(backToLoadRequest);
             this.add(findOptimalRoute);
-            this.add(addRequest);
             this.add(text);
             this.add(text1);
             updatePlanningRequestNotNull();

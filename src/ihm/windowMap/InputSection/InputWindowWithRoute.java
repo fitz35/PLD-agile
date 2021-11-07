@@ -314,7 +314,9 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
             }
         }
 
-        if(e.getSource() == this.addRequest){
+        if(e.getSource() == this.addRequest)
+        {
+            controller.addNewRequest();
         }
     }
 
