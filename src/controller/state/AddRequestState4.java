@@ -19,8 +19,8 @@ public class AddRequestState4 implements StateController{
     }
 
     @Override
-    public void chooseBeforNewDelivery(Controller controller, Intersection theBeforNewDelivery, ListOfCommands listOfCommands)
-    {
+    public void chooseBeforNewDelivery(Controller controller, Intersection theBeforNewDelivery,
+                                       ListOfCommands listOfCommands){
         try{
             beforNewDelivery = controller.getMap().getPlanningRequest().getAddressById(theBeforNewDelivery.getId());
             AddNewRequest myCommandToExecute = new AddNewRequest((Model.Map)controller.getMap(),newPickup,newDelivery,beforNewPickup,beforNewDelivery);
@@ -32,8 +32,7 @@ public class AddRequestState4 implements StateController{
     }
 
     @Override
-    public void back(Controller controller)
-    {
+    public void back(Controller controller){
         controller.setStateController(new AddRequestState3(newPickup,beforNewPickup));
         System.out.println("Go back to state AddRequestState3");
     }

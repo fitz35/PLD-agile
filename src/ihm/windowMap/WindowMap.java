@@ -21,6 +21,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
 
     private InputMapWithDeliveryNPickupPoints panelWithRequests;
     private InputWindowLoadRequest inputPanel;
+    private InputWindowAddPickup inputWindowAddPickup;
     private InputWindowAddPickup inputAddPickup;
     private InputWindowWithRoute inputWindowWithRoute;
 
@@ -36,10 +37,9 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         this.add(inputPanel);
 
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller);
+        inputWindowAddPickup= new InputWindowAddPickup(controller);
         inputWindowWithRoute = new InputWindowWithRoute(this,controller);
-        inputAddPickup = new InputWindowAddPickup(this, controller);
-
-        mapPanel= new MapPanel(panelWithRequests,inputWindowWithRoute);
+        mapPanel= new MapPanel(panelWithRequests,inputWindowAddPickup,inputWindowWithRoute);
         //mapPanel.setBounds((int)(0.05*Frame.height), (int)(0.05*Frame.height),(int)(0.9*Frame.height), (int)(0.9*Frame.height));
         this.add(mapPanel);
         this.setBackground(Color.BLACK);
@@ -61,7 +61,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
        ){
            this.add(panelWithRequests);
        }else if(this.controller.getStateController() instanceof AddRequestState1){
-           this.add(inputAddPickup);
+           this.add(inputWindowAddPickup);
        }else if(this.controller.getStateController() instanceof FirstTourComputed||
                this.controller.getStateController() instanceof WaitOrder){
            //this.add(panelWithRequests);
@@ -77,7 +77,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
     private void removeAllPanel(){
         this.remove(mapPanel);
         this.remove(inputPanel);
-        this.remove(inputAddPickup);
+        this.remove(inputWindowAddPickup);
         this.remove(panelWithRequests);
         this.remove(inputWindowWithRoute);
     }

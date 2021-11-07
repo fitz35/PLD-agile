@@ -1,6 +1,5 @@
 package Model;
 
-import java.util.Objects;
 
 /**
  * An address is either a pickup intersection, a delivery intersection or a depot intersection
@@ -28,20 +27,26 @@ public class Address extends Intersection{
     }
 
     public Address(){
-
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || !(o instanceof Intersection)) return false;
-        if(o instanceof Address){
-            if (!super.equals(o) || this.type!=((Address) o).type) return false;
-        }else {
-            if (!super.equals(o)) return false;
+        if (this == o){
+            return true;
         }
-        //Address address = (Address) o;
-        return true;//addressDuration == address.addressDuration;
+        if ((o == null) || !(o instanceof Intersection)){
+            return false;
+        }
+        if(o instanceof Address){
+            if (!(super.equals(o)) || (this.type!=((Address) o).type)){
+                return false;
+            }
+        }else {
+            if (!super.equals(o)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

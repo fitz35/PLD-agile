@@ -24,8 +24,7 @@ public class Controller {
     /**
      * Constructeur
      */
-    public Controller()
-    {
+    public Controller(){
         stateController = new InitialState();
         this.createMap();
         window2 = new WindowMap(this);
@@ -36,18 +35,27 @@ public class Controller {
     }
 
     //overrided method
-    public void loadMap(String path){ this.stateController.loadMap(this, path);}
+    public void loadMap(String path){
+        this.stateController.loadMap(this, path);
+    }
 
-    public void loadRequest(String path){ this.stateController.loadRequest(this, path);}
+    public void loadRequest(String path){
+        this.stateController.loadRequest(this, path);
+    }
 
-    public void loadTour() { this.stateController.loadTour(this); }
+    public void loadTour() {
+        this.stateController.loadTour(this);
+    }
 
+    public void stopComputing() {
+        this.stateController.stopComputing(this);
+    }
 
-    public void stopComputing() {this.stateController.stopComputing(this); }
+    public void continueComputing() {
+        this.stateController.continueTour(this, 10000);
+    }
 
-    public void continueComputing() {this.stateController.continueTour(this, 10000); }
-
-    @Deprecated
+    /*@Deprecated
     public void addNewRequest(Intersection newPickup,
                               Intersection beforNewPickup,
                               int pickupDuration,
@@ -56,23 +64,41 @@ public class Controller {
                               int deliveryDuration) {
         this.stateController.addNewRequest(this, listOfCommands, newPickup, beforNewPickup,
                 pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
+    }*/
+
+    public void addNewRequest(){this.stateController.addNewRequest(this);}
+
+    public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){
+        this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );
     }
 
-    public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){ this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );}
+    public void chooseBeforNewPickup(Intersection theBeforNewPickup){
+        this.stateController.chooseBeforNewPickup(this, theBeforNewPickup);
+    }
 
-    public void chooseBeforNewPickup(Intersection theBeforNewPickup){this.stateController.chooseBeforNewPickup(this, theBeforNewPickup);}
+    public void chooseNewDelivery(Intersection theNewDelivery, int deliveryDuration){
+        this.stateController.chooseNewDelivery(this, theNewDelivery, deliveryDuration);
+    }
 
-    public void chooseNewDelivery(Intersection theNewDelivery, int deliveryDuration){this.stateController.chooseNewDelivery(this, theNewDelivery, deliveryDuration);}
+    public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){
+        this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery, listOfCommands);
+    };
 
-    public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery, listOfCommands);};
+    public void deleteRequest(Intersection intersectioToDelete){
+        this.stateController.deleteRequest(this, intersectioToDelete, listOfCommands);
+    }
 
-    public void deleteRequest(Intersection intersectioToDelete){this.stateController.deleteRequest(this, intersectioToDelete, listOfCommands);}
+    public void back() {
+        this.stateController.back(this);
+    }
 
-    public void back() {this.stateController.back(this);}
+    public void redo(){
+        this.stateController.redo(listOfCommands);
+    }
 
-    public void redo(){this.stateController.redo(listOfCommands);}
-
-    public void undo(){this.stateController.undo(listOfCommands);}
+    public void undo(){
+        this.stateController.undo(listOfCommands);
+    }
 
     //--------------- getter ---------------
 
@@ -110,14 +136,12 @@ public class Controller {
         this.tour = tour;
     }
 
-    public void createMap()
-    {
+    public void createMap(){
         map = MapFactory.create();
     }
 
     //--------------- main ---------------
-    public static void main(String []args)
-    {
+    public static void main(String []args){
         new Controller();
     }
 

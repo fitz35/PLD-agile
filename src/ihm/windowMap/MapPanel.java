@@ -5,7 +5,9 @@ import Model.Request;
 import Model.Segment;
 import Model.MapInterface;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
+import ihm.windowMap.InputSection.InputWindowAddPickup;
 import ihm.windowMap.InputSection.InputWindowWithRoute;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,19 +27,21 @@ public class MapPanel extends JPanel implements MouseListener
     private Intersection pickup;
     private Intersection delivery;
     private InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints;
+    private InputWindowAddPickup inputWindowAddPickup;
     private InputWindowWithRoute inputWindowWithRoute;
 
 
 
-
     public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints,
-                    InputWindowWithRoute inputWindowWithRoute)
+                    InputWindowWithRoute inputWindowWithRoute
+                    InputWindowAddPickup inputWindowAddPickup)
     {
         super();
         this.addMouseListener(this);
         this.inputMapWithDeliveryNPickupPoints = inputMapWithDeliveryNPickupPoints;
         this.inputWindowWithRoute = inputWindowWithRoute;
 
+        this.inputWindowAddPickup=inputWindowAddPickup;
         this.setBackground(ColorPalette.mapBackground);
         this.setLayout(null);
         this.revalidate();

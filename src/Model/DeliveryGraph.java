@@ -72,20 +72,26 @@ public class DeliveryGraph implements Graph{
 
     @Override
     public int getNbVertices() {
-        return this.nbVertices;
+        return nbVertices;
+    }
+
+    public LinkedList<Path> getVerticeCompositionList() {
+        return verticeCompositionList;
     }
 
     @Override
     public int getCost(int i, int j) {
-        if (i<0 || i>=nbVertices || j<0 || j>=nbVertices)
+        if ((i<0) || (i>=nbVertices) || (j<0) || (j>=nbVertices)){
             return -1;
+        }
         return (int) cost[i][j];
     }
 
     @Override
     public boolean isArc(int i, int j) {
-        if (i<0 || i>=nbVertices || j<0 || j>=nbVertices)
+        if ((i<0) || (i>=nbVertices) || (j<0) || (j>=nbVertices)){
             return false;
+        }
         return i != j;
     }
 
@@ -106,17 +112,19 @@ public class DeliveryGraph implements Graph{
         pi.put(one, s3);
         pi.put(start, s4);
 
-        ArrayList<Intersection> nodesToVisit = new ArrayList<>();
-        nodesToVisit.add(start);
-        nodesToVisit.add(one);
-        nodesToVisit.add(two);
-        nodesToVisit.add(three);
+        ArrayList<Address> nodesToVisit = new ArrayList<>();
+        nodesToVisit.add(new Address(start,100));
+        nodesToVisit.add(new Address(one,100));
+        nodesToVisit.add(new Address(two,100));
+        nodesToVisit.add(new Address(three,100));
 
-        /*DeliveryGraph dg = new DeliveryGraph(nodesToVisit);
+        DeliveryGraph dg = new DeliveryGraph(nodesToVisit);
         for(int i=0; i< 4; i++) {
             dg.addVertice(i, pi);
         }
-        dg.solveTSP(2000000);*/
-
+        LinkedList<Path> result=dg.solveTSP(2000000);
+        for(Path path:result){
+            System.out.println(path.getDeparture().getId()+"   "+path.getArrival().getId());
+        }
     }
 }

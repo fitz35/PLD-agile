@@ -13,9 +13,10 @@ import java.io.IOException;
 
 public class FirstTourComputed implements StateController {
 
-    @Override
-    public void addNewRequest(Controller controller, ListOfCommands listeOfCommand, Intersection newPickup, Intersection beforNewPickup, int pickupDuration, Intersection newDelivery, Intersection beforNewDelivery, int deliveryDuration)
-    {
+    /*@Override
+    public void addNewRequest(Controller controller, ListOfCommands listeOfCommand, Intersection newPickup,
+                              Intersection beforNewPickup, int pickupDuration, Intersection newDelivery,
+                              Intersection beforNewDelivery, int deliveryDuration) {
         try {
             Address pickup = new Address(newPickup, pickupDuration);
             Address delivery = new Address(newDelivery, deliveryDuration);
@@ -27,6 +28,11 @@ public class FirstTourComputed implements StateController {
         } catch (Exception e){
             throw (e);
         }
+    }*/
+
+    @Override
+    public void addNewRequest(Controller controller) {
+        controller.setStateController(new AddRequestState1());
     }
 
     @Override
@@ -40,8 +46,7 @@ public class FirstTourComputed implements StateController {
     };
 
     @Override
-    public void back(Controller controller)
-    {
+    public void back(Controller controller){
         controller.setStateController(new RequestLoaded());
         controller.getMap().resetTour();
     }
