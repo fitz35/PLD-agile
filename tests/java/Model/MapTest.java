@@ -274,7 +274,7 @@ class MapTest extends Observable {
     }
 
     /**
-     * Check the result when we have an existant file
+     * Check the result when we have an inexistant file
      */
     @Test
     void loadPlanningRequestTest4(){
@@ -373,9 +373,37 @@ class MapTest extends Observable {
         assert(updateCalled);
     }
 
+    /**
+     * Check the result when we try to load a planning without having loaded a map
+     */
     @Test
-    void getExtremIntersectionTest(){
+    void loadPlanningRequestTest9(){
+        try{
+            assert(!map.isMapLoaded());
+            map.loadRequest("tests/ressource/request6.xml");
+        }catch(Exception e){
+            exceptionRaised=true;
+        }
+        assert(!map.isPlanningLoaded());
+        assert(exceptionRaised);
+        assert(updateCalled);
+    }
 
+    /**
+     * Check the result when we try to load a planning with a bad departure time format
+     */
+    @Test
+    void loadPlanningRequestTest10(){
+        try{
+            map.loadMap("data/fichiersXML2020/largeMap.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/request7.xml");
+        }catch(Exception e){
+            exceptionRaised=true;
+        }
+        assert(!map.isPlanningLoaded());
+        assert(exceptionRaised);
+        assert(updateCalled);
     }
 
     /**
@@ -537,6 +565,23 @@ class MapTest extends Observable {
         assertEquals(theroricalSouth,map.getIntersectionSouth());
         assertEquals(theroricalWest,map.getIntersectionWest());
         assertEquals(theroricalEast,map.getIntersectionEast());
+    }
+
+    /**
+     * Verify the result extrem intersections without map
+     */
+    @Test
+    void getExtremIntersectionTest2(){
+        try{
+            assert(!map.isMapLoaded());
+        }catch (Exception e){
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        assertNull(map.getIntersectionNorth());
+        assertNull(map.getIntersectionSouth());
+        assertNull(map.getIntersectionWest());
+        assertNull(map.getIntersectionEast());
     }
 
     /**

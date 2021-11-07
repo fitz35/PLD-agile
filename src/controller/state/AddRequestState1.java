@@ -15,7 +15,7 @@ public class AddRequestState1 implements StateController{
     public void chooseNewPickup(Controller controller, Intersection theNewPickup, int pickupDuration){
         try{
             // ajouter une vérification que l'intersection existe ?
-            newPickup = new Address(theNewPickup, pickupDuration);
+            newPickup = new Address(theNewPickup, pickupDuration,1);
             controller.setStateController(new AddRequestState2(newPickup));
         }catch (Exception e){
             throw(e);
