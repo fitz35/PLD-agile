@@ -357,7 +357,8 @@ public class MapPanel extends JPanel implements MouseListener
             i=convertPixeltoIntersection(PixelX,PixelY,(int)(0.9*Frame.height));
             s=convertPointToSegment(PixelX, PixelY, (int)(0.9*Frame.height));
             JLabel label= InputMapWithDeliveryNPickupPoints.getJLabel();
-            InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked:"+ s.getName(), label);
+            label.setForeground(ColorPalette.textNotice);
+            InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked: "+ s.getName(), label);
             //System.out.println(PixelX + " " + PixelY + " " + s.getName());
             if(controller.getStateController() instanceof AddRequestState1)
             {

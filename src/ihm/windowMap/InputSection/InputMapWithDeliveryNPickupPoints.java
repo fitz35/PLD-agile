@@ -1,5 +1,8 @@
 package ihm.windowMap.InputSection;
+import Model.Address;
+import Model.Intersection;
 import Model.Request;
+import Model.Segment;
 import controller.Controller;
 import ihm.windowMap.ColorPalette;
 import ihm.windowMap.Frame;
@@ -20,6 +23,8 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     private static int width = (int) size.getWidth();
     private static int height = (int) size.getHeight();
 
+    private InputWindowWithRoute inputWindowWithRoute;
+
     private final JFrame popup = new JFrame();
     private JButton findOptimalRoute;
     private JButton backToLoadRequest;
@@ -30,6 +35,9 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
     private JButton deleteRequest;
+
+    private ArrayList<String> streetNames;
+    private ArrayList<Segment>segmentsList;
 
     private int highlightStartingNumber = -2;
     private int highlightPickupNumber = -2;
@@ -108,6 +116,25 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         return text1;
     }
 
+    public ArrayList<String> getStreetNames(Intersection intersection) {
+        streetNames = new ArrayList<>();
+        segmentsList = controller.getMap().getSegmentList();
+        for (int i = 0; i < segmentsList.size(); i++) {
+            if (intersection.equals(segmentsList.get(i).getOrigin()) ||
+                    intersection.equals(segmentsList.get(i).getDestination())) {
+                streetNames.add(segmentsList.get(i).getName());
+            }
+        }
+        ArrayList<String> newList = new ArrayList<>();
+        for (String element : streetNames) {
+            if (!newList.contains(element)) {
+                newList.add(element);
+            }
+
+        }
+        return newList;
+    }
+
     public static void setTexttoJLabel(String text, JLabel label) {
         label.setText(text);
     }
@@ -161,11 +188,14 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             startingPoint.setBorderPainted(false);
             startingPoint.setBounds(75, 110, (width / 70), (height / 40));
             startingPoint.addActionListener(this);
-            startingPointLatLong = new JButton("Starting Point :" +
-                    "       Latitude : " +
-                    controller.getMap().getPlanningRequest().getStartingPoint().getLatitude() +
-                    "       Longitude : " +
-                    controller.getMap().getPlanningRequest().getStartingPoint().getLongitude());
+            if(getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).size()==1) {
+                startingPointLatLong = new JButton("Starting Point : " +
+                        getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).get(0));
+            }else{
+                startingPointLatLong = new JButton("Starting Point : " +
+                        getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).get(0)+
+                        ", "+getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).get(1));
+            }
             startingPointLatLong.setBackground(ColorPalette.inputPannel);
             startingPointLatLong.setBorderPainted(false);
             startingPointLatLong.setBounds(100, 110, 420, 20);
@@ -194,11 +224,14 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                 listIconPickupButton.add(pickupIcon);
 
 
-                pickupButton = new JButton("Pickup Point :" +
-                        "       Latitude : " +
-                        requestsList.get(i).getPickupAddress().getLatitude() +
-                        "       Longitude : " +
-                        requestsList.get(i).getPickupAddress().getLongitude());
+                if(getStreetNames(requestsList.get(i).getPickupAddress()).size()==1) {
+                    pickupButton = new JButton("Pickup Point : " +
+                            getStreetNames(requestsList.get(i).getPickupAddress()).get(0));
+                }else{
+                    pickupButton = new JButton("Pickup Point : " +
+                            getStreetNames(requestsList.get(i).getPickupAddress()).get(0)+
+                            ", "+getStreetNames(requestsList.get(i).getPickupAddress()).get(1));
+                }
                 pickupButton.setBackground(ColorPalette.inputPannel);
                 pickupButton.setBorderPainted(false);
                 pickupButton.addActionListener(this);
@@ -220,11 +253,14 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                 deliveryIcon.addActionListener(this);
                 listIconDeliveryButton.add(deliveryIcon);
 
-                deliveryButton = new JButton("Delivery Point :" +
-                        "       Latitude : " +
-                        requestsList.get(i).getDeliveryAddress().getLatitude() +
-                        "       Longitude : " +
-                        requestsList.get(i).getDeliveryAddress().getLongitude());
+                if(getStreetNames(requestsList.get(i).getDeliveryAddress()).size()==1) {
+                    deliveryButton = new JButton("Delivery Point : " +
+                            getStreetNames(requestsList.get(i).getDeliveryAddress()).get(0));
+                }else{
+                    deliveryButton = new JButton("Delivery Point : " +
+                            getStreetNames(requestsList.get(i).getDeliveryAddress()).get(0)+
+                            ", "+getStreetNames(requestsList.get(i).getDeliveryAddress()).get(1));
+                }
                 deliveryButton.setBackground(ColorPalette.inputPannel);
                 deliveryButton.setBorderPainted(false);
                 deliveryButton.addActionListener(this);
@@ -270,6 +306,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                 }
         }
     }
+
 
     //Getters
     public int getHighlightPickupNumber() {

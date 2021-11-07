@@ -141,24 +141,23 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
         return timeString;
     }
 
-    public ArrayList<String> getStreetNames(Address address){
+    public ArrayList<String> getStreetNames(Address address) {
         streetNames = new ArrayList<>();
         segmentsList = controller.getMap().getSegmentList();
-        for(int i=0; i<segmentsList.size();i++){
-            if(address.equals(segmentsList.get(i).getOrigin()) ||
-                    address.equals(segmentsList.get(i).getDestination())){
+        for (int i = 0; i < segmentsList.size(); i++) {
+            if (address.equals(segmentsList.get(i).getOrigin()) ||
+                    address.equals(segmentsList.get(i).getDestination())) {
                 streetNames.add(segmentsList.get(i).getName());
             }
         }
-        //Get rid of the duplicates streets
-        /*for(int i=0;i<streetNames.size();i++){
-            for (int j=0; j<streetNames.size();j++){
-                if(i!=j && streetNames.get(i).equals(streetNames.get(j))){
-                    streetNames.remove(streetNames.get(j));
-                }
+        ArrayList<String> newList = new ArrayList<>();
+        for (String element : streetNames) {
+            if (!newList.contains(element)) {
+                newList.add(element);
             }
-        }*/
-        return streetNames;
+
+        }
+        return newList;
     }
 
     public void updatePlanningRequestOptimalTour() {
