@@ -21,21 +21,34 @@ public class InputWindowAddPickup extends JPanel implements ActionListener
     private Controller controller;
 
     private JLabel errorMessage;
+    private JLabel instructions;
+    private JLabel header;
 
-    public InputWindowAddPickup (WindowMap window, Controller controller)
+
+    public InputWindowAddPickup (Controller controller)
     {
         super();
         this.controller = controller;
+
+        header= new JLabel("Choosing a new Pickup Point to create a new Request");
+        header.setBounds(10,   50, 200,30);
+        this.add(header);
+
+        instructions=new JLabel("Choose a new pickup point by clicking on an intersection on the map on your left");
+        instructions.setBounds(10,  90, 200,30);
+        this.add(instructions);
 
         validate= new JButton("Validate pickup intersection");
         validate.setBounds(10, Frame.height - 50, 200,30);
         validate.addActionListener(this);
         this.add(validate);
 
-        back= new JButton("Back");
+        back= new JButton("Cancel New Request");
         back.setBounds(Frame.width - 250, 10, 200,30);
         back.addActionListener(this);
         this.add(back);
+
+
 
         durationField= new JTextField();
         durationField.setBounds(20, Frame.height/2 - 15, 200,30);
@@ -58,7 +71,9 @@ public class InputWindowAddPickup extends JPanel implements ActionListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == validate){
+        if(e.getSource() == validate)
+        {
+
 
         }
     }

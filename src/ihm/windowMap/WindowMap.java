@@ -20,7 +20,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
 
     private InputMapWithDeliveryNPickupPoints panelWithRequests;
     private InputWindowLoadRequest inputPanel;
-    private InputWindowAddPickup inputAddPickup;
+    private InputWindowAddPickup inputWindowAddPickup;
 
     private Controller controller;
 
@@ -34,12 +34,11 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         this.add(inputPanel);
 
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller);
-        mapPanel= new MapPanel(panelWithRequests);
+        inputWindowAddPickup= new InputWindowAddPickup(controller);
+        mapPanel= new MapPanel(panelWithRequests,inputWindowAddPickup);
         //mapPanel.setBounds((int)(0.05*Frame.height), (int)(0.05*Frame.height),(int)(0.9*Frame.height), (int)(0.9*Frame.height));
         this.add(mapPanel);
         this.setBackground(Color.BLACK);
-
-        inputAddPickup = new InputWindowAddPickup(this, controller);
 
     }
 
@@ -59,7 +58,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
        ){
            this.add(panelWithRequests);
        }else if(this.controller.getStateController() instanceof AddRequestState1){
-           this.add(inputAddPickup);
+           this.add(inputWindowAddPickup);
        }
 
        this.add(mapPanel);
@@ -71,7 +70,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
     private void removeAllPanel(){
         this.remove(mapPanel);
         this.remove(inputPanel);
-        this.remove(inputAddPickup);
+        this.remove(inputWindowAddPickup);
         this.remove(panelWithRequests);
     }
 

@@ -45,14 +45,8 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     private boolean optimalTour = false;
 
 
-    private ArrayList<JButton> listDeleteButton;
-    private ArrayList<JButton> listRequestButton;
-    private ArrayList<JButton> listPickupButton;
-    private ArrayList<JButton> listIconPickupButton;
-    private ArrayList<JButton> listPickupDurationButton;
-    private ArrayList<JButton> listDeliveryButton;
-    private ArrayList<JButton> listIconDeliveryButton;
-    private ArrayList<JButton> listDeliveryDurationButton;
+    private ArrayList<JButton> listDeleteButton,listRequestButton,listPickupButton, listIconPickupButton, listPickupDurationButton;
+    private ArrayList<JButton> listDeliveryButton, listIconDeliveryButton,listDeliveryDurationButton;
 
     private ArrayList <ActionListener> deleteRequestListeners;
 
