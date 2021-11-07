@@ -33,7 +33,7 @@ public class MapPanel extends JPanel implements MouseListener
 
 
     public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints,
-                    InputWindowWithRoute inputWindowWithRoute
+                    InputWindowWithRoute inputWindowWithRoute,
                     InputWindowAddPickup inputWindowAddPickup)
     {
         super();
