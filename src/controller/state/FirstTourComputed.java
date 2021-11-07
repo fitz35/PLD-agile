@@ -28,6 +28,11 @@ public class FirstTourComputed implements StateController {
         } catch (Exception e){
             throw (e);
         }
+    }*/
+
+    @Override
+    public void addNewRequest(Controller controller) {
+        controller.setStateController(new AddRequestState1());
     }
 
     @Override

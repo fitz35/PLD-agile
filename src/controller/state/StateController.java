@@ -15,9 +15,8 @@ public interface StateController {
     public default void back(Controller controller){};
     public default void continueTour(Controller controller, int timeout){};
     public default void stopComputing(Controller controller){};
-    public default void addNewRequest(Controller controller, ListOfCommands listeOfCommands, Intersection newPickup,
-                                      Intersection beforNewPickup, int pickupDuration, Intersection newDelivery,
-                                      Intersection beforNewDelivery, int deliveryDuration){};
+    //public default void addNewRequest(Controller controller, ListOfCommands listeOfCommands, Intersection newPickup, Intersection beforNewPickup, int pickupDuration, Intersection newDelivery, Intersection beforNewDelivery, int deliveryDuration){};
+    public default void addNewRequest(Controller controller){};
     public default void chooseNewPickup(Controller controller, Intersection theNewPickup, int pickupDuration){};
     public default void chooseBeforNewPickup(Controller controller, Intersection theBeforNewPickup){};
     public default void chooseNewDelivery(Controller controller, Intersection theNewDelivery, int deliveryDuration){};
