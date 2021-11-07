@@ -4,6 +4,8 @@ import Model.Intersection;
 import Model.Request;
 import Model.Segment;
 import Model.MapInterface;
+import controller.Controller;
+import controller.state.AddRequestState1;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
 import ihm.windowMap.InputSection.InputWindowAddPickup;
 import ihm.windowMap.InputSection.InputWindowWithRoute;
@@ -29,17 +31,19 @@ public class MapPanel extends JPanel implements MouseListener
     private InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints;
     private InputWindowAddPickup inputWindowAddPickup;
     private InputWindowWithRoute inputWindowWithRoute;
+    private Controller controller;
 
 
 
     public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints,
                     InputWindowWithRoute inputWindowWithRoute,
-                    InputWindowAddPickup inputWindowAddPickup)
+                    InputWindowAddPickup inputWindowAddPickup, Controller controller)
     {
         super();
         this.addMouseListener(this);
         this.inputMapWithDeliveryNPickupPoints = inputMapWithDeliveryNPickupPoints;
         this.inputWindowWithRoute = inputWindowWithRoute;
+        this.controller=controller;
 
         this.inputWindowAddPickup=inputWindowAddPickup;
         this.setBackground(ColorPalette.mapBackground);
@@ -355,6 +359,11 @@ public class MapPanel extends JPanel implements MouseListener
             JLabel label= InputMapWithDeliveryNPickupPoints.getJLabel();
             InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked:"+ s.getName(), label);
             //System.out.println(PixelX + " " + PixelY + " " + s.getName());
+            if(controller.getStateController() instanceof AddRequestState1)
+            {
+
+                inputWindowAddPickup.updateIntersectionClicked(i);
+            }
         }
     }
 
