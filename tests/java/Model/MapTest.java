@@ -581,11 +581,11 @@ class MapTest extends Observable {
     }
 
     private LinkedList<Path> createTheoricalTour(){
-        Address inter0=new Address(new Intersection(0,4,1.0),0);
-        Address inter1=new Address(new Intersection(1,6,2.5),180);
-        Address inter2=new Address(new Intersection(2,6,4),180);
-        Address inter3=new Address(new Intersection(3,4,4),240);
-        Address inter4=new Address(new Intersection(4,4,2.5),240);
+        Address inter0=new Address(0,4,1.0,0,0);
+        Address inter1=new Address(1,6,2.5,180,1);
+        Address inter2=new Address(2,6,4,180,1);
+        Address inter3=new Address(3,4,4,240,2);
+        Address inter4=new Address(4,4,2.5,240,2);
 
         Segment seg01=new Segment(inter0,inter1,"Rue d'Arménie",8);
         Segment seg02=new Segment(inter0,inter2,"Rue Vendôme",3);
