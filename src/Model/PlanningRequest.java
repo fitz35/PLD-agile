@@ -81,6 +81,10 @@ public class PlanningRequest {
         this.startingPoint = startingPoint;
     }
 
+    public boolean isEmpty(){
+        return requestList.isEmpty();
+    }
+
     /**
      * Set the departureTime of the tour
      * @param departureTime
@@ -206,6 +210,5 @@ public class PlanningRequest {
     public static void main(String[] args){
         PlanningRequest planning =new PlanningRequest();
     }
-
 
 }

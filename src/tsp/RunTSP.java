@@ -1,5 +1,7 @@
 package tsp;
-
+/**
+ * @author AGILE team
+ */
 public class RunTSP {
 	public static void main(String[] args) {
 		for (int nbVertices = 3; nbVertices <= 21; nbVertices += 2){

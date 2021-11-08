@@ -1,5 +1,7 @@
 package tsp;
-
+/**
+ * @author AGILE team and H4124
+ */
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -24,6 +26,12 @@ public class SeqIter implements Iterator<Integer> {
 		sortHeuristic(currentVertex, g);
 	}
 
+	/**
+	 * The iterator is sorted to have the closest vertex to currentVertex last, this improves the performance
+	 * of the branch & bound algorithm
+	 * @param currentVertex Last vertex visited
+	 * @param g Graph in which we are computing the TSP
+	 */
 	private void sortHeuristic(int currentVertex, Graph g){
 		boolean success = false;
 		while(!success){
@@ -38,6 +46,11 @@ public class SeqIter implements Iterator<Integer> {
 		}
 	}
 
+	/**
+	 * Swaps values in the candidates array
+	 * @param i index of the value to go into candidates[j]
+	 * @param j index of the value to go into candidates[i]
+	 */
 	private void swap(int i, int j){
 		int temp = candidates[i];
 		candidates[i] = candidates[j];

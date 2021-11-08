@@ -183,6 +183,9 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
             intersection=null;
             intersection2=null;
             stepSummary.setText("");
+            stepSummary2.setText("");
+            stepSummary3.setText("");
+            stepSummary4.setText("");
             durationField.setText("");
             errorMessage.setText("");
 

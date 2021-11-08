@@ -590,9 +590,9 @@ public class Map extends MapInterface {
         LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
         this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
+        long totalTime = System.currentTimeMillis() - startTime;
         this.setChanged();
         this.notifyObservers();
-        long totalTime = System.currentTimeMillis() - startTime;
         System.out.println("Tour computed in " + totalTime+" ms with a timeout of " + timeout + " ms");
     }
 
@@ -617,11 +617,20 @@ public class Map extends MapInterface {
      * @param newDelivery       the new delivery address
      */
     @Override
-    public void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery){
-        Request newRequest = new Request(newPickup, newDelivery);
-        this.planningRequest.addRequest(newRequest);
-        replaceOldPathInTour(beforeNewPickup, newPickup);
-        replaceOldPathInTour(beforeNewDelivery, newDelivery);
+    public void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery) throws Exception {
+        if(!intersectionList.contains(beforeNewPickup) || !intersectionList.contains(newPickup)
+                || !intersectionList.contains(beforeNewDelivery) || !intersectionList.contains(newDelivery)){
+            this.setChanged();
+            this.notifyObservers("Address doesn't exist in the map.");
+            throw new Exception();
+        }else{
+            Request newRequest = new Request(newPickup, newDelivery);
+            this.planningRequest.addRequest(newRequest);
+            replaceOldPathInTour(beforeNewPickup, newPickup);
+            replaceOldPathInTour(beforeNewDelivery, newDelivery);
+            this.setChanged();
+            this.notifyObservers();
+        }
     }
 
     /**
@@ -634,11 +643,15 @@ public class Map extends MapInterface {
         AddressOfRequest.add(requestToRemove.getPickupAddress());
         AddressOfRequest.add(requestToRemove.getDeliveryAddress());
         this.planningRequest.removeRequest(requestToRemove);
-        for (Address a:AddressOfRequest){
-            Path pathToRemove1 = this.tour.findPathDestination(a);
-            Path pathToRemove2 =this.tour.findPathOrigin(a);
-            Path newPath = this.findShortestPath(pathToRemove1.getDeparture(),pathToRemove2.getArrival());
-            this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
+        if(!this.planningRequest.isEmpty()) {
+            for (Address a : AddressOfRequest) {
+                Path pathToRemove1 = this.tour.findPathDestination(a);
+                Path pathToRemove2 = this.tour.findPathOrigin(a);
+                Path newPath = this.findShortestPath(pathToRemove1.getDeparture(), pathToRemove2.getArrival());
+                this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
+            }
+        }else{
+            this.tour.reset();
         }
         this.setChanged();
         notifyObservers();
@@ -665,6 +678,7 @@ public class Map extends MapInterface {
     }
 
     /**
+     * Add a new point of interest to the tour and find the new shortest paths between the origin and the destination
      * @param toVisitBefore
      * @param destination
      */
@@ -676,9 +690,10 @@ public class Map extends MapInterface {
     }
 
     /**
+     * Find the sortest path between 2 addresses
      * @param start
      * @param destination
-     * @return
+     * @return newPath
      */
     private Path findShortestPath(Address start, Address destination){
         HashMap<Intersection, Segment> pi = dijkstra(start);

@@ -149,11 +149,13 @@ public class MapPanel extends JPanel implements MouseListener
 
                 }
 
-            if(createdMap.getTour()!= null && createdMap.getTour().getOrderedSegmentList()!= null)
+            if(createdMap.getTour()!= null && createdMap.getTour().getOrderedPathList()!= null)
             {
-                for (Segment segment : createdMap.getTour().getOrderedSegmentList())
-                {
-                    paintSegmentTour(g2d, segment, ColorPalette.tourColor);
+                for(Path path : createdMap.getTour().getOrderedPathList()){
+                    for (Segment segment : path.getSegmentsOfPath())
+                    {
+                        paintSegmentTour(g2d, segment, ColorPalette.tourColor);
+                    }
                 }
             }
         }
