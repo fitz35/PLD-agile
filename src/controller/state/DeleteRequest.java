@@ -2,17 +2,16 @@ package controller.state;
 
 import Model.Address;
 import Model.Intersection;
+import Model.Map;
 import controller.Controller;
-import controller.command.DeleteRequest;
-import controller.command.ListOfCommands;
+import controller.command.DeleteRequestCmd;
 
-public class deleteRequest implements StateController{
+public class DeleteRequest implements StateController{
 
     @Override
-    public void  deleteRequest(Controller controller , Intersection intersectionToDelete,
-                               ListOfCommands listOfCommands){
+    public void  deleteRequest(Controller controller , Intersection intersectionToDelete){
         Address addressToDelete = controller.getMap().getPlanningRequest().getAddressById(intersectionToDelete.getId());
-        DeleteRequest requestToDelete = new DeleteRequest((Model.Map)controller.getMap(), addressToDelete);
+        DeleteRequestCmd requestToDelete = new DeleteRequestCmd((Map)controller.getMap(), addressToDelete);
         controller.setStateController(new FirstTourComputed());
     }
 

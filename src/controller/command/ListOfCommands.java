@@ -68,4 +68,13 @@ public class ListOfCommands {
         currentIndex = -1;
         list.clear();
     }
+
+
+    public int getListSize(){
+        return list.size();
+    }
+
+    public int getCurrentIndex() {
+        return currentIndex;
+    }
 }
