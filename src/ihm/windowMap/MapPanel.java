@@ -387,7 +387,6 @@ public class MapPanel extends JPanel implements MouseListener
      */
     public void paintSegmentTour(Graphics2D g, Segment segment, Color colour)
     {
-
         g.setColor(colour);
         Intersection origin= segment.getOrigin();
         Intersection destination= segment.getDestination();
@@ -448,12 +447,12 @@ public class MapPanel extends JPanel implements MouseListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int PixelX= e.getX();
-        int PixelY= e.getY();
+        int PixelX= (int)((zoomX - (mapSize/zoom)/2) + e.getX()/zoom);
+        int PixelY= (int)((zoomY - (mapSize/zoom)/2) + e.getY()/zoom);
         System.out.println("Click : " + PixelX + " " + PixelY);
         Intersection i;
         Segment s;
-        if(PixelX< mapSize)
+        if(PixelX< mapSize + border)
         {
             i=convertPixeltoIntersection(PixelX,PixelY, mapSize);
             s=convertPointToSegment(PixelX, PixelY, mapSize);
