@@ -655,32 +655,90 @@ class MapTest extends Observable {
         LinkedList<Path> theoricalTour=new LinkedList<>();
         LinkedList<Segment> intermediate=new LinkedList<>();
 
-        intermediate.add(seg04);
-        intermediate.add(seg41);
-        Path path1=new Path(inter0,inter1,intermediate);
+        intermediate.add(seg02);
+        Path path1=new Path(inter0,inter2,intermediate);
         theoricalTour.add(path1);
 
         intermediate=new LinkedList<>();
-        intermediate.add(seg12);
-        Path path2=new Path(inter1,inter2,intermediate);
+        intermediate.add(seg21);
+        Path path2=new Path(inter2,inter1,intermediate);
         theoricalTour.add(path2);
 
         intermediate=new LinkedList<>();
-        intermediate.add(seg24);
-        intermediate.add(seg43);
-        Path path3=new Path(inter2,inter3,intermediate);
+        intermediate.add(seg14);
+        Path path3=new Path(inter1,inter4,intermediate);
         theoricalTour.add(path3);
 
         intermediate=new LinkedList<>();
-        intermediate.add(seg34);
-        Path path4=new Path(inter3,inter4,intermediate);
+        intermediate.add(seg43);
+        Path path4=new Path(inter4,inter3,intermediate);
         theoricalTour.add(path4);
 
         intermediate=new LinkedList<>();
+        intermediate.add(seg34);
         intermediate.add(seg40);
-        Path path5=new Path(inter4,inter0,intermediate);
+        Path path5=new Path(inter3,inter0,intermediate);
         theoricalTour.add(path5);
 
         return theoricalTour;
+    }
+
+    @Test
+    void addRequestTest1(){
+        try{
+            map.loadMap("tests/ressource/mapTour.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/requestTourAddRequest.xml");
+            assert(map.isPlanningLoaded());
+        }catch (Exception e){
+            e.printStackTrace();
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        LinkedList<Path> theoricalTour=createTheoricalTour();
+        map.computeTour(200);
+        assert(map.getTimedOutError()==0);
+        Address inter0=new Address(0,4,1.0,0,0);
+        Address inter1=new Address(1,6,2.5,180,1);
+        Address inter2=new Address(2,6,4,180,1);
+        Address inter3=new Address(3,4,4,240,2);
+        Address inter4=new Address(4,4,2.5,240,2);
+        try{
+            map.addRequest(inter0,inter2,inter4,inter3);
+        }catch(Exception e){
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        LinkedList<Path> calculatedTour=map.getTour().getOrderedPathList();
+        assertEquals(theoricalTour,calculatedTour);
+    }
+
+    @Test
+    void addRequestTest2(){
+        try{
+            map.loadMap("tests/ressource/mapTour.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/requestTourAddRequest.xml");
+            assert(map.isPlanningLoaded());
+        }catch (Exception e){
+            e.printStackTrace();
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        LinkedList<Path> theoricalTour=createTheoricalTour();
+        map.computeTour(200);
+        assert(map.getTimedOutError()==0);
+        Address inter0=new Address(0,4,1.0,0,0);
+        Address inter1=new Address(1,6,2.5,180,1);
+        Address inter2=new Address(2,6,4,180,1);
+        Address inter3=new Address(3,4,4,240,2);
+        Address inter4=new Address(5,4,2.5,240,2);
+        try{
+            map.addRequest(inter0,inter2,inter4,inter3);
+        }catch (Exception e){
+            exceptionRaised=true;
+        }
+        assert(exceptionRaised);
+        assert(updateCalled);
     }
 }

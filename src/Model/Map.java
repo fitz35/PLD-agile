@@ -617,11 +617,18 @@ public class Map extends MapInterface {
      * @param newDelivery       the new delivery address
      */
     @Override
-    public void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery){
-        Request newRequest = new Request(newPickup, newDelivery);
-        this.planningRequest.addRequest(newRequest);
-        replaceOldPathInTour(beforeNewPickup, newPickup);
-        replaceOldPathInTour(beforeNewDelivery, newDelivery);
+    public void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery) throws Exception {
+        if(!intersectionList.contains(beforeNewPickup) || !intersectionList.contains(newPickup)
+                || !intersectionList.contains(beforeNewDelivery) || !intersectionList.contains(newDelivery)){
+            this.setChanged();
+            this.notifyObservers("Address doesn't exist in the map.");
+            throw new Exception();
+        }else{
+            Request newRequest = new Request(newPickup, newDelivery);
+            this.planningRequest.addRequest(newRequest);
+            replaceOldPathInTour(beforeNewPickup, newPickup);
+            replaceOldPathInTour(beforeNewDelivery, newDelivery);
+        }
     }
 
     /**
@@ -665,6 +672,7 @@ public class Map extends MapInterface {
     }
 
     /**
+     * Add a new point of interest to the tour and find the new shortest paths between the origin and the destination
      * @param toVisitBefore
      * @param destination
      */
@@ -675,10 +683,13 @@ public class Map extends MapInterface {
         tour.replaceOldPath(oldPath, newPath1, newPath2);
     }
 
+
+
     /**
+     * Find the sortest path between 2 addresses
      * @param start
      * @param destination
-     * @return
+     * @return newPath
      */
     private Path findShortestPath(Address start, Address destination){
         HashMap<Intersection, Segment> pi = dijkstra(start);

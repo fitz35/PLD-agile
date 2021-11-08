@@ -166,11 +166,11 @@ public class Controller {
         this.stateController.back(this);
     }
 
-    public void redo(){
+    public void redo() throws Exception {
         this.stateController.redo(listOfCommands);
     }
 
-    public void undo(){
+    public void undo() throws Exception {
         this.stateController.undo(listOfCommands);
     }
 

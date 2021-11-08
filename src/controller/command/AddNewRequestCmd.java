@@ -19,7 +19,7 @@ public class AddNewRequestCmd implements Command {
         this.beforNewDelivery = beforNewDelivery;
     }
 
-    public void doCommand() {
+    public void doCommand() throws Exception {
         try {
             map.addRequest(beforNewPickup,newPickup,beforNewDelivery,newDelivery);
         } catch (Exception e) {
