@@ -4,11 +4,33 @@ import java.util.Objects;
 import java.util.Objects;
 
 public class Segment {
+    /**
+     * The origin of the segment
+     */
     private Intersection origin;
+
+    /**
+     * The destination of the segment
+     */
     private Intersection destination;
+
+    /**
+     * The name of the segment
+     */
     private String name;
+
+    /**
+     * The length of the segment
+     */
     private double length;
 
+    /**
+     * Constructor
+     * @param origin
+     * @param destination
+     * @param name
+     * @param length
+     */
     public Segment(Intersection origin, Intersection destination, String name, double length) {
         this.origin = origin;
         this.destination = destination;
@@ -16,18 +38,32 @@ public class Segment {
         this.length = length;
     }
 
+    // ------- Getters -------
+
+    /**
+     * @return origin
+     */
     public Intersection getOrigin() {
         return origin;
     }
 
+    /**
+     * @return destination
+     */
     public Intersection getDestination() {
         return destination;
     }
 
+    /**
+     * @return length
+     */
     public double getLength() {
         return length;
     }
 
+    /**
+     * @return name
+     */
     public String getName() {
         return name;
     }

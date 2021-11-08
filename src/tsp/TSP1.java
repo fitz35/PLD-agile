@@ -3,10 +3,38 @@ package tsp;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * TSP class that implements a bound heuristic and an order heuristic for the branch & bound TSP
+ */
 public class TSP1 extends TemplateTSP {
 	@Override
 	protected int bound(Integer currentVertex, Collection<Integer> unvisited) {
-		return 0;
+
+		//Calcul de l------------------------------------
+		int l = -1;
+		for(Integer unvisitedVertex : unvisited) {
+			if (g.getCost(currentVertex, unvisitedVertex) < l || l < 0) {
+				l = g.getCost(currentVertex, unvisitedVertex);
+			}
+		}
+		//return l;
+		//______________________________________________
+		//Calcul de li ---------------------------------
+
+		int li;
+		int lisum = 0;
+		for(Integer unvisitedVertex1 : unvisited){
+			li = g.getCost(unvisitedVertex1, 0);
+			for(Integer otherUnvisitedVertex : unvisited){
+				int possibleNewli = g.getCost(unvisitedVertex1, otherUnvisitedVertex);
+				if( possibleNewli < li && possibleNewli >= 0){
+					li = possibleNewli;
+				}
+			}
+			lisum = lisum + li;
+		}
+		return l+lisum;
+
 	}
 
 	@Override

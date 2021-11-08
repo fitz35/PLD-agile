@@ -21,13 +21,16 @@ public class DeliveryGraph implements Graph{
         this.nodesToVisit = nodesToVisit;
         this.nbVertices = nodesToVisit.size();
         this.cost = new double[this.nbVertices][this.nbVertices];
+        for(int i = 0; i<cost.length; i++){
+            cost[i][i] = -1;
+        }
     }
 
     public void addVertice(int numberStartNode, HashMap<Intersection, Segment> pi){
         int numberDestinationNode = 0;
         Address startIntersection = nodesToVisit.get(numberStartNode);
         for(Address intersect : nodesToVisit){
-            if(intersect != startIntersection) {
+            if(!intersect.equals(startIntersection)) {
                 Segment seg = pi.get(intersect);
                 //Pair<Intersection, Intersection> newVertice = new Pair<>(startIntersection, intersect);
                 LinkedList<Segment> newVerticeCompositon = new LinkedList<>();
@@ -45,8 +48,8 @@ public class DeliveryGraph implements Graph{
                 newVertice.setSegmentsOfPath(newVerticeCompositon);
                 verticeCompositionList.add(newVertice);
                 cost[numberStartNode][numberDestinationNode] = length;
-                numberDestinationNode++;
             }
+            numberDestinationNode++;
         }
     }
 

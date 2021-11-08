@@ -44,7 +44,7 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
         browse.addActionListener(this);
 
         path = new JTextField();
-        path.setBounds((Frame.width*1/30), (Frame.height*1/20)+100, Frame.width*1/4,15);
+        path.setBounds((Frame.width*1/30)+30, (Frame.height*1/20)+120, Frame.width*1/3,15);
         path.setVisible(false);
         path.setOpaque(true);
         path.setBackground(new Color(220,220,220));
@@ -52,11 +52,11 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
         path.addKeyListener(this);
 
         errorMsg=new JLabel();
-       errorMsg.setBounds(Frame.width/30,(int)(Frame.height*0.12)+50,(int)(Frame.width*0.45),(int)(Frame.height/15));
+       errorMsg.setBounds(Frame.width/30,(int)(Frame.height*0.12)+70,(int)(Frame.width*0.45),(int)(Frame.height/15));
 
 
         loadReqFile= new JButton("LOAD XML REQUEST FILE");
-        loadReqFile.setBounds(Frame.width/5-60,Frame.height/4-10,200, 40);
+        loadReqFile.setBounds(Frame.width/5-60,Frame.height/4+10,200, 40);
         loadReqFile.addActionListener(this);
         loadReqFile.setVisible(false);
 

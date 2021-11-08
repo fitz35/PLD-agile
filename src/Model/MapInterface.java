@@ -24,7 +24,7 @@ public abstract class MapInterface extends Observable {
             IOException;
 
     /**
-     * load a xml request
+     * load a xml request, a map have to be loaded before
      * @param fileName the xml file
      * @throws ParserConfigurationException
      * @throws SAXException
@@ -83,7 +83,7 @@ public abstract class MapInterface extends Observable {
 
     /**
      * compute the tour with a timeout
-     * @param timeout the timeout (seconds)
+     * @param timeout the timeout (milliseconds)
      */
     public abstract void computeTour(int timeout);
 

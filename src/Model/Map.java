@@ -16,23 +16,75 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Map extends MapInterface {
+    /**
+     * List of sements which constitute the map
+     */
     private ArrayList<Segment> segmentList;
+
+    /**
+     * List of intersections which constitute the map
+     */
     private ArrayList<Intersection> intersectionList;
+
+    /**
+     * Planning with all requests
+     */
     private PlanningRequest planningRequest;
+
+    /**
+     * The city graphe
+     */
     private HashMap<Intersection,LinkedList<Segment>> graphe;
+
+    /**
+     * An optimal tour
+     */
     private Tour tour;
+
+    /**
+     * Define the extreme intersections of the map
+     * index 0 : north
+     * index 1 : south
+     * index 2 : east
+     * index 3 : west
+     */
     private Intersection[] extremIntersection;
+
+    /**
+     * Indicate if the map is loaded
+     */
     private boolean mapLoaded = false;
+
+    /**
+     * Indicate if the planning is loaded
+     */
     private boolean planningLoaded = false;
+
+    /**
+     * Store the delivery graphe
+     */
     private DeliveryGraph deliveryGraph;
+
+    /**
+     * Indicate if the time of computation for the TSP is elapsed
+     * 0 if it's not elapsed
+     * 1 if it's elapsed
+     */
     private int timedOutError;
 
+    /**
+     * Constructor
+     */
     public Map() {
         resetMap();
         resetPlanningRequest();
         graphe= new HashMap<>();
     }
 
+    /**
+     * Creation of the city graphe
+     * @return graphe the city graphe
+     */
     public HashMap<Intersection,LinkedList<Segment>> createGraph() {
         for (Intersection inter : intersectionList) {
             //HashMap<Intersection, Segment> destinations = new HashMap<>();
@@ -51,6 +103,13 @@ public class Map extends MapInterface {
         return graphe;
     }
 
+    /**
+     * Load a map with a xml file
+     * @param fileName the xml file
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
     @Override
     public void loadMap(String fileName) throws ParserConfigurationException, SAXException, IOException {
         resetMap();
@@ -143,6 +202,14 @@ public class Map extends MapInterface {
         }
     }
 
+    /**
+     * Load a planning of requests with a xml file, a map have to be loaded before
+     * @param fileName the xml file
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     * @throws ParseException
+     */
     @Override
     public void loadRequest(String fileName)
             throws ParserConfigurationException, SAXException, IOException, ParseException {
@@ -234,7 +301,13 @@ public class Map extends MapInterface {
         }
     }
 
-    // Check if the data provided correspond to an existant intersection in the list
+    /**
+     * Check if the data provided correspond to an existant intersection in the list
+     * @param intersectionId
+     * @param latitude
+     * @param longitude
+     * @return res
+     */
     public boolean checkUniqueIntersection(long intersectionId,double latitude,double longitude){
         boolean res=true;
         for(Intersection intersection:intersectionList){
@@ -245,6 +318,9 @@ public class Map extends MapInterface {
         return res;
     }
 
+    /**
+     * Create new lists of segments and intersections
+     */
     @Override
     public void resetMap(){
         segmentList=new ArrayList<>();
@@ -253,6 +329,9 @@ public class Map extends MapInterface {
         this.notifyObservers();
     }
 
+    /**
+     * Create a new planning request
+     */
     @Override
     public void resetPlanningRequest(){
         planningRequest=new PlanningRequest();
@@ -260,6 +339,9 @@ public class Map extends MapInterface {
         this.notifyObservers();
     }
 
+    /**
+     * Set the tour to null
+     */
     @Override
     public void resetTour(){
         tour=null;
@@ -267,12 +349,19 @@ public class Map extends MapInterface {
         this.notifyObservers();
     }
 
+    /**
+     * Set timedOutError to 0
+     */
     @Override
     public void resetTimedOutError(){
         this.timedOutError = 0;
     }
 
-    // Return the intersection corresponding to the id
+    /**
+     * Return the intersection corresponding to the id given
+     * @param intersectionId
+     * @return intersection
+     */
     @Override
     public Intersection getIntersectionById(long intersectionId){
         for(Intersection intersection : intersectionList){
@@ -283,6 +372,10 @@ public class Map extends MapInterface {
         return null;
     }
 
+    /**
+     * Find the exrem intersections of the map
+     * @return extremum
+     */
     private Intersection[] getExtremIntersection(){
         if(!mapLoaded){
             return null;
@@ -315,6 +408,10 @@ public class Map extends MapInterface {
         return extremum;
     }
 
+    /**
+     * Give the northern intersection
+     * @return extremIntersection[0]
+     */
     @Override
     public Intersection getIntersectionNorth(){
         if(!mapLoaded){
@@ -323,6 +420,10 @@ public class Map extends MapInterface {
         return extremIntersection[0];
     };
 
+    /**
+     * Give the southern intersection
+     * @return extremIntersection[1]
+     */
     @Override
     public Intersection getIntersectionSouth(){
         if(!mapLoaded){
@@ -331,6 +432,10 @@ public class Map extends MapInterface {
         return extremIntersection[1];
     };
 
+    /**
+     * Give the eastern intersection
+     * @return extremIntersection[2]
+     */
     @Override
     public Intersection getIntersectionEast(){
         if(!mapLoaded){
@@ -339,6 +444,10 @@ public class Map extends MapInterface {
         return extremIntersection[2];
     };
 
+    /**
+     * Give the western intersection
+     * @return extremIntersection[3]
+     */
     @Override
     public Intersection getIntersectionWest(){
         if(!mapLoaded){
@@ -347,42 +456,66 @@ public class Map extends MapInterface {
         return extremIntersection[3];
     };
 
+    /**
+     * @return intersectionList
+     */
     @Override
     public ArrayList<Intersection> getIntersectionList() {
         return intersectionList;
     }
 
+    /**
+     * @return segmentList
+     */
     @Override
     public ArrayList<Segment> getSegmentList() {
         return segmentList;
     }
 
+    /**
+     * @return tour
+     */
     @Override
     public Tour getTour(){
         return this.tour;
     }
 
+    /**
+     * @return graphe
+     */
     @Override
     public HashMap<Intersection,LinkedList<Segment>> getGraphe() {
         return graphe;
     }
 
+    /**
+     * @return timedOutError
+     */
     @Override
     public int getTimedOutError() {
         return timedOutError;
     }
 
+    /**
+     * @return planningRequest
+     */
     @Override
     public PlanningRequest getPlanningRequest()
     {
         return this.planningRequest;
     }
 
+    /**
+     * @return mapLoaded
+     */
     @Override
     public boolean isMapLoaded() {
         return mapLoaded;
     }
 
+    /**
+     * @return planningLoaded
+     */
     @Override
     public boolean isPlanningLoaded() {
         return planningLoaded;
@@ -392,10 +525,18 @@ public class Map extends MapInterface {
     //      return tour != null;
     //}
 
+    /**
+     * @return deliveryGraph
+     */
     public DeliveryGraph getDeliveryGraph() {
         return deliveryGraph;
     }
 
+    /**
+     * Find all shortest path from a starting point
+     * @param startIntersection
+     * @return pi the precedence table, for each intersection we have the shortest segment to go to another intersection
+     */
     public HashMap<Intersection,Segment> dijkstra(Intersection startIntersection){
         HashMap<Intersection,Double> d = new HashMap<>();
         HashMap<Intersection,Segment> pi = new HashMap<>();
@@ -433,8 +574,13 @@ public class Map extends MapInterface {
         return pi;
     }
 
+    /**
+     * Find an optimal tour
+     * @param timeout the timeout (milliseconds)
+     */
     @Override
     public void computeTour(int timeout){
+        long startTime = System.currentTimeMillis();
         ArrayList<Address> listAddress = this.planningRequest.getListAddress();
         this.deliveryGraph = new DeliveryGraph(listAddress);
         for(int i=0; i<listAddress.size();i++){
@@ -446,8 +592,14 @@ public class Map extends MapInterface {
         tour = new Tour(tourCalculated);
         this.setChanged();
         this.notifyObservers();
+        long totalTime = System.currentTimeMillis() - startTime;
+        System.out.println("Tour computed in " + totalTime+" ms with a timeout of " + timeout + " ms");
     }
 
+    /**
+     * If the time out with computeTour, we can continue to compute an optimal tour
+     * @param timeout the timeout (milliseconds)
+     */
     @Override
     public void continueTour(int timeout){
         LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
@@ -457,12 +609,39 @@ public class Map extends MapInterface {
         this.notifyObservers();
     }
 
+    /**
+     * Add a new request to the previously computed tour
+     * @param beforeNewPickup   the address to visit before visiting the new pick up address
+     * @param newPickup         the new pick up address
+     * @param beforeNewDelivery the address to visit before visiting the new delivery address
+     * @param newDelivery       the new delivery address
+     */
     @Override
     public void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery){
         Request newRequest = new Request(newPickup, newDelivery);
         this.planningRequest.addRequest(newRequest);
         replaceOldPathInTour(beforeNewPickup, newPickup);
         replaceOldPathInTour(beforeNewDelivery, newDelivery);
+    }
+
+    /**
+     * Delete a request from
+     * @param pickupOrDelivery
+     */
+    public void deleteRequest(Address pickupOrDelivery){
+        Request requestToRemove = planningRequest.getRequestByAddress(pickupOrDelivery);
+        ArrayList<Address> AddressOfRequest= new ArrayList<>();
+        AddressOfRequest.add(requestToRemove.getPickupAddress());
+        AddressOfRequest.add(requestToRemove.getDeliveryAddress());
+        this.planningRequest.removeRequest(requestToRemove);
+        for (Address a:AddressOfRequest){
+            Path pathToRemove1 = this.tour.findPathDestination(a);
+            Path pathToRemove2 =this.tour.findPathOrigin(a);
+            Path newPath = this.findShortestPath(pathToRemove1.getDeparture(),pathToRemove2.getArrival());
+            this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
+        }
+        this.setChanged();
+        notifyObservers();
     }
 
     /**
@@ -485,6 +664,10 @@ public class Map extends MapInterface {
         return answer;
     }
 
+    /**
+     * @param toVisitBefore
+     * @param destination
+     */
     private void replaceOldPathInTour(Address toVisitBefore, Address destination) {
         Path oldPath = tour.findPathOrigin(toVisitBefore);
         Path newPath1 = findShortestPath(toVisitBefore, destination);
@@ -492,6 +675,11 @@ public class Map extends MapInterface {
         tour.replaceOldPath(oldPath, newPath1, newPath2);
     }
 
+    /**
+     * @param start
+     * @param destination
+     * @return
+     */
     private Path findShortestPath(Address start, Address destination){
         HashMap<Intersection, Segment> pi = dijkstra(start);
         Segment seg = pi.get(destination);

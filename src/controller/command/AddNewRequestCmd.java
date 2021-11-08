@@ -3,15 +3,15 @@ package controller.command;
 import Model.Address;
 import Model.Map;
 
-public class AddNewRequest implements Command {
+public class AddNewRequestCmd implements Command {
     private Map map;
     private Address newPickup;
     private Address newDelivery;
     private Address beforNewPickup;
     private Address beforNewDelivery;
 
-    public AddNewRequest(Map map, Address newPickup, Address newDelivery, Address beforNewPickup,
-                         Address beforNewDelivery ) {
+    public AddNewRequestCmd(Map map, Address newPickup, Address newDelivery, Address beforNewPickup,
+                            Address beforNewDelivery ) {
         this.map = map;
         this.newPickup = newPickup;
         this.newDelivery = newDelivery;
@@ -30,11 +30,11 @@ public class AddNewRequest implements Command {
     @Override
     public void undoCommand() {
         //delete the request that have juste been added
-        //try {
-        //  map.deleteRequest(newPickup);
-        //}catch (Exception e) {
-        //  throw (e);
-        //}
+        try {
+          map.deleteRequest(newPickup);
+        }catch (Exception e) {
+          throw (e);
+        }
     }
 
 }

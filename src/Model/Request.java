@@ -14,18 +14,39 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Request {
+    /**
+     * The pickup address of the request
+     */
     private Address pickupAddress;
+
+    /**
+     * The delivery address of the request
+     */
     private Address deliveryAddress;
 
+
+    /**
+     * Constructor
+     * @param pickupAddress
+     * @param deliveryAddress
+     */
     public Request(Address pickupAddress, Address deliveryAddress) {
         this.pickupAddress = pickupAddress;
         this.deliveryAddress = deliveryAddress;
     }
 
+    // ------- Getters -------
+
+    /**
+     * @return pickupAddress
+     */
     public Address getPickupAddress() {
         return pickupAddress;
     }
 
+    /**
+     * @return deliveryAddress
+     */
     public Address getDeliveryAddress() {
         return deliveryAddress;
     }
