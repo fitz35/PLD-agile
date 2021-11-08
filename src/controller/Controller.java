@@ -11,14 +11,32 @@ import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 
 /**
- * Class Controller
+ * Class Controller in the MVC (Model View Controller) architecture
  */
 public class Controller {
+    /**
+     * List of command stored to enable undo / redo
+     */
     private ListOfCommands listOfCommands;
+    /**
+     * Controller state from the design pattern Controller
+     */
     private StateController stateController;
+    /**
+     * Map of the app
+     */
     private MapInterface map;
+    /**
+     * Calculated tour for the biker
+     */
     private Tour tour;
+    /**
+     * First displayed window
+     */
     private WelcomeWindow firstWindow;
+    /**
+     * Second displayed window
+     */
     private WindowMap window2;
 
     /**
@@ -26,6 +44,7 @@ public class Controller {
      */
     public Controller(){
         stateController = new InitialState();
+        listOfCommands = new ListOfCommands();
         this.createMap();
         window2 = new WindowMap(this);
         window2.setVisible(false);
@@ -55,22 +74,7 @@ public class Controller {
         this.stateController.continueTour(this, 10000);
     }
 
-    /*@Deprecated
-    public void addNewRequest(Intersection newPickup,
-                              Intersection beforNewPickup,
-                              int pickupDuration,
-                              Intersection newDelivery,
-                              Intersection beforNewDelivery,
-                              int deliveryDuration) {
-        this.stateController.addNewRequest(this, listOfCommands, newPickup, beforNewPickup,
-                pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
-    }*/
-
-    public void addNewRequest()
-    {
-        System.out.println("Controller: adding a new request");
-        this.stateController.addNewRequest(this);
-    }
+    public void addNewRequest(){this.stateController.addNewRequest(this);}
 
     public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){
         this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );
@@ -85,11 +89,15 @@ public class Controller {
     }
 
     public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){
-        this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery, listOfCommands);
+        this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery);
     };
 
-    public void deleteRequest(Intersection intersectioToDelete){
-        this.stateController.deleteRequest(this, intersectioToDelete, listOfCommands);
+    public void deleteRequest(){
+        this.stateController.deleteRequest(this);
+    }
+
+    public void selectRequestToDelete(Intersection intersection){
+        this.stateController.selectRequestToDelete(this, intersection);
     }
 
     public void back() {
@@ -124,6 +132,10 @@ public class Controller {
 
     public WindowMap getWindow2() {
         return window2;
+    }
+
+    public ListOfCommands getListOfCommands() {
+        return listOfCommands;
     }
 
     //--------------- setter ---------------
