@@ -161,7 +161,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     }
 
     public void updatePlanningRequestOptimalTour() {
-        ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
+        //ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
         this.add(verticalScrollerTour);
         ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
