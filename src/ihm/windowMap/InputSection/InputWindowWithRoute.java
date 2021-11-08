@@ -449,16 +449,17 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             }
         }
 
-        if(controller.getListOfCommands().undoRedoAvailability() == 0){
+        int availability = controller.getListOfCommands().undoRedoAvailability();
+        if(availability == 0){
             redoButton.setEnabled(false);
             undoButton.setEnabled(false);
-        }else if(controller.getListOfCommands().undoRedoAvailability() == 1){
+        }else if(availability == 1){
             redoButton.setEnabled(false);
             undoButton.setEnabled(true);
-        }else if (controller.getListOfCommands().undoRedoAvailability() == 2){
+        }else if (availability == 2){
             undoButton.setEnabled(false);
             redoButton.setEnabled(true);
-        }else if (controller.getListOfCommands().undoRedoAvailability() == 3){
+        }else if (availability == 3){
             undoButton.setEnabled(true);
             redoButton.setEnabled(true);
         }
