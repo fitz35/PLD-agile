@@ -108,25 +108,39 @@ public class Controller {
      * Select the new pickup of the new request to add
      * leads to state AddRequestState2
      * available in state AddRequestState1
-     * @param theNewPickup, pickupDuration
+     * @param theNewPickup
+     * @param pickupDuration
      */
     public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){
         this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );
     }
 
+
     /**
-     * Select the new pickup of the new request to add
-     * leads to state AddRequestState2
-     * available in state AddRequestState1
+     * Select the point (pickup or delivery) who will precedes the new request's pickup
+     * leads to state AddRequestState3
+     * available in state AddRequestState2
+     * @param theBeforNewPickup
      */
     public void chooseBeforNewPickup(Intersection theBeforNewPickup){
         this.stateController.chooseBeforNewPickup(this, theBeforNewPickup);
     }
 
+    /**
+     * Select the new delivery of the new request to add
+     * leads to state AddRequestState4
+     * available in state AddRequestState3
+     * @param theNewDelivery
+     * @param deliveryDuration
+     */
     public void chooseNewDelivery(Intersection theNewDelivery, int deliveryDuration){
         this.stateController.chooseNewDelivery(this, theNewDelivery, deliveryDuration);
     }
 
+    /**
+     * 
+     * @param theBeforNewDelivery
+     */
     public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){
         this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery);
     };
