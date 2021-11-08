@@ -590,9 +590,9 @@ public class Map extends MapInterface {
         LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
         this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
+        long totalTime = System.currentTimeMillis() - startTime;
         this.setChanged();
         this.notifyObservers();
-        long totalTime = System.currentTimeMillis() - startTime;
         System.out.println("Tour computed in " + totalTime+" ms with a timeout of " + timeout + " ms");
     }
 
