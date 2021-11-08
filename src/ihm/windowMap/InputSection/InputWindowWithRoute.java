@@ -31,7 +31,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     private final JFrame popup = new JFrame();
     private JButton backToLoadRequest;
     private JButton pathButton, arrivalButton, deleteRequest;
-    private JButton undoButton, redoButton;
+    private JButton undoButton, redoButton, wayRouteButton;
 
     private JButton addRequest;
 
@@ -101,12 +101,17 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         redoButton.setEnabled(false);
         redoButton.addActionListener(this);
 
+        wayRouteButton = new JButton("Generate the waybill");
+        wayRouteButton.setBounds(300,620,200,30);
+        wayRouteButton.addActionListener(this);
+
         this.add(verticalScrollerTour);
         this.add(backToLoadRequest);
         this.add(addRequest);
         this.add(text1);
         this.add(undoButton);
         this.add(redoButton);
+        this.add(wayRouteButton);
 
         this.revalidate();
         this.repaint();
@@ -172,30 +177,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             }
         }
         return "";
-    }
-
-    //Called after getIntersectionFromAddres
-    public int getNumberPickup(String delivery){
-        int res=0;
-        for(int i=0;i<requestsList.size();i++) {
-            System.out.println(delivery.substring(8, 10));
-            if(delivery.substring(8, 10).equals(String.valueOf(i))){
-                res=(i+1);
-            }
-        }
-        return res;
-    }
-
-    //Called after getIntersectionFromAddres
-    public int getNumberDelivery(String pickup){
-        int res=0;
-        for(int i=0;i<requestsList.size();i++) {
-            System.out.println(pickup.substring(6, 8));
-            if(pickup.substring(6, 8).equals(String.valueOf(i))){
-                res=(i+1);
-            }
-        }
-        return res;
     }
 
 
@@ -368,8 +349,11 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                 }
                 if (answer == 0) {
                     //System.out.println("delete"+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
-                    //controller.setStateController(new DeleteRequest());
-                    //System.out.println("DELETE LINE 372 InoutWinowWithRoute");
+                    //this.removeAll();
+                    //controller.deleteRequest();
+
+                    controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+                    controller.setStateController(new DeleteRequest());
                     controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
 
                     if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
@@ -379,8 +363,10 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                         for(int k=0;k<pathListOptimalTour.size();k++){
                             if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Delivery"+numIntersection)){
                                 System.out.println("delivery : "+getStreetNames(pathListOptimalTour.get(k).getDeparture()));
+                                //controller.deleteRequest();
 
                                 //controller.selectRequestToDelete(pathListOptimalTour.get(k).getDeparture()); //Delete the chosen point
+
                             }
                         }
                     }else if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,8)).equals("Delivery")){
@@ -389,8 +375,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                         //System.out.println("C'est un delivery: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
                         for(int k=0;k<pathListOptimalTour.size();k++){
                             if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Pickup"+numIntersection)){
-                                //System.out.println("pickup : "+getStreetNames(pathListOptimalTour.get(k).getDeparture()));
-                                //controller.selectRequestToDelete(pathListOptimalTour.get(k).getDeparture()); //Delete the chosen point
+
                             }
                         }
                     }
@@ -402,6 +387,10 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         {
             this.remove(addRequest);
             controller.addNewRequest();
+        }
+
+        if(e.getSource() == wayRouteButton){
+
         }
     }
 
@@ -418,6 +407,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             this.add(text1);
             this.add(undoButton);
             this.add(redoButton);
+            this.add(wayRouteButton);
             updatePlanningRequestOptimalTour();
             this.revalidate();
             this.repaint();
