@@ -167,6 +167,8 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
 
     public void updateIntersectionClicked(Intersection intersection)
     {
+        this.revalidate();
+        this.repaint();
         int answer=0;
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
 
@@ -179,25 +181,24 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
                 if(requestsList.get(i).getPickupAddress()==intersection){
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the pickup "+ (i+1)+ "?", "Delete a pickup", JOptionPane.YES_NO_OPTION);
                     if(answer==0){
-                        //Call the Delete from the back
+                        controller.selectRequestToDelete(requestsList.get(i).getPickupAddress()); //Delete the chosen point
 
                     }
                 }else if(requestsList.get(i).getDeliveryAddress()==intersection){
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the delivery "+(i+1)+ "?", "Delete a delivery", JOptionPane.YES_NO_OPTION);
                     if(answer==0){
-                        //Call the Delete from the back
-
+                        controller.selectRequestToDelete(requestsList.get(i).getDeliveryAddress()); //Delete the chosen point
                     }
                 }else{
-
                     //JOptionPane.showMessageDialog(null,"Please choose a pickup or a delivery point which exists","Delete",JOptionPane.INFORMATION_MESSAGE);
                     //Cas limite
                 }
             }
-            this.revalidate();
-            this.repaint();
+
 
         }
+        this.revalidate();
+        this.repaint();
     }
 
 
@@ -362,39 +363,7 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
                 }
                 if (answer == 0) {
-                    //System.out.println("delete"+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
-                    //this.removeAll();
-                    //controller.deleteRequest();
-
-                    //controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
-                    //controller.setStateController(new DeleteRequest());
                     controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
-
-
-
-                    /*if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
-                        //Chercher delivery associé
-                        //System.out.println("C'est un pickup: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
-                        String numIntersection= getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(6,8);
-                        for(int k=0;k<pathListOptimalTour.size();k++){
-                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Delivery"+numIntersection)){
-                                System.out.println("delivery : "+getStreetNames(pathListOptimalTour.get(k).getDeparture()));
-                                //controller.deleteRequest();
-
-                                //controller.selectRequestToDelete(pathListOptimalTour.get(k).getDeparture()); //Delete the chosen point
-
-                            }
-                        }
-                    }else if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,8)).equals("Delivery")){
-                        //Chercher pickup associé
-                        String numIntersection= getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(8,10);
-                        //System.out.println("C'est un delivery: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
-                        for(int k=0;k<pathListOptimalTour.size();k++){
-                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Pickup"+numIntersection)){
-
-                            }
-                        }
-                    }*/
                 }
             }
         }

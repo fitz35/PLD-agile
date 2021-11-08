@@ -75,8 +75,8 @@ public class WindowMap extends Frame implements Observer //implements ActionList
            this.add(inputWindowAddDelivery);
            inputWindowAddDelivery.updatePanel();
        }
-       else if(this.controller.getStateController() instanceof FirstTourComputed||
-               this.controller.getStateController() instanceof WaitOrder  ){
+       else if((this.controller.getStateController() instanceof FirstTourComputed||
+               this.controller.getStateController() instanceof WaitOrder)){
            //this.add(panelWithRequests);
            inputWindowWithRoute.updatePlanningRequestOptimalTour();
            this.add(inputWindowWithRoute);
