@@ -28,6 +28,7 @@ public class MapPanel extends JPanel implements MouseListener
     private double originLat;
     private double originLong;
     private int border= (int)(0.05* Frame.height);
+    private int mapSize = (int) (0.9 * Frame.height);
     private Intersection startingPoint;
     private Intersection pickup;
     private Intersection delivery;
@@ -40,6 +41,9 @@ public class MapPanel extends JPanel implements MouseListener
     private int highlightPickupNumber = -2;
     private int highlightDeliveryNumber = -2;
     private int highlightRequestNumber = -2;
+
+    private int zoomX = Frame.height/2;
+    private int zoomY = Frame.height/2;
     private double zoom = 1d;
 
     public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints,
@@ -119,6 +123,8 @@ public class MapPanel extends JPanel implements MouseListener
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         if(getMousePosition() != null) {
+            this.zoomX = getMousePosition().x;
+            this.zoomY = getMousePosition().y;
             graphics2D.translate(getMousePosition().x, getMousePosition().y);
             graphics2D.scale(zoom,zoom);
             graphics2D.translate(-getMousePosition().x,-getMousePosition().y);
@@ -231,7 +237,7 @@ public class MapPanel extends JPanel implements MouseListener
         }
         else if(distanceHorizontal<distanceVertical)
         {
-            return latLonToOffsets( this.originLat, this.originLong, latitude, longitude, (height*distanceHorizontal)/distanceVertical,height);
+            return latLonToOffsets( this.originLat, this.originLong, latitude, longitude, (height*distanceHorizontal)/distanceVertical,mapSize);
 
         }
         else
@@ -334,7 +340,7 @@ public class MapPanel extends JPanel implements MouseListener
     {
 
         g.setColor(colour);
-        int[] pixelCoords= convertIntersectionToPixel(intersection, (int)(0.9*Frame.height));
+        int[] pixelCoords= convertIntersectionToPixel(intersection, mapSize);
         int pixelX= pixelCoords[0];
         int pixelY= pixelCoords[1];
 
@@ -362,8 +368,8 @@ public class MapPanel extends JPanel implements MouseListener
         g.setColor(colour);
         Intersection origin= segment.getOrigin();
         Intersection destination= segment.getDestination();
-        int[] pixelCoordsOrigin= convertIntersectionToPixel(origin, (int)(0.9*Frame.height));
-        int[] pixelCoordsDestination= convertIntersectionToPixel(destination,(int)(0.9*Frame.height));
+        int[] pixelCoordsOrigin= convertIntersectionToPixel(origin, mapSize);
+        int[] pixelCoordsDestination= convertIntersectionToPixel(destination, mapSize);
         int originPixelX= pixelCoordsOrigin[0];
         int originPixelY= pixelCoordsOrigin[1];
         int destinationPixelX= pixelCoordsDestination[0];
@@ -385,8 +391,8 @@ public class MapPanel extends JPanel implements MouseListener
         g.setColor(colour);
         Intersection origin= segment.getOrigin();
         Intersection destination= segment.getDestination();
-        int[] pixelCoordsOrigin= convertIntersectionToPixel(origin, (int)(0.9*Frame.height));
-        int[] pixelCoordsDestination= convertIntersectionToPixel(destination,(int)(0.9*Frame.height));
+        int[] pixelCoordsOrigin= convertIntersectionToPixel(origin, mapSize);
+        int[] pixelCoordsDestination= convertIntersectionToPixel(destination, mapSize);
         int originPixelX= pixelCoordsOrigin[0];
         int originPixelY= pixelCoordsOrigin[1];
         int destinationPixelX= pixelCoordsDestination[0];
@@ -444,12 +450,13 @@ public class MapPanel extends JPanel implements MouseListener
     public void mouseClicked(MouseEvent e) {
         int PixelX= e.getX();
         int PixelY= e.getY();
+        System.out.println("Click : " + PixelX + " " + PixelY);
         Intersection i;
         Segment s;
-        if(PixelX< Frame.height)
+        if(PixelX< mapSize)
         {
-            i=convertPixeltoIntersection(PixelX,PixelY,(int)(0.9*Frame.height));
-            s=convertPointToSegment(PixelX, PixelY, (int)(0.9*Frame.height));
+            i=convertPixeltoIntersection(PixelX,PixelY, mapSize);
+            s=convertPointToSegment(PixelX, PixelY, mapSize);
             JLabel label= InputMapWithDeliveryNPickupPoints.getJLabel();
             label.setForeground(ColorPalette.textNotice);
             InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked: "+ s.getName(), label);
