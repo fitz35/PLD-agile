@@ -12,7 +12,7 @@ public class Frame extends JFrame
     {
         this.setVisible(true);
         this.setSize(width,height);
-        this.setTitle("Welcome To Logo");
+        this.setTitle("Welcome To Agile Delivery");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
 

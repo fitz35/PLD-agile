@@ -8,7 +8,7 @@ public class AddRequestState1 implements StateController{
     private Address newPickup;
 
     public AddRequestState1() {
-        System.out.println("Clique on the new Delivery ");
+        System.out.println("Click on the new Delivery ");
     }
 
     @Override

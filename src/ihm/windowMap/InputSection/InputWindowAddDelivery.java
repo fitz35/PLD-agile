@@ -26,13 +26,13 @@ public class InputWindowAddDelivery  extends JPanel implements ActionListener
         private JLabel recap;
 
 
-        public InputWindowAddDelivery(WindowMap window, Controller controller, InputWindowAddPickup inputWindowAddPickup) //why window en params
+        public InputWindowAddDelivery( Controller controller)
         {
             super();
             this.controller = controller;
-            this.window=window;
             this.inputWindowAddPickup=inputWindowAddPickup;
 
+           // String summary= inputWindowAddPickup;
             recap=new JLabel("");
 
 
