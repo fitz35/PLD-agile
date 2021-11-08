@@ -36,7 +36,7 @@ public class Tour{
             i++;
         }
     }
-    //To erase
+
     /**
      * @return orderedSegmentList
      */
@@ -61,6 +61,7 @@ public class Tour{
             this.orderedPathList.remove(oldPath);
         }
     }
+
 
     /**
      * @return orderedPathList
@@ -93,5 +94,20 @@ public class Tour{
     public Path findPathDestination(Address destination){
         Path path = orderedPathList.get(destinationPathMap.get(destination));
         return path;
+    }
+
+    /**
+     * Replace 2 old paths ordered with a new path
+     * @param oldPath1
+     * @param oldPath2
+     * @param newPath
+     */
+    public void replaceOldPaths(Path oldPath1, Path oldPath2, Path newPath){
+        if (this.orderedPathList.contains(oldPath1) || this.orderedPathList.contains(oldPath2)){
+            int index= this.orderedPathList.indexOf(oldPath1);
+            this.orderedPathList.add(index, newPath);
+            this.orderedPathList.remove(oldPath1);
+            this.orderedPathList.remove(oldPath2);
+        }
     }
 }
