@@ -8,7 +8,6 @@ public class AddRequestState3 implements StateController{
     private Address newPickup;
     private Address beforNewPickup;
     private Address newDelivery;
-    private Intersection newIntersection;
 
 
     public AddRequestState3(Address newPickup, Address beforNewPickup) {
@@ -17,15 +16,10 @@ public class AddRequestState3 implements StateController{
     }
 
     @Override
-    public void setIntersection(Controller controller, Intersection intersection){
-        newIntersection = intersection;
-    }
-
-    @Override
-    public void setDuration(Controller controller, int deliveryDuration) {
+    public void chooseNewDelivery(Controller controller, Intersection theNewDelivery, int deliveryDuration) {
         try{
             // ajouter une vérification que l'intersection existe ?
-            newDelivery = new Address(newIntersection, deliveryDuration,2);
+            newDelivery = new Address(theNewDelivery, deliveryDuration,2);
             controller.setStateController(new AddRequestState4(newPickup, beforNewPickup, newDelivery));
         }catch (Exception e){
             throw(e);

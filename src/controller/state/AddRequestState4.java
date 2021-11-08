@@ -3,7 +3,8 @@ package controller.state;
 import Model.Address;
 import Model.Intersection;
 import controller.Controller;
-import controller.command.AddNewRequestCmd;
+import controller.command.AddNewRequest;
+import controller.command.ListOfCommands;
 
 public class AddRequestState4 implements StateController{
     private Address newPickup;
@@ -18,11 +19,12 @@ public class AddRequestState4 implements StateController{
     }
 
     @Override
-    public void setIntersection(Controller controller, Intersection theBeforNewDelivery){
+    public void chooseBeforNewDelivery(Controller controller, Intersection theBeforNewDelivery,
+                                       ListOfCommands listOfCommands){
         try{
             beforNewDelivery = controller.getMap().getPlanningRequest().getAddressById(theBeforNewDelivery.getId());
-            AddNewRequestCmd myCommandToExecute = new AddNewRequestCmd((Model.Map)controller.getMap(),newPickup,newDelivery,beforNewPickup,beforNewDelivery);
-            controller.getListOfCommands().add(myCommandToExecute);
+            AddNewRequest myCommandToExecute = new AddNewRequest((Model.Map)controller.getMap(),newPickup,newDelivery,beforNewPickup,beforNewDelivery);
+            listOfCommands.add(myCommandToExecute);
             controller.setStateController(new FirstTourComputed());
         }catch (Exception e){
             throw(e);
