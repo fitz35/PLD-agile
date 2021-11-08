@@ -2,14 +2,8 @@ package ihm.windowMap;
 
 import Model.*;
 import controller.Controller;
-import controller.state.AddRequestState1;
-import controller.state.AddRequestState2;
-import controller.state.AddRequestState3;
-import controller.state.AddRequestState4;
-import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
-import ihm.windowMap.InputSection.InputWindowAddDelivery;
-import ihm.windowMap.InputSection.InputWindowAddPickup;
-import ihm.windowMap.InputSection.InputWindowWithRoute;
+import controller.state.*;
+import ihm.windowMap.InputSection.*;
 
 
 import javax.swing.*;
@@ -35,6 +29,7 @@ public class MapPanel extends JPanel implements MouseListener
     private InputWindowAddPickup inputWindowAddPickup;
     private InputWindowAddDelivery inputWindowAddDelivery;
     private InputWindowWithRoute inputWindowWithRoute;
+    private InputWindowDeleteIntersection inputWindowDeleteIntersection;
     private Controller controller;
 
     private boolean highlightStartingNumber = false;
@@ -48,7 +43,8 @@ public class MapPanel extends JPanel implements MouseListener
 
     public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints,
                     InputWindowWithRoute inputWindowWithRoute,
-                    InputWindowAddPickup inputWindowAddPickup, Controller controller,InputWindowAddDelivery inputWindowAddDelivery)
+                    InputWindowAddPickup inputWindowAddPickup, Controller controller, InputWindowAddDelivery inputWindowAddDelivery,
+                    InputWindowDeleteIntersection inputWindowDeleteIntersection)
     {
         super();
         this.setLayout(null);
@@ -58,6 +54,7 @@ public class MapPanel extends JPanel implements MouseListener
         this.inputWindowWithRoute = inputWindowWithRoute;
         this.controller=controller;
         this.inputWindowAddDelivery=inputWindowAddDelivery;
+        this.inputWindowDeleteIntersection = inputWindowDeleteIntersection;
 
         this.inputWindowAddPickup=inputWindowAddPickup;
         this.setBackground(ColorPalette.mapBackground);
@@ -521,6 +518,12 @@ public class MapPanel extends JPanel implements MouseListener
                 i=getNearestPointOfInterest(PixelX,PixelY, mapSize);
                 inputWindowAddDelivery.updateIntersectionClicked(i);
                 inputWindowAddDelivery.updatePanel();
+            }
+            if(controller.getStateController() instanceof DeleteRequest)
+            {
+                i=getNearestPointOfInterest(PixelX,PixelY, mapSize);
+                inputWindowDeleteIntersection.updateIntersectionClicked(i);
+                inputWindowDeleteIntersection.updatePlanningRequestOptimalTour();
             }
 
         }
