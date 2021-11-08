@@ -45,25 +45,26 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         panel.add(body);
 
 
-        ImageIcon background= new ImageIcon(new ImageIcon(pathToImg+"WelcomeWindow.jpg").getImage().getScaledInstance(width,height, Image.SCALE_DEFAULT));
+        ImageIcon background= new ImageIcon(new ImageIcon(pathToImg+"WelcomeWindow.jpeg").getImage().getScaledInstance(width,height, Image.SCALE_DEFAULT));
         body.setIcon(background);
 
-        ImageIcon logo= new ImageIcon(new ImageIcon(pathToImg+"logo.png").getImage().getScaledInstance((width/7),(height/5), Image.SCALE_AREA_AVERAGING));
-        JLabel logoLabel= new JLabel();
-        logoLabel.setBounds((width/100),(height/100), (width/7),(height/7));
-        body.add(logoLabel);
-        logoLabel.setIcon(logo);
+        //ImageIcon logo= new ImageIcon(new ImageIcon(pathToImg+"logo.png").getImage().getScaledInstance((width/7),(height/5), Image.SCALE_AREA_AVERAGING));
+        //JLabel logoLabel= new JLabel();
+        //logoLabel.setBounds((width/100),(height/100), (width/7),(height/7));
+        //body.add(logoLabel);
+        //logoLabel.setIcon(logo);
 
-        appliName= new ImageIcon(new ImageIcon(pathToImg+"appli_name.jpg").getImage().getScaledInstance((int)(width*0.45),(height/4), Image.SCALE_AREA_AVERAGING));
+        appliName= new ImageIcon(new ImageIcon(pathToImg+"appli_name.png").getImage().getScaledInstance((int)(width*0.5),(height/3), Image.SCALE_AREA_AVERAGING));
         appliLabel= new JLabel();
-        appliLabel.setBounds((width/4),(height/10), (int)(width*0.45),(height/4));
+        appliLabel.setBounds((width/4),(height/10), (int)(width*0.6),(height/3));
         body.add(appliLabel);
         appliLabel.setIcon(appliName);
 
 
 
         path = new JLabel();
-        path.setBounds((int)(width*0.25),(int)(height*0.58),(int)(width*0.45),(int)(height/30));
+        //path.setBounds((int)(width*0.25),(int)(height*0.58),(int)(width*0.45),(int)(height/30));
+        path.setBounds((int)(width*0.25),(int)(height*0.58), (int)(width*0.5),15);
         path.setOpaque(true);
         path.setBackground(new Color(220,220,220));
         path.addKeyListener(this);
@@ -71,8 +72,8 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         body.add(path);
 
         ImageIcon browseIcon = new ImageIcon(new ImageIcon(pathToImg+"browseIcon.png").getImage().getScaledInstance((width/70),(height/30), Image.SCALE_AREA_AVERAGING));
-        browse = new JButton( "CHOOSE A MAP (XML file)" ,browseIcon);
-        browse.setBounds((int)(width*0.25),(height/2),(int)(width*0.45),(int)(height/15));
+        browse = new JButton( "CHOOSE A MAP TO DISPLAY (XML file)" ,browseIcon);
+        browse.setBounds((int)(width*0.28),(height/2),(int)(width*0.45),(int)(height/15));
         browse.addActionListener(this);
         body.add(browse);
 
