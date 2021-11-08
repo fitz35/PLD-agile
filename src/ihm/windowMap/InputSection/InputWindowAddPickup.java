@@ -4,9 +4,10 @@ import Model.Intersection;
 import Model.Request;
 import Model.Tour;
 import controller.Controller;
-import controller.state.AddRequestState2;
+import controller.state.*;
 import ihm.windowMap.ColorPalette;
 import ihm.windowMap.Frame;
+import ihm.windowMap.MapPanel;
 import ihm.windowMap.WindowMap;
 
 import javax.swing.*;
@@ -22,19 +23,21 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
     private JTextField durationField;
 
     private JLabel errorMessage;
+    private JLabel errorMessage2;
     private JLabel instructions;
     private JLabel header;
     private JLabel durationChooser;
     private JLabel stepSummary;
     private JLabel stepSummary2;
     private Intersection intersection;
+    private Intersection intersection2;
 
-    private JLabel headerDelivery;
     private JLabel instructionsChoosePointOfInterestBefore;
     private JLabel instructionsChoosePointOfInterestBefore2;
-    private JLabel stepSummaryDelivery;
-    private JLabel stepSummary2Delivery;
-    private Intersection intersectionDelivery;
+    private JLabel stepSummary3;
+    private JLabel stepSummary4;
+    private Intersection intersectionBeforePickup;
+    private JButton validateBeforePickup;
 
 
     public InputWindowAddPickup (Controller controller)
@@ -51,16 +54,26 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         instructions.setBounds(10,  90, 600,30);
 
         durationChooser=new JLabel("Choose a  pickup duration");
-        durationChooser.setBounds(10,  140, 600,30);
+        durationChooser.setBounds(10,  170, 600,30);
         durationChooser.setVisible(false);
 
-        stepSummary=new JLabel();
+        stepSummary=new JLabel("");
         stepSummary.setBounds(10,  120, 700,30);
         stepSummary.setVisible(false);
 
         stepSummary2=new JLabel();
-        stepSummary2.setBounds(10,  161, 700,30);
+        stepSummary2.setBounds(10,  155, 700,30);
         stepSummary2.setVisible(false);
+
+        stepSummary3=new JLabel();
+        stepSummary3.setBounds(10,  370, 500,30);
+        stepSummary3.setVisible(false);
+
+        stepSummary4=new JLabel();
+        stepSummary4.setBounds(10,  400, 500,30);
+        stepSummary4.setVisible(false);
+
+
 
 
 
@@ -69,97 +82,167 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         validate.addActionListener(this);
         validate.setVisible(false);
 
+        validateBeforePickup= new JButton("Validate the point of interest");
+        validateBeforePickup.setBounds(10, 450, 200,30);
+        validateBeforePickup.addActionListener(this);
+        validateBeforePickup.setVisible(false);
 
-        back= new JButton("Cancel New Request");
+
+        back= new JButton("Back");
         back.setBounds(250, 600, 200,30);
         back.addActionListener(this);
 
 
-        durationField= new JTextField("Pickup Duration");
-        durationField.setBounds(10, 170, 200,30);
+        durationField= new JTextField();
+        durationField.setBounds(10, 200, 200,30);
         durationField.addActionListener(this);
         durationField.setVisible(false);
 
         errorMessage= new JLabel("Error");
-        errorMessage.setBounds(20, 200, 600,30);
+        errorMessage.setBounds(20, 260, 600,30);
         errorMessage.setFont(new Font("Serif", Font.BOLD, 10));
         errorMessage.setVisible(false);
 
+        errorMessage2= new JLabel("Error");
+        errorMessage2.setBounds(10, 410, 200,30);
+        errorMessage2.setFont(new Font("Serif", Font.BOLD, 10));
+        errorMessage2.setVisible(false);
+
         instructionsChoosePointOfInterestBefore=new JLabel("Choose the point Of Interest to be visited before the new pickup by clicking ");
         instructionsChoosePointOfInterestBefore.setFont(new Font("Serif", Font.BOLD, 14));
-        instructionsChoosePointOfInterestBefore.setBounds(10,  270, 600,30);
+        instructionsChoosePointOfInterestBefore.setBounds(10,  295, 600,30);
         instructionsChoosePointOfInterestBefore.setVisible(false);
 
         instructionsChoosePointOfInterestBefore2=new JLabel("on an intersection on the map on your left");
         instructionsChoosePointOfInterestBefore2.setFont(new Font("Serif", Font.BOLD, 14));
-        instructionsChoosePointOfInterestBefore2.setBounds(10,  300, 630,30);
+        instructionsChoosePointOfInterestBefore2.setBounds(10,  320, 630,30);
         instructionsChoosePointOfInterestBefore2.setVisible(false);
-
-
-        stepSummaryDelivery=new JLabel("Step Summary 1");
-        stepSummaryDelivery.setBounds(10,  120, 640,30);
-        stepSummaryDelivery.setVisible(true);
-
-        stepSummary2Delivery=new JLabel("Step  Summary 2");
-        stepSummary2Delivery.setBounds(10,  161, 675,30);
-        stepSummary2Delivery.setVisible(true);
-
-
-/**
-        validate= new JButton("Validate pickup intersection");
-        validate.setBounds(10, 600, 200,30);
-        validate.addActionListener(this);
-        validate.setVisible(false);
-
-
-        back= new JButton("Cancel New Request");
-        back.setBounds(250, 600, 200,30);
-        back.addActionListener(this);
-
-
-        durationField= new JTextField("Pickup Duration");
-        durationField.setBounds(10, 170, 200,30);
-        durationField.addActionListener(this);
-        durationField.setVisible(false);
-
-        errorMessage= new JLabel("Error");
-        errorMessage.setBounds(20, 200, 600,30);
-        errorMessage.setFont(new Font("Serif", Font.BOLD, 10));
-        errorMessage.setVisible(false);**/
 
 
         this.add(header);
         this.add(instructions);
         this.add(durationChooser);
         this.add(stepSummary);
-        this.add(stepSummary);
+        this.add(stepSummary2);
+        this.add(stepSummary3);
+        this.add(stepSummary4);
+        this.add(errorMessage2);
         this.add(back);
         this.add(durationField);
         this.add(validate);
         this.add(errorMessage);
         this.add( instructionsChoosePointOfInterestBefore);
         this.add(instructionsChoosePointOfInterestBefore2);
+        this.add(validateBeforePickup);
+
+
+
+
     }
 
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g3d = (Graphics2D) g;
     }
-    public void updateIntersectionClicked(Intersection intersection)
+
+  /*  public JLabel getStepSummary()
     {
-        this.intersection=intersection;
-        stepSummary.setText("You clicked on the intersection"+ intersection );
-        stepSummary2.setText("If you want to change the Intersection point, click on the map again");
-        stepSummary.setVisible(true);
-        durationField.setVisible(true);
-        validate.setVisible(true);
-        durationChooser.setVisible(true);
+        return stepSummary;
     }
-    public void setVisibleAfterPickupPointSelection()
+    public JLabel getStepSummary2()
     {
-        durationChooser.setVisible(true);
-        validate.setVisible(true);
+        return stepSummary2;
     }
+    public JLabel getStepSummary3()
+    {
+        return stepSummary3;
+    }
+    public JLabel getStepSummary4()
+    {
+        return stepSummary4;
+    }*/
+
+   public void updateIntersectionClicked(Intersection intersection)
+    {
+        if(controller.getStateController() instanceof AddRequestState1) {
+            this.intersection = intersection;
+            stepSummary.setText("You have clicked on the intersection"+intersection);
+            stepSummary2.setText("To choose another point, click on another intersection on the map");
+        }
+        else if(controller.getStateController() instanceof AddRequestState2){
+            this.intersection2 = intersection;
+            stepSummary3.setText("You have clicked on the intersection"+intersection2);
+            stepSummary4.setText("To choose another point, click on another intersection on the map");
+        }
+    }
+
+    public void setAllInvisible()
+    {
+        if(this.controller.getStateController() instanceof AddRequestState1 ) {
+            System.out.println("state1");
+            intersection=null;
+            intersection2=null;
+            stepSummary.setText("");
+            durationField.setText("");
+            errorMessage.setText("");
+
+
+        }
+        validate.setVisible(false);
+        durationField.setVisible(false);
+
+        errorMessage.setVisible(false);
+
+        durationChooser.setVisible(false);
+        stepSummary.setVisible(false);
+        stepSummary2.setVisible(false);
+
+         instructionsChoosePointOfInterestBefore.setVisible(false);
+         instructionsChoosePointOfInterestBefore2.setVisible(false);
+         stepSummary3.setVisible(false);
+         stepSummary4.setVisible(false);
+         validateBeforePickup.setVisible(false);
+
+
+    }
+
+
+    public void updatePanel()
+    {
+
+        setAllInvisible();
+        if(this.controller.getStateController() instanceof AddRequestState1||this.controller.getStateController() instanceof AddRequestState2) {
+            if(this.controller.getStateController() instanceof AddRequestState1) {
+                validate.setVisible(true);
+
+            }
+            header.setVisible(true);
+            instructions.setVisible(true);
+            back.setVisible(true);
+            durationChooser.setVisible(true);
+            stepSummary.setVisible(true);
+            stepSummary2.setVisible(true);
+            durationField.setVisible(true);
+            errorMessage.setVisible(true);
+            durationField.setVisible(true);
+            validate.setVisible(true);
+            durationChooser.setVisible(true);
+
+        }
+         if(this.controller.getStateController() instanceof AddRequestState2){
+            instructionsChoosePointOfInterestBefore.setVisible(true);
+            instructionsChoosePointOfInterestBefore2.setVisible(true);
+
+            validateBeforePickup.setVisible(true);
+             stepSummary3.setVisible(true);
+             stepSummary4.setVisible(true);
+
+        }
+        this.revalidate();
+        this.repaint();
+    }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -182,9 +265,9 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
                 }
                 else
                 {
-                    instructionsChoosePointOfInterestBefore.setVisible(true);
-                    instructionsChoosePointOfInterestBefore2.setVisible(true);
+
                     controller.chooseNewPickup(intersection,duration);
+                    updatePanel();
 
                 }
 
@@ -197,9 +280,26 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
             }
 
         }
+        if(e.getSource()==validateBeforePickup)
+        {
+            if(intersection==null)
+            {
+                errorMessage.setText("You need to choose a valid intersection. THOU SHALT NOT PASS!");
+                errorMessage.setVisible(true);
+            }
+            else
+            {
+
+                controller.chooseBeforNewPickup(intersection2);
+                updatePanel();
+
+            }
+
+        }
         if(e.getSource()==back)
         {
             controller.back();
+            updatePanel();
         }
     }
 }

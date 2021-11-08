@@ -149,5 +149,5 @@ public abstract class MapInterface extends Observable {
      * @param beforeNewDelivery the address to visit before visiting the new delivery address
      * @param newDelivery the new delivery address
      */
-    public abstract void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery);
+    public abstract void addRequest(Address beforeNewPickup, Address newPickup, Address beforeNewDelivery, Address newDelivery) throws Exception;
 }

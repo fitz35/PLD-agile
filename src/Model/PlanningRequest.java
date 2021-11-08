@@ -14,7 +14,7 @@ public class PlanningRequest {
     /**
      * A map with all addresses
      */
-    private HashMap<Address, Integer> addressRequestHashMap;
+    private HashMap<Address, Request> addressRequestHashMap;
 
     /**
      * The time of departure of the tour
@@ -60,7 +60,7 @@ public class PlanningRequest {
      * @return The request, containing pickupOrDelivery and de pick up or delivery that corresponds
      */
     public Request getRequestByAddress(Address pickupOrDelivery){
-        return requestList.get(addressRequestHashMap.get(pickupOrDelivery));
+        return addressRequestHashMap.get(pickupOrDelivery);
     }
 
     /**
@@ -69,6 +69,8 @@ public class PlanningRequest {
      */
     public void addRequest(Request newRequest) {
         requestList.add(newRequest);
+        addressRequestHashMap.put(newRequest.getPickupAddress(), newRequest);
+        addressRequestHashMap.put(newRequest.getDeliveryAddress(), newRequest);
     }
 
     /**
@@ -77,6 +79,10 @@ public class PlanningRequest {
      */
     public void setStartingPoint(Intersection startingPoint) {
         this.startingPoint = startingPoint;
+    }
+
+    public boolean isEmpty(){
+        return requestList.isEmpty();
     }
 
     /**
@@ -185,14 +191,24 @@ public class PlanningRequest {
         addressRequestHashMap = new HashMap<>();
         int i = 0;
         for(Request req : requestList){
-            addressRequestHashMap.put(req.getDeliveryAddress(), i);
-            addressRequestHashMap.put(req.getPickupAddress(), i);
+            addressRequestHashMap.put(req.getDeliveryAddress(), req);
+            addressRequestHashMap.put(req.getPickupAddress(), req);
             i++;
         }
     }
+
+    /**
+     * Remove a request from requestList
+     * @param requestToRemove
+     */
+    public void removeRequest(Request requestToRemove){
+        this.requestList.remove(requestToRemove);
+        addressRequestHashMap.remove(requestToRemove.getPickupAddress());
+        addressRequestHashMap.remove(requestToRemove.getDeliveryAddress());
+    }
+    
     public static void main(String[] args){
         PlanningRequest planning =new PlanningRequest();
     }
-
 
 }

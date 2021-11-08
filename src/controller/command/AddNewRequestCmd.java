@@ -19,7 +19,7 @@ public class AddNewRequestCmd implements Command {
         this.beforNewDelivery = beforNewDelivery;
     }
 
-    public void doCommand() {
+    public void doCommand() throws Exception {
         try {
             map.addRequest(beforNewPickup,newPickup,beforNewDelivery,newDelivery);
         } catch (Exception e) {
@@ -30,11 +30,11 @@ public class AddNewRequestCmd implements Command {
     @Override
     public void undoCommand() {
         //delete the request that have juste been added
-        //try {
-        //  map.deleteRequest(newPickup);
-        //}catch (Exception e) {
-        //  throw (e);
-        //}
+        try {
+          map.deleteRequest(newPickup);
+        }catch (Exception e) {
+          throw (e);
+        }
     }
 
 }

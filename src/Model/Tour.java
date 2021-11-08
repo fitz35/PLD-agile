@@ -14,9 +14,14 @@ public class Tour{
      * An ordered list of path to compute the tour
      */
     private LinkedList<Path> orderedPathList;
-
-    private HashMap<Intersection, Integer> originPathMap;
-    private HashMap<Intersection, Integer> destinationPathMap;
+    /**
+     * Map to find a path given it's origin
+     */
+    private HashMap<Intersection, Path> originPathMap;
+    /**
+     * Map to find a path given it's destination
+     */
+    private HashMap<Intersection, Path> destinationPathMap;
 
 
     /**
@@ -30,8 +35,8 @@ public class Tour{
         this.orderedPathList = orderedPathList;
         int i = 0;
         for(Path path: orderedPathList){
-            originPathMap.put(path.getDeparture(), i);
-            destinationPathMap.put(path.getArrival(), i);
+            originPathMap.put(path.getDeparture(), path);
+            destinationPathMap.put(path.getArrival(), path);
             orderedSegmentList.addAll(path.getSegmentsOfPath());
             i++;
         }
@@ -55,12 +60,15 @@ public class Tour{
         if (this.orderedPathList.contains(oldPath)){
             int index= this.orderedPathList.indexOf(oldPath);
             LinkedList<Path> newPath= new LinkedList<Path>();
-            newPath.add(1,newPath1);
-            newPath.add(2,newPath2);
+            newPath.add(newPath1);
+            newPath.add(newPath2);
             this.orderedPathList.addAll(index,newPath);
             this.orderedPathList.remove(oldPath);
+            this.originPathMap.remove(oldPath.getDeparture());
+            this.destinationPathMap.remove(oldPath.getArrival());
         }
     }
+
 
     /**
      * @return orderedPathList
@@ -82,7 +90,7 @@ public class Tour{
      * @return path
      */
     public Path findPathOrigin(Address origin){
-        Path path = orderedPathList.get(originPathMap.get(origin));
+        Path path = originPathMap.get(origin);
         return path;
     }
 
@@ -91,7 +99,38 @@ public class Tour{
      * @return path
      */
     public Path findPathDestination(Address destination){
-        Path path = orderedPathList.get(destinationPathMap.get(destination));
+        Path path = destinationPathMap.get(destination);
         return path;
+    }
+
+    /**
+     * Replace 2 old paths ordered with a new path
+     * @param oldPath1
+     * @param oldPath2
+     * @param newPath
+     */
+    public void replaceOldPaths(Path oldPath1, Path oldPath2, Path newPath){
+        if (this.orderedPathList.contains(oldPath1) || this.orderedPathList.contains(oldPath2)){
+            int index= this.orderedPathList.indexOf(oldPath1);
+            this.orderedPathList.add(index, newPath);
+            this.orderedPathList.remove(oldPath1);
+            this.orderedPathList.remove(oldPath2);
+
+            this.destinationPathMap.remove(oldPath1.getArrival());
+            this.destinationPathMap.remove(oldPath2.getArrival());
+            this.destinationPathMap.put(newPath.getArrival(), newPath);
+
+            this.originPathMap.remove(oldPath1.getDeparture());
+            this.originPathMap.remove(oldPath2.getDeparture());
+            this.originPathMap.put(newPath.getDeparture(), newPath);
+
+        }
+    }
+
+    public void reset(){
+        orderedSegmentList.clear();
+        originPathMap.clear();
+        destinationPathMap.clear();
+        orderedPathList.clear();
     }
 }

@@ -3,6 +3,9 @@ package tsp;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * TSP class that implements a bound heuristic and an order heuristic for the branch and bound TSP
+ */
 public class TSP1 extends TemplateTSP {
 	@Override
 	protected int bound(Integer currentVertex, Collection<Integer> unvisited) {

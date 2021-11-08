@@ -37,7 +37,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         inputWindowAddPickup= new InputWindowAddPickup(controller);
         inputWindowAddDelivery= new InputWindowAddDelivery(controller);
         inputWindowWithRoute = new InputWindowWithRoute(this,controller);
-        mapPanel= new MapPanel(panelWithRequests,inputWindowWithRoute,inputWindowAddPickup,controller);
+        mapPanel= new MapPanel(panelWithRequests,inputWindowWithRoute,inputWindowAddPickup,controller, inputWindowAddDelivery);
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller, this.mapPanel);
         this.add(mapPanel);
         this.setBackground(Color.BLACK);
@@ -62,6 +62,13 @@ public class WindowMap extends Frame implements Observer //implements ActionList
                this.controller.getStateController() instanceof AddRequestState2) {
            System.out.println("Update Panel Add Request");
            this.add(inputWindowAddPickup);
+           inputWindowAddPickup.updatePanel();
+       }
+       else if(this.controller.getStateController() instanceof AddRequestState3||
+               this.controller.getStateController() instanceof AddRequestState4) {
+           System.out.println("Update Panel Add Request");
+           this.add(inputWindowAddDelivery);
+           inputWindowAddDelivery.updatePanel();
        }
        else if(this.controller.getStateController() instanceof FirstTourComputed||
                this.controller.getStateController() instanceof WaitOrder  ){

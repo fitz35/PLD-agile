@@ -108,46 +108,83 @@ public class Controller {
      * Select the new pickup of the new request to add
      * leads to state AddRequestState2
      * available in state AddRequestState1
-     * @param theNewPickup, pickupDuration
+     * @param theNewPickup
+     * @param pickupDuration
      */
     public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){
         this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );
     }
 
+
     /**
-     * Select the new pickup of the new request to add
-     * leads to state AddRequestState2
-     * available in state AddRequestState1
+     * Select the point (pickup or delivery) who will precedes the new request's pickup
+     * leads to state AddRequestState3
+     * available in state AddRequestState2
+     * @param theBeforNewPickup
      */
     public void chooseBeforNewPickup(Intersection theBeforNewPickup){
         this.stateController.chooseBeforNewPickup(this, theBeforNewPickup);
     }
 
+    /**
+     * Select the delivery of the new request to add
+     * leads to state AddRequestState4
+     * available in state AddRequestState3
+     * @param theNewDelivery
+     * @param deliveryDuration
+     */
     public void chooseNewDelivery(Intersection theNewDelivery, int deliveryDuration){
         this.stateController.chooseNewDelivery(this, theNewDelivery, deliveryDuration);
     }
 
+    /**
+     * Select the point (pickup or delivery) who will precedes the new request's delivery
+     * leads to state FirstTourComputed
+     * available in state AddRequestState4
+     * @param theBeforNewDelivery
+     */
     public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){
         this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery);
     };
 
+    /**
+     * Delete a request from the tour
+     * available in state FirstTourComputed
+     */
     public void deleteRequest(){
         this.stateController.deleteRequest(this);
     }
 
-    public void selectRequestToDelete(Intersection intersection){
-        this.stateController.selectRequestToDelete(this, intersection);
-    }
+    /**
+     * Select the pickup or delivery to delete and will delet the whole request
+     * available in state deleteRequest
+     * @param intersection
+     */
+    public void selectRequestToDelete(Intersection intersection){this.stateController.selectRequestToDelete(this, intersection);}
 
+    /**
+     * leads to the prevous state
+     * available in almost every controller's state
+     */
     public void back() {
         this.stateController.back(this);
     }
 
-    public void redo(){
+    /**
+     * redo from undo/redo functionnalie
+     * available in state FirstTourComputed
+     * @throws Exception
+     */
+    public void redo() throws Exception {
         this.stateController.redo(listOfCommands);
     }
 
-    public void undo(){
+    /**
+     * undo from undo/redo functionnalie
+     * available in state FirstTourComputed
+     * @throws Exception
+     */
+    public void undo() throws Exception {
         this.stateController.undo(listOfCommands);
     }
 
