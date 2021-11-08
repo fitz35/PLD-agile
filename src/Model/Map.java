@@ -628,6 +628,8 @@ public class Map extends MapInterface {
             this.planningRequest.addRequest(newRequest);
             replaceOldPathInTour(beforeNewPickup, newPickup);
             replaceOldPathInTour(beforeNewDelivery, newDelivery);
+            this.setChanged();
+            this.notifyObservers();
         }
     }
 

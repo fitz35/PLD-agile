@@ -28,7 +28,7 @@ public class SeqIter implements Iterator<Integer> {
 
 	/**
 	 * The iterator is sorted to have the closest vertex to currentVertex last, this improves the performance
-	 * of the branch & bound algorithm
+	 * of the branch and bound algorithm
 	 * @param currentVertex Last vertex visited
 	 * @param g Graph in which we are computing the TSP
 	 */
