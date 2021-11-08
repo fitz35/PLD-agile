@@ -628,6 +628,7 @@ public class Map extends MapInterface {
             this.planningRequest.addRequest(newRequest);
             replaceOldPathInTour(beforeNewPickup, newPickup);
             replaceOldPathInTour(beforeNewDelivery, newDelivery);
+            planningRequest.addRequest(newRequest);
             this.setChanged();
             this.notifyObservers();
         }
@@ -649,6 +650,7 @@ public class Map extends MapInterface {
                 Path pathToRemove2 = this.tour.findPathOrigin(a);
                 Path newPath = this.findShortestPath(pathToRemove1.getDeparture(), pathToRemove2.getArrival());
                 this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
+                planningRequest.removeRequest(requestToRemove);
             }
         }else{
             this.tour.reset();
