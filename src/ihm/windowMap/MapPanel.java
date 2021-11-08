@@ -512,7 +512,7 @@ public class MapPanel extends JPanel implements MouseListener
             if(controller.getStateController() instanceof AddRequestState3)
             {
 
-                i=convertPixeltoIntersection(PixelX,PixelY, mapSize);
+                i=convertPixeltoIntersection(PixelX,PixelY, mapSize,createdMap,border);
                 System.out.println("in add req state 3+"+i);
                 inputWindowAddDelivery.updateIntersectionClicked(i);
             }
