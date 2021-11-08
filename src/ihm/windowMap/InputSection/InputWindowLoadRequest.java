@@ -33,13 +33,13 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
         this.window=window;
         path=new JTextField();
 
-        text= new JLabel("Choose a request file");
-        text.setBounds((Frame.width*1/30), (Frame.height*1/20), 600,40);
-        text.setFont(new Font("Serif", Font.BOLD, 30));
+        //text= new JLabel("Choose a request file");
+      //  text.setBounds((Frame.width*1/30), (Frame.height*1/20), 600,40);
+        //text.setFont(new Font("Serif", Font.BOLD, 30));
 
         ImageIcon browseIcon = new ImageIcon(new ImageIcon(pathToImg+"browseIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
         browse = new JButton( "CHOOSE A PLANNING REQUEST TO DISPLAY (XML file)" ,browseIcon);
-        browse.setBounds((Frame.width*1/30)+30, (Frame.height*1/20)+70, Frame.width*1/3,40);
+        browse.setBounds((Frame.width*1/30), (Frame.height*1/20), Frame.width*1/3,40);
         //browse.setBounds((int)Frame.width/2,(int)Frame.height/20,90,40);
         browse.addActionListener(this);
 
@@ -52,7 +52,7 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
         path.addKeyListener(this);
 
         errorMsg=new JLabel();
-       errorMsg.setBounds(Frame.width/30,(int)(Frame.height*0.12)+50,(int)(Frame.width*0.45),(int)(Frame.height/15));
+       errorMsg.setBounds(Frame.width/30,(int)(Frame.height*0.12)+70,(int)(Frame.width*0.45),(int)(Frame.height/15));
 
 
         loadReqFile= new JButton("LOAD XML REQUEST FILE");
@@ -62,14 +62,14 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
 
 
         back= new JButton("BACK");
-        back.setBounds(Frame.width/5,Frame.height/4+110,90, 40);
+        back.setBounds((int)(Frame.width*0.18),Frame.height/4+110,90, 40);
         //back.setBounds((int)(Frame.width*0.7),Frame.height/5,90, 40);
         back.addActionListener(this);
 
 
         this.add(browse);
         this.add(path);
-        this.add(text);
+        //this.add(text);
         this.add(errorMsg);
         this.add(loadReqFile);
         this.add(back);
