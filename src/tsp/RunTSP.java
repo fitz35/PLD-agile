@@ -2,8 +2,8 @@ package tsp;
 
 public class RunTSP {
 	public static void main(String[] args) {
-		TSP tsp = new TSP1();
-		for (int nbVertices = 7; nbVertices <= 16; nbVertices += 2){
+		for (int nbVertices = 7; nbVertices <= 21; nbVertices += 2){
+			TSP tsp = new TSP1();
 			System.out.println("Graphs with "+nbVertices+" vertices:");
 			Graph g = new CompleteGraph(nbVertices);
 			long startTime = System.currentTimeMillis();

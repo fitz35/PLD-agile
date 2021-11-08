@@ -435,6 +435,7 @@ public class Map extends MapInterface {
 
     @Override
     public void computeTour(int timeout){
+        long startTime = System.currentTimeMillis();
         ArrayList<Address> listAddress = this.planningRequest.getListAddress();
         this.deliveryGraph = new DeliveryGraph(listAddress);
         for(int i=0; i<listAddress.size();i++){
@@ -446,6 +447,8 @@ public class Map extends MapInterface {
         tour = new Tour(tourCalculated);
         this.setChanged();
         this.notifyObservers();
+        long totalTime = System.currentTimeMillis() - startTime;
+        System.out.println("Tour computed in " + totalTime+" ms with a timeout of " + timeout + " ms");
     }
 
     @Override
