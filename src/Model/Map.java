@@ -580,6 +580,7 @@ public class Map extends MapInterface {
      */
     @Override
     public void computeTour(int timeout){
+        long startTime = System.currentTimeMillis();
         ArrayList<Address> listAddress = this.planningRequest.getListAddress();
         this.deliveryGraph = new DeliveryGraph(listAddress);
         for(int i=0; i<listAddress.size();i++){
@@ -591,6 +592,8 @@ public class Map extends MapInterface {
         tour = new Tour(tourCalculated);
         this.setChanged();
         this.notifyObservers();
+        long totalTime = System.currentTimeMillis() - startTime;
+        System.out.println("Tour computed in " + totalTime+" ms with a timeout of " + timeout + " ms");
     }
 
     /**
@@ -619,6 +622,25 @@ public class Map extends MapInterface {
         this.planningRequest.addRequest(newRequest);
         replaceOldPathInTour(beforeNewPickup, newPickup);
         replaceOldPathInTour(beforeNewDelivery, newDelivery);
+    }
+
+    /**
+     * Delete a request from
+     * @param pickupOrDelivery
+     */
+    //@Override
+    public void deleteRequest(Address pickupOrDelivery){
+        Request requestToRemove = planningRequest.getRequestByAddress(pickupOrDelivery);
+        ArrayList<Address> AddressOfRequest= new ArrayList<>();
+        AddressOfRequest.add(requestToRemove.getPickupAddress());
+        AddressOfRequest.add(requestToRemove.getDeliveryAddress());
+        this.planningRequest.removeRequest(requestToRemove);
+        for (Address a:AddressOfRequest){
+            Path pathToRemove1 = this.tour.findPathDestination(a);
+            Path pathToRemove2 =this.tour.findPathOrigin(a);
+            Path newPath = this.findShortestPath(pathToRemove1.getDeparture(),pathToRemove2.getArrival());
+            this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
+        }
     }
 
     /**

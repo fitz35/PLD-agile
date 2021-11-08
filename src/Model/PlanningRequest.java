@@ -190,6 +190,14 @@ public class PlanningRequest {
             i++;
         }
     }
+
+    /**
+     * Remove a request from requestList
+     * @param requestToRemove
+     */
+    public void removeRequest(Request requestToRemove){
+        this.requestList.remove(requestToRemove);
+    }
     public static void main(String[] args){
         PlanningRequest planning =new PlanningRequest();
     }
