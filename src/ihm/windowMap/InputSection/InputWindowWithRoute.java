@@ -119,6 +119,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         this.add(redoButton);
         this.add(wayRouteButton);
 
+
         this.revalidate();
         this.repaint();
     }
@@ -310,6 +311,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
         this.add(verticalScrollerTour);
+        this.add(undoButton);
+        this.add(redoButton);
         this.add(wayRouteButton);
 
         ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
@@ -446,12 +449,20 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             }
         }
 
+        if(controller.getListOfCommands().undoRedoAvailability() == 1){
+            redoButton.setEnabled(true);
+        }else if (controller.getListOfCommands().undoRedoAvailability() == 2){
+            undoButton.setEnabled(true);
+        }else if (controller.getListOfCommands().undoRedoAvailability() == 3){
+            undoButton.setEnabled(true);
+            redoButton.setEnabled(true);
+        }
+
         wayBillText();
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
 
@@ -462,19 +473,18 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         }
 
 
-
         //Delete request
         //getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture());
         for (int j = 0; j < listDeleteButton.size(); j++) {
             int answer;
             //Use of the substring : The imageIcon of e.getSource() and the button aren't the same
             if (e.getSource().toString().substring(0, 50).equals(listDeleteButton.get(j).toString().substring(0, 50))) {
-                if(j==0){
+                if (j == 0) {
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the departure? ", "Delete the departure", JOptionPane.YES_NO_OPTION);
-                }else if(j==listDeleteButton.size()-1){
+                } else if (j == listDeleteButton.size() - 1) {
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the arrival? ", "Delete the arrival", JOptionPane.YES_NO_OPTION);
 
-                }else {
+                } else {
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
                 }
                 if (answer == 0) {
@@ -515,11 +525,27 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             }
         }
 
-        if(e.getSource() == this.addRequest)
-        {
+        if (e.getSource() == this.addRequest) {
             this.remove(addRequest);
             controller.addNewRequest();
         }
+
+        if(e.getSource() == this.undoButton) {
+            try{
+                controller.undo();
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+
+        if (e.getSource() == this.redoButton) {
+            try{
+                controller.redo();
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+
 
         if(e.getSource() == wayRouteButton){
             saveAs();
