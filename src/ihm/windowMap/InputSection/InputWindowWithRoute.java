@@ -107,6 +107,15 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         this.add(undoButton);
         this.add(redoButton);
 
+        if(controller.getListOfCommands().undoRedoAvailability() == 1){
+            undoButton.setEnabled(true);
+        }else if (controller.getListOfCommands().undoRedoAvailability() == 2){
+            redoButton.setEnabled(true);
+        }else if (controller.getListOfCommands().undoRedoAvailability() == 3){
+            undoButton.setEnabled(true);
+            redoButton.setEnabled(true);
+        }
+
         this.revalidate();
         this.repaint();
     }
@@ -177,6 +186,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         //ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
         this.add(verticalScrollerTour);
+        this.add(undoButton);
+        this.add(redoButton);
         ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
         if(!(controller.getStateController() instanceof  AddRequestState2))
         {
@@ -363,10 +374,17 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             }
         }
 
-        if(e.getSource() == this.addRequest)
-        {
+        if(e.getSource() == this.addRequest) {
             this.remove(addRequest);
             controller.addNewRequest();
+        }
+
+        if(e.getSource() == this.undoButton) {
+            controller.undo();
+        }
+
+        if (e.getSource() == this.redoButton) {
+            controller.redo();
         }
     }
 
