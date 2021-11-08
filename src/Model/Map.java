@@ -641,11 +641,15 @@ public class Map extends MapInterface {
         AddressOfRequest.add(requestToRemove.getPickupAddress());
         AddressOfRequest.add(requestToRemove.getDeliveryAddress());
         this.planningRequest.removeRequest(requestToRemove);
-        for (Address a:AddressOfRequest){
-            Path pathToRemove1 = this.tour.findPathDestination(a);
-            Path pathToRemove2 =this.tour.findPathOrigin(a);
-            Path newPath = this.findShortestPath(pathToRemove1.getDeparture(),pathToRemove2.getArrival());
-            this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
+        if(!this.planningRequest.isEmpty()) {
+            for (Address a : AddressOfRequest) {
+                Path pathToRemove1 = this.tour.findPathDestination(a);
+                Path pathToRemove2 = this.tour.findPathOrigin(a);
+                Path newPath = this.findShortestPath(pathToRemove1.getDeparture(), pathToRemove2.getArrival());
+                this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
+            }
+        }else{
+            this.tour.reset();
         }
         this.setChanged();
         notifyObservers();

@@ -115,6 +115,22 @@ public class Tour{
             this.orderedPathList.add(index, newPath);
             this.orderedPathList.remove(oldPath1);
             this.orderedPathList.remove(oldPath2);
+
+            this.destinationPathMap.remove(oldPath1.getArrival());
+            this.destinationPathMap.remove(oldPath2.getArrival());
+            this.destinationPathMap.put(newPath.getArrival(), newPath);
+
+            this.originPathMap.remove(oldPath1.getDeparture());
+            this.originPathMap.remove(oldPath2.getDeparture());
+            this.originPathMap.put(newPath.getDeparture(), newPath);
+
         }
+    }
+
+    public void reset(){
+        orderedSegmentList.clear();
+        originPathMap.clear();
+        destinationPathMap.clear();
+        orderedPathList.clear();
     }
 }
