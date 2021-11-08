@@ -3,7 +3,9 @@ package controller.command;
 import Model.Address;
 import Model.Map;
 
-public class DeleteRequest implements Command {
+import java.util.List;
+
+public class DeleteRequestCmd implements Command {
     private Map map;
     private Address addressToDelete;
 /**
@@ -16,7 +18,7 @@ public class DeleteRequest implements Command {
      * @param addressToDelete
      */
 
-    public DeleteRequest(Map map, Address addressToDelete) {
+    public DeleteRequestCmd(Map map, Address addressToDelete) {
         this.map = map;
         this.addressToDelete = addressToDelete;
     }
@@ -31,6 +33,7 @@ public class DeleteRequest implements Command {
     public void undoCommand() {
 
         //add request => must find a way to store all the needed address
+        List<Address> addresses = map.addressForUndoDelete(addressToDelete);
 
     }
 }

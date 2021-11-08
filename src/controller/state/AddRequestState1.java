@@ -6,21 +6,37 @@ import controller.Controller;
 
 public class AddRequestState1 implements StateController{
     private Address newPickup;
+    private Intersection newIntersection;
 
     public AddRequestState1() {
         System.out.println("Clique on the new Delivery ");
     }
 
     @Override
-    public void chooseNewPickup(Controller controller, Intersection theNewPickup, int pickupDuration){
+    public void setIntersection(Controller controller, Intersection intersection){
+        newIntersection = intersection;
+    }
+
+    @Override
+    public void setDuration(Controller controller, int duration){
         try{
-            // ajouter une vérification que l'intersection existe ?
-            newPickup = new Address(theNewPickup, pickupDuration,1);
+            newPickup = new Address(newIntersection, duration,1);
             controller.setStateController(new AddRequestState2(newPickup));
         }catch (Exception e){
             throw(e);
         }
     }
+
+    /*@Override
+    public void chooseNewPickup(Controller controller, int pickupDuration){
+        try{
+            // ajouter une vérification que l'intersection existe ?
+
+            controller.setStateController(new AddRequestState2(newPickup));
+        }catch (Exception e){
+            throw(e);
+        }
+    }*/
 
     @Override
     public void back(Controller controller){

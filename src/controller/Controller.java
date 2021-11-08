@@ -55,21 +55,15 @@ public class Controller {
         this.stateController.continueTour(this, 10000);
     }
 
-    /*@Deprecated
-    public void addNewRequest(Intersection newPickup,
-                              Intersection beforNewPickup,
-                              int pickupDuration,
-                              Intersection newDelivery,
-                              Intersection beforNewDelivery,
-                              int deliveryDuration) {
-        this.stateController.addNewRequest(this, listOfCommands, newPickup, beforNewPickup,
-                pickupDuration, newDelivery, beforNewDelivery, deliveryDuration);
-    }*/
+    public void setIntersection(Intersection newIntersection){this.stateController.setIntersection(this, newIntersection);}
+
+    public void setDuration(int duration){this.stateController.setDuration(this, duration);}
 
     public void addNewRequest(){this.stateController.addNewRequest(this);}
 
-    public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){
-        this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );
+    /*
+    public void chooseNewPickup(int pickupDuration){
+        this.stateController.chooseNewPickup(this, pickupDuration );
     }
 
     public void chooseBeforNewPickup(Intersection theBeforNewPickup){
@@ -83,9 +77,10 @@ public class Controller {
     public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){
         this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery, listOfCommands);
     };
+*/
 
-    public void deleteRequest(Intersection intersectioToDelete){
-        this.stateController.deleteRequest(this, intersectioToDelete, listOfCommands);
+    public void deleteRequest(){
+        this.stateController.deleteRequest(this);
     }
 
     public void back() {
@@ -120,6 +115,10 @@ public class Controller {
 
     public WindowMap getWindow2() {
         return window2;
+    }
+
+    public ListOfCommands getListOfCommands() {
+        return listOfCommands;
     }
 
     //--------------- setter ---------------

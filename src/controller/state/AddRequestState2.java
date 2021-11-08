@@ -13,7 +13,7 @@ public class AddRequestState2 implements StateController{
     }
 
     @Override
-    public void chooseBeforNewPickup(Controller controller, Intersection theBeforNewPickup){
+    public void setIntersection(Controller controller, Intersection theBeforNewPickup){
         try{
             beforNewPickup = controller.getMap().getPlanningRequest().getAddressById(theBeforNewPickup.getId());
             controller.setStateController(new AddRequestState3(newPickup, beforNewPickup));
