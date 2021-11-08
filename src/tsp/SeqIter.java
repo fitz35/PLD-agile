@@ -21,6 +21,27 @@ public class SeqIter implements Iterator<Integer> {
 			if (g.isArc(currentVertex, s))
 				candidates[nbCandidates++] = s;
 		}
+		sortHeuristic(currentVertex, g);
+	}
+
+	private void sortHeuristic(int currentVertex, Graph g){
+		boolean success = false;
+		while(!success){
+			success = true;
+			for(int i = 1; i<nbCandidates; i++){
+				if( g.getCost(currentVertex, candidates[i-1]) < g.getCost(currentVertex, candidates[i])){
+					swap(i-1, i);
+					//printArray(nonVus, nbNonVus);
+					success = false;
+				}
+			}
+		}
+	}
+
+	private void swap(int i, int j){
+		int temp = candidates[i];
+		candidates[i] = candidates[j];
+		candidates[j] = temp;
 	}
 	
 	@Override
