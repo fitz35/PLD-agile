@@ -1,5 +1,6 @@
 package ihm.windowMap.InputSection;
 
+import Model.Address;
 import Model.Intersection;
 import Model.Request;
 import Model.Tour;
@@ -14,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class InputWindowAddPickup extends InputBase implements ActionListener
 {
@@ -145,33 +147,22 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         Graphics2D g3d = (Graphics2D) g;
     }
 
-  /*  public JLabel getStepSummary()
-    {
-        return stepSummary;
-    }
-    public JLabel getStepSummary2()
-    {
-        return stepSummary2;
-    }
-    public JLabel getStepSummary3()
-    {
-        return stepSummary3;
-    }
-    public JLabel getStepSummary4()
-    {
-        return stepSummary4;
-    }*/
-
    public void updateIntersectionClicked(Intersection intersection)
     {
+        ArrayList<String> names = Address.getStreetNames(intersection, controller.getMap().getSegmentList());
+        String stringToAppend = "";
+        for(int i = 0 ; i < 2 && i < names.size() ; i++){
+            if(i != 0)  stringToAppend += ", ";
+            stringToAppend += names.get(i);
+        }
         if(controller.getStateController() instanceof AddRequestState1) {
             this.intersection = intersection;
-            stepSummary.setText("You have clicked on the intersection"+intersection);
+            stepSummary.setText("You have clicked on the intersection "+stringToAppend);
             stepSummary2.setText("To choose another point, click on another intersection on the map");
         }
         else if(controller.getStateController() instanceof AddRequestState2){
             this.intersection2 = intersection;
-            stepSummary3.setText("You have clicked on the intersection"+intersection2);
+            stepSummary3.setText("You have clicked on the intersection "+stringToAppend);
             stepSummary4.setText("To choose another point, click on another intersection on the map");
         }
     }

@@ -1,13 +1,9 @@
 package ihm.windowMap.InputSection;
 
-import Model.Address;
-import Model.Path;
-import Model.Request;
-import Model.Segment;
+import Model.*;
 import controller.Controller;
 import controller.state.AddRequestState2;
 import controller.state.DeleteRequest;
-import controller.state.FirstTourComputed;
 import ihm.windowMap.ColorPalette;
 import ihm.windowMap.Frame;
 import ihm.windowMap.MapPanel;
@@ -64,9 +60,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     private MapPanel mapPanel;
 
     private ArrayList<Request> requestsList;
-    private ArrayList<Segment> segmentsList;
     private LinkedList<Path> pathListOptimalTour;
-    ArrayList<String> streetNames;
 
     public InputWindowWithRoute (WindowMap window, Controller controller)
     {
@@ -146,24 +140,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         return timeString;
     }
 
-    public ArrayList<String> getStreetNames(Address address) {
-        streetNames = new ArrayList<>();
-        segmentsList = controller.getMap().getSegmentList();
-        for (int i = 0; i < segmentsList.size(); i++) {
-            if (address.equals(segmentsList.get(i).getOrigin()) ||
-                    address.equals(segmentsList.get(i).getDestination())) {
-                streetNames.add(segmentsList.get(i).getName());
-            }
-        }
-        ArrayList<String> newList = new ArrayList<>();
-        for (String element : streetNames) {
-            if (!newList.contains(element)) {
-                newList.add(element);
-            }
-
-        }
-        return newList;
-    }
     public LinkedList<String> listSegmentsWithoutDuplication(LinkedList <Segment> list){
         LinkedList<String> newList = new LinkedList<>();
         for (Segment element : list) {
@@ -246,7 +222,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     "\n" +
                     "You are going from the strating point which is the intersection of : ");
             for (int i = 0; i < pathListOptimalTour.size(); i++) {
-                listStreetNames = getStreetNames(pathListOptimalTour.get(i).getDeparture());
+                listStreetNames = Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList());
                 listSegmentPath = pathListOptimalTour.get(i).getSegmentsOfPath();
                 if (i == 0) { //Starting point
                     for (int k = 0; k < listStreetNames.size(); k++) {
@@ -337,14 +313,14 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
                 for (int i = 0; i < pathListOptimalTour.size(); i++) {
                     if (i == 0) { //Starting point
-                        if (getStreetNames(pathListOptimalTour.get(i).getDeparture()).size() == 1) {
+                        if (Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).size() == 1) {
                             pathButton = new JButton();
                             pathButton.setText("<html>"+getString(hours) + ":" + getString(minutes) + " Starting point" +
-                                    "  <br />   Address : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0)+ "</html>");
+                                    "  <br />   Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0)+ "</html>");
                         } else {
                             pathButton = new JButton("<html>"+getString(hours) + ":" + getString(minutes) + " Starting point" +
-                                    "  <br />   Address : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0) +
-                                    ", " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(1)+ "</html>");
+                                    "  <br />   Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0) +
+                                    ", " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(1)+ "</html>");
                         }
 
                     } else {
@@ -356,19 +332,19 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                             minutes = minutes - 60;
                         }
 
-                        if (getStreetNames(pathListOptimalTour.get(i).getDeparture()).size() == 1) {
+                        if (Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).size() == 1) {
                             pathButton = new JButton();
 
                             pathButton.setText("<html> " + getString(hours) + ":" + getString(minutes) + " " +
                                     getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture())+
-                                    " <br />     Address : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0) +
+                                    " <br />     Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0) +
                                     " <br />   Duration : " + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + "</html>");
                         }else{
                             pathButton = new JButton();
                             pathButton.setText("<html>" + getString(hours) + ":" + getString(minutes) + " " +
                                     getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture())+
-                                    "  <br />   Address : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0) +
-                                    ", " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(1)+
+                                    "  <br />   Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0) +
+                                    ", " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(1)+
                                     " <br />   Duration : " + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + "</html>");
                         }
 
@@ -388,13 +364,13 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                             minutes = minutes - 60;
                         }
 
-                        if (getStreetNames(pathListOptimalTour.get(i).getArrival()).size() == 1) {
+                        if (Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).size() == 1) {
                             arrivalButton = new JButton("<html>"+getString(hours) + ":" + getString(minutes) + " Arrival (Back to the Starting point)" +
-                                    "<br />     Address : " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(0)+ "</html>");
+                                    "<br />     Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).get(0)+ "</html>");
                         } else {
                             arrivalButton = new JButton("<html>"+getString(hours) + ":" + getString(minutes) + " Arrival (Back to the Starting point)" +
-                                    "<br />      Address : " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(0) +
-                                    ", " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(1)+ "</html>");
+                                    "<br />      Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).get(0) +
+                                    ", " + Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).get(1)+ "</html>");
                         }
                         arrivalButton.setHorizontalAlignment(SwingConstants.LEFT);
                         arrivalButton.setBackground(ColorPalette.inputPannel);
