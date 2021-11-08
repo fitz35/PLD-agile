@@ -174,7 +174,12 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
             startingPoint.setBackground(ColorPalette.inputPannel);
             startingPoint.setBorderPainted(false);
             startingPoint.setBounds(75, 110, (Frame.width / 70), (Frame.height / 40));
-            startingPoint.addActionListener(this);
+            startingPoint.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mapPanel.updateHighlight(true, -2, -2, -2);
+                }
+            });
             if(getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).size()==1) {
                 startingPointLatLong = new JButton("Starting Point : " +
                         getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).get(0));
@@ -305,10 +310,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
         int highlightRequestNumber = -2;
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
-        if(e.getSource() == this.startingPoint){
-            System.out.println("in2");
-            highlightStartNumber = true;
-        }
 
         if (e.getSource() == findOptimalRoute) {
             controller.loadTour();
