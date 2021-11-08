@@ -70,7 +70,7 @@ public abstract class TemplateTSP implements TSP {
 	}
 
 	/**
-	 * Heuristic to bound the branches of the branch & bound solution
+	 * Heuristic to bound the branches of the branch and bound solution
 	 *
 	 * @param currentVertex
 	 * @param unvisited collection of unvisited vertices

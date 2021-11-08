@@ -683,8 +683,6 @@ public class Map extends MapInterface {
         tour.replaceOldPath(oldPath, newPath1, newPath2);
     }
 
-
-
     /**
      * Find the sortest path between 2 addresses
      * @param start
