@@ -6,6 +6,7 @@ import Model.Segment;
 import Model.MapInterface;
 import controller.Controller;
 import controller.state.AddRequestState1;
+import controller.state.AddRequestState2;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
 import ihm.windowMap.InputSection.InputWindowAddPickup;
 import ihm.windowMap.InputSection.InputWindowWithRoute;
@@ -13,8 +14,10 @@ import ihm.windowMap.InputSection.InputWindowWithRoute;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
@@ -24,7 +27,7 @@ public class MapPanel extends JPanel implements MouseListener
     private MapInterface createdMap;
     private double originLat;
     private double originLong;
-    private int border= (int)(0.02* Frame.height);
+    private int border= (int)(0.05* Frame.height);
     private Intersection startingPoint;
     private Intersection pickup;
     private Intersection delivery;
@@ -33,10 +36,11 @@ public class MapPanel extends JPanel implements MouseListener
     private InputWindowWithRoute inputWindowWithRoute;
     private Controller controller;
 
-    private int highlightStartingNumber = -2;
+    private boolean highlightStartingNumber = false;
     private int highlightPickupNumber = -2;
     private int highlightDeliveryNumber = -2;
     private int highlightRequestNumber = -2;
+    private double zoom = 1d;
 
     public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints,
                     InputWindowWithRoute inputWindowWithRoute,
@@ -55,7 +59,7 @@ public class MapPanel extends JPanel implements MouseListener
         this.revalidate();
         this.repaint();
 
-        /*addMouseWheelListener(new MouseAdapter() {
+        addMouseWheelListener(new MouseAdapter() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 if (e.getPreciseWheelRotation() < 0) {
@@ -71,7 +75,7 @@ public class MapPanel extends JPanel implements MouseListener
                 repaint();
 
             }
-        });*/
+        });
     }
 
     /**
@@ -81,7 +85,7 @@ public class MapPanel extends JPanel implements MouseListener
      * @param highlightDeliveryNumber the delivery
      * @param highlightRequestNumber the request
      */
-    public void updateHighlight(int highlightStartingNumber, int highlightPickupNumber, int highlightDeliveryNumber, int highlightRequestNumber){
+    public void updateHighlight(boolean highlightStartingNumber, int highlightPickupNumber, int highlightDeliveryNumber, int highlightRequestNumber){
         this.highlightStartingNumber = highlightStartingNumber;
         this.highlightPickupNumber = highlightPickupNumber;
         this.highlightDeliveryNumber = highlightDeliveryNumber;
@@ -114,9 +118,11 @@ public class MapPanel extends JPanel implements MouseListener
 
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        /*graphics2D.translate(getMousePosition().x, getMousePosition().y);
-        graphics2D.scale(zoom,zoom);
-        graphics2D.translate(-getMousePosition().x,-getMousePosition().y);*/
+        if(getMousePosition() != null) {
+            graphics2D.translate(getMousePosition().x, getMousePosition().y);
+            graphics2D.scale(zoom,zoom);
+            graphics2D.translate(-getMousePosition().x,-getMousePosition().y);
+        }
 
         g2d.setColor(Color.red);
         if(createdMap!=null) {
@@ -136,7 +142,12 @@ public class MapPanel extends JPanel implements MouseListener
                 if(createdMap.getPlanningRequest().getStartingPoint()!= null)
                 {
                     startingPoint= createdMap.getPlanningRequest().getStartingPoint();
-                    paintIntersection(g2d, startingPoint, ColorPalette.startingPoint,-1, 8);
+                    if(this.highlightStartingNumber){
+                        paintIntersection(g2d, startingPoint, ColorPalette.startingPoint,-1, 16);
+                    }else{
+                        paintIntersection(g2d, startingPoint, ColorPalette.startingPoint,-1, 8);
+                    }
+
                 }
 
             if(createdMap.getTour()!= null && createdMap.getTour().getOrderedSegmentList()!= null)
@@ -444,6 +455,12 @@ public class MapPanel extends JPanel implements MouseListener
             InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked: "+ s.getName(), label);
             //System.out.println(PixelX + " " + PixelY + " " + s.getName());
             if(controller.getStateController() instanceof AddRequestState1)
+            {
+
+                inputWindowAddPickup.updateIntersectionClicked(i);
+
+            }
+            if(controller.getStateController() instanceof AddRequestState2)
             {
 
                 inputWindowAddPickup.updateIntersectionClicked(i);

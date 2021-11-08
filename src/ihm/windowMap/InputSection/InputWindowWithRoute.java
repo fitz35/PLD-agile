@@ -30,7 +30,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     private final JFrame popup = new JFrame();
     private JButton backToLoadRequest;
     private JButton pathButton, arrivalButton, deleteRequest;
-
+    private JButton undoButton, redoButton;
 
     private JButton addRequest;
 
@@ -84,15 +84,28 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         addRequest.setBounds(240, 10, 200, 30);
         addRequest.addActionListener(this);
 
-
         backToLoadRequest = new JButton("BACK");
         backToLoadRequest.setBounds(460, 10, 100, 30);
         backToLoadRequest.addActionListener(this);
+
+        ImageIcon undoIcon = new ImageIcon(new ImageIcon(pathToImg+"undoIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
+        undoButton = new JButton(undoIcon);
+        undoButton.setBounds(50,10,30,30);
+        undoButton.setEnabled(false);
+        undoButton.addActionListener(this);
+
+        ImageIcon redoIcon = new ImageIcon(new ImageIcon(pathToImg+"redoIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
+        redoButton = new JButton(redoIcon);
+        redoButton.setBounds(100,10,30,30);
+        redoButton.setEnabled(false);
+        redoButton.addActionListener(this);
 
         this.add(verticalScrollerTour);
         this.add(backToLoadRequest);
         this.add(addRequest);
         this.add(text1);
+        this.add(undoButton);
+        this.add(redoButton);
 
         this.revalidate();
         this.repaint();
@@ -337,6 +350,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         }
 
 
+
         //Delete request
         //getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture());
         for (int j = 0; j < listDeleteButton.size(); j++) {
@@ -399,6 +413,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             }
             this.add(text2);
             this.add(text1);
+            this.add(undoButton);
+            this.add(redoButton);
             updatePlanningRequestOptimalTour();
             this.revalidate();
             this.repaint();
