@@ -602,11 +602,14 @@ public class Map extends MapInterface {
      */
     @Override
     public void continueTour(int timeout){
+        long startTime = System.currentTimeMillis();
         LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
         this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
         this.setChanged();
         this.notifyObservers();
+        long totalTime = System.currentTimeMillis() - startTime;
+        System.out.println("Tour (re)computed in " + totalTime+" ms with a timeout of " + timeout + " ms");
     }
 
     /**
