@@ -52,7 +52,7 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
         path.addKeyListener(this);
 
         errorMsg=new JLabel();
-       errorMsg.setBounds(Frame.width/30,(int)(Frame.height*0.12)+50,(int)(Frame.width*0.45),(int)(Frame.height/15));
+       errorMsg.setBounds(Frame.width/30,(int)(Frame.height*0.12)+70,(int)(Frame.width*0.45),(int)(Frame.height/15));
 
 
         loadReqFile= new JButton("LOAD XML REQUEST FILE");

@@ -352,12 +352,13 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     //this.removeAll();
                     //controller.deleteRequest();
 
-                    controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
-                    controller.setStateController(new DeleteRequest());
+                    //controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+                    //controller.setStateController(new DeleteRequest());
                     controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
 
 
-                    if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
+
+                    /*if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
                         //Chercher delivery associé
                         //System.out.println("C'est un pickup: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
                         String numIntersection= getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(6,8);
@@ -379,7 +380,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
                             }
                         }
-                    }
+                    }*/
                 }
             }
         }
