@@ -13,8 +13,10 @@ import ihm.windowMap.InputSection.InputWindowWithRoute;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class MapPanel extends JPanel implements MouseListener
     private int highlightPickupNumber = -2;
     private int highlightDeliveryNumber = -2;
     private int highlightRequestNumber = -2;
+    private double zoom = 1d;
 
     public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints,
                     InputWindowWithRoute inputWindowWithRoute,
@@ -55,7 +58,7 @@ public class MapPanel extends JPanel implements MouseListener
         this.revalidate();
         this.repaint();
 
-        /*addMouseWheelListener(new MouseAdapter() {
+        addMouseWheelListener(new MouseAdapter() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 if (e.getPreciseWheelRotation() < 0) {
@@ -71,7 +74,7 @@ public class MapPanel extends JPanel implements MouseListener
                 repaint();
 
             }
-        });*/
+        });
     }
 
     /**
@@ -114,9 +117,11 @@ public class MapPanel extends JPanel implements MouseListener
 
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        /*graphics2D.translate(getMousePosition().x, getMousePosition().y);
-        graphics2D.scale(zoom,zoom);
-        graphics2D.translate(-getMousePosition().x,-getMousePosition().y);*/
+        if(getMousePosition() != null) {
+            graphics2D.translate(getMousePosition().x, getMousePosition().y);
+            graphics2D.scale(zoom,zoom);
+            graphics2D.translate(-getMousePosition().x,-getMousePosition().y);
+        }
 
         g2d.setColor(Color.red);
         if(createdMap!=null) {
