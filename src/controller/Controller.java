@@ -40,7 +40,7 @@ public class Controller {
     private WindowMap window2;
 
     /**
-     * Constructeur
+     * Constructor
      */
     public Controller(){
         stateController = new InitialState();
@@ -53,23 +53,47 @@ public class Controller {
         map.addObserver(getWindow2());
     }
 
+    /**
+     * load map methode
+     * available in state InitialState
+     * @param path
+     */
     //overrided method
     public void loadMap(String path){
         this.stateController.loadMap(this, path);
     }
 
+    /**
+     * load request methode
+     * available in state MapLoaded
+     * @param path
+     */
     public void loadRequest(String path){
         this.stateController.loadRequest(this, path);
     }
 
+    /**
+     * load tour methode it calculates the first tour with the loaded request
+     * available in state RequestLoaded
+     */
     public void loadTour() {
         this.stateController.loadTour(this);
     }
 
+    /**
+     * Stop the tour calculation and keep the best calculated tour
+     * Leads to FirstTourComputed
+     * available in state WaitOrder
+     */
     public void stopComputing() {
         this.stateController.stopComputing(this);
     }
 
+    /**
+     * Continue the tour calculation for at least 10 seconds
+     * Leads to FirstTourComputed
+     * available in state WaitOrder
+     */
     public void continueComputing() {
         this.stateController.continueTour(this, 10000);
     }
