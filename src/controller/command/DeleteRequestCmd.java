@@ -18,7 +18,6 @@ public class DeleteRequestCmd implements Command {
  * 
  */
     /**
-     *
      * @param map
      * @param addressToDelete
      */
@@ -36,7 +35,7 @@ public class DeleteRequestCmd implements Command {
     @Override
     public void doCommand() {
         //call the methode from the back
-        //map.deleteRequest(addressToDelete);
+        map.deleteRequest(addressToDelete);
     }
 
     @Override

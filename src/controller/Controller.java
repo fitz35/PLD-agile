@@ -40,7 +40,7 @@ public class Controller {
     private WindowMap window2;
 
     /**
-     * Constructeur
+     * Constructor
      */
     public Controller(){
         stateController = new InitialState();
@@ -53,52 +53,114 @@ public class Controller {
         map.addObserver(getWindow2());
     }
 
+    /**
+     * load map methode
+     * available in state InitialState
+     * @param path
+     */
     //overrided method
     public void loadMap(String path){
         this.stateController.loadMap(this, path);
     }
 
+    /**
+     * load request methode
+     * available in state MapLoaded
+     * @param path
+     */
     public void loadRequest(String path){
         this.stateController.loadRequest(this, path);
     }
 
+    /**
+     * load tour methode it calculates the first tour with the loaded request
+     * available in state RequestLoaded
+     */
     public void loadTour() {
         this.stateController.loadTour(this);
     }
 
+    /**
+     * Stop the tour calculation and keep the best calculated tour
+     * Leads to FirstTourComputed
+     * available in state WaitOrder
+     */
     public void stopComputing() {
         this.stateController.stopComputing(this);
     }
 
+    /**
+     * Continue the tour calculation for at least 10 seconds
+     * Leads to FirstTourComputed
+     * available in state WaitOrder
+     */
     public void continueComputing() {
         this.stateController.continueTour(this, 10000);
     }
 
+    /**
+     * First step for adding a new request, leads to the state AddRequestState1()
+     * available in state FirstTourComputed
+     */
     public void addNewRequest(){this.stateController.addNewRequest(this);}
 
+    /**
+     * Select the new pickup of the new request to add
+     * leads to state AddRequestState2
+     * available in state AddRequestState1
+     * @param theNewPickup
+     * @param pickupDuration
+     */
     public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){
         this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );
     }
 
+
+    /**
+     * Select the point (pickup or delivery) who will precedes the new request's pickup
+     * leads to state AddRequestState3
+     * available in state AddRequestState2
+     * @param theBeforNewPickup
+     */
     public void chooseBeforNewPickup(Intersection theBeforNewPickup){
         this.stateController.chooseBeforNewPickup(this, theBeforNewPickup);
     }
 
+    /**
+     * Select the delivery of the new request to add
+     * leads to state AddRequestState4
+     * available in state AddRequestState3
+     * @param theNewDelivery
+     * @param deliveryDuration
+     */
     public void chooseNewDelivery(Intersection theNewDelivery, int deliveryDuration){
         this.stateController.chooseNewDelivery(this, theNewDelivery, deliveryDuration);
     }
 
+    /**
+     * Select the point (pickup or delivery) who will precedes the new request's delivery
+     * leads to state FirstTourComputed
+     * available in state AddRequestState4
+     * @param theBeforNewDelivery
+     */
     public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){
         this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery);
     };
 
+    /**
+     * Delete a request from the tour
+     * available in state FirstTourComputed
+     */
     public void deleteRequest(){
         this.stateController.deleteRequest(this);
     }
 
-    public void selectRequestToDelete(Intersection intersection){
-        this.stateController.selectRequestToDelete(this, intersection);
-    }
+    /**
+     * Select the pickup or delivery to delete and will delet the whole request
+     * available in state deleteRequest
+     * @param intersection
+     */
+    public void selectRequestToDelete(Intersection intersection){this.stateController.selectRequestToDelete(this, intersection);}
 
     public void back() {
         this.stateController.back(this);
