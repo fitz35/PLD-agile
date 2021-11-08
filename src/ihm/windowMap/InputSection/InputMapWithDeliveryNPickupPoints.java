@@ -1,5 +1,4 @@
 package ihm.windowMap.InputSection;
-import Model.Address;
 import Model.Intersection;
 import Model.Request;
 import Model.Segment;
@@ -39,11 +38,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
     private ArrayList<String> streetNames;
     private ArrayList<Segment>segmentsList;
 
-    private int highlightStartingNumber = -2;
-    private int highlightPickupNumber = -2;
-    private int highlightDeliveryNumber = -2;
-    private int highlightRequestNumber = -2;
-
     private boolean optimalTour = false;
 
 
@@ -67,9 +61,10 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
 
     private ArrayList<Request> requestsList;
 
-    public InputMapWithDeliveryNPickupPoints(WindowMap window, Controller controller) {
+    public InputMapWithDeliveryNPickupPoints(WindowMap window, Controller controller, MapPanel mapPanel) {
         super(controller);
         this.window = window;
+        this.mapPanel = mapPanel;
 
         text = new JLabel("Your planning requests : ");
         text.setBounds(30, 70, 600, 40);
@@ -304,24 +299,12 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
         }
     }
 
-
-    //Getters
-    public int getHighlightPickupNumber() {
-        return highlightPickupNumber;
-    }
-    public int getHighlightDeliveryNumber() {
-        return highlightDeliveryNumber;
-    }
-    public int getHighlightRequestNumber(){
-        return highlightRequestNumber;
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        highlightDeliveryNumber = -2;
-        highlightPickupNumber = -2;
-        highlightRequestNumber = -2;
+        int highlightStartNumber = -2;
+        int highlightDeliveryNumber = -2;
+        int highlightPickupNumber = -2;
+        int highlightRequestNumber = -2;
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
 
@@ -378,7 +361,7 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 }
             }
         }
-
+        this.mapPanel.updateHighlight(highlightStartNumber, highlightPickupNumber, highlightDeliveryNumber, highlightRequestNumber);
     }
 
     @Override

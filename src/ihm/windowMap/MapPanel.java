@@ -15,13 +15,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 public class MapPanel extends JPanel implements MouseListener
 {
@@ -37,13 +33,18 @@ public class MapPanel extends JPanel implements MouseListener
     private InputWindowWithRoute inputWindowWithRoute;
     private Controller controller;
 
-
+    private int highlightStartingNumber = -2;
+    private int highlightPickupNumber = -2;
+    private int highlightDeliveryNumber = -2;
+    private int highlightRequestNumber = -2;
 
     public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints,
                     InputWindowWithRoute inputWindowWithRoute,
                     InputWindowAddPickup inputWindowAddPickup, Controller controller)
     {
         super();
+        this.setLayout(null);
+        this.setBounds(0, 0, Frame.height, Frame.height);
         this.addMouseListener(this);
         this.inputMapWithDeliveryNPickupPoints = inputMapWithDeliveryNPickupPoints;
         this.inputWindowWithRoute = inputWindowWithRoute;
@@ -51,7 +52,6 @@ public class MapPanel extends JPanel implements MouseListener
 
         this.inputWindowAddPickup=inputWindowAddPickup;
         this.setBackground(ColorPalette.mapBackground);
-        this.setLayout(null);
         this.revalidate();
         this.repaint();
 
@@ -75,10 +75,26 @@ public class MapPanel extends JPanel implements MouseListener
     }
 
     /**
+     * update the highlight point
+     * @param highlightStartingNumber the starting
+     * @param highlightPickupNumber the pickup
+     * @param highlightDeliveryNumber the delivery
+     * @param highlightRequestNumber the request
+     */
+    public void updateHighlight(int highlightStartingNumber, int highlightPickupNumber, int highlightDeliveryNumber, int highlightRequestNumber){
+        this.highlightStartingNumber = highlightStartingNumber;
+        this.highlightPickupNumber = highlightPickupNumber;
+        this.highlightDeliveryNumber = highlightDeliveryNumber;
+        this.highlightRequestNumber = highlightRequestNumber;
+        this.revalidate();
+        this.repaint();
+    }
+
+    /**
      * update the map and display it
      * @param createdMap the new map
      */
-    public void DisplayMap (MapInterface createdMap)
+    public void displayMap(MapInterface createdMap)
     {
         this.createdMap=createdMap;
         if( createdMap.getIntersectionNorth() != null && createdMap.getIntersectionWest() != null){
@@ -394,15 +410,15 @@ public class MapPanel extends JPanel implements MouseListener
         pickup= request.getPickupAddress();
         delivery= request.getDeliveryAddress();
 
-        if(inputMapWithDeliveryNPickupPoints.getHighlightPickupNumber()==num) {
+        if(this.highlightPickupNumber==num) {
             paintIntersection(g, pickup, ColorPalette.pickupPoints, num, 16);
             paintIntersection(g, delivery, ColorPalette.deliveryPoints, num, 8);
 
-        }else if(inputMapWithDeliveryNPickupPoints.getHighlightDeliveryNumber()==num) {
+        }else if(this.highlightDeliveryNumber==num) {
             paintIntersection(g, pickup, ColorPalette.pickupPoints, num, 8);
             paintIntersection(g, delivery, ColorPalette.deliveryPoints, num, 16);
 
-        }else if(inputMapWithDeliveryNPickupPoints.getHighlightRequestNumber()==num){
+        }else if(this.highlightRequestNumber==num){
             paintIntersection(g, pickup, ColorPalette.pickupPoints, num, 16);
             paintIntersection(g, delivery, ColorPalette.deliveryPoints, num, 16);
         }else{
