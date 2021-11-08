@@ -181,12 +181,16 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
                 if(requestsList.get(i).getPickupAddress()==intersection){
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the pickup "+ (i+1)+ "?", "Delete a pickup", JOptionPane.YES_NO_OPTION);
                     if(answer==0){
+                        this.removeAll();
+                        this.add(backToLoadRequest);
                         controller.selectRequestToDelete(requestsList.get(i).getPickupAddress()); //Delete the chosen point
 
                     }
                 }else if(requestsList.get(i).getDeliveryAddress()==intersection){
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the delivery "+(i+1)+ "?", "Delete a delivery", JOptionPane.YES_NO_OPTION);
                     if(answer==0){
+                        this.removeAll();
+                        this.add(backToLoadRequest);
                         controller.selectRequestToDelete(requestsList.get(i).getDeliveryAddress()); //Delete the chosen point
                     }
                 }else{
@@ -363,6 +367,8 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
                 }
                 if (answer == 0) {
+                    this.removeAll();
+                    this.add(backToLoadRequest);
                     controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
                 }
             }
