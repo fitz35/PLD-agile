@@ -36,7 +36,7 @@ public class Tour{
             i++;
         }
     }
-
+    //To erase
     /**
      * @return orderedSegmentList
      */
