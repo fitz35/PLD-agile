@@ -136,6 +136,9 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
     public void paint(Graphics g, Request r) {
         super.paint(g);
 
+        Graphics2D graphics2D = (Graphics2D) g;
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
         //Give numbers to pickup and delivery points
         Graphics2D g3d = (Graphics2D) g;
