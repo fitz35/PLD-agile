@@ -14,11 +14,16 @@ import ihm.windowMap.MapPanel;
 import ihm.windowMap.WindowMap;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -43,6 +48,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     private ArrayList<JButton> listDeleteButton;
 
     private ArrayList<JButton> listPath;
+    private JTextArea textAreaWayBill = new JTextArea(10, 30);
 
     private Date startDate;
 
@@ -101,7 +107,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         redoButton.setEnabled(false);
         redoButton.addActionListener(this);
 
-        wayRouteButton = new JButton("Generate the waybill");
+        wayRouteButton = new JButton("Save the waybill");
         wayRouteButton.setBounds(300,620,200,30);
         wayRouteButton.addActionListener(this);
 
@@ -180,10 +186,52 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     }
 
 
+    //Waybill
+    public void saveAs() {
+        FileNameExtensionFilter extensionFilter = new FileNameExtensionFilter("Waybill", "txt");
+        final JFileChooser saveAsFileChooser = new JFileChooser();
+        saveAsFileChooser.setApproveButtonText("Save");
+        saveAsFileChooser.setFileFilter(extensionFilter);
+        int actionDialog = saveAsFileChooser.showOpenDialog(this);
+        if (actionDialog != JFileChooser.APPROVE_OPTION) {
+            return;
+        }
+
+        // !! File fileName = new File(SaveAs.getSelectedFile() + ".txt");
+        File file = saveAsFileChooser.getSelectedFile();
+        if (!file.getName().endsWith(".txt")) {
+            file = new File(file.getAbsolutePath() + ".txt");
+        }
+
+        BufferedWriter outFile = null;
+        try {
+            outFile = new BufferedWriter(new FileWriter(file));
+
+            textAreaWayBill.write(outFile);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (outFile != null) {
+                try {
+                    outFile.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+    }
+    public void wayBillText(){
+        textAreaWayBill.setText("J'écris vraiment ce que je veux c'est magique");
+    }
+
     public void updatePlanningRequestOptimalTour() {
+
         //ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
         this.add(verticalScrollerTour);
+        this.add(wayRouteButton);
+        wayBillText();
+
         ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
         if(!(controller.getStateController() instanceof  AddRequestState2))
         {
@@ -350,13 +398,15 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                 if (answer == 0) {
                     //System.out.println("delete"+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
                     //this.removeAll();
-                    //controller.deleteRequest();
+                    controller.deleteRequest();
 
-                    controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+                    //controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
                     controller.setStateController(new DeleteRequest());
                     controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
 
-                    if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
+
+
+                    /*if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
                         //Chercher delivery associé
                         //System.out.println("C'est un pickup: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
                         String numIntersection= getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(6,8);
@@ -378,7 +428,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
                             }
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -390,7 +440,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         }
 
         if(e.getSource() == wayRouteButton){
-
+            saveAs();
         }
     }
 
