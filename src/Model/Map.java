@@ -602,11 +602,14 @@ public class Map extends MapInterface {
      */
     @Override
     public void continueTour(int timeout){
+        long startTime = System.currentTimeMillis();
         LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
         this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
         this.setChanged();
         this.notifyObservers();
+        long totalTime = System.currentTimeMillis() - startTime;
+        System.out.println("Tour (re)computed in " + totalTime+" ms with a timeout of " + timeout + " ms");
     }
 
     /**
@@ -624,13 +627,18 @@ public class Map extends MapInterface {
             this.notifyObservers("Address doesn't exist in the map.");
             throw new Exception();
         }else{
-            Request newRequest = new Request(newPickup, newDelivery);
-            this.planningRequest.addRequest(newRequest);
-            replaceOldPathInTour(beforeNewPickup, newPickup);
-            replaceOldPathInTour(beforeNewDelivery, newDelivery);
-            planningRequest.addRequest(newRequest);
-            this.setChanged();
-            this.notifyObservers();
+            try {
+                Request newRequest = new Request(newPickup, newDelivery);
+                replaceOldPathInTour(beforeNewPickup, newPickup);
+                replaceOldPathInTour(beforeNewDelivery, newDelivery);
+                this.planningRequest.addRequest(newRequest);
+                this.setChanged();
+                this.notifyObservers();
+            }catch (Exception e){
+                this.setChanged();
+                this.notifyObservers("Unreachable address.");
+                throw new Exception();
+            }
         }
     }
 
@@ -648,15 +656,24 @@ public class Map extends MapInterface {
             for (Address a : AddressOfRequest) {
                 Path pathToRemove1 = this.tour.findPathDestination(a);
                 Path pathToRemove2 = this.tour.findPathOrigin(a);
-                Path newPath = this.findShortestPath(pathToRemove1.getDeparture(), pathToRemove2.getArrival());
-                this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
-                planningRequest.removeRequest(requestToRemove);
+                try {
+                    Path newPath = this.findShortestPath(pathToRemove1.getDeparture(), pathToRemove2.getArrival());
+                    this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
+                }catch (Exception e){
+                    //Do nothing here, this exception will never occur as find shortest path will only throw an
+                    //Exception if the the destination point is unreachable from the departure point
+                    //Which can never be true because if we are here it means that such a path exists
+                    //The proof is left as an exercise to the reader :)
+                }
             }
+            this.setChanged();
+            notifyObservers();
         }else{
             this.tour.reset();
+            this.setChanged();
+            notifyObservers("We have erased all requests in the map");
         }
-        this.setChanged();
-        notifyObservers();
+
     }
 
     /**
@@ -684,11 +701,15 @@ public class Map extends MapInterface {
      * @param toVisitBefore
      * @param destination
      */
-    private void replaceOldPathInTour(Address toVisitBefore, Address destination) {
+    private void replaceOldPathInTour(Address toVisitBefore, Address destination) throws Exception{
         Path oldPath = tour.findPathOrigin(toVisitBefore);
-        Path newPath1 = findShortestPath(toVisitBefore, destination);
-        Path newPath2 = findShortestPath(destination, oldPath.getArrival());
-        tour.replaceOldPath(oldPath, newPath1, newPath2);
+        try{
+            Path newPath1 = findShortestPath(toVisitBefore, destination);
+            Path newPath2 = findShortestPath(destination, oldPath.getArrival());
+            tour.replaceOldPath(oldPath, newPath1, newPath2);
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     /**
@@ -697,15 +718,21 @@ public class Map extends MapInterface {
      * @param destination
      * @return newPath
      */
-    private Path findShortestPath(Address start, Address destination){
+    private Path findShortestPath(Address start, Address destination) throws Exception{
         HashMap<Intersection, Segment> pi = dijkstra(start);
         Segment seg = pi.get(destination);
+        if(seg == null){
+            throw new Exception();
+        }
         LinkedList<Segment> newPathComposition = new LinkedList<>();
         Path newPath = new Path(start, destination, newPathComposition);
         newPathComposition.add(seg);
         while (!seg.getOrigin().equals(start)) {
             Intersection s = seg.getOrigin();
             seg = pi.get(s);
+            if(seg == null){
+                throw new Exception();
+            }
             newPathComposition.add(seg);
         }
         Collections.reverse(newPathComposition);
