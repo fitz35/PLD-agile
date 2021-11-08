@@ -22,17 +22,8 @@ public interface StateController {
     public default void chooseBeforNewPickup(Controller controller, Intersection theBeforNewPickup){};
     public default void chooseNewDelivery(Controller controller, Intersection theNewDelivery, int deliveryDuration){};
     public default void chooseBeforNewDelivery(Controller controller, Intersection theBeforNewDelivery){};
-<<<<<<< HEAD
-    public default void deleteRequest(Controller controller , Intersection intersectionToDelete){};
     public default void redo(ListOfCommands listOfCommands) throws Exception {};
     public default void undo(ListOfCommands listOfCommands) throws Exception {};
-
     public default void selectRequestToDelete(Controller controller, Intersection intersection) {};
 
-
-=======
-    public default void selectRequestToDelete(Controller controller , Intersection intersectionToDelete){};
-    public default void redo(ListOfCommands listOfCommands){};
-    public default void undo(ListOfCommands listOfCommands){};
->>>>>>> 1659f264c3b1f0df6dd382421b95881ab11459ec
 }
