@@ -25,16 +25,17 @@ public class DeleteRequestCmd implements Command {
     public DeleteRequestCmd(Map map, Address addressToDelete) {
         this.map = map;
         List<Address> addresses = map.addressForUndoDelete(addressToDelete);
-        newPickup = addresses.get(1);
-        newDelivery = addresses.get(2);
-        beforNewPickup = addresses.get(3);
-        beforNewDelivery = addresses.get(4);
+        newPickup = addresses.get(0);
+        newDelivery = addresses.get(1);
+        beforNewPickup = addresses.get(2);
+        beforNewDelivery = addresses.get(3);
         this.addressToDelete = addressToDelete;
     }
 
     @Override
     public void doCommand() {
         //call the methode from the back
+        System.out.println("call the bacl !!! ");
         map.deleteRequest(addressToDelete);
     }
 
