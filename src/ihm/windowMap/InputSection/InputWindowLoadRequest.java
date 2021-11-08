@@ -42,7 +42,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         text.setFont(new Font("Serif", Font.BOLD, 30));
 
         ImageIcon browseIcon = new ImageIcon(new ImageIcon(pathToImg+"browseIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
-        browse = new JButton( "CHOOSE A MAP (XML file)" ,browseIcon);
+        browse = new JButton( "CHOOSE A PLANNING REQUEST TO DISPLAY (XML file)" ,browseIcon);
         browse.setBounds((Frame.width*1/30)+100, (Frame.height*1/20)+50, Frame.width*1/4,40);
         //browse.setBounds((int)Frame.width/2,(int)Frame.height/20,90,40);
         browse.addActionListener(this);
