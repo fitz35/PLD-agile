@@ -23,12 +23,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
-public class InputWindowWithRoute extends JPanel implements ActionListener, AdjustmentListener {
+public class InputWindowWithRoute extends InputBase implements ActionListener, AdjustmentListener {
 
     public static final String pathToImg = "./data/images/";
-    private static Dimension size = Frame.size;
-    private static int width = (int) size.getWidth();
-    private static int height = (int) size.getHeight();
 
     private final JFrame popup = new JFrame();
     private JButton backToLoadRequest;
@@ -56,32 +53,18 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
 
     private JScrollBar verticalScrollerTour;
 
-
-
-    JTextField t = new JTextField(10);
-
-
     private WindowMap window;
     private MapPanel mapPanel;
-
 
     private ArrayList<Request> requestsList;
     private ArrayList<Segment> segmentsList;
     private LinkedList<Path> pathListOptimalTour;
     ArrayList<String> streetNames;
 
-
-    private Controller controller;
-
     public InputWindowWithRoute (WindowMap window, Controller controller)
     {
-        super();
+        super(controller);
         this.window=window;
-        this.controller = controller;
-
-        this.setBounds((Frame.width / 2) + 40, (Frame.height * 1 / 400), Frame.width, (Frame.height));
-        this.setBackground(ColorPalette.inputPannel);
-        this.setLayout(null);
 
         text1 = new JLabel();
         text1.setBounds(30, 40, 600, 40);
@@ -169,7 +152,7 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
     }
 
     public void updatePlanningRequestOptimalTour() {
-        ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
+        ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
         if(!(controller.getStateController() instanceof  AddRequestState2))
         {
             this.add(addRequest);
