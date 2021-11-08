@@ -1,9 +1,6 @@
 package ihm.windowMap;
 
-import Model.Intersection;
-import Model.Request;
-import Model.Segment;
-import Model.MapInterface;
+import Model.*;
 import controller.Controller;
 import controller.state.AddRequestState1;
 import controller.state.AddRequestState2;
@@ -21,6 +18,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MapPanel extends JPanel implements MouseListener
 {
@@ -278,6 +276,33 @@ public class MapPanel extends JPanel implements MouseListener
         return intersectionResult;
     }
 
+    public Intersection getNearestPointOfInterest(int pixelX, int pixelY, int height)
+    {
+        LinkedList<Path> pointsOfInterest= createdMap.getTour().getOrderedPathList();
+        ArrayList<Intersection> listOfAllIntersections= new ArrayList<>();
+        for(Path i : pointsOfInterest) {
+            Intersection startIntersection = i.getDeparture();
+            Intersection endIntersection = i.getArrival();
+
+            listOfAllIntersections.add(startIntersection);
+            listOfAllIntersections.add(endIntersection);
+        }
+        int[] pixelResult={-1,-1};
+        Intersection intersectionResult= null;
+        for(Intersection i : listOfAllIntersections)
+        {
+            int [] temporaryPixelResult= convertIntersectionToPixel(i, height, createdMap, border);
+            int distance= ((temporaryPixelResult[0]- pixelX)*(temporaryPixelResult[0]- pixelX))+((temporaryPixelResult[1]- pixelY)*(temporaryPixelResult[1]- pixelY));
+            if(distance<((pixelResult[0]- pixelX)*(pixelResult[0]- pixelX))+((pixelResult[1]- pixelY)*(pixelResult[1]- pixelY)))
+            {
+                pixelResult[0]=temporaryPixelResult[0];
+                pixelResult[1]=temporaryPixelResult[1];
+                intersectionResult=i;
+            }
+        }
+        //System.out.println(intersectionResult.getLatitude()+ "."+ intersectionResult.getLongitude());
+        return intersectionResult;
+    }
     /**
      * get the closest segment to a point
      * @param pixelX the x coordinate of the point
@@ -459,18 +484,20 @@ public class MapPanel extends JPanel implements MouseListener
         Segment s;
         if(PixelX< mapSize + border)
         {
-            i=convertPixeltoIntersection(PixelX,PixelY, mapSize, createdMap, border);
             s=convertPointToSegment(PixelX, PixelY, mapSize, createdMap, border);
             JLabel label= InputMapWithDeliveryNPickupPoints.getJLabel();
             label.setForeground(ColorPalette.textNotice);
             InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked: "+ s.getName(), label);
             if(controller.getStateController() instanceof AddRequestState1)
             {
+                System.out.println("mapPanel AddRequestState1");
+                i=convertPixeltoIntersection(PixelX,PixelY, mapSize, createdMap, border);
                 inputWindowAddPickup.updateIntersectionClicked(i);
 
             }
             if(controller.getStateController() instanceof AddRequestState2)
             {
+               i=getNearestPointOfInterest(PixelX,PixelY, mapSize);
                 inputWindowAddPickup.updateIntersectionClicked(i);
                 System.out.println("stage2"+i);
                 inputWindowAddPickup.updatePanel();
