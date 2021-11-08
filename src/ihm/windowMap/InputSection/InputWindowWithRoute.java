@@ -164,6 +164,15 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         }
         return newList;
     }
+    public LinkedList<String> listSegmentsWithoutDuplication(LinkedList <Segment> list){
+        LinkedList<String> newList = new LinkedList<>();
+        for (Segment element : list) {
+            if (!newList.contains(element.getName())) {
+                newList.add(element.getName());
+            }
+        }
+        return newList;
+    }
 
     public int getMaxRequestsPerPage()
     {
@@ -221,7 +230,80 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         }
     }
     public void wayBillText(){
-        textAreaWayBill.setText("J'écris vraiment ce que je veux c'est magique");
+        ArrayList <String> listStreetNames;
+        LinkedList <Segment> listSegmentPath;
+        if(controller.getMap().getTour()!=null && controller.getMap().getTour().getOrderedPathList()!=null) {
+            pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();
+
+            //Start date
+            startDate = controller.getMap().getPlanningRequest().getDepartureTime();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(startDate);
+            int hours = calendar.get(Calendar.HOUR_OF_DAY);
+            int minutes = calendar.get(Calendar.MINUTE);
+
+            textAreaWayBill.setText("Your wayBill :\n" +
+                    "\n" +
+                    "You are going from the strating point which is the intersection of : ");
+            for (int i = 0; i < pathListOptimalTour.size(); i++) {
+                listStreetNames = getStreetNames(pathListOptimalTour.get(i).getDeparture());
+                listSegmentPath = pathListOptimalTour.get(i).getSegmentsOfPath();
+                if (i == 0) { //Starting point
+                    for (int k = 0; k < listStreetNames.size(); k++) {
+                        if (k == listStreetNames.size() - 1) {
+                            textAreaWayBill.append(listStreetNames.get(k) + " at  " + getString(hours) + ":" + getString(minutes) + "\n\n");
+                        } else {
+                            textAreaWayBill.append(listStreetNames.get(k) + ", ");
+                        }
+                    }
+                    //textAreaWayBill.append(" ");
+                } else { //Other points
+                    hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
+                    minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
+
+                    if (minutes >= 60) {
+                        hours++;
+                        minutes = minutes - 60;
+                    }
+                    textAreaWayBill.append("You will cross the segments : ");
+                    for (int m = 0; m < listSegmentsWithoutDuplication(listSegmentPath).size(); m++) {
+                        textAreaWayBill.append(listSegmentsWithoutDuplication(listSegmentPath).get(m) + ", ");
+                        if (m == listSegmentsWithoutDuplication(listSegmentPath).size() - 1) {
+                            textAreaWayBill.append(listSegmentsWithoutDuplication(listSegmentPath).get(m) + "\n");
+                        }
+                    }
+                    for (int k = 0; k < listStreetNames.size(); k++) {
+                        if (k == listStreetNames.size() - 1) {
+                            textAreaWayBill.append( listStreetNames.get(k));
+                        } else {
+                            textAreaWayBill.append(listStreetNames.get(k) + ", ");
+                        }
+                    }
+                    textAreaWayBill.append("\nWhich is going to last "+ pathListOptimalTour.get(i).getDeparture().getAddressDuration() + " seconds"
+                    +"  to arrive to the next point at : " + getString(hours) + ":" + getString(minutes) + "\n" );
+                    if (i != pathListOptimalTour.size() - 1) {
+                        textAreaWayBill.append("Then, \n");
+                    }
+                }
+                if (i == pathListOptimalTour.size() - 1) { //Arrival
+                    hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
+                    minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
+
+                    if (minutes >= 60) {
+                        hours++;
+                        minutes = minutes - 60;
+                    }
+                    textAreaWayBill.append("\nFinally, you will end the tour and come back to the starting point which is the intersection of : ");
+                    for (int k = 0; k < listStreetNames.size(); k++) {
+                        if (k == listStreetNames.size() - 1) {
+                            textAreaWayBill.append(listStreetNames.get(k) + " at  " + getString(hours) + ":" + getString(minutes) + "\n");
+                        } else {
+                            textAreaWayBill.append(listStreetNames.get(k) + ", ");
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public void updatePlanningRequestOptimalTour() {
@@ -230,7 +312,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
         this.add(verticalScrollerTour);
         this.add(wayRouteButton);
-        wayBillText();
 
         ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
         if(!(controller.getStateController() instanceof  AddRequestState2))
@@ -365,6 +446,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                 this.remove(listDeleteButton.get(i));
             }
         }
+
+        wayBillText();
     }
 
     @Override
