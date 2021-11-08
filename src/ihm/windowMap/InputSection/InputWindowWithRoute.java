@@ -6,6 +6,7 @@ import Model.Request;
 import Model.Segment;
 import controller.Controller;
 import controller.state.AddRequestState2;
+import controller.state.DeleteRequest;
 import controller.state.FirstTourComputed;
 import ihm.windowMap.ColorPalette;
 import ihm.windowMap.Frame;
@@ -352,6 +353,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     //controller.deleteRequest();
 
                     controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+                    controller.setStateController(new DeleteRequest());
+                    controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
 
 
                     if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
@@ -362,6 +365,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                             if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Delivery"+numIntersection)){
                                 System.out.println("delivery : "+getStreetNames(pathListOptimalTour.get(k).getDeparture()));
                                 //controller.deleteRequest();
+
                                 //controller.selectRequestToDelete(pathListOptimalTour.get(k).getDeparture()); //Delete the chosen point
                                 //this.revalidate();
                                 //this.repaint();

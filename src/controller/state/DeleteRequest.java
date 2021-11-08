@@ -9,9 +9,11 @@ import controller.command.DeleteRequestCmd;
 public class DeleteRequest implements StateController{
 
     @Override
-    public void  deleteRequest(Controller controller , Intersection intersectionToDelete){
+    public void  selectRequestToDelete(Controller controller , Intersection intersectionToDelete){
+        System.out.println("call selectReqToDelete");
         Address addressToDelete = controller.getMap().getPlanningRequest().getAddressById(intersectionToDelete.getId());
         DeleteRequestCmd requestToDelete = new DeleteRequestCmd((Map)controller.getMap(), addressToDelete);
+        controller.getListOfCommands().add(requestToDelete);
         controller.setStateController(new FirstTourComputed());
     }
 
