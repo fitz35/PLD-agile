@@ -25,5 +25,4 @@ public interface StateController {
     public default void redo(ListOfCommands listOfCommands) throws Exception {};
     public default void undo(ListOfCommands listOfCommands) throws Exception {};
     public default void selectRequestToDelete(Controller controller, Intersection intersection) {};
-
 }

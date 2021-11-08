@@ -273,6 +273,7 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
                 errorMessage.setVisible(true);
             }
 
+
         }
         if(e.getSource()==validateBeforePickup)
         {

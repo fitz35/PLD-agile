@@ -31,17 +31,10 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
     private final JFrame popup = new JFrame();
     private JButton backToLoadRequest;
-    private JButton pathButton, arrivalButton, deleteRequest;
+    private JButton pathButton, arrivalButton, deleteRequestTextually;
     private JButton undoButton, redoButton, wayRouteButton;
 
     private JButton addRequest;
-
-    //private boolean optimalTour = false;
-
-    //private ArrayList<JButton> listDeleteButton;
-
-    private ArrayList <ActionListener> deleteRequestListeners;
-    private ArrayList<JButton> listDeleteButton;
 
     private ArrayList<JButton> listPath;
     private JTextArea textAreaWayBill = new JTextArea(10, 30);
@@ -82,22 +75,26 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
 
         addRequest = new JButton("Add a request");
-        addRequest.setBounds(240, 10, 200, 30);
+        addRequest.setBounds(270, 10, 150, 30);
         addRequest.addActionListener(this);
 
+        deleteRequestTextually = new JButton("Delete a request");
+        deleteRequestTextually.setBounds(100, 10, 150, 30);
+        deleteRequestTextually.addActionListener(this);
+
         backToLoadRequest = new JButton("BACK");
-        backToLoadRequest.setBounds(460, 10, 100, 30);
+        backToLoadRequest.setBounds(440, 10, 100, 30);
         backToLoadRequest.addActionListener(this);
 
         ImageIcon undoIcon = new ImageIcon(new ImageIcon(pathToImg+"undoIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
         undoButton = new JButton(undoIcon);
-        undoButton.setBounds(50,10,30,30);
+        undoButton.setBounds(10,10,30,30);
         undoButton.setEnabled(false);
         undoButton.addActionListener(this);
 
         ImageIcon redoIcon = new ImageIcon(new ImageIcon(pathToImg+"redoIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
         redoButton = new JButton(redoIcon);
-        redoButton.setBounds(100,10,30,30);
+        redoButton.setBounds(60,10,30,30);
         redoButton.setEnabled(false);
         redoButton.addActionListener(this);
 
@@ -108,6 +105,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         this.add(verticalScrollerTour);
         this.add(backToLoadRequest);
         this.add(addRequest);
+        this.add(deleteRequestTextually);
         this.add(text1);
         this.add(undoButton);
         this.add(redoButton);
@@ -287,6 +285,9 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
         this.add(verticalScrollerTour);
         this.add(wayRouteButton);
+        this.add(deleteRequestTextually);
+
+
 
         ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
         if(!(controller.getStateController() instanceof  AddRequestState2))
@@ -307,8 +308,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
 
                 listPath = new ArrayList<>();
-                deleteRequestListeners = new ArrayList<>();
-                listDeleteButton = new ArrayList<>();
 
 
                 for (int i = 0; i < pathListOptimalTour.size(); i++) {
@@ -378,20 +377,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                         arrivalButton.addActionListener(this);
                         listPath.add(arrivalButton);
                     }
-                    //Button to delete a request
-                    deleteRequest = new JButton(iconeDelete);
-                    deleteRequest.setBackground(ColorPalette.inputPannel);
-                    deleteRequest.addActionListener(this);
-                    deleteRequestListeners.add(this);
-                    listDeleteButton.add(deleteRequest);
                 }
 
-                //Button to delete the arrival point
-                deleteRequest = new JButton(iconeDelete);
-                deleteRequest.setBackground(ColorPalette.inputPannel);
-                deleteRequest.addActionListener(this);
-                deleteRequestListeners.add(this);
-                listDeleteButton.add(deleteRequest);
 
                 //ScrollBar
                 int positionScrollBarTour = verticalScrollerTour.getValue();
@@ -400,25 +387,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     this.add(listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
                 }
 
-                for (int j = 0; j < maxNoOfRequestsPerPage && ((positionScrollBarTour * maxNoOfRequestsPerPage) + j) < listDeleteButton.size()-1; j++) {
-                    listDeleteButton.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds((Frame.height / 9)-20, (int) (0.21 * Frame.height + (j * 70)), 20, 25);
-                    if(positionScrollBarTour==0 && j!=0){
-                        this.add(listDeleteButton.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
-                    }
-                    if(positionScrollBarTour!=0){
-                        this.add(listDeleteButton.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
-                    }
-                }
-
 
                 this.add(text2);
-            }
-        }
-        if(controller.getStateController() instanceof AddRequestState2)
-        {
-            for(int i=0; i<listDeleteButton.size(); i++)
-            {
-                this.remove(listDeleteButton.get(i));
             }
         }
 
@@ -437,58 +407,9 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             controller.back();
         }
 
-
-
-        //Delete request
-        //getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture());
-        for (int j = 0; j < listDeleteButton.size(); j++) {
-            int answer;
-            //Use of the substring : The imageIcon of e.getSource() and the button aren't the same
-            if (e.getSource().toString().substring(0, 50).equals(listDeleteButton.get(j).toString().substring(0, 50))) {
-                if(j==0){
-                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the departure? ", "Delete the departure", JOptionPane.YES_NO_OPTION);
-                }else if(j==listDeleteButton.size()-1){
-                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the arrival? ", "Delete the arrival", JOptionPane.YES_NO_OPTION);
-
-                }else {
-                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
-                }
-                if (answer == 0) {
-                    //System.out.println("delete"+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
-                    //this.removeAll();
-                    controller.deleteRequest();
-
-                    //controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
-                    controller.setStateController(new DeleteRequest());
-                    controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
-
-
-
-                    /*if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
-                        //Chercher delivery associé
-                        //System.out.println("C'est un pickup: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
-                        String numIntersection= getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(6,8);
-                        for(int k=0;k<pathListOptimalTour.size();k++){
-                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Delivery"+numIntersection)){
-                                System.out.println("delivery : "+getStreetNames(pathListOptimalTour.get(k).getDeparture()));
-                                //controller.deleteRequest();
-
-                                //controller.selectRequestToDelete(pathListOptimalTour.get(k).getDeparture()); //Delete the chosen point
-
-                            }
-                        }
-                    }else if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,8)).equals("Delivery")){
-                        //Chercher pickup associé
-                        String numIntersection= getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(8,10);
-                        //System.out.println("C'est un delivery: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
-                        for(int k=0;k<pathListOptimalTour.size();k++){
-                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Pickup"+numIntersection)){
-
-                            }
-                        }
-                    }*/
-                }
-            }
+        if(e.getSource() ==deleteRequestTextually){
+            this.remove(deleteRequestTextually);
+            controller.deleteRequest();
         }
 
         if(e.getSource() == this.addRequest)
