@@ -5,12 +5,12 @@ public interface Command {
     /**
      * Execute the command this
      */
-    void doCommand();
+    void doCommand() throws Exception;
 
     /**
      * Execute the reverse command of this
      */
-    void undoCommand();
+    void undoCommand() throws Exception;
 /**
  *
  * Controller => state en question

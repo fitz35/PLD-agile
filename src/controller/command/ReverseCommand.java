@@ -14,12 +14,12 @@ public class ReverseCommand implements Command {
     }
 
     @Override
-    public void doCommand() {
+    public void doCommand() throws Exception {
         cmd.undoCommand();
     }
 
     @Override
-    public void undoCommand() {
+    public void undoCommand() throws Exception {
         cmd.doCommand();
     }
 

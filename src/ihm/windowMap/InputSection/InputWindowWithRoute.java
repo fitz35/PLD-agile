@@ -480,10 +480,10 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                 if (answer == 0) {
                     //System.out.println("delete"+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
                     //this.removeAll();
-                    //controller.deleteRequest();
+                    controller.deleteRequest();
 
                     //controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
-                    //controller.setStateController(new DeleteRequest());
+                    controller.setStateController(new DeleteRequest());
                     controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
 
 

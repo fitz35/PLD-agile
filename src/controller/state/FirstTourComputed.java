@@ -16,12 +16,12 @@ public class FirstTourComputed implements StateController {
     }
 
     @Override
-    public void redo(ListOfCommands listOfCommands){
+    public void redo(ListOfCommands listOfCommands) throws Exception {
         listOfCommands.redo();
     };
 
     @Override
-    public void undo(ListOfCommands listOfCommands){
+    public void undo(ListOfCommands listOfCommands) throws Exception {
         listOfCommands.undo();
     };
 

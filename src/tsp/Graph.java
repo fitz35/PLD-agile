@@ -1,5 +1,7 @@
 package tsp;
-
+/**
+ * @author AGILE team
+ */
 public interface Graph {
 	/**
 	 * @return the number of vertices in <code>this</code>

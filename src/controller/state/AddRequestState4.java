@@ -26,7 +26,7 @@ public class AddRequestState4 implements StateController{
             controller.getListOfCommands().add(myCommandToExecute);
             controller.setStateController(new FirstTourComputed());
         }catch (Exception e){
-            throw(e);
+            e.printStackTrace();
         }
     }
 

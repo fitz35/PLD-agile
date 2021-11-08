@@ -1,5 +1,11 @@
 package tsp;
+/**
+ * @author AGILE team
+ */
 
+/**
+ * Interface for the TSP class
+ */
 public interface TSP {
 	/**
 	 * Search for a shortest cost hamiltonian circuit in <code>g</code> within <code>timeLimit</code> milliseconds

@@ -41,7 +41,7 @@ public class DeleteRequestCmd implements Command {
     }
 
     @Override
-    public void undoCommand() {
+    public void undoCommand() throws Exception {
         try {
             map.addRequest(beforNewPickup,newPickup,beforNewDelivery,newDelivery);
         } catch (Exception e) {

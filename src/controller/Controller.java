@@ -162,15 +162,29 @@ public class Controller {
      */
     public void selectRequestToDelete(Intersection intersection){this.stateController.selectRequestToDelete(this, intersection);}
 
+    /**
+     * leads to the prevous state
+     * available in almost every controller's state
+     */
     public void back() {
         this.stateController.back(this);
     }
 
-    public void redo(){
+    /**
+     * redo from undo/redo functionnalie
+     * available in state FirstTourComputed
+     * @throws Exception
+     */
+    public void redo() throws Exception {
         this.stateController.redo(listOfCommands);
     }
 
-    public void undo(){
+    /**
+     * undo from undo/redo functionnalie
+     * available in state FirstTourComputed
+     * @throws Exception
+     */
+    public void undo() throws Exception {
         this.stateController.undo(listOfCommands);
     }
 

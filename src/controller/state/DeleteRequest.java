@@ -10,11 +10,17 @@ public class DeleteRequest implements StateController{
 
     @Override
     public void  selectRequestToDelete(Controller controller , Intersection intersectionToDelete){
-        System.out.println("call selectReqToDelete");
-        Address addressToDelete = controller.getMap().getPlanningRequest().getAddressById(intersectionToDelete.getId());
-        DeleteRequestCmd requestToDelete = new DeleteRequestCmd((Map)controller.getMap(), addressToDelete);
-        controller.getListOfCommands().add(requestToDelete);
-        controller.setStateController(new FirstTourComputed());
+        try{
+            System.out.println("call selectReqToDelete");
+            Address addressToDelete = controller.getMap().getPlanningRequest().getAddressById(intersectionToDelete.getId());
+            DeleteRequestCmd requestToDelete = new DeleteRequestCmd((Map)controller.getMap(), addressToDelete);
+            controller.getListOfCommands().add(requestToDelete);
+            controller.setStateController(new FirstTourComputed());
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
