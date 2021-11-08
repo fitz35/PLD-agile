@@ -28,18 +28,17 @@ public class WindowMap extends Frame implements Observer //implements ActionList
     public WindowMap(Controller controller)
     {
         super();
+        this.setLayout(null);
         this.controller=controller;
         inputPanel= new InputWindowLoadRequest(this, controller);
         inputPanel.setBackground(ColorPalette.inputPannel);
         this.add(inputPanel);
 
-        panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller);
         inputWindowAddPickup= new InputWindowAddPickup(controller);
-        inputWindowAddPickup.setBounds(Frame.height, 0, Frame.width-Frame.height,Frame.height);
         inputWindowAddDelivery= new InputWindowAddDelivery(controller);
         inputWindowWithRoute = new InputWindowWithRoute(this,controller);
         mapPanel= new MapPanel(panelWithRequests,inputWindowWithRoute,inputWindowAddPickup,controller);
-        //mapPanel.setBounds((int)(0.05*Frame.height), (int)(0.05*Frame.height),(int)(0.9*Frame.height), (int)(0.9*Frame.height));
+        panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller, this.mapPanel);
         this.add(mapPanel);
         this.setBackground(Color.BLACK);
 
@@ -121,7 +120,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
 
         if(o instanceof MapInterface && !(arg instanceof String))
         {
-            mapPanel.DisplayMap((MapInterface) o);
+            mapPanel.displayMap((MapInterface) o);
             inputPanel.setErrorMsg("");
             panelWithRequests.updatePlanningRequestNotNull();
             inputWindowWithRoute.updatePlanningRequestOptimalTour();
