@@ -39,12 +39,12 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
 
         ImageIcon browseIcon = new ImageIcon(new ImageIcon(pathToImg+"browseIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
         browse = new JButton( "CHOOSE A PLANNING REQUEST TO DISPLAY (XML file)" ,browseIcon);
-        browse.setBounds((Frame.width*1/30)+100, (Frame.height*1/20)+50, Frame.width*1/4,40);
+        browse.setBounds((Frame.width*1/30)+30, (Frame.height*1/20)+70, Frame.width*1/3,40);
         //browse.setBounds((int)Frame.width/2,(int)Frame.height/20,90,40);
         browse.addActionListener(this);
 
         path = new JTextField();
-        path.setBounds((Frame.width*1/30), (Frame.height*1/20)+100, Frame.width*1/4,15);
+        path.setBounds((Frame.width*1/30)+30, (Frame.height*1/20)+120, Frame.width*1/3,15);
         path.setVisible(false);
         path.setOpaque(true);
         path.setBackground(new Color(220,220,220));
@@ -56,7 +56,7 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
 
 
         loadReqFile= new JButton("LOAD XML REQUEST FILE");
-        loadReqFile.setBounds(Frame.width/5-60,Frame.height/4-10,200, 40);
+        loadReqFile.setBounds(Frame.width/5-60,Frame.height/4+10,200, 40);
         loadReqFile.addActionListener(this);
         loadReqFile.setVisible(false);
 
