@@ -36,6 +36,7 @@ public class DeleteRequestCmd implements Command {
     public void doCommand() {
         //call the methode from the back
         map.deleteRequest(addressToDelete);
+        System.out.println("back appelé");
     }
 
     @Override
