@@ -127,7 +127,7 @@ public class Controller {
     }
 
     /**
-     * Select the new delivery of the new request to add
+     * Select the delivery of the new request to add
      * leads to state AddRequestState4
      * available in state AddRequestState3
      * @param theNewDelivery
@@ -138,20 +138,29 @@ public class Controller {
     }
 
     /**
-     * 
+     * Select the point (pickup or delivery) who will precedes the new request's delivery
+     * leads to state FirstTourComputed
+     * available in state AddRequestState4
      * @param theBeforNewDelivery
      */
     public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){
         this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery);
     };
 
+    /**
+     * Delete a request from the tour
+     * available in state FirstTourComputed
+     */
     public void deleteRequest(){
         this.stateController.deleteRequest(this);
     }
 
-    public void selectRequestToDelete(Intersection intersection){
-        this.stateController.selectRequestToDelete(this, intersection);
-    }
+    /**
+     * Select the pickup or delivery to delete and will delet the whole request
+     * available in state deleteRequest
+     * @param intersection
+     */
+    public void selectRequestToDelete(Intersection intersection){this.stateController.selectRequestToDelete(this, intersection);}
 
     public void back() {
         this.stateController.back(this);

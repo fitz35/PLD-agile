@@ -1,17 +1,41 @@
 package tsp;
+/**
+ * @author AGILE team and H4124
+ */
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 
 public abstract class TemplateTSP implements TSP {
+	/**
+	 * Ordered list of vertex to visit, best solution found yet
+	 */
 	private Integer[] bestSol;
+	/**
+	 * Graph in which we are computing the TSP
+	 */
 	protected Graph g;
+	/**
+	 * Cost of the best solution found yet
+	 */
 	private int bestSolCost;
+	/**
+	 * Time allotted for the computation task
+	 */
 	private int timeLimit;
+	/**
+	 * Time at which we start the computations
+	 */
 	private long startTime;
+	/**
+	 * Collection of vertex not yet visited, but we are able to visit them
+	 */
 	private Collection<Integer> unvisited;
+	/**
+	 * Collection of vertex not yet visited, but we are unable to visit them at this time.
+	 * This collection is updated each time we add a new vertex to visited
+	 */
 	private Collection<Integer> unvisitable;
 	private Collection<Integer> visited;
 
@@ -46,32 +70,32 @@ public abstract class TemplateTSP implements TSP {
 	}
 
 	/**
-	 * Method that must be defined in TemplateTSP subclasses
+	 * Heuristic to bound the branches of the branch & bound solution
 	 *
 	 * @param currentVertex
-	 * @param unvisited
+	 * @param unvisited collection of unvisited vertices
 	 * @return a lower bound of the cost of paths in <code>g</code> starting from <code>currentVertex</code>, visiting
 	 * every vertex in <code>unvisited</code> exactly once, and returning back to vertex <code>0</code>.
 	 */
 	protected abstract int bound(Integer currentVertex, Collection<Integer> unvisited);
 
 	/**
-	 * Method that must be defined in TemplateTSP subclasses
+	 * Creates an iterator of the unvisited vertices collection
 	 *
 	 * @param currentVertex
-	 * @param unvisited
-	 * @param g
+	 * @param unvisited collection of unvisited vertices
+	 * @param g graph in which we are computing the TSP
 	 * @return an iterator for visiting all vertices in <code>unvisited</code> which are successors of <code>currentVertex</code>
 	 */
 	protected abstract Iterator<Integer> iterator(Integer currentVertex, Collection<Integer> unvisited, Graph g);
 
 	/**
-	 * Template method of a branch and bound algorithm for solving the TSP in <code>g</code>.
+	 * Branch and bound algorithm for solving the TSP in <code>g</code>.
 	 *
 	 * @param currentVertex the last visited vertex
 	 * @param unvisited     the set of vertex that have not yet been visited
 	 * @param visited       the sequence of vertices that have been already visited (including currentVertex)
-	 * @param unvisitable   the ser of vertex that can't be visited at this time, it will evolve each time we visit an unvisitable
+	 * @param unvisitable   the set of vertex that can't be visited at this time, it will evolve each time we visit an unvisitable
 	 * @param currentCost   the cost of the path corresponding to <code>visited</code>
 	 */
 	private int branchAndBound(int currentVertex, Collection<Integer> unvisited,
@@ -98,6 +122,13 @@ public abstract class TemplateTSP implements TSP {
 		return error;
 	}
 
+	/**
+	 * Adds to the visited collection a given vertex, updating the unvisited and unvisitable collections
+	 * @param unvisited     the set of vertex that have not yet been visited
+	 * @param visited       the sequence of vertices that have been already visited (including currentVertex)
+	 * @param unvisitable   the set of vertex that can't be visited at this time, it will evolve each time we visit an unvisitable
+ 	 * @param nextVertex    Vertex to be added to visited, removed from unvisited and evaluated to update the unvisitable and unvisited collections
+	 */
 	private void addToVisited(Collection<Integer> unvisited, Collection<Integer> visited, Collection<Integer> unvisitable, int nextVertex) {
 		visited.add(nextVertex);
 		unvisited.remove(nextVertex);
@@ -107,7 +138,13 @@ public abstract class TemplateTSP implements TSP {
 		}
 		return;
 	}
-
+	/**
+	 * Removes from the visited collection a given vertex, updating the unvisited and unvisitable collections
+	 * @param unvisited     the set of vertex that have not yet been visited
+	 * @param visited       the sequence of vertices that have been already visited (including currentVertex)
+	 * @param unvisitable   the set of vertex that can't be visited at this time, it will evolve each time we visit an unvisitable
+	 * @param nextVertex    Vertex to be removed from visited, added to unvisited and evaluated to update the unvisitable and unvisited collections
+	 */
 	private void removeFromVisited(Collection<Integer> unvisited, Collection<Integer> visited, Collection<Integer> unvisitable, int nextVertex) {
 		visited.remove(nextVertex);
 		unvisited.add(nextVertex);

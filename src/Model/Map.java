@@ -628,7 +628,6 @@ public class Map extends MapInterface {
      * Delete a request from
      * @param pickupOrDelivery
      */
-    //@Override
     public void deleteRequest(Address pickupOrDelivery){
         Request requestToRemove = planningRequest.getRequestByAddress(pickupOrDelivery);
         ArrayList<Address> AddressOfRequest= new ArrayList<>();
@@ -641,6 +640,8 @@ public class Map extends MapInterface {
             Path newPath = this.findShortestPath(pathToRemove1.getDeparture(),pathToRemove2.getArrival());
             this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
         }
+        this.setChanged();
+        notifyObservers();
     }
 
     /**

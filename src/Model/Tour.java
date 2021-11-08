@@ -14,9 +14,14 @@ public class Tour{
      * An ordered list of path to compute the tour
      */
     private LinkedList<Path> orderedPathList;
-
-    private HashMap<Intersection, Integer> originPathMap;
-    private HashMap<Intersection, Integer> destinationPathMap;
+    /**
+     * Map to find a path given it's origin
+     */
+    private HashMap<Intersection, Path> originPathMap;
+    /**
+     * Map to find a path given it's destination
+     */
+    private HashMap<Intersection, Path> destinationPathMap;
 
 
     /**
@@ -30,8 +35,8 @@ public class Tour{
         this.orderedPathList = orderedPathList;
         int i = 0;
         for(Path path: orderedPathList){
-            originPathMap.put(path.getDeparture(), i);
-            destinationPathMap.put(path.getArrival(), i);
+            originPathMap.put(path.getDeparture(), path);
+            destinationPathMap.put(path.getArrival(), path);
             orderedSegmentList.addAll(path.getSegmentsOfPath());
             i++;
         }
@@ -55,10 +60,12 @@ public class Tour{
         if (this.orderedPathList.contains(oldPath)){
             int index= this.orderedPathList.indexOf(oldPath);
             LinkedList<Path> newPath= new LinkedList<Path>();
-            newPath.add(1,newPath1);
-            newPath.add(2,newPath2);
+            newPath.add(newPath1);
+            newPath.add(newPath2);
             this.orderedPathList.addAll(index,newPath);
             this.orderedPathList.remove(oldPath);
+            this.originPathMap.remove(oldPath.getDeparture());
+            this.destinationPathMap.remove(oldPath.getArrival());
         }
     }
 
@@ -83,7 +90,7 @@ public class Tour{
      * @return path
      */
     public Path findPathOrigin(Address origin){
-        Path path = orderedPathList.get(originPathMap.get(origin));
+        Path path = originPathMap.get(origin);
         return path;
     }
 
@@ -92,7 +99,7 @@ public class Tour{
      * @return path
      */
     public Path findPathDestination(Address destination){
-        Path path = orderedPathList.get(destinationPathMap.get(destination));
+        Path path = destinationPathMap.get(destination);
         return path;
     }
 
