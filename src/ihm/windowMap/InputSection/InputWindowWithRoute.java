@@ -160,6 +160,31 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         return "";
     }
 
+    //Called after getIntersectionFromAddres
+    public int getNumberPickup(String delivery){
+        int res=0;
+        for(int i=0;i<requestsList.size();i++) {
+            System.out.println(delivery.substring(8, 10));
+            if(delivery.substring(8, 10).equals(String.valueOf(i))){
+                res=(i+1);
+            }
+        }
+        return res;
+    }
+
+    //Called after getIntersectionFromAddres
+    public int getNumberDelivery(String pickup){
+        int res=0;
+        for(int i=0;i<requestsList.size();i++) {
+            System.out.println(pickup.substring(6, 8));
+            if(pickup.substring(6, 8).equals(String.valueOf(i))){
+                res=(i+1);
+            }
+        }
+        return res;
+    }
+
+
     public void updatePlanningRequestOptimalTour() {
         //ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
@@ -167,7 +192,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
         if(!(controller.getStateController() instanceof  AddRequestState2))
         {
-
             this.add(addRequest);
         }
         //Time
@@ -242,10 +266,10 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                         }
 
                         if (getStreetNames(pathListOptimalTour.get(i).getArrival()).size() == 1) {
-                            arrivalButton = new JButton("<html>"+getString(hours) + ":" + getString(minutes) + " Arrival" +
+                            arrivalButton = new JButton("<html>"+getString(hours) + ":" + getString(minutes) + " Arrival (Back to the Starting point)" +
                                     "<br />     Address : " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(0)+ "</html>");
                         } else {
-                            arrivalButton = new JButton("<html>"+getString(hours) + ":" + getString(minutes) + " Arrival" +
+                            arrivalButton = new JButton("<html>"+getString(hours) + ":" + getString(minutes) + " Arrival (Back to the Starting point)" +
                                     "<br />      Address : " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(0) +
                                     ", " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(1)+ "</html>");
                         }
@@ -277,9 +301,14 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     this.add(listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
                 }
 
-                for (int j = 0; j < maxNoOfRequestsPerPage && ((positionScrollBarTour * maxNoOfRequestsPerPage) + j) < listDeleteButton.size(); j++) {
+                for (int j = 0; j < maxNoOfRequestsPerPage && ((positionScrollBarTour * maxNoOfRequestsPerPage) + j) < listDeleteButton.size()-1; j++) {
                     listDeleteButton.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds((Frame.height / 9)-20, (int) (0.21 * Frame.height + (j * 70)), 20, 25);
-                    this.add(listDeleteButton.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
+                    if(positionScrollBarTour==0 && j!=0){
+                        this.add(listDeleteButton.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
+                    }
+                    if(positionScrollBarTour!=0){
+                        this.add(listDeleteButton.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
+                    }
                 }
 
 
@@ -323,28 +352,31 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
                 }
                 if (answer == 0) {
-                    System.out.println("delete"+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
+                    //System.out.println("delete"+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
+                    //controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+
+
                     if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
                         //Chercher delivery associé
-                        System.out.println("C'est un pickup: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
+                        //System.out.println("C'est un pickup: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
+                        String numIntersection= getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(6,8);
                         for(int k=0;k<pathListOptimalTour.size();k++){
-                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Pickup"+
-                                    getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(6,8))){
-                                System.out.println("Element a supprimer : "+getStreetNames(pathListOptimalTour.get(k).getDeparture()));
+                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Delivery"+numIntersection)){
+                                System.out.println("delivery : "+getStreetNames(pathListOptimalTour.get(k).getDeparture()));
+                                //controller.selectRequestToDelete(pathListOptimalTour.get(k).getDeparture()); //Delete the chosen point
                             }
                         }
                     }else if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,8)).equals("Delivery")){
                         //Chercher pickup associé
-                        System.out.println("C'est un delivery: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
+                        String numIntersection= getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(8,10);
+                        //System.out.println("C'est un delivery: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
                         for(int k=0;k<pathListOptimalTour.size();k++){
-                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Pickup"+
-                                    getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(8,10))){
-                                System.out.println("Element a supprimer : "+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
+                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Pickup"+numIntersection)){
+                                //System.out.println("pickup : "+getStreetNames(pathListOptimalTour.get(k).getDeparture()));
+                                //controller.selectRequestToDelete(pathListOptimalTour.get(k).getDeparture()); //Delete the chosen point
                             }
                         }
                     }
-                    // Remove the request from the planning request, the calculation of the new
-                    // optimal tour has also to be handled
                 }
             }
         }
