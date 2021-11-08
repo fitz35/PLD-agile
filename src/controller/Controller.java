@@ -11,14 +11,32 @@ import ihm.windowMap.WelcomeWindow;
 import ihm.windowMap.WindowMap;
 
 /**
- * Class Controller
+ * Class Controller in the MVC (Model View Controller) architecture
  */
 public class Controller {
+    /**
+     * List of command stored to enable undo / redo
+     */
     private ListOfCommands listOfCommands;
+    /**
+     * Controller state from the design pattern Controller
+     */
     private StateController stateController;
+    /**
+     * Map of the app
+     */
     private MapInterface map;
+    /**
+     * Calculated tour for the biker
+     */
     private Tour tour;
+    /**
+     * First displayed window
+     */
     private WelcomeWindow firstWindow;
+    /**
+     * Second displayed window
+     */
     private WindowMap window2;
 
     /**
@@ -26,6 +44,7 @@ public class Controller {
      */
     public Controller(){
         stateController = new InitialState();
+        listOfCommands = new ListOfCommands();
         this.createMap();
         window2 = new WindowMap(this);
         window2.setVisible(false);
