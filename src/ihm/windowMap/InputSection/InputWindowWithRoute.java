@@ -368,9 +368,9 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                 }
                 if (answer == 0) {
                     //System.out.println("delete"+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
-                    controller.setStateController(new DeleteRequest());
+                    //controller.setStateController(new DeleteRequest());
+                    //System.out.println("DELETE LINE 372 InoutWinowWithRoute");
                     controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
-
 
                     if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
                         //Chercher delivery associé
