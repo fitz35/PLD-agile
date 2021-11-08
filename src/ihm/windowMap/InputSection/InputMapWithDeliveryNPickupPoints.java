@@ -115,6 +115,9 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     {
         super.paint(g);
 
+        Graphics2D graphics2D = (Graphics2D) g;
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
         //Give numbers to pickup and delivery points
         Graphics2D g3d = (Graphics2D) g;

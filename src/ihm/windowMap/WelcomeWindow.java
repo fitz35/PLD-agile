@@ -63,7 +63,8 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
 
         path = new JLabel();
-        path.setBounds((int)(width*0.25),(int)(height*0.58),(int)(width*0.45),(int)(height/30));
+        //path.setBounds((int)(width*0.25),(int)(height*0.58),(int)(width*0.45),(int)(height/30));
+        path.setBounds((int)(width*0.25),(int)(height*0.58), Frame.width*1/4,15);
         path.setOpaque(true);
         path.setBackground(new Color(220,220,220));
         path.addKeyListener(this);
@@ -71,7 +72,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         body.add(path);
 
         ImageIcon browseIcon = new ImageIcon(new ImageIcon(pathToImg+"browseIcon.png").getImage().getScaledInstance((width/70),(height/30), Image.SCALE_AREA_AVERAGING));
-        browse = new JButton( "CHOOSE A MAP (XML file)" ,browseIcon);
+        browse = new JButton( "CHOOSE A MAP TO DISPLAY (XML file)" ,browseIcon);
         browse.setBounds((int)(width*0.25),(height/2),(int)(width*0.45),(int)(height/15));
         browse.addActionListener(this);
         body.add(browse);

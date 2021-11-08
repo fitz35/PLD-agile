@@ -10,6 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 public class MapPanel extends JPanel implements MouseListener
@@ -21,6 +25,7 @@ public class MapPanel extends JPanel implements MouseListener
     private Intersection startingPoint;
     private Intersection pickup;
     private Intersection delivery;
+    private double zoom = 1d;
 
 
     public MapPanel()
@@ -31,6 +36,24 @@ public class MapPanel extends JPanel implements MouseListener
         this.setLayout(null);
         this.revalidate();
         this.repaint();
+
+        /*addMouseWheelListener(new MouseAdapter() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                if (e.getPreciseWheelRotation() < 0) {
+                    zoom += 0.1;
+                } else {
+                    zoom -= 0.1;
+                }
+//                  zoom += e.getPreciseWheelRotation();
+                if (zoom < 1) {
+                    zoom =  1;
+                }
+                revalidate();
+                repaint();
+
+            }
+        });*/
     }
 
     /**
@@ -54,6 +77,13 @@ public class MapPanel extends JPanel implements MouseListener
     {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
+
+        Graphics2D graphics2D = (Graphics2D) g;
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        /*graphics2D.translate(getMousePosition().x, getMousePosition().y);
+        graphics2D.scale(zoom,zoom);
+        graphics2D.translate(-getMousePosition().x,-getMousePosition().y);*/
+
         g2d.setColor(Color.red);
         if(createdMap!=null) {
             for (Intersection i : createdMap.getIntersectionList()) {
@@ -80,7 +110,7 @@ public class MapPanel extends JPanel implements MouseListener
             {
                 for (Segment segment : createdMap.getTour().getOrderedSegmentList())
                 {
-                    paintSegment(g2d, segment, ColorPalette.tourColor);
+                    paintSegmentTour(g2d, segment, ColorPalette.tourColor);
                 }
             }
         }
@@ -297,6 +327,44 @@ public class MapPanel extends JPanel implements MouseListener
     }
 
     /**
+     * paint a segment of the tour
+     * @param g the graphiqs
+     * @param segment the segment to paint
+     * @param colour the colour of the segment
+     */
+    public void paintSegmentTour(Graphics2D g, Segment segment, Color colour)
+    {
+
+        g.setColor(colour);
+        Intersection origin= segment.getOrigin();
+        Intersection destination= segment.getDestination();
+        int[] pixelCoordsOrigin= convertIntersectionToPixel(origin, (int)(0.9*Frame.height));
+        int[] pixelCoordsDestination= convertIntersectionToPixel(destination,(int)(0.9*Frame.height));
+        int originPixelX= pixelCoordsOrigin[0];
+        int originPixelY= pixelCoordsOrigin[1];
+        int destinationPixelX= pixelCoordsDestination[0];
+        int destinationPixelY= pixelCoordsDestination[1];
+        AffineTransform tx = new AffineTransform();
+        Line2D.Double line = new Line2D.Double((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
+
+        Polygon arrowHead = new Polygon();
+        arrowHead.addPoint( 0,0);
+        arrowHead.addPoint( -3, -3);
+        arrowHead.addPoint( 3,-3);
+        g.drawLine((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
+        //System.out.println(originPixelX + "."+ originPixelY+ "."+ destinationPixelX+ "."+ destinationPixelY);
+        tx.setToIdentity();
+        double angle = Math.atan2(line.y2-line.y1, line.x2-line.x1);
+        tx.translate(line.x2, line.y2);
+        tx.rotate((angle-Math.PI/2d));
+
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setTransform(tx);
+        g2d.fill(arrowHead);
+        g2d.dispose();
+    }
+
+    /**
      * paint a request
      * @param g the graphiqs
      * @param request the request to paint
@@ -328,6 +396,7 @@ public class MapPanel extends JPanel implements MouseListener
             System.out.println(PixelX + " " + PixelY + " " + s.getName());
         }
     }
+
 
     @Override
     public void mousePressed(MouseEvent e) {
