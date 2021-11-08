@@ -443,18 +443,16 @@ public class MapPanel extends JPanel implements MouseListener
             JLabel label= InputMapWithDeliveryNPickupPoints.getJLabel();
             label.setForeground(ColorPalette.textNotice);
             InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked: "+ s.getName(), label);
-            //System.out.println(PixelX + " " + PixelY + " " + s.getName());
             if(controller.getStateController() instanceof AddRequestState1)
             {
-
                 inputWindowAddPickup.updateIntersectionClicked(i);
 
             }
             if(controller.getStateController() instanceof AddRequestState2)
             {
-
                 inputWindowAddPickup.updateIntersectionClicked(i);
-
+                System.out.println("stage2"+i);
+                inputWindowAddPickup.updatePanel();
             }
         }
     }
