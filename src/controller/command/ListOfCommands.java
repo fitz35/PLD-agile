@@ -69,6 +69,34 @@ public class ListOfCommands {
         list.clear();
     }
 
+    /**
+     * return 0 no undo no redo
+     * return 1    undo no redo
+     * return 2 no undo    redo
+     * return 3    undo    redo
+     *
+     * @return
+     */
+    public int undoRedoAvailability(){
+        /*
+        0 = vide
+        2 = liste > 0 && current = 0
+        1 = liste > 0 && current = size
+        3 = liste > 0 && current != size && current != 0
+         */
+        if(list.size()==0)
+        {
+            return 0;
+        }else{
+            if (currentIndex == 0){
+                return 2;
+            }else if(currentIndex == list.size()){
+                return 1;
+            }else {
+                return 3;
+            }
+        }
+    }
 
     public int getListSize(){
         return list.size();

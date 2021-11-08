@@ -98,12 +98,27 @@ public class Controller {
         this.stateController.continueTour(this, 10000);
     }
 
+    /**
+     * First step for adding a new request, leads to the state AddRequestState1()
+     * available in state FirstTourComputed
+     */
     public void addNewRequest(){this.stateController.addNewRequest(this);}
 
+    /**
+     * Select the new pickup of the new request to add
+     * leads to state AddRequestState2
+     * available in state AddRequestState1
+     * @param theNewPickup, pickupDuration
+     */
     public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){
         this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );
     }
 
+    /**
+     * Select the new pickup of the new request to add
+     * leads to state AddRequestState2
+     * available in state AddRequestState1
+     */
     public void chooseBeforNewPickup(Intersection theBeforNewPickup){
         this.stateController.chooseBeforNewPickup(this, theBeforNewPickup);
     }
