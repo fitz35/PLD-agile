@@ -24,7 +24,7 @@ public class MapPanel extends JPanel implements MouseListener
     private MapInterface createdMap;
     private double originLat;
     private double originLong;
-    private int border= (int)(0.02* Frame.height);
+    private int border= (int)(0.05* Frame.height);
     private Intersection startingPoint;
     private Intersection pickup;
     private Intersection delivery;
@@ -33,7 +33,7 @@ public class MapPanel extends JPanel implements MouseListener
     private InputWindowWithRoute inputWindowWithRoute;
     private Controller controller;
 
-    private int highlightStartingNumber = -2;
+    private boolean highlightStartingNumber = false;
     private int highlightPickupNumber = -2;
     private int highlightDeliveryNumber = -2;
     private int highlightRequestNumber = -2;
@@ -81,7 +81,7 @@ public class MapPanel extends JPanel implements MouseListener
      * @param highlightDeliveryNumber the delivery
      * @param highlightRequestNumber the request
      */
-    public void updateHighlight(int highlightStartingNumber, int highlightPickupNumber, int highlightDeliveryNumber, int highlightRequestNumber){
+    public void updateHighlight(boolean highlightStartingNumber, int highlightPickupNumber, int highlightDeliveryNumber, int highlightRequestNumber){
         this.highlightStartingNumber = highlightStartingNumber;
         this.highlightPickupNumber = highlightPickupNumber;
         this.highlightDeliveryNumber = highlightDeliveryNumber;
@@ -136,7 +136,12 @@ public class MapPanel extends JPanel implements MouseListener
                 if(createdMap.getPlanningRequest().getStartingPoint()!= null)
                 {
                     startingPoint= createdMap.getPlanningRequest().getStartingPoint();
-                    paintIntersection(g2d, startingPoint, ColorPalette.startingPoint,-1, 8);
+                    if(this.highlightStartingNumber){
+                        paintIntersection(g2d, startingPoint, ColorPalette.startingPoint,-1, 16);
+                    }else{
+                        paintIntersection(g2d, startingPoint, ColorPalette.startingPoint,-1, 8);
+                    }
+
                 }
 
             if(createdMap.getTour()!= null && createdMap.getTour().getOrderedSegmentList()!= null)

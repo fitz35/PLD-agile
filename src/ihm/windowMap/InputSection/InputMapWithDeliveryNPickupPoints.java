@@ -18,16 +18,14 @@ import java.util.*;
 
 public class InputMapWithDeliveryNPickupPoints extends InputBase implements ActionListener, AdjustmentListener {
     public static final String pathToImg = "./data/images/";
-    private static Dimension size = Frame.size;
-    private static int width = (int) size.getWidth();
-    private static int height = (int) size.getHeight();
 
     private InputWindowWithRoute inputWindowWithRoute;
 
     private final JFrame popup = new JFrame();
     private JButton findOptimalRoute;
     private JButton backToLoadRequest;
-    private JButton startingPoint, startingPointLatLong;
+    private JButton startingPoint;
+    private JButton startingPointLatLong;
     private JButton requestButton;
     private JButton pickupIcon, pickupButton, pickupDuration, deliveryIcon, deliveryButton, deliveryDuration;
     private JButton pathButton, arrivalButton;
@@ -52,9 +50,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
 
 
     private JScrollBar verticalScroller;
-
-    JTextField t = new JTextField(10);
-
 
     private WindowMap window;
     private MapPanel mapPanel;
@@ -155,9 +150,9 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
     public void updatePlanningRequestNotNull() {
         //Icons
         //ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
-        ImageIcon sPoint = new ImageIcon(new ImageIcon(pathToImg + "startingPoint.png").getImage().getScaledInstance((width / 70), (height / 40), Image.SCALE_AREA_AVERAGING));
-        ImageIcon pPoint = new ImageIcon(new ImageIcon(pathToImg + "pickupPoint.png").getImage().getScaledInstance((width / 70), (height / 40), Image.SCALE_AREA_AVERAGING));
-        ImageIcon dPoint = new ImageIcon(new ImageIcon(pathToImg + "deliveryPoint.png").getImage().getScaledInstance((width / 70), (height / 40), Image.SCALE_AREA_AVERAGING));
+        ImageIcon sPoint = new ImageIcon(new ImageIcon(pathToImg + "startingPoint.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
+        ImageIcon pPoint = new ImageIcon(new ImageIcon(pathToImg + "pickupPoint.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
+        ImageIcon dPoint = new ImageIcon(new ImageIcon(pathToImg + "deliveryPoint.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
 
 
         if (controller.getMap().getPlanningRequest() != null && controller.getMap().getPlanningRequest().getStartingPoint() != null) {
@@ -178,7 +173,7 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
             startingPoint = new JButton(sPoint);
             startingPoint.setBackground(ColorPalette.inputPannel);
             startingPoint.setBorderPainted(false);
-            startingPoint.setBounds(75, 110, (width / 70), (height / 40));
+            startingPoint.setBounds(75, 110, (Frame.width / 70), (Frame.height / 40));
             startingPoint.addActionListener(this);
             if(getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).size()==1) {
                 startingPointLatLong = new JButton("Starting Point : " +
@@ -304,12 +299,16 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int highlightStartNumber = -2;
+        boolean highlightStartNumber = false;
         int highlightDeliveryNumber = -2;
         int highlightPickupNumber = -2;
         int highlightRequestNumber = -2;
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
+        if(e.getSource() == this.startingPoint){
+            System.out.println("in2");
+            highlightStartNumber = true;
+        }
 
         if (e.getSource() == findOptimalRoute) {
             controller.loadTour();
