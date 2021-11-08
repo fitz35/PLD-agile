@@ -6,6 +6,7 @@ import Model.Segment;
 import Model.MapInterface;
 import controller.Controller;
 import controller.state.AddRequestState1;
+import controller.state.AddRequestState2;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
 import ihm.windowMap.InputSection.InputWindowAddPickup;
 import ihm.windowMap.InputSection.InputWindowWithRoute;
@@ -449,6 +450,12 @@ public class MapPanel extends JPanel implements MouseListener
             InputMapWithDeliveryNPickupPoints.setTexttoJLabel("The segment Clicked: "+ s.getName(), label);
             //System.out.println(PixelX + " " + PixelY + " " + s.getName());
             if(controller.getStateController() instanceof AddRequestState1)
+            {
+
+                inputWindowAddPickup.updateIntersectionClicked(i);
+
+            }
+            if(controller.getStateController() instanceof AddRequestState2)
             {
 
                 inputWindowAddPickup.updateIntersectionClicked(i);
