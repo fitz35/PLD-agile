@@ -2,7 +2,7 @@ package tsp;
 
 public class RunTSP {
 	public static void main(String[] args) {
-		for (int nbVertices = 7; nbVertices <= 21; nbVertices += 2){
+		for (int nbVertices = 3; nbVertices <= 21; nbVertices += 2){
 			TSP tsp = new TSP1();
 			System.out.println("Graphs with "+nbVertices+" vertices:");
 			Graph g = new CompleteGraph(nbVertices);
@@ -15,5 +15,4 @@ public class RunTSP {
 			System.out.println("0");
 		}
 	}
-
 }

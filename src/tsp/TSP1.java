@@ -5,7 +5,8 @@ import java.util.Iterator;
 
 public class TSP1 extends TemplateTSP {
 	@Override
-	protected int bound(Integer currentVertex, Collection<Integer> unvisited) {//return 0;}
+	protected int bound(Integer currentVertex, Collection<Integer> unvisited) {
+
 		//Calcul de l------------------------------------
 		int l = -1;
 		for(Integer unvisitedVertex : unvisited) {
