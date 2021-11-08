@@ -4,7 +4,10 @@ import Model.*;
 import controller.Controller;
 import controller.state.AddRequestState1;
 import controller.state.AddRequestState2;
+import controller.state.AddRequestState3;
+import controller.state.AddRequestState4;
 import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
+import ihm.windowMap.InputSection.InputWindowAddDelivery;
 import ihm.windowMap.InputSection.InputWindowAddPickup;
 import ihm.windowMap.InputSection.InputWindowWithRoute;
 
@@ -30,6 +33,7 @@ public class MapPanel extends JPanel implements MouseListener
     private Intersection delivery;
     private InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints;
     private InputWindowAddPickup inputWindowAddPickup;
+    private InputWindowAddDelivery inputWindowAddDelivery;
     private InputWindowWithRoute inputWindowWithRoute;
     private Controller controller;
 
@@ -44,7 +48,7 @@ public class MapPanel extends JPanel implements MouseListener
 
     public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints,
                     InputWindowWithRoute inputWindowWithRoute,
-                    InputWindowAddPickup inputWindowAddPickup, Controller controller)
+                    InputWindowAddPickup inputWindowAddPickup, Controller controller,InputWindowAddDelivery inputWindowAddDelivery)
     {
         super();
         this.setLayout(null);
@@ -53,6 +57,7 @@ public class MapPanel extends JPanel implements MouseListener
         this.inputMapWithDeliveryNPickupPoints = inputMapWithDeliveryNPickupPoints;
         this.inputWindowWithRoute = inputWindowWithRoute;
         this.controller=controller;
+        this.inputWindowAddDelivery=inputWindowAddDelivery;
 
         this.inputWindowAddPickup=inputWindowAddPickup;
         this.setBackground(ColorPalette.mapBackground);
@@ -477,8 +482,10 @@ public class MapPanel extends JPanel implements MouseListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int PixelX= (int)((zoomX - (mapSize/zoom)/2) + e.getX()/zoom);
-        int PixelY= (int)((zoomY - (mapSize/zoom)/2) + e.getY()/zoom);
+       // int PixelX= (int)((zoomX - (mapSize/zoom)/2) + e.getX()/zoom);
+        //int PixelY= (int)((zoomY - (mapSize/zoom)/2) + e.getY()/zoom);
+        int PixelX=e.getX();
+        int PixelY=e.getY();
         System.out.println("Click : " + PixelX + " " + PixelY);
         Intersection i;
         Segment s;
@@ -502,6 +509,20 @@ public class MapPanel extends JPanel implements MouseListener
                 System.out.println("stage2"+i);
                 inputWindowAddPickup.updatePanel();
             }
+            if(controller.getStateController() instanceof AddRequestState3)
+            {
+
+                i=convertPixeltoIntersection(PixelX,PixelY, mapSize,createdMap,border);
+                System.out.println("in add req state 3+"+i);
+                inputWindowAddDelivery.updateIntersectionClicked(i);
+            }
+            if(controller.getStateController() instanceof AddRequestState4)
+            {
+                i=getNearestPointOfInterest(PixelX,PixelY, mapSize);
+                inputWindowAddDelivery.updateIntersectionClicked(i);
+                inputWindowAddDelivery.updatePanel();
+            }
+
         }
     }
 
