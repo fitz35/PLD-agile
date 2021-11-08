@@ -13,14 +13,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class InputWindowAddPickup extends JPanel implements ActionListener
+public class InputWindowAddPickup extends InputBase implements ActionListener
 {
     private JButton validate;
     private JButton back;
 
     private JTextField durationField;
-
-    private Controller controller;
 
     private JLabel errorMessage;
     private JLabel instructions;
@@ -33,11 +31,7 @@ public class InputWindowAddPickup extends JPanel implements ActionListener
 
     public InputWindowAddPickup (Controller controller)
     {
-        super();
-        this.controller = controller;
-        this.setBackground(ColorPalette.inputPannel);
-        this.setLayout(null);
-
+        super(controller);
 
         header= new JLabel("Choosing a new Pickup Point to create a new Request");
         header.setFont(new Font("Serif", Font.BOLD, 20));

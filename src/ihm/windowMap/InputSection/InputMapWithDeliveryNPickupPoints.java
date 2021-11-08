@@ -17,7 +17,7 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.util.*;
 
-public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionListener, AdjustmentListener {
+public class InputMapWithDeliveryNPickupPoints extends InputBase implements ActionListener, AdjustmentListener {
     public static final String pathToImg = "./data/images/";
     private static Dimension size = Frame.size;
     private static int width = (int) size.getWidth();
@@ -67,15 +67,9 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
     private ArrayList<Request> requestsList;
 
-    private Controller controller;
-
     public InputMapWithDeliveryNPickupPoints(WindowMap window, Controller controller) {
-        super();
-        this.controller = controller;
+        super(controller);
         this.window = window;
-        this.setBounds((Frame.width / 2) + 40, (Frame.height * 1 / 400), Frame.width, (Frame.height));
-        this.setBackground(ColorPalette.inputPannel);
-        this.setLayout(null);
 
         text = new JLabel("Your planning requests : ");
         text.setBounds(30, 70, 600, 40);
@@ -141,6 +135,9 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
     public void paint(Graphics g, Request r) {
         super.paint(g);
+
+        Graphics2D graphics2D = (Graphics2D) g;
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
         //Give numbers to pickup and delivery points

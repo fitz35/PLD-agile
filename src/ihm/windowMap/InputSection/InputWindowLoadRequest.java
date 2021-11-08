@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class InputWindowLoadRequest extends JPanel implements ActionListener, KeyListener
+public class InputWindowLoadRequest extends InputBase implements ActionListener, KeyListener
 {
     public static final String pathToImg= "./data/images/";
     private JTextField path;
@@ -24,17 +24,13 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
     private JLabel text;
     private WindowMap window;
     private String  filePath;
-    private Controller controller;
     //private ArrayList<Request> requestArrayList;
 
     public InputWindowLoadRequest (WindowMap window, Controller controller)
     {
-        super();
+        super(controller);
         this.controller=controller;
         this.window=window;
-        this.setBounds((Frame.width/2)+40, Frame.height/400, Frame.width,Frame.height);
-        //System.out.println(Frame.width/2);
-        this.setLayout(null);
         path=new JTextField();
 
         text= new JLabel("Choose a request file");
@@ -42,7 +38,7 @@ public class InputWindowLoadRequest extends JPanel implements ActionListener, Ke
         text.setFont(new Font("Serif", Font.BOLD, 30));
 
         ImageIcon browseIcon = new ImageIcon(new ImageIcon(pathToImg+"browseIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
-        browse = new JButton( "CHOOSE A MAP (XML file)" ,browseIcon);
+        browse = new JButton( "CHOOSE A PLANNING REQUEST TO DISPLAY (XML file)" ,browseIcon);
         browse.setBounds((Frame.width*1/30)+100, (Frame.height*1/20)+50, Frame.width*1/4,40);
         //browse.setBounds((int)Frame.width/2,(int)Frame.height/20,90,40);
         browse.addActionListener(this);
