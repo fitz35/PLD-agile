@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * TSP class that implements a bound heuristic and an order heuristic for the branch & bound TSP
+ * TSP class that implements a bound heuristic branch & bound TSP
  */
 public class TSP1 extends TemplateTSP {
 	@Override

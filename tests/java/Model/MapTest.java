@@ -625,6 +625,98 @@ class MapTest extends Observable {
         assertEquals(theoricalTour,calculatedTour);
     }
 
+    @Test
+    void testDeleteRequest1(){
+        Map map = new Map();
+        try{
+            map.loadMap("tests/ressource/mapTour.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/requestTour.xml");
+            assert(map.isPlanningLoaded());
+        }catch (Exception e){
+            e.printStackTrace();
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+
+        Address inter1=new Address(1,6,2.5,180,1);
+        LinkedList<Path> theoricalTour=createTheoricalTourDeleteRequest();
+        map.computeTour(200);
+        assert(map.getTimedOutError()==0);
+
+        map.deleteRequest(inter1);
+
+        LinkedList<Path> calculatedTour=map.getTour().getOrderedPathList();
+        assertEquals(theoricalTour,calculatedTour);
+    }
+
+    @Test
+    void testDeleteRequest2(){
+        Map map = new Map();
+        try{
+            map.loadMap("tests/ressource/mapTour.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/requestTour.xml");
+            assert(map.isPlanningLoaded());
+        }catch (Exception e){
+            e.printStackTrace();
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+
+        Address inter1=new Address(1,6,2.5,180,1);
+        Address inter2=new Address(2,6,4,180,1);
+
+        map.computeTour(200);
+        assert(map.getTimedOutError()==0);
+
+        map.deleteRequest(inter1);
+        map.deleteRequest(inter2);
+
+        LinkedList<Path> calculatedTour=map.getTour().getOrderedPathList();
+        assert(calculatedTour.isEmpty());
+    }
+
+    private LinkedList<Path> createTheoricalTourDeleteRequest(){
+        LinkedList<Path> theoricalTour=createTheoricalTour();
+
+        Address inter1=new Address(1,6,2.5,180,1);
+        Address inter2=new Address(2,6,4,180,1);
+        Address inter3=new Address(3,4,4,240,2);
+        Address inter4=new Address(4,4,2.5,240,2);
+
+        Segment seg21=new Segment(inter2,inter1,"Rue Montesquieu",5);
+        Segment seg14=new Segment(inter1,inter4,"Rue d'Anvers",2);
+        Segment seg43=new Segment(inter4,inter3,"Rue Saint-Michel",7);
+        //Delete the paths-----------------------------------------------
+        LinkedList<Segment> intermediate = new LinkedList<>();
+        intermediate.add(seg21);
+        Path path2=new Path(inter2,inter1,intermediate);
+        theoricalTour.remove(path2);
+
+        intermediate=new LinkedList<>();
+        intermediate.add(seg14);
+        Path path3=new Path(inter1,inter4,intermediate);
+        theoricalTour.remove(path3);
+
+        intermediate=new LinkedList<>();
+        intermediate.add(seg43);
+        Path path4=new Path(inter4,inter3,intermediate);
+        theoricalTour.remove(path4);
+        //--------------------------------------------------
+        //Add the new paths after deletion
+        Segment seg24=new Segment(inter2,inter4,"Avenue Jean Jaurès",2);
+
+        intermediate = new LinkedList<>();
+        intermediate.add(seg24);
+        intermediate.add(seg43);
+        Path newPath2 = new Path(inter2,inter3,intermediate);
+        theoricalTour.add(1, newPath2);
+
+        return theoricalTour;
+
+    }
+
     private LinkedList<Path> createTheoricalTour(){
         Address inter0=new Address(0,4,1.0,0,0);
         Address inter1=new Address(1,6,2.5,180,1);

@@ -37,8 +37,18 @@ public abstract class TemplateTSP implements TSP {
 	 * This collection is updated each time we add a new vertex to visited
 	 */
 	private Collection<Integer> unvisitable;
+	/**
+	 * Collection of visited vertices
+	 */
 	private Collection<Integer> visited;
 
+	/**
+	 * Finds the shortest Hamiltonian path in a given graph
+	 * @param timeLimit Time allotted to search a solution, if it is exceeded the class will save it's current state
+	 *                  and return the shortest path computed so far
+	 * @param g Graph in which we will look for the solution
+	 * @return 1 if the time limit was exceeded, 0 else
+	 */
 	public int searchSolution(int timeLimit, Graph g) {
 		if (timeLimit <= 0)  return 1;
 		startTime = System.currentTimeMillis();
@@ -57,12 +67,21 @@ public abstract class TemplateTSP implements TSP {
 		return branchAndBound(0, unvisited, visited, unvisitable,0);
 	}
 
+	/**
+	 * Returns the number of the i th vertex to be visited
+	 * @param i the i th vertex to visit
+	 * @return the
+	 */
 	public Integer getSolution(int i) {
 		if (g != null && i >= 0 && i < g.getNbVertices())
 			return bestSol[i];
 		return -1;
 	}
 
+	/**
+	 * Gets the cost of the solution retained
+	 * @return the cost of the current solution
+	 */
 	public int getSolutionCost() {
 		if (g != null)
 			return bestSolCost;
