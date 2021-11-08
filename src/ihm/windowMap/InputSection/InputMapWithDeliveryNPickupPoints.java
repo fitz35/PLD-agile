@@ -34,7 +34,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     private JButton pathButton, arrivalButton;
 
 
-    private JButton deleteRequest;
+    //private JButton deleteRequest;
 
     private ArrayList<String> streetNames;
     private ArrayList<Segment>segmentsList;
@@ -47,10 +47,10 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
     private boolean optimalTour = false;
 
 
-    private ArrayList<JButton> listDeleteButton,listRequestButton,listPickupButton, listIconPickupButton, listPickupDurationButton;
+    private ArrayList<JButton> listRequestButton,listPickupButton, listIconPickupButton, listPickupDurationButton;
     private ArrayList<JButton> listDeliveryButton, listIconDeliveryButton,listDeliveryDurationButton;
 
-    private ArrayList <ActionListener> deleteRequestListeners;
+    //private ArrayList <ActionListener> deleteRequestListeners;
 
     private JPanel requests;
     private JLabel text;
@@ -162,7 +162,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
     public void updatePlanningRequestNotNull() {
         //Icons
-        ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
+        //ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
         ImageIcon sPoint = new ImageIcon(new ImageIcon(pathToImg + "startingPoint.png").getImage().getScaledInstance((width / 70), (height / 40), Image.SCALE_AREA_AVERAGING));
         ImageIcon pPoint = new ImageIcon(new ImageIcon(pathToImg + "pickupPoint.png").getImage().getScaledInstance((width / 70), (height / 40), Image.SCALE_AREA_AVERAGING));
         ImageIcon dPoint = new ImageIcon(new ImageIcon(pathToImg + "deliveryPoint.png").getImage().getScaledInstance((width / 70), (height / 40), Image.SCALE_AREA_AVERAGING));
@@ -180,7 +180,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
             listDeliveryButton = new ArrayList<>();
             listIconDeliveryButton = new ArrayList<>();
             listDeliveryDurationButton = new ArrayList<>();
-            listDeleteButton = new ArrayList<>();
+            //listDeleteButton = new ArrayList<>();
 
             //Starting point
             startingPoint = new JButton(sPoint);
@@ -207,7 +207,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
             //Requests with pickup and delivery points
-            deleteRequestListeners = new ArrayList<>();
+            //deleteRequestListeners = new ArrayList<>();
 
             for (int i = 0; i < requestsList.size(); i++) {
                 //Button request
@@ -276,11 +276,14 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
 
 
                 //Button to delete a request
+                /*
                 deleteRequest = new JButton(iconeDelete);
                 deleteRequest.setBackground(ColorPalette.inputPannel);
                 deleteRequest.addActionListener(this);
                 deleteRequestListeners.add(this);
                 listDeleteButton.add(deleteRequest);
+
+                 */
             }
 
             int positionScrollBar= verticalScroller.getValue();
@@ -294,7 +297,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                 listIconDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(75,210 + (j*110),20,20);
                 listDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,210 + (j*110), 420,20);
                 listDeliveryDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,230 + (j*110), 190,20);
-                listDeleteButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(50,146 + (j*110), 20,25);
+                //listDeleteButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(50,146 + (j*110), 20,25);
                 this.add(listRequestButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
                 this.add(listIconPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
                 this.add(listPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
@@ -302,7 +305,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                 this.add(listIconDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
                 this.add(listDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
                 this.add(listDeliveryDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
-                this.add(listDeleteButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
+                //this.add(listDeleteButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
                 }
         }
     }
@@ -372,6 +375,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
         }
 
         //Delete request
+        /*
         for (int j = 0; j < listDeleteButton.size(); j++) {
             if (e.getSource().toString().substring(0, 50).equals(listDeleteButton.get(j).toString().substring(0, 50))) {
                 int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the request " + (j + 1) + " ?", "Delete a request", JOptionPane.YES_NO_OPTION);
@@ -380,7 +384,7 @@ public class InputMapWithDeliveryNPickupPoints extends JPanel implements ActionL
                     // optimal tour has also to be handled
                 }
             }
-        }
+        }*/
 
     }
 

@@ -91,6 +91,7 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
         text2.setBounds(30, 70, 600, 40);
         text2.setFont(new Font("Serif", Font.BOLD, 25));
 
+
         verticalScrollerTour = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
         verticalScrollerTour.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));
         verticalScrollerTour.addAdjustmentListener(this);
@@ -156,6 +157,14 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
         return newList;
     }
 
+    public int getMaxRequestsPerPage()
+    {
+        int heightPixels= Frame.height-(int) (0.2 * Frame.height);
+        int widthPixels= Frame.width;
+        int oneRequestHeight= (230-(int) (0.2 * Frame.height)+50)/2;
+        return ((int)(heightPixels/oneRequestHeight))-1;
+    }
+
     public String getIntersectionFromAddres(Address address){
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
         for(int i=0;i<requestsList.size();i++){
@@ -170,8 +179,11 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
 
     public void updatePlanningRequestOptimalTour() {
         ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
+        int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
+        this.add(verticalScrollerTour);
         if(!(controller.getStateController() instanceof  AddRequestState2))
         {
+
             this.add(addRequest);
         }
         //Time
@@ -184,7 +196,8 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
 
             if (controller.getMap().getTour() != null && controller.getMap().getTour().getOrderedPathList() != null) {
                 pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();
-                verticalScrollerTour.setMaximum((pathListOptimalTour.size() / 12) + 1);
+                verticalScrollerTour.setMaximum((pathListOptimalTour.size()/maxNoOfRequestsPerPage)+1);
+
 
                 listPath = new ArrayList<>();
                 deleteRequestListeners = new ArrayList<>();
@@ -275,16 +288,14 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
 
                 //ScrollBar
                 int positionScrollBarTour = verticalScrollerTour.getValue();
-                for (int j = 0; j < 12 && ((positionScrollBarTour * 12) + j) < pathListOptimalTour.size()+1; j++) {
-                    listPath.get((positionScrollBarTour * 12) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 60)), 500, 45);
-                    this.add(listPath.get((positionScrollBarTour * 12) + j));
+                for (int j = 0; j < maxNoOfRequestsPerPage && ((positionScrollBarTour * maxNoOfRequestsPerPage) + j) < pathListOptimalTour.size()+1; j++) {
+                    listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 70)), 500, 55);
+                    this.add(listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
                 }
 
-                for (int j = 0; j < 12 && ((positionScrollBarTour * 12) + j) < listDeleteButton.size(); j++) {
-                    System.out.println(listDeleteButton.size());
-                    System.out.println((positionScrollBarTour * 12) + j);
-                    listDeleteButton.get((positionScrollBarTour * 12) + j).setBounds((Frame.height / 9)-20, (int) (0.21 * Frame.height + (j * 60)), 20, 25);
-                    this.add(listDeleteButton.get((positionScrollBarTour * 12) + j));
+                for (int j = 0; j < maxNoOfRequestsPerPage && ((positionScrollBarTour * maxNoOfRequestsPerPage) + j) < listDeleteButton.size(); j++) {
+                    listDeleteButton.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds((Frame.height / 9)-20, (int) (0.21 * Frame.height + (j * 70)), 20, 25);
+                    this.add(listDeleteButton.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
                 }
 
 
@@ -328,6 +339,26 @@ public class InputWindowWithRoute extends JPanel implements ActionListener, Adju
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
                 }
                 if (answer == 0) {
+                    System.out.println("delete"+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
+                    if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
+                        //Chercher delivery associé
+                        System.out.println("C'est un pickup: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
+                        for(int k=0;k<pathListOptimalTour.size();k++){
+                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Pickup"+
+                                    getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(6,8))){
+                                System.out.println("Element a supprimer : "+getStreetNames(pathListOptimalTour.get(k).getDeparture()));
+                            }
+                        }
+                    }else if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,8)).equals("Delivery")){
+                        //Chercher pickup associé
+                        System.out.println("C'est un delivery: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
+                        for(int k=0;k<pathListOptimalTour.size();k++){
+                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Pickup"+
+                                    getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(8,10))){
+                                System.out.println("Element a supprimer : "+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
+                            }
+                        }
+                    }
                     // Remove the request from the planning request, the calculation of the new
                     // optimal tour has also to be handled
                 }
