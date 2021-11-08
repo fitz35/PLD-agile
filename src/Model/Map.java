@@ -625,6 +625,25 @@ public class Map extends MapInterface {
     }
 
     /**
+     * Delete a request from
+     * @param pickupOrDelivery
+     */
+    //@Override
+    public void deleteRequest(Address pickupOrDelivery){
+        Request requestToRemove = planningRequest.getRequestByAddress(pickupOrDelivery);
+        ArrayList<Address> AddressOfRequest= new ArrayList<>();
+        AddressOfRequest.add(requestToRemove.getPickupAddress());
+        AddressOfRequest.add(requestToRemove.getDeliveryAddress());
+        this.planningRequest.removeRequest(requestToRemove);
+        for (Address a:AddressOfRequest){
+            Path pathToRemove1 = this.tour.findPathDestination(a);
+            Path pathToRemove2 =this.tour.findPathOrigin(a);
+            Path newPath = this.findShortestPath(pathToRemove1.getDeparture(),pathToRemove2.getArrival());
+            this.tour.replaceOldPaths(pathToRemove1, pathToRemove2, newPath);
+        }
+    }
+
+    /**
      * Retrieves a list of address necessary for the undo redo functionality
      * @param pickupOrDelivery The pickup or delivery used to retrieve the aforementioned list
      * @return Returns a list of address as follows, the pickup address, the delivery address, the address we visit before
