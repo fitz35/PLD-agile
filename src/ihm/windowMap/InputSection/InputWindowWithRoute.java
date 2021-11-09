@@ -29,23 +29,22 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
     public static final String pathToImg = "./data/images/";
 
-    private final JFrame popup = new JFrame();
+    //JButton
     private JButton backToLoadRequest;
-    private JButton pathButton, arrivalButton, deleteRequestTextually;
-    private JButton undoButton, redoButton, wayRouteButton;
+    private JButton pathButton, arrivalButton;
+    private JButton undoButton, redoButton;
+    private JButton addRequest, deleteRequestTextually;
+    private JButton wayRouteButton;
 
-    private JButton addRequest;
-
-    private ArrayList<JButton> listPath;
     private JTextArea textAreaWayBill = new JTextArea(10, 30);
 
     private Date startDate;
 
     private JPanel requests;
-    private JLabel text;
+
+    //JLabel
     private static JLabel text1;
     private JLabel text2;
-    private JLabel startDateLabel;
     private JLabel total;
 
 
@@ -56,6 +55,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     private WindowMap window;
     private MapPanel mapPanel;
 
+    private ArrayList<JButton> listPath;
     private ArrayList<Request> requestsList;
     private LinkedList<Path> pathListOptimalTour;
 

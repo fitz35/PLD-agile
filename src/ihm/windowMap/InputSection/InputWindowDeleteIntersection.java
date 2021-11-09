@@ -193,7 +193,8 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
                         this.add(backToLoadRequest);
                         controller.selectRequestToDelete(requestsList.get(i).getDeliveryAddress()); //Delete the chosen point
                     }
-                }else if(!(intersection.equals(controller.getMap().getPlanningRequest().getStartingPoint()))){
+                }else if(!(intersection.equals(controller.getMap().getPlanningRequest().getStartingPoint())) &&
+                requestsList.size()==1){
                     JOptionPane.showMessageDialog(null,"Impossible to delete : Only one request left ","Error",JOptionPane.INFORMATION_MESSAGE);//Cas limite
                 }
             }
