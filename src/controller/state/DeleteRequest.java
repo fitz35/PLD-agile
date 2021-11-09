@@ -25,7 +25,6 @@ public class DeleteRequest implements StateController{
     @Override
     public void back(Controller controller) {
         controller.setStateController(new FirstTourComputed());
-        System.out.println("Go back to state FirstTourComputed");
     }
 
 }

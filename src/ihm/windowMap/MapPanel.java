@@ -452,6 +452,8 @@ public class MapPanel extends JPanel implements MouseListener
         arrowHead.addPoint( 0,0);
         arrowHead.addPoint( -3, -3);
         arrowHead.addPoint( 3,-3);
+        g.setStroke(new BasicStroke(2.5f));
+        //this.repaint();
         g.drawLine((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
         //System.out.println(originPixelX + "."+ originPixelY+ "."+ destinationPixelX+ "."+ destinationPixelY);
         tx.setToIdentity();

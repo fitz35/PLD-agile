@@ -192,7 +192,12 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
             startingPointLatLong.setBorderPainted(false);
             startingPointLatLong.setBounds(100, 110, 420, 20);
             startingPointLatLong.setHorizontalAlignment(SwingConstants.LEFT);
-
+            startingPointLatLong.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mapPanel.updateHighlight(true, -2, -2, -2);
+                }
+            });
 
             this.add(startingPoint);
             this.add(startingPointLatLong);
@@ -266,16 +271,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 deliveryDuration.setHorizontalAlignment(SwingConstants.LEFT);
                 listDeliveryDurationButton.add(deliveryDuration);
 
-
-                //Button to delete a request
-                /*
-                deleteRequest = new JButton(iconeDelete);
-                deleteRequest.setBackground(ColorPalette.inputPannel);
-                deleteRequest.addActionListener(this);
-                deleteRequestListeners.add(this);
-                listDeleteButton.add(deleteRequest);
-
-                 */
             }
 
             int positionScrollBar= verticalScroller.getValue();
