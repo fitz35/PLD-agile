@@ -15,7 +15,7 @@ public interface Command {
  *
  * Controller => state en question
  *
- * sate.ListOfCommand.addCommand(new AddCommand 4 param)
+ * state.ListOfCommand.addCommand(new AddCommand 4 param)
  * add commaand = new point
  * delete point
  *
