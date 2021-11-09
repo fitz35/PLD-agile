@@ -1,0 +1,101 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TSP</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">tsp</a>
+</div>
+
+<h1>Coverage Summary for Class: TSP (tsp)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">TSP</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package tsp;
+<i class="no-highlight">2</i>&nbsp;/**
+<i class="no-highlight">3</i>&nbsp; * @author AGILE team
+<i class="no-highlight">4</i>&nbsp; */
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;/**
+<i class="no-highlight">7</i>&nbsp; * Interface for the TSP class
+<i class="no-highlight">8</i>&nbsp; */
+<i class="no-highlight">9</i>&nbsp;public interface TSP {
+<i class="no-highlight">10</i>&nbsp;	/**
+<i class="no-highlight">11</i>&nbsp;	 * Search for a shortest cost hamiltonian circuit in &lt;code&gt;g&lt;/code&gt; within &lt;code&gt;timeLimit&lt;/code&gt; milliseconds
+<i class="no-highlight">12</i>&nbsp;	 * (returns the best found tour whenever the time limit is reached)
+<i class="no-highlight">13</i>&nbsp;	 * Warning: The computed tour always start from vertex 0
+<i class="no-highlight">14</i>&nbsp;	 * @param timeLimit
+<i class="no-highlight">15</i>&nbsp;	 * @param g
+<i class="no-highlight">16</i>&nbsp;	 */
+<i class="no-highlight">17</i>&nbsp;	public int searchSolution(int timeLimit, Graph g);
+<i class="no-highlight">18</i>&nbsp;	
+<i class="no-highlight">19</i>&nbsp;	/**
+<i class="no-highlight">20</i>&nbsp;	 * @param i
+<i class="no-highlight">21</i>&nbsp;	 * @return the ith visited vertex in the solution computed by &lt;code&gt;searchSolution&lt;/code&gt; 
+<i class="no-highlight">22</i>&nbsp;	 * (-1 if &lt;code&gt;searcheSolution&lt;/code&gt; has not been called yet, or if i smaller than 0 or i &gt;= g.getNbSommets())
+<i class="no-highlight">23</i>&nbsp;	 */
+<i class="no-highlight">24</i>&nbsp;	public Integer getSolution(int i);
+<i class="no-highlight">25</i>&nbsp;	
+<i class="no-highlight">26</i>&nbsp;	/** 
+<i class="no-highlight">27</i>&nbsp;	 * @return the total cost of the solution computed by &lt;code&gt;searchSolution&lt;/code&gt; 
+<i class="no-highlight">28</i>&nbsp;	 * (-1 if &lt;code&gt;searcheSolution&lt;/code&gt; has not been called yet).
+<i class="no-highlight">29</i>&nbsp;	 */
+<i class="no-highlight">30</i>&nbsp;	public int getSolutionCost();
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-11-09 23:11</div>
+</div>
+</body>
+</html>

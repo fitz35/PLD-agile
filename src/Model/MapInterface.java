@@ -1,6 +1,5 @@
 package Model;
 
-import Model.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,6 +10,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Observable;
 
+/**
+ * Interfaced used to facilitate the development of the map Class
+ */
 public abstract class MapInterface extends Observable {
     /**
      * load a xml map

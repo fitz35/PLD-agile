@@ -332,9 +332,9 @@ public class MapPanel extends JPanel implements MouseListener
 
         //check if the point is on the segment (if their is an angle more than 90° in the triangle
         // al-khashi :
-        double alpha = Math.acos((distps2*distps2 - dists1s2*dists1s2 - distps1*distps1)/(2*dists1s2*distps1));
-        double gamma = Math.acos((distps1*distps1 - dists1s2*dists1s2 - distps2*distps2)/(2*dists1s2*distps2));
-        if(alpha > 90 || gamma > 90) {
+        double alpha = Math.acos((distps2*distps2 - dists1s2*dists1s2 - distps1*distps1)/(-2*dists1s2*distps1));
+        double gamma = Math.acos((distps1*distps1 - dists1s2*dists1s2 - distps2*distps2)/(-2*dists1s2*distps2));
+        if(alpha > Math.PI/2 || gamma > Math.PI/2) {
             return Math.min(distps1, distps2);
         }else{
             return hauteur;
