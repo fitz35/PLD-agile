@@ -628,23 +628,33 @@ public class Map extends MapInterface {
             throw new Exception();
         }else{
             Request newRequest = new Request(newPickup, newDelivery);
+            Path oldPath1 = tour.findPathOrigin(beforeNewPickup);
+            Path oldPath2 = tour.findPathOrigin(beforeNewDelivery);
+            Path newPath1;
+            Path newPath2;
+            Path newPath3;
+            Path newPath4;
             try {
-                replaceOldPathInTour(beforeNewPickup, newPickup);
+                newPath1 = findShortestPath(beforeNewPickup, newPickup);
+                newPath2 = findShortestPath(newPickup, oldPath1.getArrival());
             }catch (Exception e){
                 this.setChanged();
                 this.notifyObservers(newPickup);
                 throw new Exception("newPickup unreacheble");
             }
-            try{
-                replaceOldPathInTour(beforeNewDelivery, newDelivery);
-                this.planningRequest.addRequest(newRequest);
-                this.setChanged();
-                this.notifyObservers();
+            try {
+                newPath3 = findShortestPath(beforeNewDelivery, newDelivery);
+                newPath4 = findShortestPath(newDelivery, oldPath2.getArrival());
             }catch (Exception e){
                 this.setChanged();
-                this.notifyObservers(newDelivery);
+                this.notifyObservers(newPickup);
                 throw new Exception("newDelivery unreacheble");
             }
+            tour.replaceOldPath(oldPath1, newPath1, newPath2);
+            tour.replaceOldPath(oldPath2, newPath3, newPath4);
+            this.planningRequest.addRequest(newRequest);
+            this.setChanged();
+            this.notifyObservers();
         }
     }
 
@@ -700,22 +710,6 @@ public class Map extends MapInterface {
         answer.add(beforeDeliveryDelivery.getDeparture());
 
         return answer;
-    }
-
-    /**
-     * Add a new point of interest to the tour and find the new shortest paths between the origin and the destination
-     * @param toVisitBefore
-     * @param destination
-     */
-    private void replaceOldPathInTour(Address toVisitBefore, Address destination) throws Exception{
-        Path oldPath = tour.findPathOrigin(toVisitBefore);
-        try{
-            Path newPath1 = findShortestPath(toVisitBefore, destination);
-            Path newPath2 = findShortestPath(destination, oldPath.getArrival());
-            tour.replaceOldPath(oldPath, newPath1, newPath2);
-        }catch (Exception e){
-            throw e;
-        }
     }
 
     /**
