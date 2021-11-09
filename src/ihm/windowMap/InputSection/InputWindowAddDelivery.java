@@ -271,6 +271,11 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
                     errorMessage.setText("You cannot input a negative time duration");
                     errorMessage.setVisible(true);
                 }
+                else if(myString.compareTo("") == 0)
+                {
+                    errorMessage.setText("You cannot input an empty duration");
+                    errorMessage.setVisible(true);
+                }
                 else if(intersection==null)
                 {
                     errorMessage.setText("You need to choose a valid intersection. THOU SHALT NOT PASS!");
@@ -278,10 +283,8 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
                 }
                 else
                 {
-
                     controller.chooseNewDelivery(intersection,duration);
                     updatePanel();
-
                 }
 
 
@@ -293,24 +296,20 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
             }
 
         }
-        if(e.getSource()==validateBeforeDelivery)
-        {
-            if(intersection==null)
-            {
+        if(e.getSource()==validateBeforeDelivery){
+            if(intersection==null){
                 errorMessage.setText("You need to choose a valid intersection. THOU SHALT NOT PASS!");
                 errorMessage.setVisible(true);
+            }else if(intersection2 == null){
+                errorMessage2.setText("You need to choose a valid intersection. THOU SHALT NOT PASS!");
+                errorMessage2.setVisible(true);
             }
-            else
-            {
-
+            else{
                 controller.chooseBeforNewDelivery(intersection2);
                 updatePanel();
-
             }
-
         }
-        if(e.getSource()==back)
-        {
+        if(e.getSource()==back){
             controller.back();
             updatePanel();
         }

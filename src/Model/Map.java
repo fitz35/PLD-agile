@@ -683,7 +683,7 @@ public class Map extends MapInterface {
     }
 
     /**
-     * Retrieves a list of address necessary for the undo redo functionality
+     * Retrieves a list of addresses necessary for the undo redo functionality
      * @param pickupOrDelivery The pickup or delivery used to retrieve the aforementioned list
      * @return Returns a list of address as follows, the pickup address, the delivery address, the address we visit before
      * going to the pickup address and the address we visit before going to de delivery address

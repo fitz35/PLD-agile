@@ -137,7 +137,8 @@ public class WindowMap extends Frame implements Observer //implements ActionList
             inputPanel.setErrorMsg((String)arg);
             this.revalidate();
             this.repaint();
-        }else if (o instanceof MapInterface && arg instanceof Address address){ // error with adding
+        }else if (o instanceof MapInterface && arg instanceof Address){ // error with adding
+            Address address=(Address) arg;
             if(address.getType() == 1){
                 inputWindowAddPickup.setErrorMessage();
             }else{
