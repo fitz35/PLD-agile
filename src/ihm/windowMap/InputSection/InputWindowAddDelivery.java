@@ -18,8 +18,7 @@ import java.util.ArrayList;
  * @ author Tushita Ramkaran
  */
 
-public class InputWindowAddDelivery extends InputBase implements ActionListener
-{
+public class InputWindowAddDelivery extends InputBase implements ActionListener{
     private JButton validate;
     private JButton back;
     private JTextField durationField;
@@ -39,8 +38,7 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
     private JButton validateBeforeDelivery;
 
 
-    public InputWindowAddDelivery (Controller controller)
-    {
+    public InputWindowAddDelivery (Controller controller) {
         super(controller);
 
         header= new JLabel("Choosing a new Point to create a new Request");
@@ -145,8 +143,7 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
      * Displays the name of the road clicked by the user on the window
      * @param intersection the intersection clicked on by the user
      */
-    public void updateIntersectionClicked(Intersection intersection)
-    {
+    public void updateIntersectionClicked(Intersection intersection) {
 
         ArrayList<String> names = Address.getStreetNames(intersection,
                 controller.getMap().getSegmentList());
@@ -175,8 +172,7 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
      * resets the content of JLabels to null
      * resets the intersections clicked on by the user to null
      */
-    public void setAllInvisible()
-    {
+    public void setAllInvisible() {
         if(this.controller.getStateController() instanceof AddRequestState3 ) {
             intersection=null;
             intersection2=null;
@@ -211,10 +207,9 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
 
 
     /**
-     * update this panel
+     * update this panel depending on the state of the controller
      */
-    public void updatePanel()
-    {
+    public void updatePanel() {
 
         setAllInvisible();
         if(this.controller.getStateController() instanceof AddRequestState3||this.controller.getStateController() instanceof AddRequestState4) {
@@ -249,7 +244,7 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
     }
 
     /**
-     * set an error with this address
+     * sets and displays an error message
      */
     public void setErrorMessage(){
         errorMessage.setText("Delivery unreachable, please choose another one");

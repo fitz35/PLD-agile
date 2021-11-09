@@ -3,6 +3,11 @@ package ihm.windowMap;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * This class is used to construct a panel to allow the user to load an xml request file
+ * @ version 1.0.0.0
+ * @ author Tushita Ramkaran
+ */
 public class Frame extends JFrame
 {
     public final static Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
