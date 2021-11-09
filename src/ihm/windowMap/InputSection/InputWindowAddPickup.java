@@ -139,9 +139,6 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         this.add(instructionsChoosePointOfInterestBefore2);
         this.add(validateBeforePickup);
 
-
-
-
     }
 
     public void paint(Graphics g) {
@@ -180,9 +177,9 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
             stepSummary3.setText("");
             stepSummary4.setText("");
             durationField.setText("");
-            errorMessage.setText("");
-
-
+            if(!((AddRequestState1) this.controller.getStateController()).isArrivedCauseIssue()){
+                errorMessage.setText("");
+            }
         }
         validate.setVisible(false);
         durationField.setVisible(false);
@@ -210,7 +207,6 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         if(this.controller.getStateController() instanceof AddRequestState1||this.controller.getStateController() instanceof AddRequestState2) {
             if(this.controller.getStateController() instanceof AddRequestState1) {
                 validate.setVisible(true);
-
             }
             header.setVisible(true);
             instructions.setVisible(true);
