@@ -419,7 +419,6 @@ public class MapPanel extends JPanel implements MouseListener
         int destinationPixelX= pixelCoordsDestination[0];
         int destinationPixelY= pixelCoordsDestination[1];
         g.drawLine((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
-        //System.out.println(originPixelX + "."+ originPixelY+ "."+ destinationPixelX+ "."+ destinationPixelY);
 
     }
 
@@ -440,7 +439,7 @@ public class MapPanel extends JPanel implements MouseListener
         int originPixelY= pixelCoordsOrigin[1];
         int destinationPixelX= pixelCoordsDestination[0];
         int destinationPixelY= pixelCoordsDestination[1];
-        
+
         double x1 = originPixelX, x2 = destinationPixelX, y1 = originPixelY, y2 = destinationPixelY;
         double theta = Math.atan2(y2 - y1, x2 - x1);
         double phi = Math.PI/6;

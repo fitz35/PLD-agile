@@ -15,9 +15,9 @@ public class DeleteRequestCmd implements Command {
 
 /**
  * ajouter tt les attibut de la methode addNewRequest pour le undo et etre capable de remettre tt ds l'ordre
- * 
- */
+
     /**
+     *
      * @param map
      * @param addressToDelete
      */
