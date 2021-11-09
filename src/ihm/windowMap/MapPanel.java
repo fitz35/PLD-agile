@@ -341,7 +341,15 @@ public class MapPanel extends JPanel implements MouseListener
         double A = Math.sqrt(p*(p - distps1)*(p-distps2)*(p-dists1s2)); // heron's formula
         double hauteur = (A * 2)/dists1s2; //area of a triangle
 
-        return Math.min(Math.min(distps1, distps2), hauteur);
+        //check if the point is on the segment (if their is an angle more than 90° in the triangle
+        // al-khashi :
+        double alpha = Math.acos((distps2*distps2 - dists1s2*dists1s2 - distps1*distps1)/(2*dists1s2*distps1));
+        double gamma = Math.acos((distps1*distps1 - dists1s2*dists1s2 - distps2*distps2)/(2*dists1s2*distps2));
+        if(alpha > 90 || gamma > 90) {
+            return Math.min(distps1, distps2);
+        }else{
+            return hauteur;
+        }
     }
 
 
