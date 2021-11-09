@@ -449,14 +449,13 @@ public class MapPanel extends JPanel implements MouseListener
         int destinationPixelY= pixelCoordsDestination[1];
         
         double x1 = originPixelX, x2 = destinationPixelX, y1 = originPixelY, y2 = destinationPixelY;
-        double barb = mapSize;
         double theta = Math.atan2(y2 - y1, x2 - x1);
         double phi = Math.PI/6;
-        double x = x2 - (barb/200) * Math.cos(theta + phi);
-        double y = y2 - (barb/200) * Math.sin(theta + phi);
+        double x = x2 - (mapSize/200) * Math.cos(theta + phi);
+        double y = y2 - (mapSize/200) * Math.sin(theta + phi);
         g.draw(new Line2D.Double(x2, y2, x, y));
-        x = x2 - (barb/200) * Math.cos(theta - phi);
-        y = y2 - (barb/200) * Math.sin(theta - phi);
+        x = x2 - (mapSize/200) * Math.cos(theta - phi);
+        y = y2 - (mapSize/200) * Math.sin(theta - phi);
         g.draw(new Line2D.Double(x2, y2, x, y));
     }
 
