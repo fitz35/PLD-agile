@@ -11,19 +11,6 @@ public interface Command {
      * Execute the reverse command of this
      */
     void undoCommand() throws Exception;
-/**
- *
- * Controller => state en question
- *
- * state.ListOfCommand.addCommand(new AddCommand 4 param)
- * add commaand = new point
- * delete point
- *
- *
- */
-
-
-
 
 }
 

@@ -5,6 +5,9 @@ import Model.Map;
 
 import java.util.List;
 
+/**
+ * Command implemented to delete a request from the tour
+ */
 public class DeleteRequestCmd implements Command {
     private Map map;
     private Address addressToDelete;
@@ -13,11 +16,9 @@ public class DeleteRequestCmd implements Command {
     private Address beforNewPickup;
     private Address beforNewDelivery;
 
-/**
- * ajouter tt les attibut de la methode addNewRequest pour le undo et etre capable de remettre tt ds l'ordre
 
     /**
-     *
+     * Constructor
      * @param map
      * @param addressToDelete
      */
@@ -34,10 +35,7 @@ public class DeleteRequestCmd implements Command {
 
     @Override
     public void doCommand() {
-        //call the methode from the back
-        System.out.println("call the bacl !!! ");
         map.deleteRequest(addressToDelete);
-        System.out.println("back appelé");
     }
 
     @Override

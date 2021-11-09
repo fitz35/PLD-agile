@@ -6,8 +6,15 @@ import Model.Map;
 import controller.Controller;
 import controller.command.DeleteRequestCmd;
 
+/**
+ * Delete request
+ */
 public class DeleteRequest implements StateController{
 
+    /**
+     * @param controller
+     * @param intersectionToDelete
+     */
     @Override
     public void  selectRequestToDelete(Controller controller , Intersection intersectionToDelete){
         try{
@@ -22,6 +29,9 @@ public class DeleteRequest implements StateController{
 
     }
 
+    /**
+     * @param controller
+     */
     @Override
     public void back(Controller controller) {
         controller.setStateController(new FirstTourComputed());
