@@ -45,6 +45,10 @@ public abstract class TemplateTSP implements TSP {
 	 * Last visited vertex before stopping the TSP, if this is the first time computing it it's default is 0;
 	 */
 	private Integer lastVisitedVertex = 0;
+	/**
+	 * Last current cost, before stopping the TSP
+	 */
+	private int lasCurrentCost = 0;
 
 	/**
 	 * Finds the shortest Hamiltonian path in a given graph
@@ -54,7 +58,7 @@ public abstract class TemplateTSP implements TSP {
 	 * @return 1 if the time limit was exceeded, 0 else
 	 */
 	public int searchSolution(int timeLimit, Graph g) {
-		if (timeLimit <= 0)  return 1;
+		if (timeLimit < 0)  return 1;
 		startTime = System.currentTimeMillis();
 		this.timeLimit = timeLimit;
 		if(bestSol == null) {
@@ -68,7 +72,7 @@ public abstract class TemplateTSP implements TSP {
 			visited.add(0); // The first visited vertex is 0
 			bestSolCost = Integer.MAX_VALUE;
 		}
-		return branchAndBound(lastVisitedVertex, unvisited, visited, unvisitable,bestSolCost);
+		return branchAndBound(lastVisitedVertex, unvisited, visited, unvisitable,lasCurrentCost);
 	}
 
 	/**
@@ -126,6 +130,7 @@ public abstract class TemplateTSP implements TSP {
 		int error = 0;
 		if (System.currentTimeMillis() - startTime > timeLimit && bestSol[g.getNbVertices()-1] != null){
 			lastVisitedVertex = currentVertex;
+			lasCurrentCost = currentCost;
 			return 1;
 		}
 		if (unvisited.size() == 0) {
