@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MapTest extends Observable {
     private Map map;
+    private Map initialMapAddDeleteTest;
     private boolean exceptionRaised;
     private Observer observer;
     private boolean updateCalled;
@@ -18,6 +19,7 @@ class MapTest extends Observable {
     @BeforeEach
     void setUp() {
         map= new Map();
+        initialMapAddDeleteTest = new Map();
         exceptionRaised=false;
         observer=new Observer() {
             @Override
@@ -27,6 +29,7 @@ class MapTest extends Observable {
             }
         };
         map.addObserver(observer);
+        initialMapAddDeleteTest.addObserver(observer);
     }
 
     /**
@@ -855,5 +858,43 @@ class MapTest extends Observable {
         }
         assert(exceptionRaised);
         assert(updateCalled);
+    }
+
+    @Test
+    void addRequestDelteRequestTest(){
+        try{
+            map.loadMap("tests/ressource/mapTour.xml");
+            initialMapAddDeleteTest.loadMap("tests/ressource/mapTour.xml");
+            assert(map.isMapLoaded());
+            assert(initialMapAddDeleteTest.isMapLoaded());
+
+            map.loadRequest("tests/ressource/requestTourAddRequest.xml");
+            initialMapAddDeleteTest.loadRequest("tests/ressource/requestTourAddRequest.xml");
+            assert(map.isPlanningLoaded());
+            assert(initialMapAddDeleteTest.isPlanningLoaded());
+        }catch (Exception e){
+            e.printStackTrace();
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        map.computeTour(200);
+        initialMapAddDeleteTest.computeTour(200);
+        assert(map.getTimedOutError()==0);
+        assert(initialMapAddDeleteTest.getTimedOutError()==0);
+        Address inter0=new Address(0,4,1.0,0,0);
+        Address inter1=new Address(1,6,2.5,180,1);
+        Address inter2=new Address(2,6,4,180,1);
+        Address inter3=new Address(3,4,4,240,2);
+        Address inter4=new Address(4,4,2.5,240,2);
+        try{
+            map.addRequest(inter0,inter2,inter4,inter3);
+        }catch(Exception e){
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+
+        map.deleteRequest(inter2);
+
+        assertEquals(map.getPlanningRequest(), initialMapAddDeleteTest.getPlanningRequest());
     }
 }
