@@ -112,6 +112,7 @@ public class MapPanel extends JPanel implements MouseListener
     {
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
+        Graphics2D gra2d = (Graphics2D) g;
 
         Graphics2D graphics2D = (Graphics2D) g;
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
@@ -154,7 +155,8 @@ public class MapPanel extends JPanel implements MouseListener
                 for(Path path : createdMap.getTour().getOrderedPathList()){
                     for (Segment segment : path.getSegmentsOfPath())
                     {
-                        paintSegmentTour(g2d, segment, ColorPalette.tourColor);
+                        paintSegment(g2d, segment, ColorPalette.tourColor);
+                        paintTourDirections(gra2d, segment, ColorPalette.tourColor);
                     }
                 }
             }
@@ -434,7 +436,7 @@ public class MapPanel extends JPanel implements MouseListener
      * @param segment the segment to paint
      * @param colour the colour of the segment
      */
-    public void paintSegmentTour(Graphics2D g, Segment segment, Color colour)
+    public void paintTourDirections(Graphics2D g, Segment segment, Color colour)
     {
         g.setColor(colour);
         Intersection origin= segment.getOrigin();
@@ -445,40 +447,17 @@ public class MapPanel extends JPanel implements MouseListener
         int originPixelY= pixelCoordsOrigin[1];
         int destinationPixelX= pixelCoordsDestination[0];
         int destinationPixelY= pixelCoordsDestination[1];
-
-        AffineTransform tx = new AffineTransform();
-        Line2D.Double line = new Line2D.Double((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
-        Polygon arrowHead = new Polygon();
-        arrowHead.addPoint( 0,0);
-        arrowHead.addPoint( -3, -3);
-        arrowHead.addPoint( 3,-3);
-        g.drawLine((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
-        //System.out.println(originPixelX + "."+ originPixelY+ "."+ destinationPixelX+ "."+ destinationPixelY);
-        tx.setToIdentity();
-        double angle = Math.atan2(line.y2-line.y1, line.x2-line.x1);
-        /*tx.translate(line.x2, line.y2);
-        tx.rotate((angle-Math.PI/2d));*/
-        /*double angle = Math.atan2((int)destinationPixelY-(int)originPixelY, (int)destinationPixelX-(int)originPixelX);
-        tx.translate((int)destinationPixelX, (int)destinationPixelY);
-        tx.rotate(angle);*/
-        /*int a = ((int)originPixelY-(int)destinationPixelY)/((int)originPixelX-(int)destinationPixelX);
-        int b = (int)originPixelY-a*(int)originPixelX;*/
-        Polygon tri = new Polygon();
-        tri.addPoint((int)destinationPixelX, (int)destinationPixelY);
-        tri.addPoint((int)destinationPixelX-3, (int)destinationPixelY-3);
-        tri.addPoint((int)destinationPixelX+3, (int)destinationPixelY-3);
-        /*tri.addPoint(-3, -3);
-        tri.addPoint(3, -3);*/
-        tx.rotate((angle-Math.PI/2d));
-        Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setTransform(tx);
-        g.drawPolygon(tri);
-
-        /*Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setTransform(tx);
-        g2d.fill(arrowHead);
-        g2d.dispose();*/
-
+        
+        double x1 = originPixelX, x2 = destinationPixelX, y1 = originPixelY, y2 = destinationPixelY;
+        double barb = mapSize;
+        double theta = Math.atan2(y2 - y1, x2 - x1);
+        double phi = Math.PI/6;
+        double x = x2 - (barb/200) * Math.cos(theta + phi);
+        double y = y2 - (barb/200) * Math.sin(theta + phi);
+        g.draw(new Line2D.Double(x2, y2, x, y));
+        x = x2 - (barb/200) * Math.cos(theta - phi);
+        y = y2 - (barb/200) * Math.sin(theta - phi);
+        g.draw(new Line2D.Double(x2, y2, x, y));
     }
 
     /**
@@ -512,7 +491,7 @@ public class MapPanel extends JPanel implements MouseListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
-       // int PixelX= (int)((zoomX - (mapSize/zoom)/2) + e.getX()/zoom);
+        // int PixelX= (int)((zoomX - (mapSize/zoom)/2) + e.getX()/zoom);
         //int PixelY= (int)((zoomY - (mapSize/zoom)/2) + e.getY()/zoom);
         int PixelX=e.getX();
         int PixelY=e.getY();
