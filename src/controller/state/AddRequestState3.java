@@ -8,11 +8,18 @@ public class AddRequestState3 implements StateController{
     private Address newPickup;
     private Address beforNewPickup;
     private Address newDelivery;
-
+    private boolean arrivedCauseIssue;
 
     public AddRequestState3(Address newPickup, Address beforNewPickup) {
         this.newPickup = newPickup;
         this.beforNewPickup = beforNewPickup;
+        arrivedCauseIssue = false;
+    }
+
+    public AddRequestState3(Address newPickup, Address beforNewPickup, boolean arrivedCauseIssue) {
+        this.newPickup = newPickup;
+        this.beforNewPickup = beforNewPickup;
+        this.arrivedCauseIssue = arrivedCauseIssue;
     }
 
     @Override
@@ -30,5 +37,9 @@ public class AddRequestState3 implements StateController{
     public void back(Controller controller){
         controller.setStateController(new AddRequestState2(newPickup));
         System.out.println("Go back to state AddRequestState2");
+    }
+
+    public boolean isArrivedCauseIssue() {
+        return arrivedCauseIssue;
     }
 }
