@@ -4,10 +4,16 @@ import controller.command.Command;
 
 import java.util.LinkedList;
 
+/**
+ * List of command for the design pattern Command
+ */
 public class ListOfCommands {
     private LinkedList<Command> list;
     private int currentIndex;
 
+    /**
+     * Constructor
+     */
     public ListOfCommands(){
         currentIndex = -1;
         list = new LinkedList<Command>();

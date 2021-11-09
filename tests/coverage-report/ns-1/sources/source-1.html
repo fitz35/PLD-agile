@@ -1,0 +1,204 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Address</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">Model</a>
+</div>
+
+<h1>Coverage Summary for Class: Address (Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Address</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    33,3%
+  </span>
+  <span class="absValue">
+    (3/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    40,6%
+  </span>
+  <span class="absValue">
+    (13/32)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package Model;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;/**
+<i class="no-highlight">7</i>&nbsp; * An address is either a pickup intersection, a delivery intersection or a depot intersection
+<i class="no-highlight">8</i>&nbsp; * It has a type and a waiting time AKA addressDuration
+<i class="no-highlight">9</i>&nbsp; */
+<i class="no-highlight">10</i>&nbsp;public class Address extends Intersection{
+<i class="no-highlight">11</i>&nbsp;    /**
+<i class="no-highlight">12</i>&nbsp;     * Time spent at the address
+<i class="no-highlight">13</i>&nbsp;     */
+<i class="no-highlight">14</i>&nbsp;    private int addressDuration;
+<i class="no-highlight">15</i>&nbsp;    /**
+<i class="no-highlight">16</i>&nbsp;     * The type of the adress, it can be 0 if it is a depot, 1 if it is a pickup or 2 if it is a delivery
+<i class="no-highlight">17</i>&nbsp;     */
+<i class="no-highlight">18</i>&nbsp;    private int type;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    /**
+<i class="no-highlight">21</i>&nbsp;     * return the type of the address
+<i class="no-highlight">22</i>&nbsp;     * @return The type of the adress, it can be 0 if it is a depot, 1 if it is a pickup or 2 if it is a delivery
+<i class="no-highlight">23</i>&nbsp;     */
+<i class="no-highlight">24</i>&nbsp;    public int getType(){
+<b class="nc"><i class="no-highlight">25</i>&nbsp;        return this.type;</b>
+<i class="no-highlight">26</i>&nbsp;    }
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;    public Address(long id, double latitude, double longitude, int addressDuration, int type) {
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        super(id, latitude, longitude);</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        this.addressDuration = addressDuration;</b>
+<b class="fc"><i class="no-highlight">31</i>&nbsp;        this.type = type;</b>
+<i class="no-highlight">32</i>&nbsp;    }
+<i class="no-highlight">33</i>&nbsp;
+<i class="no-highlight">34</i>&nbsp;    public Address(Intersection intersection, int addressDuration,int type) {
+<b class="nc"><i class="no-highlight">35</i>&nbsp;        super(intersection.getId(), intersection.getLatitude(), intersection.getLongitude());</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;        this.addressDuration = addressDuration;</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        this.type=type;</b>
+<i class="no-highlight">38</i>&nbsp;    }
+<i class="no-highlight">39</i>&nbsp;
+<b class="nc"><i class="no-highlight">40</i>&nbsp;    public Address(){</b>
+<i class="no-highlight">41</i>&nbsp;    }
+<i class="no-highlight">42</i>&nbsp;
+<i class="no-highlight">43</i>&nbsp;    /**
+<i class="no-highlight">44</i>&nbsp;     * compute the name of the segments from an intersection
+<i class="no-highlight">45</i>&nbsp;     * @param intersection the intersection
+<i class="no-highlight">46</i>&nbsp;     * @param segmentsList the list of all segments
+<i class="no-highlight">47</i>&nbsp;     * @return the list of name
+<i class="no-highlight">48</i>&nbsp;     */
+<i class="no-highlight">49</i>&nbsp;    public static ArrayList&lt;String&gt; getStreetNames(Intersection intersection, ArrayList&lt;Segment&gt; segmentsList ) {
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        ArrayList&lt;String&gt; streetNames = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;        for (int i = 0; i &lt; segmentsList.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">52</i>&nbsp;            if (intersection.equals(segmentsList.get(i).getOrigin()) ||</b>
+<b class="nc"><i class="no-highlight">53</i>&nbsp;                    intersection.equals(segmentsList.get(i).getDestination())) {</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;                streetNames.add(segmentsList.get(i).getName());</b>
+<i class="no-highlight">55</i>&nbsp;            }
+<i class="no-highlight">56</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">57</i>&nbsp;        ArrayList&lt;String&gt; newList = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">58</i>&nbsp;        for (String element : streetNames) {</b>
+<b class="nc"><i class="no-highlight">59</i>&nbsp;            if (!newList.contains(element)) {</b>
+<b class="nc"><i class="no-highlight">60</i>&nbsp;                newList.add(element);</b>
+<i class="no-highlight">61</i>&nbsp;            }
+<i class="no-highlight">62</i>&nbsp;
+<b class="nc"><i class="no-highlight">63</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;        return newList;</b>
+<i class="no-highlight">65</i>&nbsp;    }
+<i class="no-highlight">66</i>&nbsp;
+<i class="no-highlight">67</i>&nbsp;    @Override
+<i class="no-highlight">68</i>&nbsp;    public boolean equals(Object o) {
+<b class="fc"><i class="no-highlight">69</i>&nbsp;        if (this == o){</b>
+<b class="fc"><i class="no-highlight">70</i>&nbsp;            return true;</b>
+<i class="no-highlight">71</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">72</i>&nbsp;        if ((o == null) || !(o instanceof Intersection)){</b>
+<b class="nc"><i class="no-highlight">73</i>&nbsp;            return false;</b>
+<i class="no-highlight">74</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">75</i>&nbsp;        if(o instanceof Address){</b>
+<b class="fc"><i class="no-highlight">76</i>&nbsp;            if (!(super.equals(o)) || (this.type!=((Address) o).type)){</b>
+<b class="fc"><i class="no-highlight">77</i>&nbsp;                return false;</b>
+<i class="no-highlight">78</i>&nbsp;            }
+<i class="no-highlight">79</i>&nbsp;        }else {
+<b class="fc"><i class="no-highlight">80</i>&nbsp;            if (!super.equals(o)) {</b>
+<b class="fc"><i class="no-highlight">81</i>&nbsp;                return false;</b>
+<i class="no-highlight">82</i>&nbsp;            }
+<i class="no-highlight">83</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">84</i>&nbsp;        return true;</b>
+<i class="no-highlight">85</i>&nbsp;    }
+<i class="no-highlight">86</i>&nbsp;
+<i class="no-highlight">87</i>&nbsp;    @Override
+<i class="no-highlight">88</i>&nbsp;    public int hashCode() {
+<b class="fc"><i class="no-highlight">89</i>&nbsp;        return super.hashCode();</b>
+<i class="no-highlight">90</i>&nbsp;    }
+<i class="no-highlight">91</i>&nbsp;
+<i class="no-highlight">92</i>&nbsp;    public int getAddressDuration() {
+<b class="nc"><i class="no-highlight">93</i>&nbsp;        return addressDuration;</b>
+<i class="no-highlight">94</i>&nbsp;    }
+<i class="no-highlight">95</i>&nbsp;
+<i class="no-highlight">96</i>&nbsp;    public void setAddressDuration(int addressDuration) {
+<b class="nc"><i class="no-highlight">97</i>&nbsp;        this.addressDuration = addressDuration;</b>
+<i class="no-highlight">98</i>&nbsp;    }
+<i class="no-highlight">99</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-11-09 23:11</div>
+</div>
+</body>
+</html>

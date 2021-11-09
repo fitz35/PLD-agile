@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Segment</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">Model</a>
+</div>
+
+<h1>Coverage Summary for Class: Segment (Model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Segment</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71,4%
+  </span>
+  <span class="absValue">
+    (5/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    54,2%
+  </span>
+  <span class="absValue">
+    (13/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package Model;
+<i class="no-highlight">2</i>&nbsp;import java.util.Objects;
+<i class="no-highlight">3</i>&nbsp;
+<i class="no-highlight">4</i>&nbsp;public class Segment {
+<i class="no-highlight">5</i>&nbsp;    /**
+<i class="no-highlight">6</i>&nbsp;     * The origin of the segment
+<i class="no-highlight">7</i>&nbsp;     */
+<i class="no-highlight">8</i>&nbsp;    private Intersection origin;
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;    /**
+<i class="no-highlight">11</i>&nbsp;     * The destination of the segment
+<i class="no-highlight">12</i>&nbsp;     */
+<i class="no-highlight">13</i>&nbsp;    private Intersection destination;
+<i class="no-highlight">14</i>&nbsp;
+<i class="no-highlight">15</i>&nbsp;    /**
+<i class="no-highlight">16</i>&nbsp;     * The name of the segment
+<i class="no-highlight">17</i>&nbsp;     */
+<i class="no-highlight">18</i>&nbsp;    private String name;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    /**
+<i class="no-highlight">21</i>&nbsp;     * The length of the segment
+<i class="no-highlight">22</i>&nbsp;     */
+<i class="no-highlight">23</i>&nbsp;    private double length;
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;    /**
+<i class="no-highlight">26</i>&nbsp;     * Constructor
+<i class="no-highlight">27</i>&nbsp;     * @param origin
+<i class="no-highlight">28</i>&nbsp;     * @param destination
+<i class="no-highlight">29</i>&nbsp;     * @param name
+<i class="no-highlight">30</i>&nbsp;     * @param length
+<i class="no-highlight">31</i>&nbsp;     */
+<b class="fc"><i class="no-highlight">32</i>&nbsp;    public Segment(Intersection origin, Intersection destination, String name, double length) {</b>
+<b class="fc"><i class="no-highlight">33</i>&nbsp;        this.origin = origin;</b>
+<b class="fc"><i class="no-highlight">34</i>&nbsp;        this.destination = destination;</b>
+<b class="fc"><i class="no-highlight">35</i>&nbsp;        this.name = name;</b>
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        this.length = length;</b>
+<i class="no-highlight">37</i>&nbsp;    }
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;    // ------- Getters -------
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;    /**
+<i class="no-highlight">42</i>&nbsp;     * @return origin
+<i class="no-highlight">43</i>&nbsp;     */
+<i class="no-highlight">44</i>&nbsp;    public Intersection getOrigin() {
+<b class="fc"><i class="no-highlight">45</i>&nbsp;        return origin;</b>
+<i class="no-highlight">46</i>&nbsp;    }
+<i class="no-highlight">47</i>&nbsp;
+<i class="no-highlight">48</i>&nbsp;    /**
+<i class="no-highlight">49</i>&nbsp;     * @return destination
+<i class="no-highlight">50</i>&nbsp;     */
+<i class="no-highlight">51</i>&nbsp;    public Intersection getDestination() {
+<b class="fc"><i class="no-highlight">52</i>&nbsp;        return destination;</b>
+<i class="no-highlight">53</i>&nbsp;    }
+<i class="no-highlight">54</i>&nbsp;
+<i class="no-highlight">55</i>&nbsp;    /**
+<i class="no-highlight">56</i>&nbsp;     * @return length
+<i class="no-highlight">57</i>&nbsp;     */
+<i class="no-highlight">58</i>&nbsp;    public double getLength() {
+<b class="fc"><i class="no-highlight">59</i>&nbsp;        return length;</b>
+<i class="no-highlight">60</i>&nbsp;    }
+<i class="no-highlight">61</i>&nbsp;
+<i class="no-highlight">62</i>&nbsp;    /**
+<i class="no-highlight">63</i>&nbsp;     * @return name
+<i class="no-highlight">64</i>&nbsp;     */
+<i class="no-highlight">65</i>&nbsp;    public String getName() {
+<b class="nc"><i class="no-highlight">66</i>&nbsp;        return name;</b>
+<i class="no-highlight">67</i>&nbsp;    }
+<i class="no-highlight">68</i>&nbsp;
+<i class="no-highlight">69</i>&nbsp;    @Override
+<i class="no-highlight">70</i>&nbsp;    public boolean equals(Object o) {
+<b class="fc"><i class="no-highlight">71</i>&nbsp;        if (this == o){</b>
+<b class="nc"><i class="no-highlight">72</i>&nbsp;            return true;</b>
+<i class="no-highlight">73</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">74</i>&nbsp;        if ((o == null) || (getClass() != o.getClass())){</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;            return false;</b>
+<i class="no-highlight">76</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">77</i>&nbsp;        Segment s = (Segment) o;</b>
+<b class="fc"><i class="no-highlight">78</i>&nbsp;        return (Objects.equals(origin, s.origin) &amp;&amp; Objects.equals(destination, s.destination))</b>
+<b class="fc"><i class="no-highlight">79</i>&nbsp;                    &amp;&amp; (Objects.equals(name, s.name) &amp;&amp; Objects.equals(length, s.length));</b>
+<i class="no-highlight">80</i>&nbsp;    }
+<i class="no-highlight">81</i>&nbsp;
+<i class="no-highlight">82</i>&nbsp;
+<i class="no-highlight">83</i>&nbsp;    public static void main(String[] args) {
+<b class="nc"><i class="no-highlight">84</i>&nbsp;        Intersection a = new Intersection(1, 20, 20);</b>
+<b class="nc"><i class="no-highlight">85</i>&nbsp;        Intersection b = new Intersection(2, 25, 20);</b>
+<b class="nc"><i class="no-highlight">86</i>&nbsp;        Intersection c = new Intersection(3, 25, 30);</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;        Intersection d = new Intersection(4, 15, 25);</b>
+<b class="nc"><i class="no-highlight">88</i>&nbsp;        Segment s1 = new Segment(a, b, &quot;AB&quot;, 30);</b>
+<b class="nc"><i class="no-highlight">89</i>&nbsp;        Segment s2 = new Segment(c, d, &quot;CD&quot;, 25);</b>
+<b class="nc"><i class="no-highlight">90</i>&nbsp;        System.out.println(&quot;test d&#39;égalité de s1 et s2&quot;);</b>
+<b class="nc"><i class="no-highlight">91</i>&nbsp;        s1.equals(s2);</b>
+<i class="no-highlight">92</i>&nbsp;    }
+<i class="no-highlight">93</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-11-09 23:11</div>
+</div>
+</body>
+</html>
