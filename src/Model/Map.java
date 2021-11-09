@@ -526,7 +526,7 @@ public class Map extends MapInterface {
     }
 
     /**
-     * Find all shortest path from a starting point
+     * Find all shortest paths from a starting point
      * @param startIntersection
      * @return pi the precedence table, for each intersection we have the shortest segment to go to another intersection
      */
@@ -568,7 +568,7 @@ public class Map extends MapInterface {
     }
 
     /**
-     * Find an optimal tour
+     * Find the optimal tour to be followed
      * @param timeout the timeout (milliseconds)
      */
     @Override
@@ -731,20 +731,5 @@ public class Map extends MapInterface {
         Collections.reverse(newPathComposition);
         newPath.setSegmentsOfPath(newPathComposition);
         return newPath;
-    }
-
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
-        Map map = new Map();
-        map.loadMap("tests/ressource/mapTour.xml");
-        map.loadRequest("tests/ressource/requestTour.xml");
-        map.computeTour(200000000);
-        Tour tour = map.getTour();
-        LinkedList<Path> result=tour.getOrderedPathList();
-        for(Path path:result){
-            System.out.println("Path : "+ path.getDeparture().getId()+"   "+path.getArrival().getId());
-            for(Segment seg: path.getSegmentsOfPath()){
-                System.out.println(seg.getOrigin().getId()+"   "+seg.getDestination().getId());
-            }
-        }
     }
 }
