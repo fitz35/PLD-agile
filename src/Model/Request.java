@@ -2,6 +2,9 @@ package Model;
 
 import java.util.Objects;
 
+/**
+ * Class that represents each request. It has a pick up address and a delivery address
+ */
 public class Request {
     /**
      * The pickup address of the request

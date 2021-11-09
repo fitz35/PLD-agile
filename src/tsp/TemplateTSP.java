@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * In our representation for solving this given problem, we assume that we need always to visit the vertex p= 2n+1
+ * before visiting the vertex q = 2n+2. This is why we have a unvisited and unvisitable list
+ */
 public abstract class TemplateTSP implements TSP {
 	/**
 	 * Ordered list of vertex to visit, best solution found yet
