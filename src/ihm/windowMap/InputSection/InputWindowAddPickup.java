@@ -103,11 +103,13 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         errorMessage= new JLabel("Error");
         errorMessage.setBounds(20, 260, 600,30);
         errorMessage.setFont(new Font("Serif", Font.BOLD, 10));
+        errorMessage.setForeground(ColorPalette.errorMessage);
         errorMessage.setVisible(false);
 
         errorMessage2= new JLabel("Error");
         errorMessage2.setBounds(10, 410, 200,30);
         errorMessage2.setFont(new Font("Serif", Font.BOLD, 10));
+        errorMessage2.setForeground(ColorPalette.errorMessage);
         errorMessage2.setVisible(false);
 
         instructionsChoosePointOfInterestBefore=new JLabel("Choose the point Of Interest to be visited before the new pickup by clicking ");
@@ -236,7 +238,13 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         this.repaint();
     }
 
-
+    /**
+     * set an error with this address
+     */
+    public void setErrorMessage(){
+        errorMessage.setText("Pickup unreachable, please choose another one");
+        errorMessage.setVisible(true);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

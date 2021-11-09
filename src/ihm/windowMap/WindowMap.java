@@ -1,5 +1,6 @@
 package ihm.windowMap;
 
+import Model.Address;
 import Model.MapInterface;
 import controller.Controller;
 import controller.state.*;
@@ -135,10 +136,14 @@ public class WindowMap extends Frame implements Observer //implements ActionList
             inputPanel.setErrorMsg((String)arg);
             this.revalidate();
             this.repaint();
+        }else if (o instanceof MapInterface && arg instanceof Address address){ // error with adding
+            if(address.getType() == 1){
+                inputWindowAddPickup.setErrorMessage();
+            }else{
+                inputWindowAddDelivery.setErrorMessage();
+            }
         }
-
-        if(o instanceof MapInterface && !(arg instanceof String))
-        {
+        else if(o instanceof MapInterface) {
             mapPanel.displayMap((MapInterface) o);
             inputPanel.setErrorMsg("");
             panelWithRequests.updatePlanningRequestNotNull();

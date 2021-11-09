@@ -397,6 +397,22 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             }
         }
 
+        // Verification if we can do an undo or a redo
+        int availability = controller.getListOfCommands().undoRedoAvailability();
+        if(availability == 0){
+            redoButton.setEnabled(false);
+            undoButton.setEnabled(false);
+        }else if(availability == 1){
+            redoButton.setEnabled(false);
+            undoButton.setEnabled(true);
+        }else if (availability == 2){
+            undoButton.setEnabled(false);
+            redoButton.setEnabled(true);
+        }else if (availability == 3){
+            undoButton.setEnabled(true);
+            redoButton.setEnabled(true);
+        }
+
         wayBillText();
     }
 
@@ -421,6 +437,22 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         {
             this.remove(addRequest);
             controller.addNewRequest();
+        }
+
+        if(e.getSource() == this.undoButton) {
+            try{
+                controller.undo();
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+
+        if (e.getSource() == this.redoButton) {
+            try{
+                controller.redo();
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
         }
 
         if(e.getSource() == wayRouteButton){
