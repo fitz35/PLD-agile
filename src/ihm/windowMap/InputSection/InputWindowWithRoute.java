@@ -46,6 +46,10 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     private static JLabel text1;
     private JLabel text2;
     private JLabel startDateLabel;
+    private JLabel total;
+
+
+    private int totalTour=0;
 
     private JScrollBar verticalScrollerTour;
 
@@ -69,6 +73,9 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         text2.setBounds(30, 70, 600, 40);
         text2.setFont(new Font("Serif", Font.BOLD, 25));
 
+        total = new JLabel();
+        total.setBounds(100, 100, 400, Frame.height/10);
+        total.setFont(new Font("Serif", Font.BOLD, 15));
 
         verticalScrollerTour = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
         verticalScrollerTour.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));
@@ -111,6 +118,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         this.add(undoButton);
         this.add(redoButton);
         this.add(wayRouteButton);
+        this.add(total);
+
 
         this.revalidate();
         this.repaint();
@@ -207,6 +216,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     public void wayBillText(){
         ArrayList <String> listStreetNames;
         LinkedList <Segment> listSegmentPath;
+        totalTour=0;
         if(controller.getMap().getTour()!=null && controller.getMap().getTour().getOrderedPathList()!=null) {
             pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();
 
@@ -255,6 +265,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     }
                     textAreaWayBill.append("\nWhich is going to last "+ pathListOptimalTour.get(i).getDeparture().getAddressDuration() + " seconds"
                             +"  to arrive to the next point at : " + getString(hours) + ":" + getString(minutes) + "\n" );
+                    totalTour += pathListOptimalTour.get(i).getDeparture().getAddressDuration();
                     if (i != pathListOptimalTour.size() - 1) {
                         textAreaWayBill.append("Then, \n");
                     }
@@ -280,6 +291,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                             textAreaWayBill.append(listStreetNames.get(n) + ", ");
                         }
                     }
+                    textAreaWayBill.append("\nThis delivery will last "+ getString(computeTime(totalTour)[0])+"h"+getString(computeTime(totalTour)[1])+"min");
 
 
                 }
@@ -290,6 +302,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     public void updatePlanningRequestOptimalTour() {
 
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
+        totalTour=0;
         this.add(verticalScrollerTour);
         this.add(wayRouteButton);
         this.add(deleteRequestTextually);
@@ -358,6 +371,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                                     ", " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(1)+
                                     " <br />   Duration : " + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + "</html>");
                         }
+                        totalTour = totalTour + pathListOptimalTour.get(i).getDeparture().getAddressDuration();
+
 
                     }
                     pathButton.setHorizontalAlignment(SwingConstants.LEFT);
@@ -405,7 +420,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     this.add(listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
                 }
 
-
+                total.setText("The duration of the tour: "+getString(computeTime(totalTour)[0])+"h"+getString(computeTime(totalTour)[1])+"min");
+                this.add(total);
                 this.add(text2);
             }
         }

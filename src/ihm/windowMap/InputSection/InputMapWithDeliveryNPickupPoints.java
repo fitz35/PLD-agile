@@ -47,6 +47,7 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
 
     private JPanel requests;
     private JLabel text;
+
     private static JLabel text1;
 
 
@@ -85,6 +86,7 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
         backToLoadRequest.setBounds(460, 10, 100, 30);
         backToLoadRequest.addActionListener(this);
 
+
         this.add(verticalScroller);
         this.add(backToLoadRequest);
         this.add(findOptimalRoute);
@@ -116,11 +118,11 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
         //Give numbers to pickup and delivery points
         Graphics2D g3d = (Graphics2D) g;
         g3d.setColor(ColorPalette.texte);
-        for (int i = 0; i < 5; i++) {
+        /*for (int i = 0; i < 5; i++) {
             int num = verticalScroller.getValue() * 5 + i;
             g3d.drawString("" + (num + 1), 60, 175 + (i * 110));
             g3d.drawString("" + (num + 1), 60, 215 + (i * 110));
-        }
+        }*/
     }
 
     /**
@@ -179,6 +181,7 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                         Address.getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint(), controller.getMap().getSegmentList()).get(0)+
                         ", "+Address.getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint(), controller.getMap().getSegmentList()).get(1));
             }
+
             startingPointLatLong.setBackground(ColorPalette.inputPannel);
             startingPointLatLong.setBorderPainted(false);
             startingPointLatLong.setBounds(100, 110, 420, 20);
@@ -261,6 +264,7 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 deliveryDuration.setBorderPainted(false);
                 deliveryDuration.setHorizontalAlignment(SwingConstants.LEFT);
                 listDeliveryDurationButton.add(deliveryDuration);
+
 
             }
 
