@@ -66,6 +66,10 @@ public class Tour{
             this.orderedPathList.remove(oldPath);
             this.originPathMap.remove(oldPath.getDeparture());
             this.destinationPathMap.remove(oldPath.getArrival());
+            this.originPathMap.put(newPath1.getDeparture(),newPath1);
+            this.originPathMap.put(newPath2.getDeparture(),newPath2);
+            this.destinationPathMap.put(newPath1.getArrival(),newPath1);
+            this.destinationPathMap.put(newPath2.getArrival(),newPath2);
         }
     }
 

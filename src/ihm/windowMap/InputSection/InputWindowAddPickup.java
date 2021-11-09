@@ -284,10 +284,8 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
             }
             else
             {
-
                 controller.chooseBeforNewPickup(intersection2);
                 updatePanel();
-
             }
 
         }

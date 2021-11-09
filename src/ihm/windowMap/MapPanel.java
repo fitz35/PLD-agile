@@ -430,9 +430,9 @@ public class MapPanel extends JPanel implements MouseListener
         int originPixelY= pixelCoordsOrigin[1];
         int destinationPixelX= pixelCoordsDestination[0];
         int destinationPixelY= pixelCoordsDestination[1];
+
         AffineTransform tx = new AffineTransform();
         Line2D.Double line = new Line2D.Double((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
-
         Polygon arrowHead = new Polygon();
         arrowHead.addPoint( 0,0);
         arrowHead.addPoint( -3, -3);
@@ -441,13 +441,29 @@ public class MapPanel extends JPanel implements MouseListener
         //System.out.println(originPixelX + "."+ originPixelY+ "."+ destinationPixelX+ "."+ destinationPixelY);
         tx.setToIdentity();
         double angle = Math.atan2(line.y2-line.y1, line.x2-line.x1);
-        tx.translate(line.x2, line.y2);
+        /*tx.translate(line.x2, line.y2);
+        tx.rotate((angle-Math.PI/2d));*/
+        /*double angle = Math.atan2((int)destinationPixelY-(int)originPixelY, (int)destinationPixelX-(int)originPixelX);
+        tx.translate((int)destinationPixelX, (int)destinationPixelY);
+        tx.rotate(angle);*/
+        /*int a = ((int)originPixelY-(int)destinationPixelY)/((int)originPixelX-(int)destinationPixelX);
+        int b = (int)originPixelY-a*(int)originPixelX;*/
+        Polygon tri = new Polygon();
+        tri.addPoint((int)destinationPixelX, (int)destinationPixelY);
+        tri.addPoint((int)destinationPixelX-3, (int)destinationPixelY-3);
+        tri.addPoint((int)destinationPixelX+3, (int)destinationPixelY-3);
+        /*tri.addPoint(-3, -3);
+        tri.addPoint(3, -3);*/
         tx.rotate((angle-Math.PI/2d));
-
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setTransform(tx);
+        g.drawPolygon(tri);
+
+        /*Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setTransform(tx);
         g2d.fill(arrowHead);
-        g2d.dispose();
+        g2d.dispose();*/
+
     }
 
     /**
