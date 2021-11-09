@@ -2,14 +2,8 @@ package ihm.windowMap;
 
 import Model.*;
 import controller.Controller;
-import controller.state.AddRequestState1;
-import controller.state.AddRequestState2;
-import controller.state.AddRequestState3;
-import controller.state.AddRequestState4;
-import ihm.windowMap.InputSection.InputMapWithDeliveryNPickupPoints;
-import ihm.windowMap.InputSection.InputWindowAddDelivery;
-import ihm.windowMap.InputSection.InputWindowAddPickup;
-import ihm.windowMap.InputSection.InputWindowWithRoute;
+import controller.state.*;
+import ihm.windowMap.InputSection.*;
 
 
 import javax.swing.*;
@@ -35,6 +29,7 @@ public class MapPanel extends JPanel implements MouseListener
     private InputWindowAddPickup inputWindowAddPickup;
     private InputWindowAddDelivery inputWindowAddDelivery;
     private InputWindowWithRoute inputWindowWithRoute;
+    private InputWindowDeleteIntersection inputWindowDeleteIntersection;
     private Controller controller;
 
     private boolean highlightStartingNumber = false;
@@ -48,7 +43,8 @@ public class MapPanel extends JPanel implements MouseListener
 
     public MapPanel(InputMapWithDeliveryNPickupPoints inputMapWithDeliveryNPickupPoints,
                     InputWindowWithRoute inputWindowWithRoute,
-                    InputWindowAddPickup inputWindowAddPickup, Controller controller,InputWindowAddDelivery inputWindowAddDelivery)
+                    InputWindowAddPickup inputWindowAddPickup, Controller controller, InputWindowAddDelivery inputWindowAddDelivery,
+                    InputWindowDeleteIntersection inputWindowDeleteIntersection)
     {
         super();
         this.setLayout(null);
@@ -58,6 +54,7 @@ public class MapPanel extends JPanel implements MouseListener
         this.inputWindowWithRoute = inputWindowWithRoute;
         this.controller=controller;
         this.inputWindowAddDelivery=inputWindowAddDelivery;
+        this.inputWindowDeleteIntersection = inputWindowDeleteIntersection;
 
         this.inputWindowAddPickup=inputWindowAddPickup;
         this.setBackground(ColorPalette.mapBackground);
@@ -310,6 +307,49 @@ public class MapPanel extends JPanel implements MouseListener
         //System.out.println(intersectionResult.getLatitude()+ "."+ intersectionResult.getLongitude());
         return intersectionResult;
     }
+
+    /**
+     * get the distance from a point to a segment
+     * @param pX x coordinate from the point
+     * @param pY y coordinate from the point
+     * @param s1X x coordinate from the first point of the segment
+     * @param s1Y y coordinate from the first point of the segment
+     * @param s2X x coordinate from the second point of the segment
+     * @param s2Y y coordinate from the second point of the segment
+     * @return the minimal distance
+     */
+    public static double getDistanceFromPointToSegment(int pX, int pY, int s1X, int s1Y, int s2X, int s2Y){
+        int distXPixelToOrigin = pX - s1X;
+        int distYPixelToOrigin = pY - s1Y;
+        int distXSegment = s2X - s1X;
+        int distYSegment = s2Y - s1Y;
+
+        int dot = distXPixelToOrigin * distXSegment + distYPixelToOrigin * distYSegment;
+        int len_sq = distXSegment * distXSegment + distYSegment * distYSegment;
+        int param = -1;
+        if (len_sq != 0) //in case of 0 length line
+            param = dot / len_sq;
+
+        int xx, yy;
+
+        if (param < 0) {
+            xx = s1X;
+            yy = s1Y;
+        } else if (param > 1) {
+            xx = s2X;
+            yy = s2Y;
+        } else {
+            xx = s1X + param * distXSegment;
+            yy = s1Y + param * distYSegment;
+        }
+
+        int dx = pX - xx;
+        int dy = pY - yy;
+
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+
     /**
      * get the closest segment to a point
      * @param pixelX the x coordinate of the point
@@ -328,35 +368,7 @@ public class MapPanel extends JPanel implements MouseListener
             int[] origin = convertIntersectionToPixel(s.getOrigin(), height, map, border);
             int[] destination = convertIntersectionToPixel(s.getDestination(), height, map, border);
 
-            // compute the distance
-            int distXPixelToOrigin = pixelX - origin[0];
-            int distYPixelToOrigin = pixelY - origin[1];
-            int distXSegment = destination[0] - origin[0];
-            int distYSegment = destination[1] - origin[1];
-
-            int dot = distXPixelToOrigin * distXSegment + distYPixelToOrigin * distYSegment;
-            int len_sq = distXSegment * distXSegment + distYSegment * distYSegment;
-            int param = -1;
-            if (len_sq != 0) //in case of 0 length line
-                param = dot / len_sq;
-
-            int xx, yy;
-
-            if (param < 0) {
-                xx = origin[0];
-                yy = origin[1];
-            } else if (param > 1) {
-                xx = destination[0];
-                yy = destination[1];
-            } else {
-                xx = origin[0] + param * distXSegment;
-                yy = origin[1] + param * distYSegment;
-            }
-
-            int dx = pixelX - xx;
-            int dy = pixelY - yy;
-
-            double distance = Math.sqrt(dx * dx + dy * dy);
+            double distance = getDistanceFromPointToSegment(pixelX, pixelY, origin[0], origin[1], destination[0], destination[1]);
             if(distance < minDistance) {
                 minDistance = distance;
                 minSegment = s;
@@ -433,9 +445,9 @@ public class MapPanel extends JPanel implements MouseListener
         int originPixelY= pixelCoordsOrigin[1];
         int destinationPixelX= pixelCoordsDestination[0];
         int destinationPixelY= pixelCoordsDestination[1];
+
         AffineTransform tx = new AffineTransform();
         Line2D.Double line = new Line2D.Double((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
-
         Polygon arrowHead = new Polygon();
         arrowHead.addPoint( 0,0);
         arrowHead.addPoint( -3, -3);
@@ -444,13 +456,29 @@ public class MapPanel extends JPanel implements MouseListener
         //System.out.println(originPixelX + "."+ originPixelY+ "."+ destinationPixelX+ "."+ destinationPixelY);
         tx.setToIdentity();
         double angle = Math.atan2(line.y2-line.y1, line.x2-line.x1);
-        tx.translate(line.x2, line.y2);
+        /*tx.translate(line.x2, line.y2);
+        tx.rotate((angle-Math.PI/2d));*/
+        /*double angle = Math.atan2((int)destinationPixelY-(int)originPixelY, (int)destinationPixelX-(int)originPixelX);
+        tx.translate((int)destinationPixelX, (int)destinationPixelY);
+        tx.rotate(angle);*/
+        /*int a = ((int)originPixelY-(int)destinationPixelY)/((int)originPixelX-(int)destinationPixelX);
+        int b = (int)originPixelY-a*(int)originPixelX;*/
+        Polygon tri = new Polygon();
+        tri.addPoint((int)destinationPixelX, (int)destinationPixelY);
+        tri.addPoint((int)destinationPixelX-3, (int)destinationPixelY-3);
+        tri.addPoint((int)destinationPixelX+3, (int)destinationPixelY-3);
+        /*tri.addPoint(-3, -3);
+        tri.addPoint(3, -3);*/
         tx.rotate((angle-Math.PI/2d));
-
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.setTransform(tx);
+        g.drawPolygon(tri);
+
+        /*Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setTransform(tx);
         g2d.fill(arrowHead);
-        g2d.dispose();
+        g2d.dispose();*/
+
     }
 
     /**
@@ -523,6 +551,12 @@ public class MapPanel extends JPanel implements MouseListener
                 i=getNearestPointOfInterest(PixelX,PixelY, mapSize);
                 inputWindowAddDelivery.updateIntersectionClicked(i);
                 inputWindowAddDelivery.updatePanel();
+            }
+            if(controller.getStateController() instanceof DeleteRequest)
+            {
+                i=getNearestPointOfInterest(PixelX,PixelY, mapSize);
+                inputWindowDeleteIntersection.updateIntersectionClicked(i);
+                inputWindowDeleteIntersection.updatePlanningRequestOptimalTour();
             }
 
         }

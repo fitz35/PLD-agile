@@ -1,5 +1,6 @@
 package ihm.windowMap.InputSection;
 
+import Model.Address;
 import Model.Intersection;
 import Model.Request;
 import Model.Tour;
@@ -14,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class InputWindowAddPickup extends InputBase implements ActionListener
 {
@@ -101,11 +103,13 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         errorMessage= new JLabel("Error");
         errorMessage.setBounds(20, 260, 600,30);
         errorMessage.setFont(new Font("Serif", Font.BOLD, 10));
+        errorMessage.setForeground(ColorPalette.errorMessage);
         errorMessage.setVisible(false);
 
         errorMessage2= new JLabel("Error");
         errorMessage2.setBounds(10, 410, 200,30);
         errorMessage2.setFont(new Font("Serif", Font.BOLD, 10));
+        errorMessage2.setForeground(ColorPalette.errorMessage);
         errorMessage2.setVisible(false);
 
         instructionsChoosePointOfInterestBefore=new JLabel("Choose the point Of Interest to be visited before the new pickup by clicking ");
@@ -145,33 +149,22 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         Graphics2D g3d = (Graphics2D) g;
     }
 
-  /*  public JLabel getStepSummary()
-    {
-        return stepSummary;
-    }
-    public JLabel getStepSummary2()
-    {
-        return stepSummary2;
-    }
-    public JLabel getStepSummary3()
-    {
-        return stepSummary3;
-    }
-    public JLabel getStepSummary4()
-    {
-        return stepSummary4;
-    }*/
-
    public void updateIntersectionClicked(Intersection intersection)
     {
+        ArrayList<String> names = Address.getStreetNames(intersection, controller.getMap().getSegmentList());
+        String stringToAppend = "";
+        for(int i = 0 ; i < 2 && i < names.size() ; i++){
+            if(i != 0)  stringToAppend += ", ";
+            stringToAppend += names.get(i);
+        }
         if(controller.getStateController() instanceof AddRequestState1) {
             this.intersection = intersection;
-            stepSummary.setText("You have clicked on the intersection"+intersection);
+            stepSummary.setText("You have clicked on the intersection "+stringToAppend);
             stepSummary2.setText("To choose another point, click on another intersection on the map");
         }
         else if(controller.getStateController() instanceof AddRequestState2){
             this.intersection2 = intersection;
-            stepSummary3.setText("You have clicked on the intersection"+intersection2);
+            stepSummary3.setText("You have clicked on the intersection "+stringToAppend);
             stepSummary4.setText("To choose another point, click on another intersection on the map");
         }
     }
@@ -245,7 +238,13 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         this.repaint();
     }
 
-
+    /**
+     * set an error with this address
+     */
+    public void setErrorMessage(){
+        errorMessage.setText("Pickup unreachable, please choose another one");
+        errorMessage.setVisible(true);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -282,6 +281,7 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
                 errorMessage.setVisible(true);
             }
 
+
         }
         if(e.getSource()==validateBeforePickup)
         {
@@ -292,10 +292,8 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
             }
             else
             {
-
                 controller.chooseBeforNewPickup(intersection2);
                 updatePanel();
-
             }
 
         }

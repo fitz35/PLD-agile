@@ -19,7 +19,12 @@ public class DeliveryGraph implements Graph{
     public DeliveryGraph(ArrayList<Address> nodesToVisit) {
         this.verticeCompositionList = new LinkedList<>();
         this.nodesToVisit = nodesToVisit;
-        this.nbVertices = nodesToVisit.size();
+        if(nodesToVisit!=null){
+            this.nbVertices = nodesToVisit.size();
+        }else{
+            this.nbVertices=0;
+        }
+
         this.cost = new double[this.nbVertices][this.nbVertices];
         for(int i = 0; i<cost.length; i++){
             cost[i][i] = -1;

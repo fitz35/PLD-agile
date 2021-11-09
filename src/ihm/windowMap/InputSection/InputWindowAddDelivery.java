@@ -1,5 +1,6 @@
 package ihm.windowMap.InputSection;
 
+import Model.Address;
 import Model.Intersection;
 import Model.Request;
 import Model.Tour;
@@ -14,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class InputWindowAddDelivery extends InputBase implements ActionListener
 {
@@ -100,11 +102,13 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         errorMessage= new JLabel("Error");
         errorMessage.setBounds(20, 260, 600,30);
         errorMessage.setFont(new Font("Serif", Font.BOLD, 10));
+        errorMessage.setForeground(ColorPalette.errorMessage);
         errorMessage.setVisible(false);
 
         errorMessage2= new JLabel("Error");
         errorMessage2.setBounds(10, 410, 200,30);
         errorMessage2.setFont(new Font("Serif", Font.BOLD, 10));
+        errorMessage2.setForeground(ColorPalette.errorMessage);
         errorMessage2.setVisible(false);
 
         instructionsChoosePointOfInterestBefore=new JLabel("Choose the point Of Interest to be visited before the new delivery by clicking ");
@@ -144,22 +148,35 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         Graphics2D g3d = (Graphics2D) g;
     }
 
-
+    /**
+     * update the intersection from the map
+     * @param intersection the intersection
+     */
     public void updateIntersectionClicked(Intersection intersection)
     {
+
+        ArrayList<String> names = Address.getStreetNames(intersection, controller.getMap().getSegmentList());
+        String stringToAppend = "";
+        for(int i = 0 ; i < 2 && i < names.size() ; i++){
+            if(i != 0)  stringToAppend += ", ";
+            stringToAppend += names.get(i);
+        }
         if(controller.getStateController() instanceof AddRequestState3) {
             System.out.println("In update intersection in delivery panel");
             this.intersection = intersection;
-            stepSummary.setText("You have clicked on the intersection"+intersection);
+            stepSummary.setText("You have clicked on the intersection "+stringToAppend );
             stepSummary2.setText("To choose another point, click on another intersection on the map");
         }
         else if(controller.getStateController() instanceof AddRequestState4){
             this.intersection2 = intersection;
-            stepSummary3.setText("You have clicked on the intersection"+intersection2);
+            stepSummary3.setText("You have clicked on the intersection "+stringToAppend);
             stepSummary4.setText("To choose another point, click on another intersection on the map");
         }
     }
 
+    /**
+     * set all the componnent to invisible
+     */
     public void setAllInvisible()
     {
         if(this.controller.getStateController() instanceof AddRequestState3 ) {
@@ -194,6 +211,9 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
     }
 
 
+    /**
+     * update this panel
+     */
     public void updatePanel()
     {
 
@@ -229,7 +249,13 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         this.repaint();
     }
 
-
+    /**
+     * set an error with this address
+     */
+    public void setErrorMessage(){
+        errorMessage.setText("Delivery unreachable, please choose another one");
+        errorMessage.setVisible(true);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
