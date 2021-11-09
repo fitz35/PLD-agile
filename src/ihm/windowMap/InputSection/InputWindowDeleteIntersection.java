@@ -178,7 +178,7 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
                 JOptionPane.showMessageDialog(null,"You can't delete the starting point","Error",JOptionPane.INFORMATION_MESSAGE);
             }
             for(int i=0;i<requestsList.size();i++){
-                if(requestsList.get(i).getPickupAddress()==intersection){
+                if(requestsList.get(i).getPickupAddress()==intersection && requestsList.size()>1){
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the pickup "+ (i+1)+ "?", "Delete a pickup", JOptionPane.YES_NO_OPTION);
                     if(answer==0){
                         this.removeAll();
@@ -186,16 +186,15 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
                         controller.selectRequestToDelete(requestsList.get(i).getPickupAddress()); //Delete the chosen point
 
                     }
-                }else if(requestsList.get(i).getDeliveryAddress()==intersection){
+                }else if(requestsList.get(i).getDeliveryAddress()==intersection && requestsList.size()>1){
                     answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the delivery "+(i+1)+ "?", "Delete a delivery", JOptionPane.YES_NO_OPTION);
                     if(answer==0){
                         this.removeAll();
                         this.add(backToLoadRequest);
                         controller.selectRequestToDelete(requestsList.get(i).getDeliveryAddress()); //Delete the chosen point
                     }
-                }else{
-                    //JOptionPane.showMessageDialog(null,"Please choose a pickup or a delivery point which exists","Delete",JOptionPane.INFORMATION_MESSAGE);
-                    //Cas limite
+                }else if(!(intersection.equals(controller.getMap().getPlanningRequest().getStartingPoint()))){
+                    JOptionPane.showMessageDialog(null,"Impossible to delete : Only one request left ","Error",JOptionPane.INFORMATION_MESSAGE);//Cas limite
                 }
             }
 
@@ -353,27 +352,32 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
 
 
         //Delete request
-        //getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture());
 
-            for (int j = 0; j < listDeleteButton.size(); j++) {
-                int answer;
-                //Use of the substring : The imageIcon of e.getSource() and the button aren't the same
-                if (e.getSource().toString().substring(0, 50).equals(listDeleteButton.get(j).toString().substring(0, 50))) {
-                    if (j == 0) {
-                        answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the departure? ", "Delete the departure", JOptionPane.YES_NO_OPTION);
-                    } else if (j == listDeleteButton.size() - 1) {
-                        answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the arrival? ", "Delete the arrival", JOptionPane.YES_NO_OPTION);
+        for (int j = 0; j < listDeleteButton.size(); j++) {
+            int answer=-1;
+            //System.out.println(listDeleteButton.size());
+            //Use of the substring : The imageIcon of e.getSource() and the button aren't the same
+            if (e.getSource().toString().substring(0, 50).equals(listDeleteButton.get(j).toString().substring(0, 50))) {
+                if (j == 0) {
+                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the departure? ", "Delete the departure", JOptionPane.YES_NO_OPTION);
+                } else if (j == listDeleteButton.size() - 1) {
+                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the arrival? ", "Delete the arrival", JOptionPane.YES_NO_OPTION);
 
-                    } else {
+                } else {
+                    if(listDeleteButton.size()>4) {
                         answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
-                    }
-                    if (answer == 0) {
-                        this.removeAll();
-                        this.add(backToLoadRequest);
-                        controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Impossible to delete : Only one request left","Error",JOptionPane.INFORMATION_MESSAGE);
+
                     }
                 }
+                if (answer == 0) {
+                    this.removeAll();
+                    this.add(backToLoadRequest);
+                    controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+                }
             }
+        }
 
     }
 
