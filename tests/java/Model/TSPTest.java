@@ -2,9 +2,14 @@ package Model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tsp.CompleteGraph;
 import tsp.Graph;
+import tsp.TSP;
+import tsp.TSP1;
 
 import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TSPTest {
     private Graph completeGraph;
@@ -27,5 +32,25 @@ public class TSPTest {
         solutions.add(solution9V);
         solutions.add(solution11V);
         solutions.add(solution13V);
+    }
+
+    @Test
+    void TSPTest(){
+        int problemIndex = 0;
+        for (int nbVertices = 3; nbVertices <= 13; nbVertices += 2){
+            TSP tsp = new TSP1();
+            System.out.println("Graphs with "+nbVertices+" vertices:");
+            Graph g = new CompleteGraph(nbVertices);
+            long startTime = System.currentTimeMillis();
+            tsp.searchSolution(200000000, g);
+            System.out.print("Solution of cost "+tsp.getSolutionCost()+" found in "
+                    +(System.currentTimeMillis() - startTime)+"ms : ");
+            for (int i=0; i<nbVertices; i++){
+                System.out.print(tsp.getSolution(i)+" ");
+                assertEquals(solutions.get(problemIndex)[i], tsp.getSolution(i));
+            }
+            System.out.println("0");
+            problemIndex++;
+        }
     }
 }
