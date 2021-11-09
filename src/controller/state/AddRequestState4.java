@@ -26,12 +26,13 @@ public class AddRequestState4 implements StateController{
             controller.getListOfCommands().add(myCommandToExecute);
             controller.setStateController(new FirstTourComputed());
         }catch (Exception e){
+            boolean issue = true;
             if(e.getMessage() == "newPickup unreacheble")
             {
-                controller.setStateController(new AddRequestState1());
+                controller.setStateController(new AddRequestState1(issue));
             }else if(e.getMessage() == "newDelivery unreacheble")
             {
-                controller.setStateController(new AddRequestState3(newPickup,beforNewPickup));
+                controller.setStateController(new AddRequestState3(newPickup,beforNewPickup,issue));
             }else{
                 e.printStackTrace();
             }
