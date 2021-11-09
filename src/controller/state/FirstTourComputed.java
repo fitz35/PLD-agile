@@ -27,7 +27,8 @@ public class FirstTourComputed implements StateController {
 
     @Override
     public void back(Controller controller){
-        controller.setStateController(new RequestLoaded());
+        controller.setStateController(new MapLoaded());
         controller.getMap().resetTour();
+        controller.getMap().resetPlanningRequest();
     }
 }

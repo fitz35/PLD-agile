@@ -626,6 +626,29 @@ class MapTest extends Observable {
     }
 
     @Test
+    void computeTestTimeout(){
+        try{
+            map.loadMap("tests/ressource/mapTour.xml");
+            assert(map.isMapLoaded());
+            map.loadRequest("tests/ressource/requestTour.xml");
+            assert(map.isPlanningLoaded());
+        }catch (Exception e){
+            e.printStackTrace();
+            exceptionRaised=true;
+        }
+        assert(!exceptionRaised);
+        LinkedList<Path> theoricalTour=createTheoricalTour();
+        map.computeTour(0);
+        LinkedList<Path> calculatedTour=map.getTour().getOrderedPathList();
+        assert(map.getTimedOutError()==1);
+        assert(theoricalTour!=calculatedTour);
+        map.continueTour(200);
+        assert(map.getTimedOutError()==0);
+        calculatedTour=map.getTour().getOrderedPathList();
+        assertEquals(theoricalTour,calculatedTour);
+    }
+
+    @Test
     void testDeleteRequest1(){
         Map map = new Map();
         try{

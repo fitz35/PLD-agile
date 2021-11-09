@@ -30,7 +30,14 @@ public class PlanningRequest {
      * List with all addresses
      */
     private ArrayList<Address> addressList;
-    private boolean adressRCreated = false;
+    /**
+     * false if adaddressList was not created yet
+     */
+    private boolean addressRCreated = false;
+    /**
+     * Original planning request, as loaded from an XML file
+     */
+    private ArrayList<Request> originalPlanningRequest;
 
 
     /**
@@ -49,6 +56,7 @@ public class PlanningRequest {
      */
     public PlanningRequest(ArrayList<Request> requestArrayList, Date departureTime, Intersection startingPoint) {
         this.requestList = requestArrayList;
+        this.originalPlanningRequest = requestArrayList;
         this.departureTime = departureTime;
         this.startingPoint = startingPoint;
         initAddressMap();
@@ -106,7 +114,7 @@ public class PlanningRequest {
      * point of each request
      */
     public ArrayList<Address> getListAddress() {
-        if(adressRCreated){
+        if(addressRCreated){
             // System.out.println("Si pb lorsqu'on efface un planning puis on en créer un nouveau voir ic (PlanningRequest l57)");
             return addressList;
         }else {
@@ -120,7 +128,7 @@ public class PlanningRequest {
                 addressList.add(req.getPickupAddress());
                 addressList.add(req.getDeliveryAddress());
             }
-            adressRCreated = true;
+            addressRCreated = true;
             return addressList;
         }
     }
@@ -206,9 +214,14 @@ public class PlanningRequest {
         addressRequestHashMap.remove(requestToRemove.getPickupAddress());
         addressRequestHashMap.remove(requestToRemove.getDeliveryAddress());
     }
-    
-    public static void main(String[] args){
-        PlanningRequest planning =new PlanningRequest();
+
+    /**
+     * Go back to the original planning request, loaded from an XML file
+     */
+    public void resetToOriginal(){
+        this.addressRCreated = false;
+        this.requestList = this.originalPlanningRequest;
+        initAddressMap();
     }
 
 }

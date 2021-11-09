@@ -311,6 +311,18 @@ public class MapPanel extends JPanel implements MouseListener
     }
 
     /**
+     * get the distance beetween two point
+     * @param x1 x coordinate from the first point
+     * @param y1 y coordinate from the first point
+     * @param x2 x coordinate from the second point
+     * @param y2 y coordinate from the second point
+     * @return the distance
+     */
+    private static double dist(int x1, int y1, int x2, int y2){
+        return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    }
+
+    /**
      * get the distance from a point to a segment
      * @param pX x coordinate from the point
      * @param pY y coordinate from the point
@@ -321,34 +333,15 @@ public class MapPanel extends JPanel implements MouseListener
      * @return the minimal distance
      */
     public static double getDistanceFromPointToSegment(int pX, int pY, int s1X, int s1Y, int s2X, int s2Y){
-        int distXPixelToOrigin = pX - s1X;
-        int distYPixelToOrigin = pY - s1Y;
-        int distXSegment = s2X - s1X;
-        int distYSegment = s2Y - s1Y;
+       // héron's formula :
+        double distps1 = dist(pX, pY, s1X, s1Y);
+        double distps2 = dist(pX, pY, s2X, s2Y);
+        double dists1s2 = dist(s1X, s1Y, s2X, s2Y);
+        double p = (distps1 + distps2 + dists1s2)/2; // half perimeter
+        double A = Math.sqrt(p*(p - distps1)*(p-distps2)*(p-dists1s2)); // heron's formula
+        double hauteur = (A * 2)/dists1s2; //area of a triangle
 
-        int dot = distXPixelToOrigin * distXSegment + distYPixelToOrigin * distYSegment;
-        int len_sq = distXSegment * distXSegment + distYSegment * distYSegment;
-        int param = -1;
-        if (len_sq != 0) //in case of 0 length line
-            param = dot / len_sq;
-
-        int xx, yy;
-
-        if (param < 0) {
-            xx = s1X;
-            yy = s1Y;
-        } else if (param > 1) {
-            xx = s2X;
-            yy = s2Y;
-        } else {
-            xx = s1X + param * distXSegment;
-            yy = s1Y + param * distYSegment;
-        }
-
-        int dx = pX - xx;
-        int dy = pY - yy;
-
-        return Math.sqrt(dx * dx + dy * dy);
+        return Math.min(Math.min(distps1, distps2), hauteur);
     }
 
 
