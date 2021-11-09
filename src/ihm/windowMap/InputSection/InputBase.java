@@ -3,8 +3,13 @@ package ihm.windowMap.InputSection;
 import controller.Controller;
 import ihm.windowMap.ColorPalette;
 import ihm.windowMap.Frame;
-
 import javax.swing.*;
+
+/**
+ * This class is used to construct an input panel with specific characteristics
+ * @ version 1.0.0.0
+ * @ author Clement Lahoche
+ */
 
 public abstract class InputBase extends JPanel {
     protected Controller controller;
