@@ -271,16 +271,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 deliveryDuration.setHorizontalAlignment(SwingConstants.LEFT);
                 listDeliveryDurationButton.add(deliveryDuration);
 
-
-                //Button to delete a request
-                /*
-                deleteRequest = new JButton(iconeDelete);
-                deleteRequest.setBackground(ColorPalette.inputPannel);
-                deleteRequest.addActionListener(this);
-                deleteRequestListeners.add(this);
-                listDeleteButton.add(deleteRequest);
-
-                 */
             }
 
             int positionScrollBar= verticalScroller.getValue();
