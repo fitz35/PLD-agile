@@ -6,9 +6,14 @@ import controller.Controller;
 
 public class AddRequestState1 implements StateController{
     private Address newPickup;
+    private boolean arrivedCauseIssue;
 
     public AddRequestState1() {
-        System.out.println("Click on the new Delivery ");
+        arrivedCauseIssue = false;
+    }
+
+    public AddRequestState1(boolean issue) {
+        arrivedCauseIssue = issue;
     }
 
     @Override
@@ -26,5 +31,9 @@ public class AddRequestState1 implements StateController{
     public void back(Controller controller){
         System.out.println("Go back to state FirstTourComputed");
         controller.setStateController(new FirstTourComputed());
+    }
+
+    public boolean isArrivedCauseIssue() {
+        return arrivedCauseIssue;
     }
 }
