@@ -230,7 +230,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                             textAreaWayBill.append(listStreetNames.get(k) + ", ");
                         }
                     }
-                    //textAreaWayBill.append(" ");
                 } else { //Other points
                     hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
                     minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
