@@ -1,0 +1,678 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > InputWindowWithRoute</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">ihm.windowMap.InputSection</a>
+</div>
+
+<h1>Coverage Summary for Class: InputWindowWithRoute (ihm.windowMap.InputSection)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InputWindowWithRoute</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/277)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">InputWindowWithRoute$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">InputWindowWithRoute$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/281)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package ihm.windowMap.InputSection;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import Model.*;
+<i class="no-highlight">4</i>&nbsp;import controller.Controller;
+<i class="no-highlight">5</i>&nbsp;import controller.state.AddRequestState2;
+<i class="no-highlight">6</i>&nbsp;import controller.state.DeleteRequest;
+<i class="no-highlight">7</i>&nbsp;import ihm.windowMap.ColorPalette;
+<i class="no-highlight">8</i>&nbsp;import ihm.windowMap.Frame;
+<i class="no-highlight">9</i>&nbsp;import ihm.windowMap.MapPanel;
+<i class="no-highlight">10</i>&nbsp;import ihm.windowMap.WindowMap;
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;import javax.swing.*;
+<i class="no-highlight">13</i>&nbsp;import javax.swing.filechooser.FileNameExtensionFilter;
+<i class="no-highlight">14</i>&nbsp;import java.awt.*;
+<i class="no-highlight">15</i>&nbsp;import java.awt.event.ActionEvent;
+<i class="no-highlight">16</i>&nbsp;import java.awt.event.ActionListener;
+<i class="no-highlight">17</i>&nbsp;import java.awt.event.AdjustmentEvent;
+<i class="no-highlight">18</i>&nbsp;import java.awt.event.AdjustmentListener;
+<i class="no-highlight">19</i>&nbsp;import java.io.BufferedWriter;
+<i class="no-highlight">20</i>&nbsp;import java.io.File;
+<i class="no-highlight">21</i>&nbsp;import java.io.FileWriter;
+<i class="no-highlight">22</i>&nbsp;import java.io.IOException;
+<i class="no-highlight">23</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">24</i>&nbsp;import java.util.Calendar;
+<i class="no-highlight">25</i>&nbsp;import java.util.Date;
+<i class="no-highlight">26</i>&nbsp;import java.util.LinkedList;
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;public class InputWindowWithRoute extends InputBase implements ActionListener, AdjustmentListener {
+<i class="no-highlight">29</i>&nbsp;
+<i class="no-highlight">30</i>&nbsp;    public static final String pathToImg = &quot;./data/images/&quot;;
+<i class="no-highlight">31</i>&nbsp;
+<b class="nc"><i class="no-highlight">32</i>&nbsp;    private final JFrame popup = new JFrame();</b>
+<i class="no-highlight">33</i>&nbsp;    private JButton backToLoadRequest;
+<i class="no-highlight">34</i>&nbsp;    private JButton pathButton, arrivalButton, deleteRequestTextually;
+<i class="no-highlight">35</i>&nbsp;    private JButton undoButton, redoButton, wayRouteButton;
+<i class="no-highlight">36</i>&nbsp;
+<i class="no-highlight">37</i>&nbsp;    private JButton addRequest;
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;    private ArrayList&lt;JButton&gt; listPath;
+<b class="nc"><i class="no-highlight">40</i>&nbsp;    private JTextArea textAreaWayBill = new JTextArea(10, 30);</b>
+<i class="no-highlight">41</i>&nbsp;
+<i class="no-highlight">42</i>&nbsp;    private Date startDate;
+<i class="no-highlight">43</i>&nbsp;
+<i class="no-highlight">44</i>&nbsp;    private JPanel requests;
+<i class="no-highlight">45</i>&nbsp;    private JLabel text;
+<i class="no-highlight">46</i>&nbsp;    private static JLabel text1;
+<i class="no-highlight">47</i>&nbsp;    private JLabel text2;
+<i class="no-highlight">48</i>&nbsp;    private JLabel startDateLabel;
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;    private JScrollBar verticalScrollerTour;
+<i class="no-highlight">51</i>&nbsp;
+<i class="no-highlight">52</i>&nbsp;    private WindowMap window;
+<i class="no-highlight">53</i>&nbsp;    private MapPanel mapPanel;
+<i class="no-highlight">54</i>&nbsp;
+<i class="no-highlight">55</i>&nbsp;    private ArrayList&lt;Request&gt; requestsList;
+<i class="no-highlight">56</i>&nbsp;    private LinkedList&lt;Path&gt; pathListOptimalTour;
+<i class="no-highlight">57</i>&nbsp;
+<i class="no-highlight">58</i>&nbsp;    public InputWindowWithRoute (WindowMap window, Controller controller, MapPanel mapPanel)
+<i class="no-highlight">59</i>&nbsp;    {
+<b class="nc"><i class="no-highlight">60</i>&nbsp;        super(controller);</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;        this.window=window;</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;        this.mapPanel = mapPanel;</b>
+<i class="no-highlight">63</i>&nbsp;
+<b class="nc"><i class="no-highlight">64</i>&nbsp;        text1 = new JLabel();</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;        text1.setBounds(30, 40, 600, 40);</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;        text1.setFont(new Font(&quot;Serif&quot;, Font.BOLD, 25));</b>
+<i class="no-highlight">67</i>&nbsp;
+<b class="nc"><i class="no-highlight">68</i>&nbsp;        text2 = new JLabel(&quot;Your tour : &quot;);</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;        text2.setBounds(30, 70, 600, 40);</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;        text2.setFont(new Font(&quot;Serif&quot;, Font.BOLD, 25));</b>
+<i class="no-highlight">71</i>&nbsp;
+<i class="no-highlight">72</i>&nbsp;
+<b class="nc"><i class="no-highlight">73</i>&nbsp;        verticalScrollerTour = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;        verticalScrollerTour.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;        verticalScrollerTour.addAdjustmentListener(this);</b>
+<i class="no-highlight">76</i>&nbsp;
+<i class="no-highlight">77</i>&nbsp;
+<b class="nc"><i class="no-highlight">78</i>&nbsp;        addRequest = new JButton(&quot;Add a request&quot;);</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;        addRequest.setBounds(270, 10, 150, 30);</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;        addRequest.addActionListener(this);</b>
+<i class="no-highlight">81</i>&nbsp;
+<b class="nc"><i class="no-highlight">82</i>&nbsp;        deleteRequestTextually = new JButton(&quot;Delete a request&quot;);</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;        deleteRequestTextually.setBounds(100, 10, 150, 30);</b>
+<b class="nc"><i class="no-highlight">84</i>&nbsp;        deleteRequestTextually.addActionListener(this);</b>
+<i class="no-highlight">85</i>&nbsp;
+<b class="nc"><i class="no-highlight">86</i>&nbsp;        backToLoadRequest = new JButton(&quot;BACK&quot;);</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;        backToLoadRequest.setBounds(440, 10, 100, 30);</b>
+<b class="nc"><i class="no-highlight">88</i>&nbsp;        backToLoadRequest.addActionListener(this);</b>
+<i class="no-highlight">89</i>&nbsp;
+<b class="nc"><i class="no-highlight">90</i>&nbsp;        ImageIcon undoIcon = new ImageIcon(new ImageIcon(pathToImg+&quot;undoIcon.png&quot;).getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));</b>
+<b class="nc"><i class="no-highlight">91</i>&nbsp;        undoButton = new JButton(undoIcon);</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;        undoButton.setBounds(10,10,30,30);</b>
+<b class="nc"><i class="no-highlight">93</i>&nbsp;        undoButton.setEnabled(false);</b>
+<b class="nc"><i class="no-highlight">94</i>&nbsp;        undoButton.addActionListener(this);</b>
+<i class="no-highlight">95</i>&nbsp;
+<b class="nc"><i class="no-highlight">96</i>&nbsp;        ImageIcon redoIcon = new ImageIcon(new ImageIcon(pathToImg+&quot;redoIcon.png&quot;).getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));</b>
+<b class="nc"><i class="no-highlight">97</i>&nbsp;        redoButton = new JButton(redoIcon);</b>
+<b class="nc"><i class="no-highlight">98</i>&nbsp;        redoButton.setBounds(60,10,30,30);</b>
+<b class="nc"><i class="no-highlight">99</i>&nbsp;        redoButton.setEnabled(false);</b>
+<b class="nc"><i class="no-highlight">100</i>&nbsp;        redoButton.addActionListener(this);</b>
+<i class="no-highlight">101</i>&nbsp;
+<b class="nc"><i class="no-highlight">102</i>&nbsp;        wayRouteButton = new JButton(&quot;Save the waybill&quot;);</b>
+<b class="nc"><i class="no-highlight">103</i>&nbsp;        wayRouteButton.setBounds(300,620,200,30);</b>
+<b class="nc"><i class="no-highlight">104</i>&nbsp;        wayRouteButton.addActionListener(this);</b>
+<i class="no-highlight">105</i>&nbsp;
+<b class="nc"><i class="no-highlight">106</i>&nbsp;        this.add(verticalScrollerTour);</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;        this.add(backToLoadRequest);</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;        this.add(addRequest);</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;        this.add(deleteRequestTextually);</b>
+<b class="nc"><i class="no-highlight">110</i>&nbsp;        this.add(text1);</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;        this.add(undoButton);</b>
+<b class="nc"><i class="no-highlight">112</i>&nbsp;        this.add(redoButton);</b>
+<b class="nc"><i class="no-highlight">113</i>&nbsp;        this.add(wayRouteButton);</b>
+<i class="no-highlight">114</i>&nbsp;
+<b class="nc"><i class="no-highlight">115</i>&nbsp;        this.revalidate();</b>
+<b class="nc"><i class="no-highlight">116</i>&nbsp;        this.repaint();</b>
+<i class="no-highlight">117</i>&nbsp;    }
+<i class="no-highlight">118</i>&nbsp;
+<i class="no-highlight">119</i>&nbsp;
+<i class="no-highlight">120</i>&nbsp;    public void paint(Graphics g, Request r) {
+<b class="nc"><i class="no-highlight">121</i>&nbsp;        super.paint(g);</b>
+<i class="no-highlight">122</i>&nbsp;
+<i class="no-highlight">123</i>&nbsp;    }
+<i class="no-highlight">124</i>&nbsp;
+<i class="no-highlight">125</i>&nbsp;    public int[] computeTime(int time){
+<b class="nc"><i class="no-highlight">126</i>&nbsp;        int[] tab = new int[3];</b>
+<b class="nc"><i class="no-highlight">127</i>&nbsp;        tab[0] = (time % 86400 ) / 3600 ; //Heure</b>
+<b class="nc"><i class="no-highlight">128</i>&nbsp;        tab[1] = ((time % 86400 ) % 3600 ) / 60; //Minute</b>
+<b class="nc"><i class="no-highlight">129</i>&nbsp;        tab[2] = ((time % 86400 ) % 3600 ) % 60 ; //Seconde</b>
+<b class="nc"><i class="no-highlight">130</i>&nbsp;        return tab;</b>
+<i class="no-highlight">131</i>&nbsp;    }
+<i class="no-highlight">132</i>&nbsp;
+<i class="no-highlight">133</i>&nbsp;    public String getString(int time){
+<b class="nc"><i class="no-highlight">134</i>&nbsp;        String timeString = &quot;&quot;;</b>
+<b class="nc"><i class="no-highlight">135</i>&nbsp;        if(time&lt;10){ timeString = String.format(&quot;%02d&quot;, time);</b>
+<i class="no-highlight">136</i>&nbsp;        }else{
+<b class="nc"><i class="no-highlight">137</i>&nbsp;            timeString = String.valueOf(time);</b>
+<i class="no-highlight">138</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">139</i>&nbsp;        return timeString;</b>
+<i class="no-highlight">140</i>&nbsp;    }
+<i class="no-highlight">141</i>&nbsp;
+<i class="no-highlight">142</i>&nbsp;    public LinkedList&lt;String&gt; listSegmentsWithoutDuplication(LinkedList &lt;Segment&gt; list){
+<b class="nc"><i class="no-highlight">143</i>&nbsp;        LinkedList&lt;String&gt; newList = new LinkedList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">144</i>&nbsp;        for (Segment element : list) {</b>
+<b class="nc"><i class="no-highlight">145</i>&nbsp;            if (!newList.contains(element.getName())) {</b>
+<b class="nc"><i class="no-highlight">146</i>&nbsp;                newList.add(element.getName());</b>
+<i class="no-highlight">147</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">148</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">149</i>&nbsp;        return newList;</b>
+<i class="no-highlight">150</i>&nbsp;    }
+<i class="no-highlight">151</i>&nbsp;
+<i class="no-highlight">152</i>&nbsp;    public int getMaxRequestsPerPage()
+<i class="no-highlight">153</i>&nbsp;    {
+<b class="nc"><i class="no-highlight">154</i>&nbsp;        int heightPixels= Frame.height-(int) (0.2 * Frame.height);</b>
+<b class="nc"><i class="no-highlight">155</i>&nbsp;        int widthPixels= Frame.width;</b>
+<b class="nc"><i class="no-highlight">156</i>&nbsp;        int oneRequestHeight= (230-(int) (0.2 * Frame.height)+50)/2;</b>
+<b class="nc"><i class="no-highlight">157</i>&nbsp;        return ((int)(heightPixels/oneRequestHeight))-1;</b>
+<i class="no-highlight">158</i>&nbsp;    }
+<i class="no-highlight">159</i>&nbsp;
+<i class="no-highlight">160</i>&nbsp;    public String getIntersectionFromAddres(Address address){
+<b class="nc"><i class="no-highlight">161</i>&nbsp;        requestsList = controller.getMap().getPlanningRequest().getRequestList();</b>
+<b class="nc"><i class="no-highlight">162</i>&nbsp;        for(int i=0;i&lt;requestsList.size();i++){</b>
+<b class="nc"><i class="no-highlight">163</i>&nbsp;            if(requestsList.get(i).getPickupAddress().equals(address)){</b>
+<b class="nc"><i class="no-highlight">164</i>&nbsp;                return &quot;Pickup &quot;+(i+1);</b>
+<b class="nc"><i class="no-highlight">165</i>&nbsp;            }else if(requestsList.get(i).getDeliveryAddress().equals(address)) {</b>
+<b class="nc"><i class="no-highlight">166</i>&nbsp;                return &quot;Delivery &quot; + (i+1);</b>
+<i class="no-highlight">167</i>&nbsp;            }
+<i class="no-highlight">168</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">169</i>&nbsp;        return &quot;&quot;;</b>
+<i class="no-highlight">170</i>&nbsp;    }
+<i class="no-highlight">171</i>&nbsp;
+<i class="no-highlight">172</i>&nbsp;
+<i class="no-highlight">173</i>&nbsp;    //Waybill
+<i class="no-highlight">174</i>&nbsp;    public void saveAs() {
+<b class="nc"><i class="no-highlight">175</i>&nbsp;        FileNameExtensionFilter extensionFilter = new FileNameExtensionFilter(&quot;Waybill&quot;, &quot;txt&quot;);</b>
+<b class="nc"><i class="no-highlight">176</i>&nbsp;        final JFileChooser saveAsFileChooser = new JFileChooser();</b>
+<b class="nc"><i class="no-highlight">177</i>&nbsp;        saveAsFileChooser.setApproveButtonText(&quot;Save&quot;);</b>
+<b class="nc"><i class="no-highlight">178</i>&nbsp;        saveAsFileChooser.setFileFilter(extensionFilter);</b>
+<b class="nc"><i class="no-highlight">179</i>&nbsp;        int actionDialog = saveAsFileChooser.showOpenDialog(this);</b>
+<b class="nc"><i class="no-highlight">180</i>&nbsp;        if (actionDialog != JFileChooser.APPROVE_OPTION) {</b>
+<i class="no-highlight">181</i>&nbsp;            return;
+<i class="no-highlight">182</i>&nbsp;        }
+<i class="no-highlight">183</i>&nbsp;
+<i class="no-highlight">184</i>&nbsp;        // !! File fileName = new File(SaveAs.getSelectedFile() + &quot;.txt&quot;);
+<b class="nc"><i class="no-highlight">185</i>&nbsp;        File file = saveAsFileChooser.getSelectedFile();</b>
+<b class="nc"><i class="no-highlight">186</i>&nbsp;        if (!file.getName().endsWith(&quot;.txt&quot;)) {</b>
+<b class="nc"><i class="no-highlight">187</i>&nbsp;            file = new File(file.getAbsolutePath() + &quot;.txt&quot;);</b>
+<i class="no-highlight">188</i>&nbsp;        }
+<i class="no-highlight">189</i>&nbsp;
+<b class="nc"><i class="no-highlight">190</i>&nbsp;        BufferedWriter outFile = null;</b>
+<i class="no-highlight">191</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">192</i>&nbsp;            outFile = new BufferedWriter(new FileWriter(file));</b>
+<i class="no-highlight">193</i>&nbsp;
+<b class="nc"><i class="no-highlight">194</i>&nbsp;            textAreaWayBill.write(outFile);</b>
+<i class="no-highlight">195</i>&nbsp;
+<b class="nc"><i class="no-highlight">196</i>&nbsp;        } catch (IOException ex) {</b>
+<b class="nc"><i class="no-highlight">197</i>&nbsp;            ex.printStackTrace();</b>
+<i class="no-highlight">198</i>&nbsp;        } finally {
+<b class="nc"><i class="no-highlight">199</i>&nbsp;            if (outFile != null) {</b>
+<i class="no-highlight">200</i>&nbsp;                try {
+<b class="nc"><i class="no-highlight">201</i>&nbsp;                    outFile.close();</b>
+<b class="nc"><i class="no-highlight">202</i>&nbsp;                } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">203</i>&nbsp;                }</b>
+<i class="no-highlight">204</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">205</i>&nbsp;        }</b>
+<i class="no-highlight">206</i>&nbsp;    }
+<i class="no-highlight">207</i>&nbsp;    public void wayBillText(){
+<i class="no-highlight">208</i>&nbsp;        ArrayList &lt;String&gt; listStreetNames;
+<i class="no-highlight">209</i>&nbsp;        LinkedList &lt;Segment&gt; listSegmentPath;
+<b class="nc"><i class="no-highlight">210</i>&nbsp;        if(controller.getMap().getTour()!=null &amp;&amp; controller.getMap().getTour().getOrderedPathList()!=null) {</b>
+<b class="nc"><i class="no-highlight">211</i>&nbsp;            pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();</b>
+<i class="no-highlight">212</i>&nbsp;
+<i class="no-highlight">213</i>&nbsp;            //Start date
+<b class="nc"><i class="no-highlight">214</i>&nbsp;            startDate = controller.getMap().getPlanningRequest().getDepartureTime();</b>
+<b class="nc"><i class="no-highlight">215</i>&nbsp;            Calendar calendar = Calendar.getInstance();</b>
+<b class="nc"><i class="no-highlight">216</i>&nbsp;            calendar.setTime(startDate);</b>
+<b class="nc"><i class="no-highlight">217</i>&nbsp;            int hours = calendar.get(Calendar.HOUR_OF_DAY);</b>
+<b class="nc"><i class="no-highlight">218</i>&nbsp;            int minutes = calendar.get(Calendar.MINUTE);</b>
+<i class="no-highlight">219</i>&nbsp;
+<b class="nc"><i class="no-highlight">220</i>&nbsp;            textAreaWayBill.setText(&quot;Your wayBill :\n&quot; +</b>
+<i class="no-highlight">221</i>&nbsp;                    &quot;\n&quot; +
+<i class="no-highlight">222</i>&nbsp;                    &quot;You are going from the strating point which is the intersection of : &quot;);
+<b class="nc"><i class="no-highlight">223</i>&nbsp;            for (int i = 0; i &lt; pathListOptimalTour.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">224</i>&nbsp;                listStreetNames = Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList());</b>
+<b class="nc"><i class="no-highlight">225</i>&nbsp;                listSegmentPath = pathListOptimalTour.get(i).getSegmentsOfPath();</b>
+<b class="nc"><i class="no-highlight">226</i>&nbsp;                if (i == 0) { //Starting point</b>
+<b class="nc"><i class="no-highlight">227</i>&nbsp;                    for (int k = 0; k &lt; listStreetNames.size(); k++) {</b>
+<b class="nc"><i class="no-highlight">228</i>&nbsp;                        if (k == listStreetNames.size() - 1) {</b>
+<b class="nc"><i class="no-highlight">229</i>&nbsp;                            textAreaWayBill.append(listStreetNames.get(k) + &quot; at  &quot; + getString(hours) + &quot;:&quot; + getString(minutes) + &quot;\n\n&quot;);</b>
+<i class="no-highlight">230</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">231</i>&nbsp;                            textAreaWayBill.append(listStreetNames.get(k) + &quot;, &quot;);</b>
+<i class="no-highlight">232</i>&nbsp;                        }
+<i class="no-highlight">233</i>&nbsp;                    }
+<i class="no-highlight">234</i>&nbsp;                } else { //Other points
+<b class="nc"><i class="no-highlight">235</i>&nbsp;                    hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];</b>
+<b class="nc"><i class="no-highlight">236</i>&nbsp;                    minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];</b>
+<i class="no-highlight">237</i>&nbsp;
+<b class="nc"><i class="no-highlight">238</i>&nbsp;                    if (minutes &gt;= 60) {</b>
+<b class="nc"><i class="no-highlight">239</i>&nbsp;                        hours++;</b>
+<b class="nc"><i class="no-highlight">240</i>&nbsp;                        minutes = minutes - 60;</b>
+<i class="no-highlight">241</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">242</i>&nbsp;                    textAreaWayBill.append(&quot;You will cross the segments : &quot;);</b>
+<b class="nc"><i class="no-highlight">243</i>&nbsp;                    for (int m = 0; m &lt; listSegmentsWithoutDuplication(listSegmentPath).size(); m++) {</b>
+<b class="nc"><i class="no-highlight">244</i>&nbsp;                        textAreaWayBill.append(listSegmentsWithoutDuplication(listSegmentPath).get(m) + &quot;, &quot;);</b>
+<b class="nc"><i class="no-highlight">245</i>&nbsp;                        if (m == listSegmentsWithoutDuplication(listSegmentPath).size() - 1) {</b>
+<b class="nc"><i class="no-highlight">246</i>&nbsp;                            textAreaWayBill.append(listSegmentsWithoutDuplication(listSegmentPath).get(m) + &quot;\n&quot;);</b>
+<i class="no-highlight">247</i>&nbsp;                        }
+<i class="no-highlight">248</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">249</i>&nbsp;                    for (int k = 0; k &lt; listStreetNames.size(); k++) {</b>
+<b class="nc"><i class="no-highlight">250</i>&nbsp;                        if (k == listStreetNames.size() - 1) {</b>
+<b class="nc"><i class="no-highlight">251</i>&nbsp;                            textAreaWayBill.append( listStreetNames.get(k));</b>
+<i class="no-highlight">252</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">253</i>&nbsp;                            textAreaWayBill.append(listStreetNames.get(k) + &quot;, &quot;);</b>
+<i class="no-highlight">254</i>&nbsp;                        }
+<i class="no-highlight">255</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">256</i>&nbsp;                    textAreaWayBill.append(&quot;\nWhich is going to last &quot;+ pathListOptimalTour.get(i).getDeparture().getAddressDuration() + &quot; seconds&quot;</b>
+<b class="nc"><i class="no-highlight">257</i>&nbsp;                            +&quot;  to arrive to the next point at : &quot; + getString(hours) + &quot;:&quot; + getString(minutes) + &quot;\n&quot; );</b>
+<b class="nc"><i class="no-highlight">258</i>&nbsp;                    if (i != pathListOptimalTour.size() - 1) {</b>
+<b class="nc"><i class="no-highlight">259</i>&nbsp;                        textAreaWayBill.append(&quot;Then, \n&quot;);</b>
+<i class="no-highlight">260</i>&nbsp;                    }
+<i class="no-highlight">261</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">262</i>&nbsp;                if (i == pathListOptimalTour.size() - 1) { //Arrival</b>
+<b class="nc"><i class="no-highlight">263</i>&nbsp;                    hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];</b>
+<b class="nc"><i class="no-highlight">264</i>&nbsp;                    minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];</b>
+<i class="no-highlight">265</i>&nbsp;
+<b class="nc"><i class="no-highlight">266</i>&nbsp;                    if (minutes &gt;= 60) {</b>
+<b class="nc"><i class="no-highlight">267</i>&nbsp;                        hours++;</b>
+<b class="nc"><i class="no-highlight">268</i>&nbsp;                        minutes = minutes - 60;</b>
+<i class="no-highlight">269</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">270</i>&nbsp;                    textAreaWayBill.append(&quot;\nFinally, you will end the tour and come back to the starting point which is the intersection of : &quot;);</b>
+<b class="nc"><i class="no-highlight">271</i>&nbsp;                    for (int k = 0; k &lt; listStreetNames.size(); k++) {</b>
+<b class="nc"><i class="no-highlight">272</i>&nbsp;                        textAreaWayBill.append(listStreetNames.get(k) + &quot;, &quot;);</b>
+<i class="no-highlight">273</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">274</i>&nbsp;                    listStreetNames = Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList());</b>
+<i class="no-highlight">275</i>&nbsp;
+<b class="nc"><i class="no-highlight">276</i>&nbsp;                    for (int n = 0; n &lt; listStreetNames.size(); n++) {</b>
+<b class="nc"><i class="no-highlight">277</i>&nbsp;                        if (n == listStreetNames.size() - 1) {</b>
+<b class="nc"><i class="no-highlight">278</i>&nbsp;                            textAreaWayBill.append(listStreetNames.get(n) + &quot; at  &quot; + getString(hours) + &quot;:&quot; + getString(minutes) + &quot;\n&quot;);</b>
+<i class="no-highlight">279</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">280</i>&nbsp;                            textAreaWayBill.append(listStreetNames.get(n) + &quot;, &quot;);</b>
+<i class="no-highlight">281</i>&nbsp;                        }
+<i class="no-highlight">282</i>&nbsp;                    }
+<i class="no-highlight">283</i>&nbsp;
+<i class="no-highlight">284</i>&nbsp;
+<i class="no-highlight">285</i>&nbsp;                }
+<i class="no-highlight">286</i>&nbsp;            }
+<i class="no-highlight">287</i>&nbsp;        }
+<i class="no-highlight">288</i>&nbsp;    }
+<i class="no-highlight">289</i>&nbsp;
+<i class="no-highlight">290</i>&nbsp;    public void updatePlanningRequestOptimalTour() {
+<i class="no-highlight">291</i>&nbsp;
+<b class="nc"><i class="no-highlight">292</i>&nbsp;        int maxNoOfRequestsPerPage= getMaxRequestsPerPage();</b>
+<b class="nc"><i class="no-highlight">293</i>&nbsp;        this.add(verticalScrollerTour);</b>
+<b class="nc"><i class="no-highlight">294</i>&nbsp;        this.add(wayRouteButton);</b>
+<b class="nc"><i class="no-highlight">295</i>&nbsp;        this.add(deleteRequestTextually);</b>
+<i class="no-highlight">296</i>&nbsp;
+<i class="no-highlight">297</i>&nbsp;
+<i class="no-highlight">298</i>&nbsp;
+<b class="nc"><i class="no-highlight">299</i>&nbsp;        ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + &quot;iconeDelete.png&quot;).getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));</b>
+<b class="nc"><i class="no-highlight">300</i>&nbsp;        if(!(controller.getStateController() instanceof  AddRequestState2))</b>
+<i class="no-highlight">301</i>&nbsp;        {
+<b class="nc"><i class="no-highlight">302</i>&nbsp;            this.add(addRequest);</b>
+<i class="no-highlight">303</i>&nbsp;        }
+<i class="no-highlight">304</i>&nbsp;        //Time
+<b class="nc"><i class="no-highlight">305</i>&nbsp;        if(controller.getMap().getPlanningRequest()!=null &amp;&amp; controller.getMap().getPlanningRequest().getDepartureTime()!=null) {</b>
+<b class="nc"><i class="no-highlight">306</i>&nbsp;            startDate = controller.getMap().getPlanningRequest().getDepartureTime();</b>
+<b class="nc"><i class="no-highlight">307</i>&nbsp;            Calendar calendar = Calendar.getInstance();</b>
+<b class="nc"><i class="no-highlight">308</i>&nbsp;            calendar.setTime(startDate);</b>
+<b class="nc"><i class="no-highlight">309</i>&nbsp;            int hours = calendar.get(Calendar.HOUR_OF_DAY);</b>
+<b class="nc"><i class="no-highlight">310</i>&nbsp;            int minutes = calendar.get(Calendar.MINUTE);</b>
+<i class="no-highlight">311</i>&nbsp;
+<b class="nc"><i class="no-highlight">312</i>&nbsp;            if (controller.getMap().getTour() != null &amp;&amp; controller.getMap().getTour().getOrderedPathList() != null) {</b>
+<b class="nc"><i class="no-highlight">313</i>&nbsp;                pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();</b>
+<b class="nc"><i class="no-highlight">314</i>&nbsp;                verticalScrollerTour.setMaximum((pathListOptimalTour.size()/maxNoOfRequestsPerPage)+1);</b>
+<i class="no-highlight">315</i>&nbsp;
+<i class="no-highlight">316</i>&nbsp;
+<b class="nc"><i class="no-highlight">317</i>&nbsp;                listPath = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">318</i>&nbsp;
+<b class="nc"><i class="no-highlight">319</i>&nbsp;                for (int i = 0; i &lt; pathListOptimalTour.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">320</i>&nbsp;                    if (i == 0) { //Starting point</b>
+<b class="nc"><i class="no-highlight">321</i>&nbsp;                        if (Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).size() == 1) {</b>
+<b class="nc"><i class="no-highlight">322</i>&nbsp;                            pathButton = new JButton();</b>
+<b class="nc"><i class="no-highlight">323</i>&nbsp;                            pathButton.setText(&quot;&lt;html&gt;&quot;+getString(hours) + &quot;:&quot; + getString(minutes) + &quot; Starting point&quot; +</b>
+<b class="nc"><i class="no-highlight">324</i>&nbsp;                                    &quot;  &lt;br /&gt;   Address : &quot; + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0)+ &quot;&lt;/html&gt;&quot;);</b>
+<i class="no-highlight">325</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">326</i>&nbsp;                            pathButton = new JButton(&quot;&lt;html&gt;&quot;+getString(hours) + &quot;:&quot; + getString(minutes) + &quot; Starting point&quot; +</b>
+<b class="nc"><i class="no-highlight">327</i>&nbsp;                                    &quot;  &lt;br /&gt;   Address : &quot; + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0) +</b>
+<b class="nc"><i class="no-highlight">328</i>&nbsp;                                    &quot;, &quot; + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(1)+ &quot;&lt;/html&gt;&quot;);</b>
+<i class="no-highlight">329</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">330</i>&nbsp;                        pathButton.addActionListener(new ActionListener() {</b>
+<i class="no-highlight">331</i>&nbsp;                            @Override
+<i class="no-highlight">332</i>&nbsp;                            public void actionPerformed(ActionEvent e) {
+<b class="nc"><i class="no-highlight">333</i>&nbsp;                                mapPanel.updateHighlight(true, -2, -2, -2);</b>
+<i class="no-highlight">334</i>&nbsp;                            }
+<i class="no-highlight">335</i>&nbsp;                        });
+<i class="no-highlight">336</i>&nbsp;
+<i class="no-highlight">337</i>&nbsp;                    } else {
+<b class="nc"><i class="no-highlight">338</i>&nbsp;                        hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];</b>
+<b class="nc"><i class="no-highlight">339</i>&nbsp;                        minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];</b>
+<i class="no-highlight">340</i>&nbsp;
+<b class="nc"><i class="no-highlight">341</i>&nbsp;                        if (minutes &gt;= 60) {</b>
+<b class="nc"><i class="no-highlight">342</i>&nbsp;                            hours++;</b>
+<b class="nc"><i class="no-highlight">343</i>&nbsp;                            minutes = minutes - 60;</b>
+<i class="no-highlight">344</i>&nbsp;                        }
+<i class="no-highlight">345</i>&nbsp;
+<b class="nc"><i class="no-highlight">346</i>&nbsp;                        if (Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).size() == 1) {</b>
+<b class="nc"><i class="no-highlight">347</i>&nbsp;                            pathButton = new JButton();</b>
+<i class="no-highlight">348</i>&nbsp;
+<b class="nc"><i class="no-highlight">349</i>&nbsp;                            pathButton.setText(&quot;&lt;html&gt; &quot; + getString(hours) + &quot;:&quot; + getString(minutes) + &quot; &quot; +</b>
+<b class="nc"><i class="no-highlight">350</i>&nbsp;                                    getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture())+</b>
+<b class="nc"><i class="no-highlight">351</i>&nbsp;                                    &quot; &lt;br /&gt;     Address : &quot; + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0) +</b>
+<b class="nc"><i class="no-highlight">352</i>&nbsp;                                    &quot; &lt;br /&gt;   Duration : &quot; + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + &quot;&lt;/html&gt;&quot;);</b>
+<i class="no-highlight">353</i>&nbsp;                        }else{
+<b class="nc"><i class="no-highlight">354</i>&nbsp;                            pathButton = new JButton();</b>
+<b class="nc"><i class="no-highlight">355</i>&nbsp;                            pathButton.setText(&quot;&lt;html&gt;&quot; + getString(hours) + &quot;:&quot; + getString(minutes) + &quot; &quot; +</b>
+<b class="nc"><i class="no-highlight">356</i>&nbsp;                                    getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture())+</b>
+<b class="nc"><i class="no-highlight">357</i>&nbsp;                                    &quot;  &lt;br /&gt;   Address : &quot; + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0) +</b>
+<b class="nc"><i class="no-highlight">358</i>&nbsp;                                    &quot;, &quot; + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(1)+</b>
+<b class="nc"><i class="no-highlight">359</i>&nbsp;                                    &quot; &lt;br /&gt;   Duration : &quot; + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + &quot;&lt;/html&gt;&quot;);</b>
+<i class="no-highlight">360</i>&nbsp;                        }
+<i class="no-highlight">361</i>&nbsp;
+<i class="no-highlight">362</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">363</i>&nbsp;                    pathButton.setHorizontalAlignment(SwingConstants.LEFT);</b>
+<b class="nc"><i class="no-highlight">364</i>&nbsp;                    pathButton.setBackground(ColorPalette.inputPannel);</b>
+<b class="nc"><i class="no-highlight">365</i>&nbsp;                    pathButton.setBorderPainted(false);</b>
+<b class="nc"><i class="no-highlight">366</i>&nbsp;                    pathButton.addActionListener(this);</b>
+<b class="nc"><i class="no-highlight">367</i>&nbsp;                    listPath.add(pathButton);</b>
+<i class="no-highlight">368</i>&nbsp;
+<b class="nc"><i class="no-highlight">369</i>&nbsp;                    if (i == (pathListOptimalTour.size()) - 1) { //For the last point, take the departure AND arrival</b>
+<b class="nc"><i class="no-highlight">370</i>&nbsp;                        hours += computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];</b>
+<b class="nc"><i class="no-highlight">371</i>&nbsp;                        minutes += computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];</b>
+<i class="no-highlight">372</i>&nbsp;
+<b class="nc"><i class="no-highlight">373</i>&nbsp;                        if (minutes &gt;= 60) {</b>
+<b class="nc"><i class="no-highlight">374</i>&nbsp;                            hours++;</b>
+<b class="nc"><i class="no-highlight">375</i>&nbsp;                            minutes = minutes - 60;</b>
+<i class="no-highlight">376</i>&nbsp;                        }
+<i class="no-highlight">377</i>&nbsp;
+<b class="nc"><i class="no-highlight">378</i>&nbsp;                        if (Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).size() == 1) {</b>
+<b class="nc"><i class="no-highlight">379</i>&nbsp;                            arrivalButton = new JButton(&quot;&lt;html&gt;&quot;+getString(hours) + &quot;:&quot; + getString(minutes) + &quot; Arrival (Back to the Starting point)&quot; +</b>
+<b class="nc"><i class="no-highlight">380</i>&nbsp;                                    &quot;&lt;br /&gt;     Address : &quot; + Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).get(0)+ &quot;&lt;/html&gt;&quot;);</b>
+<i class="no-highlight">381</i>&nbsp;                        } else {
+<b class="nc"><i class="no-highlight">382</i>&nbsp;                            arrivalButton = new JButton(&quot;&lt;html&gt;&quot;+getString(hours) + &quot;:&quot; + getString(minutes) + &quot; Arrival (Back to the Starting point)&quot; +</b>
+<b class="nc"><i class="no-highlight">383</i>&nbsp;                                    &quot;&lt;br /&gt;      Address : &quot; + Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).get(0) +</b>
+<b class="nc"><i class="no-highlight">384</i>&nbsp;                                    &quot;, &quot; + Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).get(1)+ &quot;&lt;/html&gt;&quot;);</b>
+<i class="no-highlight">385</i>&nbsp;                        }
+<b class="nc"><i class="no-highlight">386</i>&nbsp;                        arrivalButton.setHorizontalAlignment(SwingConstants.LEFT);</b>
+<b class="nc"><i class="no-highlight">387</i>&nbsp;                        arrivalButton.setBackground(ColorPalette.inputPannel);</b>
+<b class="nc"><i class="no-highlight">388</i>&nbsp;                        arrivalButton.setBorderPainted(false);</b>
+<b class="nc"><i class="no-highlight">389</i>&nbsp;                        arrivalButton.addActionListener(this);</b>
+<b class="nc"><i class="no-highlight">390</i>&nbsp;                        arrivalButton.addActionListener(new ActionListener() {</b>
+<i class="no-highlight">391</i>&nbsp;                            @Override
+<i class="no-highlight">392</i>&nbsp;                            public void actionPerformed(ActionEvent e) {
+<b class="nc"><i class="no-highlight">393</i>&nbsp;                                mapPanel.updateHighlight(true, -2, -2, -2);</b>
+<i class="no-highlight">394</i>&nbsp;                            }
+<i class="no-highlight">395</i>&nbsp;                        });
+<b class="nc"><i class="no-highlight">396</i>&nbsp;                        listPath.add(arrivalButton);</b>
+<i class="no-highlight">397</i>&nbsp;                    }
+<i class="no-highlight">398</i>&nbsp;                }
+<i class="no-highlight">399</i>&nbsp;
+<i class="no-highlight">400</i>&nbsp;
+<i class="no-highlight">401</i>&nbsp;                //ScrollBar
+<b class="nc"><i class="no-highlight">402</i>&nbsp;                int positionScrollBarTour = verticalScrollerTour.getValue();</b>
+<b class="nc"><i class="no-highlight">403</i>&nbsp;                for (int j = 0; j &lt; maxNoOfRequestsPerPage &amp;&amp; ((positionScrollBarTour * maxNoOfRequestsPerPage) + j) &lt; pathListOptimalTour.size()+1; j++) {</b>
+<b class="nc"><i class="no-highlight">404</i>&nbsp;                    listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 70)), 500, 55);</b>
+<b class="nc"><i class="no-highlight">405</i>&nbsp;                    this.add(listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));</b>
+<i class="no-highlight">406</i>&nbsp;                }
+<i class="no-highlight">407</i>&nbsp;
+<i class="no-highlight">408</i>&nbsp;
+<b class="nc"><i class="no-highlight">409</i>&nbsp;                this.add(text2);</b>
+<i class="no-highlight">410</i>&nbsp;            }
+<i class="no-highlight">411</i>&nbsp;        }
+<i class="no-highlight">412</i>&nbsp;
+<i class="no-highlight">413</i>&nbsp;        // Verification if we can do an undo or a redo
+<b class="nc"><i class="no-highlight">414</i>&nbsp;        int availability = controller.getListOfCommands().undoRedoAvailability();</b>
+<b class="nc"><i class="no-highlight">415</i>&nbsp;        if(availability == 0){</b>
+<b class="nc"><i class="no-highlight">416</i>&nbsp;            redoButton.setEnabled(false);</b>
+<b class="nc"><i class="no-highlight">417</i>&nbsp;            undoButton.setEnabled(false);</b>
+<b class="nc"><i class="no-highlight">418</i>&nbsp;        }else if(availability == 1){</b>
+<b class="nc"><i class="no-highlight">419</i>&nbsp;            redoButton.setEnabled(false);</b>
+<b class="nc"><i class="no-highlight">420</i>&nbsp;            undoButton.setEnabled(true);</b>
+<b class="nc"><i class="no-highlight">421</i>&nbsp;        }else if (availability == 2){</b>
+<b class="nc"><i class="no-highlight">422</i>&nbsp;            undoButton.setEnabled(false);</b>
+<b class="nc"><i class="no-highlight">423</i>&nbsp;            redoButton.setEnabled(true);</b>
+<b class="nc"><i class="no-highlight">424</i>&nbsp;        }else if (availability == 3){</b>
+<b class="nc"><i class="no-highlight">425</i>&nbsp;            undoButton.setEnabled(true);</b>
+<b class="nc"><i class="no-highlight">426</i>&nbsp;            redoButton.setEnabled(true);</b>
+<i class="no-highlight">427</i>&nbsp;        }
+<i class="no-highlight">428</i>&nbsp;
+<b class="nc"><i class="no-highlight">429</i>&nbsp;        wayBillText();</b>
+<i class="no-highlight">430</i>&nbsp;    }
+<i class="no-highlight">431</i>&nbsp;
+<i class="no-highlight">432</i>&nbsp;    @Override
+<i class="no-highlight">433</i>&nbsp;    public void actionPerformed(ActionEvent e)
+<i class="no-highlight">434</i>&nbsp;    {
+<b class="nc"><i class="no-highlight">435</i>&nbsp;        int highlightDeliveryNumber = -2;</b>
+<b class="nc"><i class="no-highlight">436</i>&nbsp;        int highlightPickupNumber = -2;</b>
+<b class="nc"><i class="no-highlight">437</i>&nbsp;        int highlightRequestNumber = -2;</b>
+<i class="no-highlight">438</i>&nbsp;
+<b class="nc"><i class="no-highlight">439</i>&nbsp;        requestsList = controller.getMap().getPlanningRequest().getRequestList();</b>
+<b class="nc"><i class="no-highlight">440</i>&nbsp;        pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();</b>
+<i class="no-highlight">441</i>&nbsp;
+<i class="no-highlight">442</i>&nbsp;
+<b class="nc"><i class="no-highlight">443</i>&nbsp;        if (e.getSource() == backToLoadRequest) {</b>
+<b class="nc"><i class="no-highlight">444</i>&nbsp;            this.removeAll();</b>
+<b class="nc"><i class="no-highlight">445</i>&nbsp;            this.add(backToLoadRequest);</b>
+<b class="nc"><i class="no-highlight">446</i>&nbsp;            controller.back();</b>
+<i class="no-highlight">447</i>&nbsp;        }
+<i class="no-highlight">448</i>&nbsp;
+<b class="nc"><i class="no-highlight">449</i>&nbsp;        if(e.getSource() ==deleteRequestTextually){</b>
+<b class="nc"><i class="no-highlight">450</i>&nbsp;            this.remove(deleteRequestTextually);</b>
+<b class="nc"><i class="no-highlight">451</i>&nbsp;            controller.deleteRequest();</b>
+<i class="no-highlight">452</i>&nbsp;        }
+<i class="no-highlight">453</i>&nbsp;
+<b class="nc"><i class="no-highlight">454</i>&nbsp;        if(e.getSource() == this.addRequest)</b>
+<i class="no-highlight">455</i>&nbsp;        {
+<b class="nc"><i class="no-highlight">456</i>&nbsp;            this.remove(addRequest);</b>
+<b class="nc"><i class="no-highlight">457</i>&nbsp;            controller.addNewRequest();</b>
+<i class="no-highlight">458</i>&nbsp;        }
+<i class="no-highlight">459</i>&nbsp;
+<b class="nc"><i class="no-highlight">460</i>&nbsp;        if(e.getSource() == this.undoButton) {</b>
+<i class="no-highlight">461</i>&nbsp;            try{
+<b class="nc"><i class="no-highlight">462</i>&nbsp;                controller.undo();</b>
+<b class="nc"><i class="no-highlight">463</i>&nbsp;            }catch(Exception ex){</b>
+<b class="nc"><i class="no-highlight">464</i>&nbsp;                ex.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">465</i>&nbsp;            }</b>
+<i class="no-highlight">466</i>&nbsp;        }
+<i class="no-highlight">467</i>&nbsp;
+<b class="nc"><i class="no-highlight">468</i>&nbsp;        if (e.getSource() == this.redoButton) {</b>
+<i class="no-highlight">469</i>&nbsp;            try{
+<b class="nc"><i class="no-highlight">470</i>&nbsp;                controller.redo();</b>
+<b class="nc"><i class="no-highlight">471</i>&nbsp;            }catch(Exception ex){</b>
+<b class="nc"><i class="no-highlight">472</i>&nbsp;                ex.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">473</i>&nbsp;            }</b>
+<i class="no-highlight">474</i>&nbsp;        }
+<i class="no-highlight">475</i>&nbsp;
+<b class="nc"><i class="no-highlight">476</i>&nbsp;        if(e.getSource() == wayRouteButton){</b>
+<b class="nc"><i class="no-highlight">477</i>&nbsp;            saveAs();</b>
+<i class="no-highlight">478</i>&nbsp;        }
+<i class="no-highlight">479</i>&nbsp;
+<b class="nc"><i class="no-highlight">480</i>&nbsp;        for(int j=0;j&lt;listPath.size()-1;j++) {</b>
+<b class="nc"><i class="no-highlight">481</i>&nbsp;            for (int i = 0; i &lt; requestsList.size(); i++) {</b>
+<i class="no-highlight">482</i>&nbsp;                //System.out.println(&quot;1 : &quot;+e.getSource().toString().substring(0, 50));
+<i class="no-highlight">483</i>&nbsp;                //System.out.println(&quot;2 : &quot;+listPath.get(j).toString().substring(0, 50));
+<i class="no-highlight">484</i>&nbsp;                //System.out.println(&quot;3 : &quot;+getIntersectionFromAddres(requestsList.get(i).getPickupAddress()));
+<i class="no-highlight">485</i>&nbsp;                //System.out.println(&quot;4 : &quot;+getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture()).length());
+<i class="no-highlight">486</i>&nbsp;
+<i class="no-highlight">487</i>&nbsp;
+<i class="no-highlight">488</i>&nbsp;
+<b class="nc"><i class="no-highlight">489</i>&nbsp;                if (e.getSource().toString().substring(0, 50).equals(listPath.get(j).toString().substring(0, 50))) {</b>
+<b class="nc"><i class="no-highlight">490</i>&nbsp;                    if(requestsList.get(i).getPickupAddress().equals(pathListOptimalTour.get(j).getDeparture())</b>
+<i class="no-highlight">491</i>&nbsp;                            &amp;&amp;
+<b class="nc"><i class="no-highlight">492</i>&nbsp;                            getIntersectionFromAddres(requestsList.get(i).getPickupAddress()).length()==8){</b>
+<b class="nc"><i class="no-highlight">493</i>&nbsp;                        highlightPickupNumber = i;</b>
+<i class="no-highlight">494</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">495</i>&nbsp;                    if(requestsList.get(i).getDeliveryAddress().equals(pathListOptimalTour.get(j).getDeparture())</b>
+<b class="nc"><i class="no-highlight">496</i>&nbsp;                       &amp;&amp;     getIntersectionFromAddres(requestsList.get(i).getDeliveryAddress()).length()==10){</b>
+<b class="nc"><i class="no-highlight">497</i>&nbsp;                        highlightDeliveryNumber = i;</b>
+<i class="no-highlight">498</i>&nbsp;
+<i class="no-highlight">499</i>&nbsp;                    }
+<b class="nc"><i class="no-highlight">500</i>&nbsp;                    this.mapPanel.updateHighlight(false, highlightPickupNumber, highlightDeliveryNumber, highlightRequestNumber);</b>
+<i class="no-highlight">501</i>&nbsp;
+<i class="no-highlight">502</i>&nbsp;                }
+<i class="no-highlight">503</i>&nbsp;            }
+<i class="no-highlight">504</i>&nbsp;        }
+<i class="no-highlight">505</i>&nbsp;
+<i class="no-highlight">506</i>&nbsp;    }
+<i class="no-highlight">507</i>&nbsp;
+<i class="no-highlight">508</i>&nbsp;    public void adjustmentValueChanged(AdjustmentEvent e) {
+<b class="nc"><i class="no-highlight">509</i>&nbsp;        if (e.getSource() == verticalScrollerTour) {</b>
+<b class="nc"><i class="no-highlight">510</i>&nbsp;            this.removeAll();</b>
+<b class="nc"><i class="no-highlight">511</i>&nbsp;            this.add(verticalScrollerTour);</b>
+<b class="nc"><i class="no-highlight">512</i>&nbsp;            this.add(backToLoadRequest);</b>
+<b class="nc"><i class="no-highlight">513</i>&nbsp;            if(!(controller.getStateController() instanceof  AddRequestState2))</b>
+<i class="no-highlight">514</i>&nbsp;            {
+<b class="nc"><i class="no-highlight">515</i>&nbsp;                this.add(addRequest);</b>
+<i class="no-highlight">516</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">517</i>&nbsp;            this.add(text2);</b>
+<b class="nc"><i class="no-highlight">518</i>&nbsp;            this.add(text1);</b>
+<b class="nc"><i class="no-highlight">519</i>&nbsp;            this.add(undoButton);</b>
+<b class="nc"><i class="no-highlight">520</i>&nbsp;            this.add(redoButton);</b>
+<b class="nc"><i class="no-highlight">521</i>&nbsp;            this.add(wayRouteButton);</b>
+<b class="nc"><i class="no-highlight">522</i>&nbsp;            updatePlanningRequestOptimalTour();</b>
+<b class="nc"><i class="no-highlight">523</i>&nbsp;            this.revalidate();</b>
+<b class="nc"><i class="no-highlight">524</i>&nbsp;            this.repaint();</b>
+<i class="no-highlight">525</i>&nbsp;        }
+<i class="no-highlight">526</i>&nbsp;    }
+<i class="no-highlight">527</i>&nbsp;
+<i class="no-highlight">528</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-11-09 23:11</div>
+</div>
+</body>
+</html>
