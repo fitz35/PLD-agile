@@ -627,17 +627,23 @@ public class Map extends MapInterface {
             this.notifyObservers("Address doesn't exist in the map.");
             throw new Exception();
         }else{
+            Request newRequest = new Request(newPickup, newDelivery);
             try {
-                Request newRequest = new Request(newPickup, newDelivery);
                 replaceOldPathInTour(beforeNewPickup, newPickup);
+            }catch (Exception e){
+                this.setChanged();
+                this.notifyObservers(newPickup);
+                throw new Exception("newPickup unreacheble");
+            }
+            try{
                 replaceOldPathInTour(beforeNewDelivery, newDelivery);
                 this.planningRequest.addRequest(newRequest);
                 this.setChanged();
                 this.notifyObservers();
             }catch (Exception e){
                 this.setChanged();
-                this.notifyObservers("Unreachable address.");
-                throw new Exception();
+                this.notifyObservers(newDelivery);
+                throw new Exception("newDelivery unreacheble");
             }
         }
     }
