@@ -3,7 +3,10 @@ package Model;
 import java.util.Objects;
 
 /**
+ * This class is Request
  * Class that represents each request. It has a pick up address and a delivery address
+ * @version
+ * @author Hexanome 4124
  */
 public class Request {
     /**

@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
+ * This class is Tour
  * Class that represents the tour to be followed by the driver
+ * @version
+ * @author Hexanome 4124
  */
 public class Tour{
     /**

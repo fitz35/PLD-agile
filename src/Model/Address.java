@@ -4,8 +4,11 @@ package Model;
 import java.util.ArrayList;
 
 /**
+ * This class is Address
  * An address is either a pickup intersection, a delivery intersection or a depot intersection
  * It has a type and a waiting time AKA addressDuration
+ * @version
+ * @author Hexanome 4124
  */
 public class Address extends Intersection{
     /**
@@ -25,18 +28,35 @@ public class Address extends Intersection{
         return this.type;
     }
 
+    /**
+     * constructor1
+     * @param id
+     * @param latitude
+     * @param longitude
+     * @param addressDuration
+     * @param type
+     */
     public Address(long id, double latitude, double longitude, int addressDuration, int type) {
         super(id, latitude, longitude);
         this.addressDuration = addressDuration;
         this.type = type;
     }
 
+    /**
+     * constructor2
+     * @param intersection
+     * @param addressDuration
+     * @param type
+     */
     public Address(Intersection intersection, int addressDuration,int type) {
         super(intersection.getId(), intersection.getLatitude(), intersection.getLongitude());
         this.addressDuration = addressDuration;
         this.type=type;
     }
 
+    /**
+     * constructor3
+     */
     public Address(){
     }
 
@@ -89,10 +109,18 @@ public class Address extends Intersection{
         return super.hashCode();
     }
 
+    /**
+     * get the Time spent at the address
+     * @return
+     */
     public int getAddressDuration() {
         return addressDuration;
     }
 
+    /**
+     * set the Time spent at the address
+     * @param addressDuration
+     */
     public void setAddressDuration(int addressDuration) {
         this.addressDuration = addressDuration;
     }

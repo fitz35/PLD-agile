@@ -2,6 +2,11 @@ package Model;
 
 import java.util.Objects;
 
+/**
+ * This class is Intersection
+ * @version
+ * @author Hexanome 4124
+ */
 public class Intersection {
     /**
      * id of an intersection
