@@ -131,6 +131,9 @@ public class Tour{
         }
     }
 
+    /**
+     * Reset all attributes of the tour
+     */
     public void reset(){
         orderedSegmentList.clear();
         originPathMap.clear();

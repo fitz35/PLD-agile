@@ -78,7 +78,7 @@ public class PlanningRequest {
     }
 
     /**
-     * Add a new request to the requestList
+     * Add a new request to the requestList and update hashmaps
      * @param newRequest
      */
     public void addRequest(Request newRequest) {
