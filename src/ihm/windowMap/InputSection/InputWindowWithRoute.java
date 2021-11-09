@@ -426,7 +426,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
 
         //Delete request
-        //getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture());
+        /*//getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture());
         for (int j = 0; j < listDeleteButton.size(); j++) {
             int answer;
             //Use of the substring : The imageIcon of e.getSource() and the button aren't the same
@@ -472,9 +472,13 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
                             }
                         }
-                    }*/
+                    }
                 }
             }
+        }*/
+        if(e.getSource() ==deleteRequestTextually){
+            this.remove(deleteRequestTextually);
+            controller.deleteRequest();
         }
 
         if (e.getSource() == this.addRequest) {
