@@ -419,7 +419,6 @@ public class MapPanel extends JPanel implements MouseListener
         int destinationPixelX= pixelCoordsDestination[0];
         int destinationPixelY= pixelCoordsDestination[1];
         g.drawLine((int)originPixelX,(int)originPixelY,(int)destinationPixelX,(int)destinationPixelY);
-        //System.out.println(originPixelX + "."+ originPixelY+ "."+ destinationPixelX+ "."+ destinationPixelY);
 
     }
 
