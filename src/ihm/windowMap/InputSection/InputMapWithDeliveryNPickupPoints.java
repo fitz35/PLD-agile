@@ -1,4 +1,5 @@
 package ihm.windowMap.InputSection;
+import Model.Address;
 import Model.Intersection;
 import Model.Request;
 import Model.Segment;
@@ -100,30 +101,12 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
         return text1;
     }
 
-    public ArrayList<String> getStreetNames(Intersection intersection) {
-        streetNames = new ArrayList<>();
-        segmentsList = controller.getMap().getSegmentList();
-        for (int i = 0; i < segmentsList.size(); i++) {
-            if (intersection.equals(segmentsList.get(i).getOrigin()) ||
-                    intersection.equals(segmentsList.get(i).getDestination())) {
-                streetNames.add(segmentsList.get(i).getName());
-            }
-        }
-        ArrayList<String> newList = new ArrayList<>();
-        for (String element : streetNames) {
-            if (!newList.contains(element)) {
-                newList.add(element);
-            }
-
-        }
-        return newList;
-    }
-
     public static void setTexttoJLabel(String text, JLabel label) {
         label.setText(text);
     }
 
-    public void paint(Graphics g, Request r) {
+    @Override
+    public void paint(Graphics g) {
         super.paint(g);
 
         Graphics2D graphics2D = (Graphics2D) g;
@@ -139,6 +122,11 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
             g3d.drawString("" + (num + 1), 60, 215 + (i * 110));
         }
     }
+
+    /**
+     * get the max request per page
+     * @return the number max of request per page
+     */
     public int getMaxRequestsPerPage()
     {
         int heightPixels= Frame.height-145;
@@ -147,6 +135,9 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
         return ((int)(heightPixels/oneRequestHeight))-1;
     }
 
+    /**
+     * update the planning request
+     */
     public void updatePlanningRequestNotNull() {
         //Icons
         //ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
@@ -180,13 +171,13 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                     mapPanel.updateHighlight(true, -2, -2, -2);
                 }
             });
-            if(getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).size()==1) {
+            if(Address.getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint(), controller.getMap().getSegmentList()).size()==1) {
                 startingPointLatLong = new JButton("Starting Point : " +
-                        getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).get(0));
+                        Address.getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint(), controller.getMap().getSegmentList()).get(0));
             }else{
                 startingPointLatLong = new JButton("Starting Point : " +
-                        getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).get(0)+
-                        ", "+getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint()).get(1));
+                        Address.getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint(), controller.getMap().getSegmentList()).get(0)+
+                        ", "+Address.getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint(), controller.getMap().getSegmentList()).get(1));
             }
             startingPointLatLong.setBackground(ColorPalette.inputPannel);
             startingPointLatLong.setBorderPainted(false);
@@ -221,13 +212,13 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 listIconPickupButton.add(pickupIcon);
 
 
-                if(getStreetNames(requestsList.get(i).getPickupAddress()).size()==1) {
+                if(Address.getStreetNames(requestsList.get(i).getPickupAddress(), controller.getMap().getSegmentList()).size()==1) {
                     pickupButton = new JButton("Pickup Point : " +
-                            getStreetNames(requestsList.get(i).getPickupAddress()).get(0));
+                            Address.getStreetNames(requestsList.get(i).getPickupAddress(), controller.getMap().getSegmentList()).get(0));
                 }else{
                     pickupButton = new JButton("Pickup Point : " +
-                            getStreetNames(requestsList.get(i).getPickupAddress()).get(0)+
-                            ", "+getStreetNames(requestsList.get(i).getPickupAddress()).get(1));
+                            Address.getStreetNames(requestsList.get(i).getPickupAddress(), controller.getMap().getSegmentList()).get(0)+
+                            ", "+Address.getStreetNames(requestsList.get(i).getPickupAddress(), controller.getMap().getSegmentList()).get(1));
                 }
                 pickupButton.setBackground(ColorPalette.inputPannel);
                 pickupButton.setBorderPainted(false);
@@ -250,13 +241,13 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 deliveryIcon.addActionListener(this);
                 listIconDeliveryButton.add(deliveryIcon);
 
-                if(getStreetNames(requestsList.get(i).getDeliveryAddress()).size()==1) {
+                if(Address.getStreetNames(requestsList.get(i).getDeliveryAddress(), controller.getMap().getSegmentList()).size()==1) {
                     deliveryButton = new JButton("Delivery Point : " +
-                            getStreetNames(requestsList.get(i).getDeliveryAddress()).get(0));
+                            Address.getStreetNames(requestsList.get(i).getDeliveryAddress(), controller.getMap().getSegmentList()).get(0));
                 }else{
                     deliveryButton = new JButton("Delivery Point : " +
-                            getStreetNames(requestsList.get(i).getDeliveryAddress()).get(0)+
-                            ", "+getStreetNames(requestsList.get(i).getDeliveryAddress()).get(1));
+                            Address.getStreetNames(requestsList.get(i).getDeliveryAddress(), controller.getMap().getSegmentList()).get(0)+
+                            ", "+Address.getStreetNames(requestsList.get(i).getDeliveryAddress(), controller.getMap().getSegmentList()).get(1));
                 }
                 deliveryButton.setBackground(ColorPalette.inputPannel);
                 deliveryButton.setBorderPainted(false);
