@@ -82,7 +82,6 @@ public class Intersection {
      */
     public static double calculDis(Intersection i1, Intersection i2){
         double R = 6371e3; // earth radius
-        double res = 0;
 
         double lat1= i1.latitude * Math.PI/180; //radian conversion
         double lat2= i2.latitude * Math.PI/180;
@@ -93,7 +92,7 @@ public class Intersection {
                     * Math.sin(deltaLong/2) * Math.sin(deltaLong/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); // Angular distance
 
-        res = R * c; // in meters
+        double res = R * c; // in meters
         return res;
     }
 }

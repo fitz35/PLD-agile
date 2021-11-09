@@ -139,17 +139,19 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         this.add(instructionsChoosePointOfInterestBefore2);
         this.add(validateBeforePickup);
 
-
-
-
     }
 
+    @Override
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g3d = (Graphics2D) g;
     }
 
-   public void updateIntersectionClicked(Intersection intersection)
+    /**
+     * update this panel with an intersection clicked on the map
+     * @param intersection the intersection
+     */
+    public void updateIntersectionClicked(Intersection intersection)
     {
         ArrayList<String> names = Address.getStreetNames(intersection, controller.getMap().getSegmentList());
         String stringToAppend = "";
@@ -169,6 +171,9 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         }
     }
 
+    /**
+     * set all the component invisible
+     */
     public void setAllInvisible()
     {
         if(this.controller.getStateController() instanceof AddRequestState1 ) {
@@ -180,9 +185,9 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
             stepSummary3.setText("");
             stepSummary4.setText("");
             durationField.setText("");
-            errorMessage.setText("");
-
-
+            if(!((AddRequestState1) this.controller.getStateController()).isArrivedCauseIssue()){
+                errorMessage.setText("");
+            }
         }
         validate.setVisible(false);
         durationField.setVisible(false);
@@ -202,7 +207,9 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
 
     }
 
-
+    /**
+     * update this panel
+     */
     public void updatePanel()
     {
 
@@ -210,7 +217,6 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         if(this.controller.getStateController() instanceof AddRequestState1||this.controller.getStateController() instanceof AddRequestState2) {
             if(this.controller.getStateController() instanceof AddRequestState1) {
                 validate.setVisible(true);
-
             }
             header.setVisible(true);
             instructions.setVisible(true);
@@ -255,28 +261,23 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
             String myString= durationField.getText();
             try {
                 duration=Integer.parseInt(myString);
-                if(duration<0)
-                {
+                if(duration<0){
                     errorMessage.setText("You cannot input a negative time duration");
                     errorMessage.setVisible(true);
+                }else if(myString.compareTo("") == 0){
+                    errorMessage.setText("You cannot input an empty duration");
+                    errorMessage.setVisible(true);
                 }
-                else if(intersection==null)
-                {
+                else if(intersection==null){
                     errorMessage.setText("You need to choose a valid intersection. THOU SHALT NOT PASS!");
                     errorMessage.setVisible(true);
                 }
-                else
-                {
-
+                else{
                     controller.chooseNewPickup(intersection,duration);
                     updatePanel();
-
                 }
-
-
             }
-            catch (NumberFormatException exception)
-            {
+            catch (NumberFormatException exception){
                 errorMessage.setText("Not a number. Please refer to https://en.wikipedia.org/wiki/Natural_number for a list of acceptable natural numbers(N)");
                 errorMessage.setVisible(true);
             }
@@ -285,17 +286,18 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         }
         if(e.getSource()==validateBeforePickup)
         {
-            if(intersection==null)
-            {
+            if(intersection==null){
                 errorMessage.setText("You need to choose a valid intersection. THOU SHALT NOT PASS!");
                 errorMessage.setVisible(true);
             }
-            else
+            else if(intersection2 == null){
+                errorMessage2.setText("You need to choose a valid intersection. THOU SHALT NOT PASS!");
+                errorMessage2.setVisible(true);
+            }else
             {
                 controller.chooseBeforNewPickup(intersection2);
                 updatePanel();
             }
-
         }
         if(e.getSource()==back)
         {

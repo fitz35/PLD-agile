@@ -87,15 +87,12 @@ public class Map extends MapInterface {
      */
     public HashMap<Intersection,LinkedList<Segment>> createGraph() {
         for (Intersection inter : intersectionList) {
-            //HashMap<Intersection, Segment> destinations = new HashMap<>();
             LinkedList<Segment> interSegments = new LinkedList<>();
             Long intersectionID = inter.getId();
-            //System.out.println("Intersection id :"+intersectionID);
             for (Segment segment : segmentList) {
                 Long segmentOriginId = segment.getOrigin().getId();
                 if (segmentOriginId.equals(intersectionID)) {
                     interSegments.add(segment);
-                    Intersection segmentDest = segment.getDestination();
                 }
             }
             graphe.put(inter, interSegments);
@@ -521,10 +518,6 @@ public class Map extends MapInterface {
         return planningLoaded;
     }
 
-    //public boolean isFirstTourComputed() {
-    //      return tour != null;
-    //}
-
     /**
      * @return deliveryGraph
      */
@@ -628,23 +621,33 @@ public class Map extends MapInterface {
             throw new Exception();
         }else{
             Request newRequest = new Request(newPickup, newDelivery);
+            Path oldPath1 = tour.findPathOrigin(beforeNewPickup);
+            Path oldPath2 = tour.findPathOrigin(beforeNewDelivery);
+            Path newPath1;
+            Path newPath2;
+            Path newPath3;
+            Path newPath4;
             try {
-                replaceOldPathInTour(beforeNewPickup, newPickup);
+                newPath1 = findShortestPath(beforeNewPickup, newPickup);
+                newPath2 = findShortestPath(newPickup, oldPath1.getArrival());
             }catch (Exception e){
                 this.setChanged();
                 this.notifyObservers(newPickup);
                 throw new Exception("newPickup unreacheble");
             }
-            try{
-                replaceOldPathInTour(beforeNewDelivery, newDelivery);
-                this.planningRequest.addRequest(newRequest);
-                this.setChanged();
-                this.notifyObservers();
+            try {
+                newPath3 = findShortestPath(beforeNewDelivery, newDelivery);
+                newPath4 = findShortestPath(newDelivery, oldPath2.getArrival());
             }catch (Exception e){
                 this.setChanged();
-                this.notifyObservers(newDelivery);
+                this.notifyObservers(newPickup);
                 throw new Exception("newDelivery unreacheble");
             }
+            tour.replaceOldPath(oldPath1, newPath1, newPath2);
+            tour.replaceOldPath(oldPath2, newPath3, newPath4);
+            this.planningRequest.addRequest(newRequest);
+            this.setChanged();
+            this.notifyObservers();
         }
     }
 
@@ -683,7 +686,7 @@ public class Map extends MapInterface {
     }
 
     /**
-     * Retrieves a list of address necessary for the undo redo functionality
+     * Retrieves a list of addresses necessary for the undo redo functionality
      * @param pickupOrDelivery The pickup or delivery used to retrieve the aforementioned list
      * @return Returns a list of address as follows, the pickup address, the delivery address, the address we visit before
      * going to the pickup address and the address we visit before going to de delivery address
@@ -700,22 +703,6 @@ public class Map extends MapInterface {
         answer.add(beforeDeliveryDelivery.getDeparture());
 
         return answer;
-    }
-
-    /**
-     * Add a new point of interest to the tour and find the new shortest paths between the origin and the destination
-     * @param toVisitBefore
-     * @param destination
-     */
-    private void replaceOldPathInTour(Address toVisitBefore, Address destination) throws Exception{
-        Path oldPath = tour.findPathOrigin(toVisitBefore);
-        try{
-            Path newPath1 = findShortestPath(toVisitBefore, destination);
-            Path newPath2 = findShortestPath(destination, oldPath.getArrival());
-            tour.replaceOldPath(oldPath, newPath1, newPath2);
-        }catch (Exception e){
-            throw e;
-        }
     }
 
     /**
@@ -748,23 +735,6 @@ public class Map extends MapInterface {
 
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, ParseException {
         Map map = new Map();
-        // map.loadMap("./data/fichiersXML2020/largeMap.xml");
-        // PlanningRequest planning = new PlanningRequest();
-        // map.loadRequest("./data/fichiersXML2020/requestsMedium5.xml");
-        // System.out.println("passé");
-
-        //TEST DJIKSTRA
-        /*map.loadMap("data/fichiersXML2020/largeMap.xml");
-        //map.loadRequest("data/fichiersXML2020/requestsLarge7.xml");
-        map.createGraph();
-        Intersection inter = map.getIntersectionList().get(0);
-        HashMap<Intersection,Segment> testDjikstra = new HashMap<>();
-        testDjikstra = map.dijkstra(inter);
-        //System.out.println("Test djikstra");
-        testDjikstra.forEach((inte, segm)->{
-            System.out.println(inte.getId());
-        });*/
-
         map.loadMap("tests/ressource/mapTour.xml");
         map.loadRequest("tests/ressource/requestTour.xml");
         map.computeTour(200000000);
@@ -775,31 +745,6 @@ public class Map extends MapInterface {
             for(Segment seg: path.getSegmentsOfPath()){
                 System.out.println(seg.getOrigin().getId()+"   "+seg.getDestination().getId());
             }
-
         }
-
-        //Test égalité adresse / intersection
-        /*HashMap<Address,Intersection> h = new HashMap<>();
-        HashMap<Intersection,Address> h2 = new HashMap<>();
-        Intersection inter = new Intersection(0,4.75,2.2);
-        Intersection int2 = new Intersection(0,4.75,2.2);
-        Address address = new Address(0,4.75,2.2,6);
-        Address ad2 = new Address(0,4.75,2.2,6);
-        //if (address == ad2 ){
-        //if (address.equals(inter) ){
-        h.put(address,inter);
-        Intersection int3 = h.get(int2);
-        h2.put(inter,address);
-        Address ad3 = h2.get(ad2);
-        h2.replace(address,ad2);
-        if(inter == int2){
-            System.out.println("EGALITE INTERSECTION/ADDRESS REUSSIE");
-        }else{
-            System.out.println("EGALITE INTERSECTION/ADDRESS ECHOUE");
-        }
-
-        //System.out.println(map.getExtremIntersection()[0].getId() +"  "+ map.getExtremIntersection()[1].getId()+"  "+ map.getExtremIntersection()[2].getId()+"  "+ map.getExtremIntersection()[3].getId());
-        //System.out.println("passé");*/
     }
-
 }

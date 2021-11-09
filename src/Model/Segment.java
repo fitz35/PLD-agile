@@ -1,8 +1,6 @@
 package Model;
 import java.util.Objects;
 
-import java.util.Objects;
-
 public class Segment {
     /**
      * The origin of the segment
@@ -89,20 +87,7 @@ public class Segment {
         Intersection d = new Intersection(4, 15, 25);
         Segment s1 = new Segment(a, b, "AB", 30);
         Segment s2 = new Segment(c, d, "CD", 25);
-        Segment s3 = new Segment(a, c, "AC", 15);
-        Segment s4 = new Segment(b, d, "BD", 20);
-        Segment s5 = new Segment(a, d, "AD", 20);
-        Segment s6 = new Segment(b, c, "BC", 10);
-        Segment s7 = new Segment(a, b, "AB", 30);
         System.out.println("test d'égalité de s1 et s2");
         s1.equals(s2);
-        System.out.println("test d'égalité de s1 et s3");
-        s1.equals(s3);
-        System.out.println("test d'égalité de s1 et s7");
-        s1.equals(s7);
-        System.out.println("test d'égalité de s2 et s3");
-        s2.equals(s3);
-        System.out.println("test d'égalité de s2 et s6");
-        s2.equals(s6);
     }
 }

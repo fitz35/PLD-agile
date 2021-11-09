@@ -12,9 +12,13 @@ public class PlanningRequest {
     private ArrayList<Request> requestList;
 
     /**
-     * A map with all addresses
+     * A map to find a given Request by one of the address on it
      */
     private HashMap<Address, Request> addressRequestHashMap;
+    /**
+     * A map to find a given Address by it's index
+     */
+    private HashMap<Long, Address> idAddressHashMap;
 
     /**
      * The time of departure of the tour
@@ -46,6 +50,7 @@ public class PlanningRequest {
     public PlanningRequest() {
         requestList = new ArrayList<>();
         initAddressMap();
+        createAddresses();
     }
 
     /**
@@ -60,6 +65,7 @@ public class PlanningRequest {
         this.departureTime = departureTime;
         this.startingPoint = startingPoint;
         initAddressMap();
+        createAddresses();
     }
 
     /**
@@ -72,13 +78,15 @@ public class PlanningRequest {
     }
 
     /**
-     * Add a new request to the requestList
+     * Add a new request to the requestList and update hashmaps
      * @param newRequest
      */
     public void addRequest(Request newRequest) {
         requestList.add(newRequest);
         addressRequestHashMap.put(newRequest.getPickupAddress(), newRequest);
         addressRequestHashMap.put(newRequest.getDeliveryAddress(), newRequest);
+        idAddressHashMap.put(newRequest.getPickupAddress().getId(), newRequest.getPickupAddress());
+        idAddressHashMap.put(newRequest.getDeliveryAddress().getId(), newRequest.getPickupAddress());
     }
 
     /**
@@ -114,12 +122,16 @@ public class PlanningRequest {
      * point of each request
      */
     public ArrayList<Address> getListAddress() {
-        if(addressRCreated){
-            // System.out.println("Si pb lorsqu'on efface un planning puis on en créer un nouveau voir ic (PlanningRequest l57)");
-            return addressList;
-        }else {
-            //return all Intersection from the request and add the starting point address at the first place
-            addressList = new ArrayList<>(1 + requestList.size());
+        createAddresses();
+        addressRCreated = true;
+        return addressList;
+    }
+
+    private void createAddresses(){
+        //return all Intersection from the request and add the starting point address at the first place
+        addressList = new ArrayList<>(1 + requestList.size());
+        idAddressHashMap = new HashMap<>();
+        if(startingPoint != null) {
             Address startingAddress = new Address(startingPoint.getId(), startingPoint.getLatitude(),
                     startingPoint.getLongitude(), 0, 0/*for depot*/);
             addressList.add(startingAddress);
@@ -127,9 +139,9 @@ public class PlanningRequest {
             for (Request req : requestList) {
                 addressList.add(req.getPickupAddress());
                 addressList.add(req.getDeliveryAddress());
+                idAddressHashMap.put(req.getPickupAddress().getId(), req.getPickupAddress());
+                idAddressHashMap.put(req.getDeliveryAddress().getId(), req.getDeliveryAddress());
             }
-            addressRCreated = true;
-            return addressList;
         }
     }
 
@@ -139,13 +151,7 @@ public class PlanningRequest {
      * @return address
      */
     public Address getAddressById(long id){
-        for(Address address : addressList){
-            if(id == address.getId()){
-                return address ;
-            }
-        }
-        Address defaultAdress = new Address();
-        return defaultAdress;
+        return idAddressHashMap.get(id);
     }
 
     /**
@@ -213,15 +219,17 @@ public class PlanningRequest {
         this.requestList.remove(requestToRemove);
         addressRequestHashMap.remove(requestToRemove.getPickupAddress());
         addressRequestHashMap.remove(requestToRemove.getDeliveryAddress());
+        idAddressHashMap.remove(requestToRemove.getPickupAddress().getId());
+        idAddressHashMap.remove(requestToRemove.getDeliveryAddress().getId());
     }
 
     /**
      * Go back to the original planning request, loaded from an XML file
      */
     public void resetToOriginal(){
-        this.addressRCreated = false;
         this.requestList = this.originalPlanningRequest;
         initAddressMap();
+        createAddresses();
     }
 
 }
