@@ -13,6 +13,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * Class that represents each request. It has a pick up address and a delivery address
+ */
 public class Request {
     /**
      * The pickup address of the request

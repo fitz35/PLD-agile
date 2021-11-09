@@ -3,6 +3,9 @@ package Model;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+/**
+ * Class that represents the tour to be followed by the driver
+ */
 public class Tour{
     /**
      * An ordered list of segment to compute the tour
@@ -52,9 +55,10 @@ public class Tour{
 
     /**
      * Replace the old path with 2 new paths
-     * @param oldPath
-     * @param newPath1
-     * @param newPath2
+     * Precondition: newPath1.destination should be equal to newPath2.origin
+     * @param oldPath the path to be replaced
+     * @param newPath1 the first path to add
+     * @param newPath2 the second path to add
      */
     public void replaceOldPath(Path oldPath, Path newPath1, Path newPath2){
         if (this.orderedPathList.contains(oldPath)){
@@ -90,7 +94,8 @@ public class Tour{
     }
 
     /**
-     * @param origin
+     * Find a given path by it's origin
+     * @param origin origin of the path to be found
      * @return path
      */
     public Path findPathOrigin(Address origin){
@@ -99,7 +104,8 @@ public class Tour{
     }
 
     /**
-     * @param destination
+     * Find a given path by it's destination
+     * @param destination destination of the path to be found
      * @return path
      */
     public Path findPathDestination(Address destination){
@@ -108,10 +114,10 @@ public class Tour{
     }
 
     /**
-     * Replace 2 old paths ordered with a new path
-     * @param oldPath1
-     * @param oldPath2
-     * @param newPath
+     * Replace 2 consecutive paths with a new path
+     * @param oldPath1 first path to be removed
+     * @param oldPath2 second path to be removed
+     * @param newPath path to put into the list
      */
     public void replaceOldPaths(Path oldPath1, Path oldPath2, Path newPath){
         if (this.orderedPathList.contains(oldPath1) || this.orderedPathList.contains(oldPath2)){
@@ -131,6 +137,9 @@ public class Tour{
         }
     }
 
+    /**
+     * Clears all the attributes from the class
+     */
     public void reset(){
         orderedSegmentList.clear();
         originPathMap.clear();
