@@ -192,7 +192,12 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
             startingPointLatLong.setBorderPainted(false);
             startingPointLatLong.setBounds(100, 110, 420, 20);
             startingPointLatLong.setHorizontalAlignment(SwingConstants.LEFT);
-
+            startingPointLatLong.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    mapPanel.updateHighlight(true, -2, -2, -2);
+                }
+            });
 
             this.add(startingPoint);
             this.add(startingPointLatLong);

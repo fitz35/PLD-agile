@@ -288,8 +288,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
     public void updatePlanningRequestOptimalTour() {
 
-        this.revalidate();
-        this.repaint();
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
         this.add(verticalScrollerTour);
         this.add(wayRouteButton);
@@ -316,7 +314,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
 
                 listPath = new ArrayList<>();
-
 
                 for (int i = 0; i < pathListOptimalTour.size(); i++) {
                     if (i == 0) { //Starting point
