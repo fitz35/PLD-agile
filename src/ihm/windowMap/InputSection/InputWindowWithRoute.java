@@ -111,6 +111,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         this.add(redoButton);
         this.add(wayRouteButton);
 
+
         this.revalidate();
         this.repaint();
     }
@@ -287,6 +288,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
         this.add(verticalScrollerTour);
+        this.add(undoButton);
+        this.add(redoButton);
         this.add(wayRouteButton);
         this.add(deleteRequestTextually);
 
@@ -395,12 +398,26 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             }
         }
 
+        int availability = controller.getListOfCommands().undoRedoAvailability();
+        if(availability == 0){
+            redoButton.setEnabled(false);
+            undoButton.setEnabled(false);
+        }else if(availability == 1){
+            redoButton.setEnabled(false);
+            undoButton.setEnabled(true);
+        }else if (availability == 2){
+            undoButton.setEnabled(false);
+            redoButton.setEnabled(true);
+        }else if (availability == 3){
+            undoButton.setEnabled(true);
+            redoButton.setEnabled(true);
+        }
+
         wayBillText();
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
+    public void actionPerformed(ActionEvent e) {
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
 
@@ -410,16 +427,84 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             controller.back();
         }
 
+
+        //Delete request
+        /*//getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture());
+        for (int j = 0; j < listDeleteButton.size(); j++) {
+            int answer;
+            //Use of the substring : The imageIcon of e.getSource() and the button aren't the same
+            if (e.getSource().toString().substring(0, 50).equals(listDeleteButton.get(j).toString().substring(0, 50))) {
+                if (j == 0) {
+                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the departure? ", "Delete the departure", JOptionPane.YES_NO_OPTION);
+                } else if (j == listDeleteButton.size() - 1) {
+                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the arrival? ", "Delete the arrival", JOptionPane.YES_NO_OPTION);
+
+                } else {
+                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
+                }
+                if (answer == 0) {
+                    //System.out.println("delete"+getStreetNames(pathListOptimalTour.get(j).getDeparture()));
+                    //this.removeAll();
+                    controller.deleteRequest();
+
+                    //controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+                    controller.setStateController(new DeleteRequest());
+                    controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+
+
+
+                    /*if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,6)).equals("Pickup")){
+                        //Chercher delivery associé
+                        //System.out.println("C'est un pickup: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
+                        String numIntersection= getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(6,8);
+                        for(int k=0;k<pathListOptimalTour.size();k++){
+                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Delivery"+numIntersection)){
+                                System.out.println("delivery : "+getStreetNames(pathListOptimalTour.get(k).getDeparture()));
+                                //controller.deleteRequest();
+
+                                //controller.selectRequestToDelete(pathListOptimalTour.get(k).getDeparture()); //Delete the chosen point
+
+                            }
+                        }
+                    }else if((getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(0,8)).equals("Delivery")){
+                        //Chercher pickup associé
+                        String numIntersection= getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()).substring(8,10);
+                        //System.out.println("C'est un delivery: "+getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()));
+                        for(int k=0;k<pathListOptimalTour.size();k++){
+                            if(getIntersectionFromAddres(pathListOptimalTour.get(k).getDeparture()).equals("Pickup"+numIntersection)){
+
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
         if(e.getSource() ==deleteRequestTextually){
             this.remove(deleteRequestTextually);
             controller.deleteRequest();
         }
 
-        if(e.getSource() == this.addRequest)
-        {
+        if (e.getSource() == this.addRequest) {
             this.remove(addRequest);
             controller.addNewRequest();
         }
+
+        if(e.getSource() == this.undoButton) {
+            try{
+                controller.undo();
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+
+        if (e.getSource() == this.redoButton) {
+            try{
+                controller.redo();
+            }catch(Exception ex){
+                ex.printStackTrace();
+            }
+        }
+
 
         if(e.getSource() == wayRouteButton){
             saveAs();

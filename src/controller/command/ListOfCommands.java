@@ -88,9 +88,9 @@ public class ListOfCommands {
         {
             return 0;
         }else{
-            if (currentIndex == 0){
+            if (currentIndex == -1){
                 return 2;
-            }else if(currentIndex == list.size()){
+            }else if(currentIndex == list.size()-1){
                 return 1;
             }else {
                 return 3;

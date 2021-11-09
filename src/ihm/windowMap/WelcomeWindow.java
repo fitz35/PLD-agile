@@ -64,7 +64,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
         path = new JLabel();
         //path.setBounds((int)(width*0.25),(int)(height*0.58),(int)(width*0.45),(int)(height/30));
-        path.setBounds((int)(width*0.25),(int)(height*0.58), (int)(width*0.5),15);
+        path.setBounds((int)(width*0.28),(int)(height*0.58), (int)(width*0.45),15);
         path.setOpaque(true);
         path.setBackground(new Color(220,220,220));
         path.addKeyListener(this);
