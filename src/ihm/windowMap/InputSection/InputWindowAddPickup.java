@@ -139,17 +139,19 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         this.add(instructionsChoosePointOfInterestBefore2);
         this.add(validateBeforePickup);
 
-
-
-
     }
 
+    @Override
     public void paint(Graphics g) {
         super.paint(g);
         Graphics2D g3d = (Graphics2D) g;
     }
 
-   public void updateIntersectionClicked(Intersection intersection)
+    /**
+     * update this panel with an intersection clicked on the map
+     * @param intersection the intersection
+     */
+    public void updateIntersectionClicked(Intersection intersection)
     {
         ArrayList<String> names = Address.getStreetNames(intersection, controller.getMap().getSegmentList());
         String stringToAppend = "";
@@ -169,6 +171,9 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         }
     }
 
+    /**
+     * set all the component invisible
+     */
     public void setAllInvisible()
     {
         if(this.controller.getStateController() instanceof AddRequestState1 ) {
@@ -180,9 +185,9 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
             stepSummary3.setText("");
             stepSummary4.setText("");
             durationField.setText("");
-            errorMessage.setText("");
-
-
+            if(!((AddRequestState1) this.controller.getStateController()).isArrivedCauseIssue()){
+                errorMessage.setText("");
+            }
         }
         validate.setVisible(false);
         durationField.setVisible(false);
@@ -202,7 +207,9 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
 
     }
 
-
+    /**
+     * update this panel
+     */
     public void updatePanel()
     {
 
@@ -210,7 +217,6 @@ public class InputWindowAddPickup extends InputBase implements ActionListener
         if(this.controller.getStateController() instanceof AddRequestState1||this.controller.getStateController() instanceof AddRequestState2) {
             if(this.controller.getStateController() instanceof AddRequestState1) {
                 validate.setVisible(true);
-
             }
             header.setVisible(true);
             instructions.setVisible(true);
