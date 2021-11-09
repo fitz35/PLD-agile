@@ -352,7 +352,6 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
 
 
         //Delete request
-        //getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture());
 
         for (int j = 0; j < listDeleteButton.size(); j++) {
             int answer=-1;
