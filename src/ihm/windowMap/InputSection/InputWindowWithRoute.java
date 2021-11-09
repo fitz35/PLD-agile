@@ -300,12 +300,13 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     }
 
     public void updatePlanningRequestOptimalTour() {
-
+        this.removeAll();
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
         totalTour=0;
         this.add(verticalScrollerTour);
         this.add(wayRouteButton);
         this.add(deleteRequestTextually);
+        this.add(backToLoadRequest);
 
 
 

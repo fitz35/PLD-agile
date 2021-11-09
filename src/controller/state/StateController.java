@@ -8,6 +8,7 @@ import ihm.windowMap.WindowMap;
 
 /**
  * Interface implemented from the contoller design pattern
+ * each method is at least overrided in a State
  */
 public interface StateController {
     public default void loadMap(Controller context, String path){};

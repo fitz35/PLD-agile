@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * Class that represents all the requests that need to be satisfied
+ */
 public class PlanningRequest {
     /**
      * List with all requests
@@ -35,10 +38,6 @@ public class PlanningRequest {
      */
     private ArrayList<Address> addressList;
     /**
-     * false if adaddressList was not created yet
-     */
-    private boolean addressRCreated = false;
-    /**
      * Original planning request, as loaded from an XML file
      */
     private ArrayList<Request> originalPlanningRequest;
@@ -55,9 +54,9 @@ public class PlanningRequest {
 
     /**
      * Constructor
-     * @param requestArrayList
-     * @param departureTime
-     * @param startingPoint
+     * @param requestArrayList All the requests that need to be satisfied
+     * @param departureTime The time at which the driver will start it's tour
+     * @param startingPoint Depot, place from which the driver will start and end it's tour
      */
     public PlanningRequest(ArrayList<Request> requestArrayList, Date departureTime, Intersection startingPoint) {
         this.requestList = requestArrayList;
@@ -78,8 +77,8 @@ public class PlanningRequest {
     }
 
     /**
-     * Add a new request to the requestList and update hashmaps
-     * @param newRequest
+     * Add a new request to the requestList and updates all the HashMaps
+     * @param newRequest request to be added
      */
     public void addRequest(Request newRequest) {
         requestList.add(newRequest);
@@ -123,10 +122,15 @@ public class PlanningRequest {
      */
     public ArrayList<Address> getListAddress() {
         createAddresses();
-        addressRCreated = true;
         return addressList;
     }
 
+    /**
+     * Will create the addres List, in this list we will find all the addresses that need to be visited
+     * And update the HashMaps for searching. It is very important to have the starting node at index 0
+     * and always at index p=2n+1 the pickup address for the delivery address at index q=2n+2
+     * As this order will be used when computing the TSP
+     */
     private void createAddresses(){
         //return all Intersection from the request and add the starting point address at the first place
         addressList = new ArrayList<>(1 + requestList.size());
@@ -199,7 +203,7 @@ public class PlanningRequest {
     }
 
     /**
-     * Initialize the map with all addresses of requests
+     * Initialize the map used to find a request by a address
      */
     private void initAddressMap(){
         addressRequestHashMap = new HashMap<>();

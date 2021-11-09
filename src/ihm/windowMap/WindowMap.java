@@ -41,7 +41,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         inputWindowAddDelivery= new InputWindowAddDelivery(controller);
         inputWindowDeleteIntersection = new InputWindowDeleteIntersection(this,controller);
 
-        mapPanel= new MapPanel(panelWithRequests,inputWindowWithRoute,inputWindowAddPickup,controller, inputWindowAddDelivery,
+        mapPanel= new MapPanel(inputWindowAddPickup,controller, inputWindowAddDelivery,
                 inputWindowDeleteIntersection);
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller, this.mapPanel);
         inputWindowWithRoute = new InputWindowWithRoute(this,controller,mapPanel);
