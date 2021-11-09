@@ -52,7 +52,6 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
     private JScrollBar verticalScrollerTour;
 
     private WindowMap window;
-    private MapPanel mapPanel;
 
     private ArrayList<Request> requestsList;
     private ArrayList<Segment> segmentsList;
