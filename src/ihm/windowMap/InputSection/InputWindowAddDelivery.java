@@ -2,28 +2,27 @@ package ihm.windowMap.InputSection;
 
 import Model.Address;
 import Model.Intersection;
-import Model.Request;
-import Model.Tour;
 import controller.Controller;
 import controller.state.*;
 import ihm.windowMap.ColorPalette;
-import ihm.windowMap.Frame;
-import ihm.windowMap.MapPanel;
-import ihm.windowMap.WindowMap;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * This class is used to construct a panel used to enter a new delivery point while
+ * adding a new request
+ * @ version 1.0.0.0
+ * @ author Tushita Ramkaran
+ */
+
 public class InputWindowAddDelivery extends InputBase implements ActionListener
 {
     private JButton validate;
     private JButton back;
-
     private JTextField durationField;
-
     private JLabel errorMessage;
     private JLabel errorMessage2;
     private JLabel instructions;
@@ -33,7 +32,6 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
     private JLabel stepSummary2;
     private Intersection intersection;
     private Intersection intersection2;
-
     private JLabel instructionsChoosePointOfInterestBefore;
     private JLabel instructionsChoosePointOfInterestBefore2;
     private JLabel stepSummary3;
@@ -50,7 +48,8 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         header.setBounds(10,   50, 600,30);
 
 
-        instructions=new JLabel("Choose a new delivery point by clicking on an intersection on the map on your left");
+        instructions=new JLabel("Choose a new delivery point by clicking" +
+                " on an intersection on the map on your left");
         instructions.setFont(new Font("Serif", Font.BOLD, 14));
         instructions.setBounds(10,  90, 600,30);
 
@@ -74,10 +73,6 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         stepSummary4.setBounds(10,  400, 500,30);
         stepSummary4.setVisible(false);
 
-
-
-
-
         validate= new JButton("Validate delivery intersection");
         validate.setBounds(10, 235, 200,30);
         validate.addActionListener(this);
@@ -88,11 +83,9 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         validateBeforeDelivery.addActionListener(this);
         validateBeforeDelivery.setVisible(false);
 
-
         back= new JButton("Back");
         back.setBounds(250, 600, 200,30);
         back.addActionListener(this);
-
 
         durationField= new JTextField();
         durationField.setBounds(10, 200, 200,30);
@@ -111,16 +104,19 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         errorMessage2.setForeground(ColorPalette.errorMessage);
         errorMessage2.setVisible(false);
 
-        instructionsChoosePointOfInterestBefore=new JLabel("Choose the point Of Interest to be visited before the new delivery by clicking ");
-        instructionsChoosePointOfInterestBefore.setFont(new Font("Serif", Font.BOLD, 14));
+        instructionsChoosePointOfInterestBefore=new JLabel("Choose the point Of Interest" +
+                " to be visited before the new delivery by clicking ");
+        instructionsChoosePointOfInterestBefore.setFont(new Font("Serif",
+                Font.BOLD, 14));
         instructionsChoosePointOfInterestBefore.setBounds(10,  295, 600,30);
         instructionsChoosePointOfInterestBefore.setVisible(false);
 
-        instructionsChoosePointOfInterestBefore2=new JLabel("on an intersection on the map on your left");
-        instructionsChoosePointOfInterestBefore2.setFont(new Font("Serif", Font.BOLD, 14));
+        instructionsChoosePointOfInterestBefore2=new JLabel("on an intersection on " +
+                "the map on your left");
+        instructionsChoosePointOfInterestBefore2.setFont(new Font("Serif",
+                Font.BOLD, 14));
         instructionsChoosePointOfInterestBefore2.setBounds(10,  320, 630,30);
         instructionsChoosePointOfInterestBefore2.setVisible(false);
-
 
         this.add(header);
         this.add(instructions);
@@ -137,10 +133,6 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         this.add( instructionsChoosePointOfInterestBefore);
         this.add(instructionsChoosePointOfInterestBefore2);
         this.add(validateBeforeDelivery);
-
-
-
-
     }
 
     @Override
@@ -150,13 +142,14 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
     }
 
     /**
-     * update the intersection from the map
-     * @param intersection the intersection
+     * Displays the name of the road clicked by the user on the window
+     * @param intersection the intersection clicked on by the user
      */
     public void updateIntersectionClicked(Intersection intersection)
     {
 
-        ArrayList<String> names = Address.getStreetNames(intersection, controller.getMap().getSegmentList());
+        ArrayList<String> names = Address.getStreetNames(intersection,
+                controller.getMap().getSegmentList());
         String stringToAppend = "";
         for(int i = 0 ; i < 2 && i < names.size() ; i++){
             if(i != 0)  stringToAppend += ", ";
@@ -166,22 +159,25 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
             System.out.println("In update intersection in delivery panel");
             this.intersection = intersection;
             stepSummary.setText("You have clicked on the intersection "+stringToAppend );
-            stepSummary2.setText("To choose another point, click on another intersection on the map");
+            stepSummary2.setText("To choose another point, click on another" +
+                    " intersection on the map");
         }
         else if(controller.getStateController() instanceof AddRequestState4){
             this.intersection2 = intersection;
             stepSummary3.setText("You have clicked on the intersection "+stringToAppend);
-            stepSummary4.setText("To choose another point, click on another intersection on the map");
+            stepSummary4.setText("To choose another point, click on another " +
+                    "intersection on the map");
         }
     }
 
     /**
-     * set all the componnent to invisible
+     * sets the visiblity of all components on the panel to false
+     * resets the content of JLabels to null
+     * resets the intersections clicked on by the user to null
      */
     public void setAllInvisible()
     {
         if(this.controller.getStateController() instanceof AddRequestState3 ) {
-            System.out.println("state3");
             intersection=null;
             intersection2=null;
             stepSummary.setText("");
