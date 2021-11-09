@@ -55,10 +55,11 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     private ArrayList<Request> requestsList;
     private LinkedList<Path> pathListOptimalTour;
 
-    public InputWindowWithRoute (WindowMap window, Controller controller)
+    public InputWindowWithRoute (WindowMap window, Controller controller, MapPanel mapPanel)
     {
         super(controller);
         this.window=window;
+        this.mapPanel = mapPanel;
 
         text1 = new JLabel();
         text1.setBounds(30, 40, 600, 40);
@@ -253,7 +254,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                         }
                     }
                     textAreaWayBill.append("\nWhich is going to last "+ pathListOptimalTour.get(i).getDeparture().getAddressDuration() + " seconds"
-                    +"  to arrive to the next point at : " + getString(hours) + ":" + getString(minutes) + "\n" );
+                            +"  to arrive to the next point at : " + getString(hours) + ":" + getString(minutes) + "\n" );
                     if (i != pathListOptimalTour.size() - 1) {
                         textAreaWayBill.append("Then, \n");
                     }
@@ -326,6 +327,12 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                                     "  <br />   Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0) +
                                     ", " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(1)+ "</html>");
                         }
+                        pathButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                mapPanel.updateHighlight(true, -2, -2, -2);
+                            }
+                        });
 
                     } else {
                         hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
@@ -380,6 +387,12 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                         arrivalButton.setBackground(ColorPalette.inputPannel);
                         arrivalButton.setBorderPainted(false);
                         arrivalButton.addActionListener(this);
+                        arrivalButton.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                mapPanel.updateHighlight(true, -2, -2, -2);
+                            }
+                        });
                         listPath.add(arrivalButton);
                     }
                 }
@@ -419,8 +432,13 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     @Override
     public void actionPerformed(ActionEvent e)
     {
+        int highlightDeliveryNumber = -2;
+        int highlightPickupNumber = -2;
+        int highlightRequestNumber = -2;
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
+        pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();
+
 
         if (e.getSource() == backToLoadRequest) {
             this.removeAll();
@@ -458,6 +476,33 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         if(e.getSource() == wayRouteButton){
             saveAs();
         }
+
+        for(int j=0;j<listPath.size()-1;j++) {
+            for (int i = 0; i < requestsList.size(); i++) {
+                //System.out.println("1 : "+e.getSource().toString().substring(0, 50));
+                //System.out.println("2 : "+listPath.get(j).toString().substring(0, 50));
+                //System.out.println("3 : "+getIntersectionFromAddres(requestsList.get(i).getPickupAddress()));
+                //System.out.println("4 : "+getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture()).length());
+
+
+
+                if (e.getSource().toString().substring(0, 50).equals(listPath.get(j).toString().substring(0, 50))) {
+                    if(requestsList.get(i).getPickupAddress().equals(pathListOptimalTour.get(j).getDeparture())
+                            &&
+                            getIntersectionFromAddres(requestsList.get(i).getPickupAddress()).length()==8){
+                        highlightPickupNumber = i;
+                    }
+                    if(requestsList.get(i).getDeliveryAddress().equals(pathListOptimalTour.get(j).getDeparture())
+                       &&     getIntersectionFromAddres(requestsList.get(i).getDeliveryAddress()).length()==10){
+                        highlightDeliveryNumber = i;
+
+                    }
+                    this.mapPanel.updateHighlight(false, highlightPickupNumber, highlightDeliveryNumber, highlightRequestNumber);
+
+                }
+            }
+        }
+
     }
 
     public void adjustmentValueChanged(AdjustmentEvent e) {

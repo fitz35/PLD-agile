@@ -349,17 +349,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
             }
         }
 
-        //Delete request
-        /*
-        for (int j = 0; j < listDeleteButton.size(); j++) {
-            if (e.getSource().toString().substring(0, 50).equals(listDeleteButton.get(j).toString().substring(0, 50))) {
-                int answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the request " + (j + 1) + " ?", "Delete a request", JOptionPane.YES_NO_OPTION);
-                if (answer == 0) {
-                    // Remove the request from the planning request, the calculation of the new
-                    // optimal tour has also to be handled
-                }
-            }
-        }*/
         this.mapPanel.updateHighlight(highlightStartNumber, highlightPickupNumber, highlightDeliveryNumber, highlightRequestNumber);
 
     }
