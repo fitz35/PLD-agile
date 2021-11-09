@@ -185,7 +185,9 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
             stepSummary3.setText("");
             stepSummary4.setText("");
             durationField.setText("");
-            errorMessage.setText("");
+            if(!((AddRequestState3) this.controller.getStateController()).isArrivedCauseIssue()){
+                errorMessage.setText("");
+            }
 
 
         }
