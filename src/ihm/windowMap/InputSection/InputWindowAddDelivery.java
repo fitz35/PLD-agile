@@ -102,11 +102,13 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         errorMessage= new JLabel("Error");
         errorMessage.setBounds(20, 260, 600,30);
         errorMessage.setFont(new Font("Serif", Font.BOLD, 10));
+        errorMessage.setForeground(ColorPalette.errorMessage);
         errorMessage.setVisible(false);
 
         errorMessage2= new JLabel("Error");
         errorMessage2.setBounds(10, 410, 200,30);
         errorMessage2.setFont(new Font("Serif", Font.BOLD, 10));
+        errorMessage2.setForeground(ColorPalette.errorMessage);
         errorMessage2.setVisible(false);
 
         instructionsChoosePointOfInterestBefore=new JLabel("Choose the point Of Interest to be visited before the new delivery by clicking ");
@@ -146,7 +148,10 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         Graphics2D g3d = (Graphics2D) g;
     }
 
-
+    /**
+     * update the intersection from the map
+     * @param intersection the intersection
+     */
     public void updateIntersectionClicked(Intersection intersection)
     {
 
@@ -169,6 +174,9 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         }
     }
 
+    /**
+     * set all the componnent to invisible
+     */
     public void setAllInvisible()
     {
         if(this.controller.getStateController() instanceof AddRequestState3 ) {
@@ -203,6 +211,9 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
     }
 
 
+    /**
+     * update this panel
+     */
     public void updatePanel()
     {
 
@@ -238,7 +249,13 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener
         this.repaint();
     }
 
-
+    /**
+     * set an error with this address
+     */
+    public void setErrorMessage(){
+        errorMessage.setText("Delivery unreachable, please choose another one");
+        errorMessage.setVisible(true);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

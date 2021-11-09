@@ -354,25 +354,26 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
 
         //Delete request
         //getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture());
-        for (int j = 0; j < listDeleteButton.size(); j++) {
-            int answer;
-            //Use of the substring : The imageIcon of e.getSource() and the button aren't the same
-            if (e.getSource().toString().substring(0, 50).equals(listDeleteButton.get(j).toString().substring(0, 50))) {
-                if(j==0){
-                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the departure? ", "Delete the departure", JOptionPane.YES_NO_OPTION);
-                }else if(j==listDeleteButton.size()-1){
-                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the arrival? ", "Delete the arrival", JOptionPane.YES_NO_OPTION);
 
-                }else {
-                    answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
-                }
-                if (answer == 0) {
-                    this.removeAll();
-                    this.add(backToLoadRequest);
-                    controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+            for (int j = 0; j < listDeleteButton.size(); j++) {
+                int answer;
+                //Use of the substring : The imageIcon of e.getSource() and the button aren't the same
+                if (e.getSource().toString().substring(0, 50).equals(listDeleteButton.get(j).toString().substring(0, 50))) {
+                    if (j == 0) {
+                        answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the departure? ", "Delete the departure", JOptionPane.YES_NO_OPTION);
+                    } else if (j == listDeleteButton.size() - 1) {
+                        answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the arrival? ", "Delete the arrival", JOptionPane.YES_NO_OPTION);
+
+                    } else {
+                        answer = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the " + getIntersectionFromAddres(pathListOptimalTour.get(j).getDeparture()) + " ?", "Delete an address", JOptionPane.YES_NO_OPTION);
+                    }
+                    if (answer == 0) {
+                        this.removeAll();
+                        this.add(backToLoadRequest);
+                        controller.selectRequestToDelete(pathListOptimalTour.get(j).getDeparture()); //Delete the chosen point
+                    }
                 }
             }
-        }
 
     }
 

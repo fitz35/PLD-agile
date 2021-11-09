@@ -17,6 +17,14 @@ public class Address extends Intersection{
      */
     private int type;
 
+    /**
+     * return the type of the address
+     * @return The type of the adress, it can be 0 if it is a depot, 1 if it is a pickup or 2 if it is a delivery
+     */
+    public int getType(){
+        return this.type;
+    }
+
     public Address(long id, double latitude, double longitude, int addressDuration, int type) {
         super(id, latitude, longitude);
         this.addressDuration = addressDuration;
