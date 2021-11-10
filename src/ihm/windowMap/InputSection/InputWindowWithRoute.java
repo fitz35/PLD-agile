@@ -30,6 +30,7 @@ import java.util.LinkedList;
  * @ author Hexanome 4124
  */
 public class InputWindowWithRoute extends InputBase implements ActionListener, AdjustmentListener {
+    public static final double speed = 4.2;// m/s
     public static final String pathToImg = "./data/images/";
     private JButton backToLoadRequest;
     private JButton pathButton;
@@ -263,9 +264,12 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                             textAreaWayBill.append(listStreetNames.get(k) + ", ");
                         }
                     }
+                    totalTour = totalTour + pathListOptimalTour.get(i).getDeparture().getAddressDuration();
                 } else { //Other points
-                    hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
-                    minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
+                    hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0] +
+                            computeTime((int)(pathListOptimalTour.get(i - 1).getDistance()/speed))[0];
+                    minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1]+
+                            computeTime((int)(pathListOptimalTour.get(i - 1).getDistance()/speed))[1];
 
                     if (minutes >= 60) {
                         hours++;
@@ -288,13 +292,17 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     textAreaWayBill.append("\nWhich is going to last "+ pathListOptimalTour.get(i).getDeparture().getAddressDuration() + " seconds"
                             +"  to arrive to the next point at : " + getString(hours) + ":" + getString(minutes) + "\n" );
                     totalTour += pathListOptimalTour.get(i).getDeparture().getAddressDuration();
+                    totalTour += pathListOptimalTour.get(i - 1).getDistance()/speed;
                     if (i != pathListOptimalTour.size() - 1) {
                         textAreaWayBill.append("Then, \n");
                     }
                 }
                 if (i == pathListOptimalTour.size() - 1) { //Arrival
-                    hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
-                    minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
+                    hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0] +
+                            computeTime((int)(pathListOptimalTour.get(i - 1).getDistance()/speed))[0];
+                    minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1]+
+                            computeTime((int)(pathListOptimalTour.get(i - 1).getDistance()/speed))[1];
+                    totalTour += pathListOptimalTour.get(i).getDistance()/speed;
 
                     if (minutes >= 60) {
                         hours++;
@@ -370,10 +378,12 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                                 mapPanel.updateHighlight(true, -2, -2, -2);
                             }
                         });
-
+                        totalTour = totalTour + pathListOptimalTour.get(i).getDeparture().getAddressDuration();
                     } else {
-                        hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
-                        minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
+                        hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0] +
+                                computeTime((int)(pathListOptimalTour.get(i - 1).getDistance()/speed))[0];
+                        minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1]+
+                                computeTime((int)(pathListOptimalTour.get(i - 1).getDistance()/speed))[1];
 
                         if (minutes >= 60) {
                             hours++;
@@ -396,6 +406,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                                     " <br />   Duration : " + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + "</html>");
                         }
                         totalTour = totalTour + pathListOptimalTour.get(i).getDeparture().getAddressDuration();
+                        totalTour += pathListOptimalTour.get(i - 1).getDistance()/speed;
+
                     }
                     pathButton.setHorizontalAlignment(SwingConstants.LEFT);
                     pathButton.setBackground(ColorPalette.inputPannel);
@@ -404,8 +416,11 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     listPath.add(pathButton);
 
                     if (i == (pathListOptimalTour.size()) - 1) { //For the last point, take the departure AND arrival
-                        hours += computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
-                        minutes += computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1];
+                        hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0] +
+                                computeTime((int)(pathListOptimalTour.get(i - 1).getDistance()/speed))[0];
+                        minutes = minutes + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[1]+
+                                computeTime((int)(pathListOptimalTour.get(i - 1).getDistance()/speed))[1];
+                        totalTour += pathListOptimalTour.get(i).getDistance()/speed;
 
                         if (minutes >= 60) {
                             hours++;
