@@ -15,7 +15,7 @@ public class RequestLoaded implements StateController {
     @Override
     public void loadTour(Controller controller) {
         try{
-            controller.getMap().computeTour(10000);
+            controller.getMap().computeTour(8000);
             if(controller.getMap().getTimedOutError() == 0){
                 controller.setStateController(new FirstTourComputed());
             }else if(controller.getMap().getTimedOutError() == 1){
