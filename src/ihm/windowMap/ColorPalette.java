@@ -8,7 +8,6 @@ import java.awt.*;
  * @ author Hexanome 4124
  */
 public class ColorPalette {
-
     public static final Color mapBackground = new Color(216,234,201);
     public static final Color inputPannel = new Color(114, 175, 103);
     public static final Color textNotice = new Color(47, 61, 40);
