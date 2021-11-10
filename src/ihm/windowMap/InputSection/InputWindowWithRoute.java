@@ -303,6 +303,8 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         this.removeAll();
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
         totalTour=0;
+        this.add(undoButton);
+        this.add(redoButton);
         this.add(verticalScrollerTour);
         this.add(wayRouteButton);
         this.add(deleteRequestTextually);
