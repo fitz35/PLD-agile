@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * This class is used to construct a panel to allow the user to load an xml request file
+ * This class is used to factorise some code for the frazme
  * @ version 1.0.0.0
  * @ author Hexanome 4124
  */

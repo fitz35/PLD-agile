@@ -118,7 +118,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         this.revalidate();
         this.repaint();
     }
-
+    @Override
     public void paint(Graphics g) {
         super.paint(g);
     }
@@ -528,14 +528,14 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         }
     }
 
+    @Override
     public void adjustmentValueChanged(AdjustmentEvent e) {
         if (e.getSource() == verticalScrollerTour) {
             this.removeAll();
 
             this.add(verticalScrollerTour);
             this.add(backToLoadRequest);
-            if(!(controller.getStateController() instanceof  AddRequestState2))
-            {
+            if(!(controller.getStateController() instanceof  AddRequestState2)){
                 this.add(addRequest);
             }
             this.add(text2);
