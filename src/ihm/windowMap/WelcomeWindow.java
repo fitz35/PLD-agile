@@ -3,7 +3,6 @@ package ihm.windowMap;
 
 import Model.MapInterface;
 import controller.Controller;
-
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -15,12 +14,18 @@ import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * This class is used to construct a panel used to enter a new delivery point while
+ * adding a new request
+ * @ version 1.0.0.0
+ * @ author Hexanome 4124
+ */
+
 
 //width=1280
 //height= 720
 
-public class WelcomeWindow extends Frame implements Observer, ActionListener, KeyListener
-{
+public class WelcomeWindow extends Frame implements Observer, ActionListener, KeyListener {
     public static final String pathToImg= "./data/images/";
     private JButton browse;
     private JLabel path;
@@ -33,8 +38,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
     private JLabel appliLabel;
     private Controller controller;
 
-    public WelcomeWindow(Controller controller)
-    {
+    public WelcomeWindow(Controller controller) {
         super();
         this.controller=controller;
         panel= new JPanel();
@@ -44,7 +48,6 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         this.add(panel);
         panel.add(body);
 
-
         ImageIcon background= new ImageIcon(new ImageIcon(pathToImg+"WelcomeWindow.jpeg").getImage().getScaledInstance(width,height, Image.SCALE_DEFAULT));
         body.setIcon(background);
 
@@ -53,8 +56,6 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         appliLabel.setBounds((width/4),(height/10), (int)(width*0.6),(height/3));
         body.add(appliLabel);
         appliLabel.setIcon(appliName);
-
-
 
         path = new JLabel();
         //path.setBounds((int)(width*0.25),(int)(height*0.58),(int)(width*0.45),(int)(height/30));
@@ -89,12 +90,10 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
     }
 
     /**
-     * test if a file is an xml
-     * @param fileName the name of the file
-     * @return if it is acceptable
+     * tests if a file is an xml
+     * @param fileName the name of the file with its extension
      */
-    public static boolean acceptFile(String fileName)
-    {
+    public static boolean acceptFile(String fileName) {
         String extension= " ";
         int i = fileName.lastIndexOf('.');
         if(i > 0 &&  i < fileName.length() - 1)
@@ -106,10 +105,8 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        if (e.getSource() ==browse)
-        {
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() ==browse) {
 
             errorMsg.setVisible(false);
             JFileChooser choice = new JFileChooser(".");
@@ -127,8 +124,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
                     loadMap.setVisible(true);
 
                 }
-                else
-                {
+                else {
                     errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
                     errorMsg.setText("EXTENSION NOT ACCEPTED. PLEASE CHOOSE A FILE WITH AN XML EXTENSION");
                     errorMsg.setForeground(ColorPalette.errorMessage);
@@ -137,8 +133,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
             }
         }
 
-        if (e.getSource() == loadMap)
-        {
+        if (e.getSource() == loadMap) {
             controller.loadMap(pathUrl);
         }
 
@@ -146,14 +141,11 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
 
 
     @Override
-    public void keyTyped(KeyEvent e)
-    {
-        if (e.getSource() == path)
-        {
+    public void keyTyped(KeyEvent e) {
+        if (e.getSource() == path) {
             errorMsg.setVisible(false);
             pathUrl= path.getText()+e.getKeyChar();
-            if (acceptFile(pathUrl))
-            {
+            if (acceptFile(pathUrl)) {
                 loadMap.setVisible(true);
             }
         }
