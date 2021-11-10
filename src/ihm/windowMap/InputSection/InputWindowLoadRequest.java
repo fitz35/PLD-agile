@@ -92,7 +92,7 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
         if (e.getSource() ==browse)
         {
             errorMsg.setVisible(false);
-            JFileChooser choice = new JFileChooser(".");
+            JFileChooser choice = new JFileChooser("./data/fichiersXML2020");
             int returnValue = choice.showOpenDialog(null);
             if(returnValue == JFileChooser.APPROVE_OPTION){
                 String fileName=choice.getSelectedFile().getName();

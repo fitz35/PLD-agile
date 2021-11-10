@@ -109,7 +109,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         if (e.getSource() ==browse) {
 
             errorMsg.setVisible(false);
-            JFileChooser choice = new JFileChooser(".");
+            JFileChooser choice = new JFileChooser("./data/fichiersXML2020");
             FileFilter filter = new FileNameExtensionFilter("XML File","xml");
             choice.setFileFilter(filter);
             int returnValue = choice.showOpenDialog(null);
