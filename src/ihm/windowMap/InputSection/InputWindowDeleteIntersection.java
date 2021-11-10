@@ -76,7 +76,7 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
         text.setFont(new Font("Serif", Font.BOLD, 15));
 
         verticalScrollerTour = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
-        verticalScrollerTour.setBounds((int) (this.getWidth()-30), (int) (0.15 * Frame.height), 20, (int) (this.getHeight()*2/3));
+        verticalScrollerTour.setBounds((int) (this.getWidth()-40), (int) (0.15 * Frame.height), 20, (int) (this.getHeight()*2/3));
         verticalScrollerTour.addAdjustmentListener(this);
 
         backToLoadRequest = new JButton("BACK");
@@ -130,8 +130,8 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
      * @return
      */
     public int getMaxRequestsPerPage() {
-        int heightPixels= Frame.height-(int) (0.2 * Frame.height);
-        int oneRequestHeight= (230-(int) (0.2 * Frame.height)+50)/2;
+        int heightPixels= this.getHeight()-(int) (0.2 * Frame.height);
+        int oneRequestHeight= ((int) (0.2 * Frame.height)+55-(int) (0.2 * this.getHeight())+100)/2;
         return ((int)(heightPixels/oneRequestHeight))-1;
     }
 
