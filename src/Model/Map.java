@@ -645,7 +645,7 @@ public class Map extends MapInterface {
                 newPath4 = findShortestPath(newDelivery, oldPath2.getArrival());
             }catch (Exception e){
                 this.setChanged();
-                this.notifyObservers(newPickup);
+                this.notifyObservers(newDelivery);
                 throw new Exception("newDelivery unreachable");
             }
             tour.replaceOldPath(oldPath1, newPath1, newPath2);

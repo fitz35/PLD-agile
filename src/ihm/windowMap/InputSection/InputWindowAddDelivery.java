@@ -210,7 +210,6 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener{
      * update this panel depending on the state of the controller
      */
     public void updatePanel() {
-
         setAllInvisible();
         if(this.controller.getStateController() instanceof AddRequestState3||this.controller.getStateController() instanceof AddRequestState4) {
             if(this.controller.getStateController() instanceof AddRequestState4) {
@@ -247,6 +246,7 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener{
      * sets and displays an error message
      */
     public void setErrorMessage(){
+        System.out.println("tests");
         errorMessage.setText("Delivery unreachable, please choose another one");
         errorMessage.setVisible(true);
     }
@@ -277,6 +277,7 @@ public class InputWindowAddDelivery extends InputBase implements ActionListener{
                 }
                 else
                 {
+                    errorMessage.setVisible(false);
                     controller.chooseNewDelivery(intersection,duration);
                     updatePanel();
                 }

@@ -269,6 +269,7 @@ public class InputWindowAddPickup extends InputBase implements ActionListener {
                     errorMessage.setVisible(true);
                 }
                 else{
+                    errorMessage.setVisible(false);
                     controller.chooseNewPickup(intersection,duration);
                     updatePanel();
                 }
