@@ -20,8 +20,8 @@ import java.util.*;
 /**
  * This class is used to display the planning request with the starting, the pickup and the delivery
  * points of the XML file loaded
- * @ version 1.0.0.0
- * @ author Hexanome 4124
+ * @version 1.0.0.0
+ * @author Hexanome 4124
  */
 public class InputMapWithDeliveryNPickupPoints extends InputBase implements ActionListener, AdjustmentListener {
     public static final String pathToImg = "/images/";

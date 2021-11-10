@@ -17,8 +17,8 @@ import java.util.Observer;
 /**
  * This class is used to construct a panel used to enter a new delivery point while
  * adding a new request
- * @ version 1.0.0.0
- * @ author Hexanome 4124
+ * @version 1.0.0.0
+ * @author Hexanome 4124
  */
 
 

@@ -1,5 +1,8 @@
 package controller.command;
 
+/**
+ * Interface for commands
+ */
 public interface Command {
 
     /**

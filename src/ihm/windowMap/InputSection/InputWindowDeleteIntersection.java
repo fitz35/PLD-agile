@@ -30,8 +30,8 @@ import java.util.LinkedList;
  * This class is used for the fonctionnality : Delete a request
  * It is the content of the pannel which manages the deletion of requests in a list of
  * the optimal tour addresses
- * @ version 1.0.0.0
- * @ author Hexanome 4124
+ * @version 1.0.0.0
+ * @author Hexanome 4124
  */
 public class InputWindowDeleteIntersection extends InputBase implements ActionListener, AdjustmentListener {
     public static final String pathToImg = "/images/";

@@ -14,8 +14,8 @@ import java.util.ArrayList;
 /**
  * This class is used to construct a panel used to enter a new pickup point while
  * adding a new request
- * @ version 1.0.0.0
- * @ author Hexanome 4124
+ * @version 1.0.0.0
+ * @author Hexanome 4124
  */
 
 public class InputWindowAddPickup extends InputBase implements ActionListener {

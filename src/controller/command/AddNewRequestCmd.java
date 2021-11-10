@@ -4,7 +4,9 @@ import Model.Address;
 import Model.Map;
 
 
-
+/**
+ * Command implemented to add a request on the tour
+ */
 public class AddNewRequestCmd implements Command {
     private Map map;
     private Address newPickup;

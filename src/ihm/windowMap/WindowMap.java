@@ -13,8 +13,8 @@ import java.util.Observer;
 /**
  * This class manipulates all the panels of the application and display them according to the
  * controller states. It also updates different panels when needed
- * @ version 1.0.0.0
- * @ author Hexanome 4124
+ * @version 1.0.0.0
+ * @author Hexanome 4124
  */
 public class WindowMap extends Frame implements Observer //implements ActionListener, KeyListener
 {
