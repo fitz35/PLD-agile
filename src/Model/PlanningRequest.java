@@ -140,6 +140,7 @@ public class PlanningRequest {
             Address startingAddress = new Address(startingPoint.getId(), startingPoint.getLatitude(),
                     startingPoint.getLongitude(), 0, 0/*for depot*/);
             addressList.add(startingAddress);
+            idAddressHashMap.put(startingAddress.getId(), startingAddress);
 
             for (Request req : requestList) {
                 addressList.add(req.getPickupAddress());
