@@ -74,7 +74,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
 
         verticalScrollerTour = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
-        verticalScrollerTour.setBounds((int) (this.getWidth()-30), (int) (0.15 * Frame.height), 20, (int) (this.getHeight()*2/3));
+        verticalScrollerTour.setBounds((int) (this.getWidth()-40), (int) (0.15 * Frame.height), 20, (int) (this.getHeight()*2/3));
         verticalScrollerTour.addAdjustmentListener(this);
 
         addRequest = new JButton("Add a request");
@@ -171,9 +171,9 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
      * on a panel in which a scrollBar is implemented
      * @return
      */
-    public int getMaxRequestsPerPage(){
-        int heightPixels= Frame.height-(int) (0.2 * Frame.height);
-        int oneRequestHeight= (230-(int) (0.2 * Frame.height)+50)/2;
+    public int getMaxRequestsPerPage() {
+        int heightPixels= this.getHeight()-(int) (0.2 * Frame.height);
+        int oneRequestHeight= ((int) (0.2 * Frame.height)+55-(int) (0.2 * this.getHeight())+100)/2;
         return ((int)(heightPixels/oneRequestHeight))-1;
     }
 
