@@ -173,7 +173,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
      */
     public int getMaxRequestsPerPage(){
         int heightPixels= Frame.height-(int) (0.2 * Frame.height);
-        int widthPixels= Frame.width;
         int oneRequestHeight= (230-(int) (0.2 * Frame.height)+50)/2;
         return ((int)(heightPixels/oneRequestHeight))-1;
     }
