@@ -4,8 +4,8 @@ import java.awt.*;
 /**
  * This class is used to create different colors and apply color changes directly by
  * giving RGB color values
- * @ version 1.0.0.0
- * @ author Hexanome 4124
+ * @version 1.0.0.0
+ * @author Hexanome 4124
  */
 public class ColorPalette {
     public static final Color mapBackground = new Color(216,234,201);

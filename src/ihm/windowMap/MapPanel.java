@@ -14,6 +14,9 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**
+ * This class manipulates the graphical view of the map
+ */
 public class MapPanel extends JPanel implements MouseListener
 {
     private MapInterface createdMap;

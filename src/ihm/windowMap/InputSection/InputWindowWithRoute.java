@@ -26,8 +26,8 @@ import java.util.LinkedList;
 
 /**
  * This class is used to display the contents of the pannel : Calculation of an optimal tour
- * @ version 1.0.0.0
- * @ author Hexanome 4124
+ * @version 1.0.0.0
+ * @author Hexanome 4124
  */
 public class InputWindowWithRoute extends InputBase implements ActionListener, AdjustmentListener {
     public static final double speed = 4.2;// m/s

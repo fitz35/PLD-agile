@@ -5,8 +5,8 @@ import java.awt.*;
 
 /**
  * This class is used to factorise some code for the frazme
- * @ version 1.0.0.0
- * @ author Hexanome 4124
+ * @version 1.0.0.0
+ * @author Hexanome 4124
  */
 public class Frame extends JFrame
 {
