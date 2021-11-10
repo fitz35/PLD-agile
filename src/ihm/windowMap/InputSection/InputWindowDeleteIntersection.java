@@ -125,30 +125,6 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
         return timeString;
     }
 
-    /**
-     * This method get the streetNames of an intersection
-     * @param address
-     * @return
-     */
-    public ArrayList<String> getStreetNames(Address address) {
-        streetNames = new ArrayList<>();
-        segmentsList = controller.getMap().getSegmentList();
-        for (int i = 0; i < segmentsList.size(); i++) {
-            if (address.equals(segmentsList.get(i).getOrigin()) ||
-                    address.equals(segmentsList.get(i).getDestination())) {
-                streetNames.add(segmentsList.get(i).getName());
-            }
-        }
-        ArrayList<String> newList = new ArrayList<>();
-        for (String element : streetNames) {
-            if (!newList.contains(element)) {
-                newList.add(element);
-            }
-
-        }
-        return newList;
-    }
-
     /** This method is used to calculate the maximum of requests that can be handled
      * on a panel in which a scrollBar is implemented
      * @return
@@ -248,14 +224,14 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
 
                 for (int i = 0; i < pathListOptimalTour.size(); i++) {
                     if (i == 0) { //Starting point
-                        if (getStreetNames(pathListOptimalTour.get(i).getDeparture()).size() == 1) {
+                        if (Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).size() == 1) {
                             pathButton = new JButton();
                             pathButton.setText("<html>"+getString(hours) + ":" + getString(minutes) + " Starting point" +
-                                    "  <br />   Address : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0)+ "</html>");
+                                    "  <br />   Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0)+ "</html>");
                         } else {
                             pathButton = new JButton("<html>"+getString(hours) + ":" + getString(minutes) + " Starting point" +
-                                    "  <br />   Address : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0) +
-                                    ", " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(1)+ "</html>");
+                                    "  <br />   Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0) +
+                                    ", " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(1)+ "</html>");
                         }
                     } else {
                         hours = hours + computeTime(pathListOptimalTour.get(i).getDeparture().getAddressDuration())[0];
@@ -264,18 +240,18 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
                             hours++;
                             minutes = minutes - 60;
                         }
-                        if (getStreetNames(pathListOptimalTour.get(i).getDeparture()).size() == 1) {
+                        if (Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).size() == 1) {
                             pathButton = new JButton();
                             pathButton.setText("<html> " + getString(hours) + ":" + getString(minutes) + " " +
                                     getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture())+
-                                    " <br />     Address : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0) +
+                                    " <br />     Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0) +
                                     " <br />   Duration : " + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + "</html>");
                         }else{
                             pathButton = new JButton();
                             pathButton.setText("<html>" + getString(hours) + ":" + getString(minutes) + " " +
                                     getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture())+
-                                    "  <br />   Address : " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(0) +
-                                    ", " + getStreetNames(pathListOptimalTour.get(i).getDeparture()).get(1)+
+                                    "  <br />   Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(0) +
+                                    ", " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(1)+
                                     " <br />   Duration : " + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + "</html>");
                         }
                     }
@@ -291,13 +267,13 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
                             hours++;
                             minutes = minutes - 60;
                         }
-                        if (getStreetNames(pathListOptimalTour.get(i).getArrival()).size() == 1) {
+                        if (Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).size() == 1) {
                             arrivalButton = new JButton("<html>"+getString(hours) + ":" + getString(minutes) + " Arrival (Back to the Starting point)" +
-                                    "<br />     Address : " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(0)+ "</html>");
+                                    "<br />     Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).get(0)+ "</html>");
                         }else{
                             arrivalButton = new JButton("<html>"+getString(hours) + ":" + getString(minutes) + " Arrival (Back to the Starting point)" +
-                                    "<br />      Address : " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(0) +
-                                    ", " + getStreetNames(pathListOptimalTour.get(i).getArrival()).get(1)+ "</html>");
+                                    "<br />      Address : " + Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).get(0) +
+                                    ", " + Address.getStreetNames(pathListOptimalTour.get(i).getArrival(), controller.getMap().getSegmentList()).get(1)+ "</html>");
                         }
                         arrivalButton.setHorizontalAlignment(SwingConstants.LEFT);
                         arrivalButton.setBackground(ColorPalette.inputPannel);
@@ -375,6 +351,7 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
         }
     }
 
+    @Override
     public void adjustmentValueChanged(AdjustmentEvent e) {
         if (e.getSource() == verticalScrollerTour) {
             this.removeAll();
