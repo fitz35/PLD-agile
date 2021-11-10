@@ -66,7 +66,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         path.setVisible(false);
         body.add(path);
 
-        ImageIcon browseIcon = new ImageIcon(new ImageIcon(pathToImg+"browseIcon.png").getImage().getScaledInstance((width/70),(height/30), Image.SCALE_AREA_AVERAGING));
+        ImageIcon browseIcon = new ImageIcon(new ImageIcon(getClass().getResource(pathToImg+"browseIcon.png")).getImage().getScaledInstance((width/70),(height/30), Image.SCALE_AREA_AVERAGING));
         browse = new JButton( "CHOOSE A MAP TO DISPLAY (XML file)" ,browseIcon);
         browse.setBounds((int)(width*0.28),(height/2),(int)(width*0.45),(int)(height/15));
         browse.addActionListener(this);
