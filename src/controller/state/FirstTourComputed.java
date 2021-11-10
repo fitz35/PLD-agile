@@ -57,5 +57,6 @@ public class FirstTourComputed implements StateController {
         controller.setStateController(new MapLoaded());
         controller.getMap().resetTour();
         controller.getMap().resetPlanningRequest();
+        controller.getListOfCommands().resetList();
     }
 }

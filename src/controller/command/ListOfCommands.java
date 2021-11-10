@@ -12,6 +12,14 @@ public class ListOfCommands {
     private int currentIndex;
 
     /**
+     * Reset the command list
+     */
+    public void resetList(){
+        currentIndex = -1;
+        list = new LinkedList<Command>();
+    }
+
+    /**
      * Constructor
      */
     public ListOfCommands(){

@@ -40,6 +40,7 @@ public class MapLoaded implements StateController {
         controller.getWindow2().setVisible(false);
         controller.getFirstWindow().setVisible(true);
         controller.getMap().resetMap();
+        controller.getListOfCommands().resetList();
         controller.setStateController(new InitialState());
     }
 }
