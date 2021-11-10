@@ -26,7 +26,7 @@ import java.util.Observer;
 //height= 720
 
 public class WelcomeWindow extends Frame implements Observer, ActionListener, KeyListener {
-    public static final String pathToImg= "./data/images/";
+    public static final String pathToImg= "/images/";
     private JButton browse;
     private JLabel path;
     private JButton loadMap;
@@ -48,10 +48,10 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         this.add(panel);
         panel.add(body);
 
-        ImageIcon background= new ImageIcon(new ImageIcon(pathToImg+"WelcomeWindow.jpeg").getImage().getScaledInstance(width,height, Image.SCALE_DEFAULT));
+        ImageIcon background= new ImageIcon(new ImageIcon(getClass().getResource(pathToImg+"WelcomeWindow.jpeg")).getImage().getScaledInstance(width,height, Image.SCALE_DEFAULT));
         body.setIcon(background);
 
-        appliName= new ImageIcon(new ImageIcon(pathToImg+"appli_name.png").getImage().getScaledInstance((int)(width*0.5),(height/3), Image.SCALE_AREA_AVERAGING));
+        appliName= new ImageIcon(new ImageIcon(getClass().getResource(pathToImg+"appli_name.png")).getImage().getScaledInstance((int)(width*0.5),(height/3), Image.SCALE_AREA_AVERAGING));
         appliLabel= new JLabel();
         appliLabel.setBounds((width/4),(height/10), (int)(width*0.6),(height/3));
         body.add(appliLabel);

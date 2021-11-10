@@ -21,7 +21,7 @@ import java.awt.event.KeyListener;
 
 public class InputWindowLoadRequest extends InputBase implements ActionListener, KeyListener
 {
-    public static final String pathToImg= "./data/images/";
+    public static final String pathToImg= "/images/";
     private JTextField path;
     private JButton browse;
     private JButton loadReqFile;
@@ -39,7 +39,7 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
         path=new JTextField();
 
 
-        ImageIcon browseIcon = new ImageIcon(new ImageIcon(pathToImg+"browseIcon.png").
+        ImageIcon browseIcon = new ImageIcon(new ImageIcon(getClass().getResource(pathToImg+"browseIcon.png")).
                 getImage().getScaledInstance((Frame.width/70),(Frame.height/30),
                         Image.SCALE_AREA_AVERAGING));
         browse = new JButton( "CHOOSE A PLANNING REQUEST TO DISPLAY (XML file)" ,
