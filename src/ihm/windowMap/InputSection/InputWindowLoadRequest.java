@@ -47,7 +47,7 @@ public class InputWindowLoadRequest extends InputBase implements ActionListener,
         browse.addActionListener(this);
 
         path = new JTextField();
-        path.setBounds((Frame.width*1/30)+30, (Frame.height*1/20)+120, Frame.width*1/3,15);
+        path.setBounds((Frame.width*1/30), (Frame.height*1/20)+80, Frame.width*1/3,15);
         path.setVisible(false);
         path.setOpaque(true);
         path.setBackground(new Color(220,220,220));
