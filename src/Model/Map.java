@@ -15,6 +15,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * This class is Map
+ * @version
+ * @author Hexanome 4124
+ */
 public class Map extends MapInterface {
     /**
      * List of sements which constitute the map

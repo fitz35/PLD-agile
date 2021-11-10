@@ -9,13 +9,35 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
+/**
+ *This class is DeliveryGraph
+ * the graph obtained after applying the dijkstra algorithm
+ * on all the intersections of the map
+ * implements Graph interface from tsp package
+ * @version
+ * @author Hexanome 4124
+ */
 public class DeliveryGraph implements Graph{
+
+    /**
+     * the cost from a node to another
+     */
     private double [][] cost;
+    /**
+     * the pickup and delivery addresses to visit
+     */
     private ArrayList<Address> nodesToVisit;
+    /**
+     * the path composition of delivery graph
+     */
     private LinkedList<Path> verticeCompositionList;
     private int nbVertices;
     private int timedOutError = 0;
 
+    /**
+     * Constructor
+     * @param nodesToVisit
+     */
     public DeliveryGraph(ArrayList<Address> nodesToVisit) {
         this.verticeCompositionList = new LinkedList<>();
         this.nodesToVisit = nodesToVisit;
@@ -31,6 +53,12 @@ public class DeliveryGraph implements Graph{
         }
     }
 
+    /**
+     * add new path to the verticeCompositionList from the address of "numberStartNode"
+     * using the hashmap obtained after applying Dijkstra algorithm
+     * @param numberStartNode
+     * @param pi precedence hashMap computed by the dijkstra algorithm
+     */
     public void addVertice(int numberStartNode, HashMap<Intersection, Segment> pi){
         int numberDestinationNode = 0;
         Address startIntersection = nodesToVisit.get(numberStartNode);
@@ -58,6 +86,11 @@ public class DeliveryGraph implements Graph{
         }
     }
 
+    /**
+     * return the tour in the form of linked list without exceeding the timeout
+     * @param timeout (in seconds)
+     * @return "the path to follow"
+     */
     public LinkedList<Path> solveTSP (int timeout){
         TSP1 tsp = new TSP1();
         this.timedOutError = tsp.searchSolution(timeout, this);
@@ -83,10 +116,20 @@ public class DeliveryGraph implements Graph{
         return nbVertices;
     }
 
+    /**
+     * get the VerticeCompositionList
+     * @return
+     */
     public LinkedList<Path> getVerticeCompositionList() {
         return verticeCompositionList;
     }
 
+    /**
+     * the cost from node i to node j
+     * @param i
+     * @param j
+     * @return
+     */
     @Override
     public int getCost(int i, int j) {
         if ((i<0) || (i>=nbVertices) || (j<0) || (j>=nbVertices)){

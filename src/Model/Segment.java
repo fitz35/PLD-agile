@@ -4,7 +4,10 @@ import java.util.Objects;
 import java.util.Objects;
 
 /**
+ * This class is Segment
  * Class that represents each segment (c.f our report)
+ * @version
+ * @author Hexanome 4124
  */
 public class Segment {
     /**

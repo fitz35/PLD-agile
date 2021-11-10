@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
+ * This class is PlanningRequest
  * Class that represents all the requests that need to be satisfied
  */
 public class PlanningRequest {

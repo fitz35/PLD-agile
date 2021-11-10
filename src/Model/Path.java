@@ -3,6 +3,11 @@ package Model;
 import java.util.LinkedList;
 import java.util.Objects;
 
+/**
+ * This class is Path
+ * @version
+ * @author Hexanome 4124
+ */
 public class Path {
     /**
      * Address of path's departure
