@@ -95,4 +95,16 @@ public class Path {
     public void setSegmentsOfPath(LinkedList<Segment> segmentsOfPath) {
         this.segmentsOfPath = segmentsOfPath;
     }
+
+    /**
+     * get the distance of the path
+     * @return the distance of the path
+     */
+    public double getDistance() {
+        double total = 0;
+        for(Segment s : this.segmentsOfPath){
+            total += s.getLength();
+        }
+        return total;
+    }
 }
