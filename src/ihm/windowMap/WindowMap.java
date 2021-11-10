@@ -1,5 +1,4 @@
 package ihm.windowMap;
-
 import Model.Address;
 import Model.MapInterface;
 import controller.Controller;
@@ -11,22 +10,22 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * This class manipulates all the panels of the application and display them according to the
+ * controller states. It also updates different panels when needed
+ * @ version 1.0.0.0
+ * @ author Hexanome 4124
+ */
 public class WindowMap extends Frame implements Observer //implements ActionListener, KeyListener
 {
-
-
     private MapPanel mapPanel;
-
     private InputMapWithDeliveryNPickupPoints panelWithRequests;
     private InputWindowLoadRequest inputPanel;
     private InputWindowAddPickup inputWindowAddPickup;
     private InputWindowAddDelivery inputWindowAddDelivery;
     private InputWindowWithRoute inputWindowWithRoute;
     private InputWindowDeleteIntersection inputWindowDeleteIntersection;
-
-
     private Controller controller;
-
 
     public WindowMap(Controller controller)
     {
@@ -36,28 +35,23 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         inputPanel= new InputWindowLoadRequest(this, controller);
         inputPanel.setBackground(ColorPalette.inputPannel);
         this.add(inputPanel);
-
         inputWindowAddPickup= new InputWindowAddPickup(controller);
         inputWindowAddDelivery= new InputWindowAddDelivery(controller);
         inputWindowDeleteIntersection = new InputWindowDeleteIntersection(this,controller);
-
         mapPanel= new MapPanel(inputWindowAddPickup,controller, inputWindowAddDelivery,
                 inputWindowDeleteIntersection);
         panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller, this.mapPanel);
         inputWindowWithRoute = new InputWindowWithRoute(this,controller,mapPanel);
-
         this.add(mapPanel);
         this.setBackground(Color.BLACK);
-
-
     }
 
     /**
-     * update the panel with state of controller
+     * This method updates the panels with based on the controller states
      */
     public void updatePanel()
     {
-       this.removeAllPanel();
+       this.removeAllPanel(); //Remove all the panels to draw the corresponding one
 
        if(this.controller.getStateController() instanceof MapLoaded){
            this.add(inputPanel);
@@ -65,38 +59,31 @@ public class WindowMap extends Frame implements Observer //implements ActionList
                this.controller.getStateController() instanceof RequestLoaded
        ){
            this.add(panelWithRequests);
-           //inputWindowWithRoute.updatePlanningRequestOptimalTour();
        }else if(this.controller.getStateController() instanceof AddRequestState1||
                this.controller.getStateController() instanceof AddRequestState2) {
-           System.out.println("Update Panel Add Request");
            this.add(inputWindowAddPickup);
            inputWindowAddPickup.updatePanel();
        }
        else if(this.controller.getStateController() instanceof AddRequestState3||
                this.controller.getStateController() instanceof AddRequestState4) {
-           System.out.println("Update Panel Add Request");
            this.add(inputWindowAddDelivery);
            inputWindowAddDelivery.updatePanel();
        }
        else if((this.controller.getStateController() instanceof FirstTourComputed||
                this.controller.getStateController() instanceof WaitOrder)){
-           //this.add(panelWithRequests);
            inputWindowWithRoute.updatePlanningRequestOptimalTour();
-           //inputWindowDeleteIntersection.updatePlanningRequestOptimalTour();
-
            this.add(inputWindowWithRoute);
        }else if(this.controller.getStateController() instanceof DeleteRequest){
            inputWindowDeleteIntersection.updatePlanningRequestOptimalTour();
            this.add(inputWindowDeleteIntersection);
        }
-
        this.add(mapPanel);
        this.revalidate();
        this.repaint();
     }
 
     /**
-     * remove all the panel of the window
+     * This panel removes all the panels from the window
      */
     private void removeAllPanel(){
         this.remove(mapPanel);
@@ -106,11 +93,10 @@ public class WindowMap extends Frame implements Observer //implements ActionList
         this.remove(inputWindowAddPickup);
         this.remove(inputWindowAddDelivery);
         this.remove(inputWindowDeleteIntersection);
-
     }
 
     /**
-     * ask the user if he want to continue tour (only in wait order state)
+     * This method asks the user if he wants to continue the tour (only used in wait order state)
      */
     public void askToContinueTour(){
         if(controller.getStateController() instanceof WaitOrder) {
@@ -118,18 +104,19 @@ public class WindowMap extends Frame implements Observer //implements ActionList
                     this,
                     "Timeout occurred, the tour may be not optimal. Would you continue to computing ?");
             if (result == 0)
-                //System.out.println("You pressed Yes");
                 controller.continueComputing();
             else if (result == 1)
-                //System.out.println("You pressed NO");
                 controller.stopComputing();
             else
-                //System.out.println("You pressed Cancel");
                 controller.back();
         }
     }
 
-
+    /**
+     * This method updates the panels whenever a change has been made
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg)
     {
@@ -154,9 +141,7 @@ public class WindowMap extends Frame implements Observer //implements ActionList
 
             this.revalidate();
             this.repaint();
-
         }
-
         this.updatePanel();
     }
 }

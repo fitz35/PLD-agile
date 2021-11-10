@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * This class is used to construct a panel used to enter a new delivery point while
  * adding a new request
  * @ version 1.0.0.0
- * @ author Tushita Ramkaran
+ * @ author Hexanome 4124
  */
 
 public class InputWindowAddDelivery extends InputBase implements ActionListener{

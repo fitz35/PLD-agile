@@ -48,12 +48,6 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         ImageIcon background= new ImageIcon(new ImageIcon(pathToImg+"WelcomeWindow.jpeg").getImage().getScaledInstance(width,height, Image.SCALE_DEFAULT));
         body.setIcon(background);
 
-        //ImageIcon logo= new ImageIcon(new ImageIcon(pathToImg+"logo.png").getImage().getScaledInstance((width/7),(height/5), Image.SCALE_AREA_AVERAGING));
-        //JLabel logoLabel= new JLabel();
-        //logoLabel.setBounds((width/100),(height/100), (width/7),(height/7));
-        //body.add(logoLabel);
-        //logoLabel.setIcon(logo);
-
         appliName= new ImageIcon(new ImageIcon(pathToImg+"appli_name.png").getImage().getScaledInstance((int)(width*0.5),(height/3), Image.SCALE_AREA_AVERAGING));
         appliLabel= new JLabel();
         appliLabel.setBounds((width/4),(height/10), (int)(width*0.6),(height/3));
@@ -78,7 +72,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         body.add(browse);
 
         loadMap= new JButton("LOAD MAP");
-        loadMap.setBounds((int)(width*0.43),(int)(height*0.7),(int)(width*0.1),(int)(height/15));
+        loadMap.setBounds((int)(width*0.5)-(int)((width*0.1)/2),(int)(height*0.7),(int)(width*0.1),(int)(height/15));
         loadMap.addActionListener(this);
         loadMap.setVisible(false);
         body.add(loadMap);
@@ -86,7 +80,7 @@ public class WelcomeWindow extends Frame implements Observer, ActionListener, Ke
         errorMsg= new JLabel("LOAD A MAP FILE (EXTENSION= XML)");
         errorMsg.setFont(new Font("Serif", Font.PLAIN, 14));
         errorMsg.setForeground(ColorPalette.warningMessage);
-        errorMsg.setBounds((int)(width*0.25),(int)(height*0.6),(int)(width*0.45),(int)(height/15));
+        errorMsg.setBounds((int)(width*0.28),(int)(height*0.6),(int)(width*0.45),(int)(height/15));
         errorMsg.setVisible(false);
         body.add(errorMsg);
 

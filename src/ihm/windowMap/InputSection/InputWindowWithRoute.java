@@ -1,5 +1,4 @@
 package ihm.windowMap.InputSection;
-
 import Model.*;
 import controller.Controller;
 import controller.state.AddRequestState2;
@@ -25,39 +24,39 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 
+/**
+ * This class is used to display the contents of the pannel : Calculation of an optimal tour
+ * @ version 1.0.0.0
+ * @ author Hexanome 4124
+ */
 public class InputWindowWithRoute extends InputBase implements ActionListener, AdjustmentListener {
-
     public static final String pathToImg = "./data/images/";
-
-    private final JFrame popup = new JFrame();
     private JButton backToLoadRequest;
-    private JButton pathButton, arrivalButton, deleteRequestTextually;
-    private JButton undoButton, redoButton, wayRouteButton;
-
+    private JButton pathButton;
+    private JButton arrivalButton;
+    private JButton undoButton;
+    private JButton redoButton;
     private JButton addRequest;
-
-    private ArrayList<JButton> listPath;
-    private JTextArea textAreaWayBill = new JTextArea(10, 30);
-
-    private Date startDate;
-
-    private JPanel requests;
-    private JLabel text;
+    private JButton deleteRequestTextually;
+    private JButton wayRouteButton;
     private static JLabel text1;
     private JLabel text2;
-    private JLabel startDateLabel;
-
+    private JLabel total;
     private JScrollBar verticalScrollerTour;
-
+    private ArrayList<JButton> listPath;
+    private ArrayList<Request> requestsList;
+    private LinkedList<Path> pathListOptimalTour;
+    private JTextArea textAreaWayBill = new JTextArea(10, 30);
+    private Date startDate;
+    private int totalTour=0;
     private WindowMap window;
     private MapPanel mapPanel;
 
-    private ArrayList<Request> requestsList;
-    private LinkedList<Path> pathListOptimalTour;
 
     public InputWindowWithRoute (WindowMap window, Controller controller, MapPanel mapPanel)
     {
         super(controller);
+        this.setLayout(null);
         this.window=window;
         this.mapPanel = mapPanel;
 
@@ -69,11 +68,14 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         text2.setBounds(30, 70, 600, 40);
         text2.setFont(new Font("Serif", Font.BOLD, 25));
 
+        total = new JLabel();
+        total.setBounds(100, 100, 400, Frame.height/10);
+        total.setFont(new Font("Serif", Font.BOLD, 15));
+
 
         verticalScrollerTour = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
-        verticalScrollerTour.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));
+        verticalScrollerTour.setBounds((int) (this.getWidth()-30), (int) (0.15 * Frame.height), 20, (int) (this.getHeight()*2/3));
         verticalScrollerTour.addAdjustmentListener(this);
-
 
         addRequest = new JButton("Add a request");
         addRequest.setBounds(270, 10, 150, 30);
@@ -100,14 +102,15 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         redoButton.addActionListener(this);
 
         wayRouteButton = new JButton("Save the waybill");
-        wayRouteButton.setBounds(300,620,200,30);
+        wayRouteButton.setBounds((int)(Frame.width*0.3),(int)(this.getHeight()-100),150,40);
         wayRouteButton.addActionListener(this);
 
+        this.add(text1);
+        this.add(total);
         this.add(verticalScrollerTour);
-        this.add(backToLoadRequest);
         this.add(addRequest);
         this.add(deleteRequestTextually);
-        this.add(text1);
+        this.add(backToLoadRequest);
         this.add(undoButton);
         this.add(redoButton);
         this.add(wayRouteButton);
@@ -116,20 +119,29 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         this.repaint();
     }
 
-
-    public void paint(Graphics g, Request r) {
+    public void paint(Graphics g) {
         super.paint(g);
-
     }
 
+    /**
+     * This method transform a time in seconds into hours, minutes and seconds
+     * @param time in seconds
+     * @return a tab of hours, minutes and secondes
+     */
     public int[] computeTime(int time){
         int[] tab = new int[3];
-        tab[0] = (time % 86400 ) / 3600 ; //Heure
-        tab[1] = ((time % 86400 ) % 3600 ) / 60; //Minute
-        tab[2] = ((time % 86400 ) % 3600 ) % 60 ; //Seconde
+        tab[0] = (time % 86400 ) / 3600 ; //Hours
+        tab[1] = ((time % 86400 ) % 3600 ) / 60; //Minutes
+        tab[2] = ((time % 86400 ) % 3600 ) % 60 ; //Seconds
         return tab;
     }
 
+    /**
+     * This method adds a 0 to the left of a digit
+     * It trasforms time (eg: from 1h7min to 01h07min)
+     * @param time
+     * @return
+     */
     public String getString(int time){
         String timeString = "";
         if(time<10){ timeString = String.format("%02d", time);
@@ -139,6 +151,12 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         return timeString;
     }
 
+    /**
+     * This method gets rid of a segment if it has the same name of another one
+     * in the same map
+     * @param list of segments
+     * @return
+     */
     public LinkedList<String> listSegmentsWithoutDuplication(LinkedList <Segment> list){
         LinkedList<String> newList = new LinkedList<>();
         for (Segment element : list) {
@@ -149,14 +167,22 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         return newList;
     }
 
-    public int getMaxRequestsPerPage()
-    {
+    /** This method is used to calculate the maximum of requests that can be handled
+     * on a panel in which a scrollBar is implemented
+     * @return
+     */
+    public int getMaxRequestsPerPage(){
         int heightPixels= Frame.height-(int) (0.2 * Frame.height);
-        int widthPixels= Frame.width;
         int oneRequestHeight= (230-(int) (0.2 * Frame.height)+50)/2;
         return ((int)(heightPixels/oneRequestHeight))-1;
     }
 
+    /**
+     * This method identify an address being a pickup or a delivery point
+     * to display it
+     * @param address
+     * @return
+     */
     public String getIntersectionFromAddres(Address address){
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
         for(int i=0;i<requestsList.size();i++){
@@ -169,8 +195,9 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         return "";
     }
 
-
-    //Waybill
+    /**
+     * This method allows to save a text file containing the wayBill (feuille de route)
+     */
     public void saveAs() {
         FileNameExtensionFilter extensionFilter = new FileNameExtensionFilter("Waybill", "txt");
         final JFileChooser saveAsFileChooser = new JFileChooser();
@@ -181,7 +208,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             return;
         }
 
-        // !! File fileName = new File(SaveAs.getSelectedFile() + ".txt");
         File file = saveAsFileChooser.getSelectedFile();
         if (!file.getName().endsWith(".txt")) {
             file = new File(file.getAbsolutePath() + ".txt");
@@ -204,9 +230,15 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             }
         }
     }
+
+    /**
+     * This method generates the wayBill of a tour by adding default text
+     * which can help the delivery man
+     */
     public void wayBillText(){
         ArrayList <String> listStreetNames;
         LinkedList <Segment> listSegmentPath;
+        totalTour=0;
         if(controller.getMap().getTour()!=null && controller.getMap().getTour().getOrderedPathList()!=null) {
             pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();
 
@@ -255,6 +287,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     }
                     textAreaWayBill.append("\nWhich is going to last "+ pathListOptimalTour.get(i).getDeparture().getAddressDuration() + " seconds"
                             +"  to arrive to the next point at : " + getString(hours) + ":" + getString(minutes) + "\n" );
+                    totalTour += pathListOptimalTour.get(i).getDeparture().getAddressDuration();
                     if (i != pathListOptimalTour.size() - 1) {
                         textAreaWayBill.append("Then, \n");
                     }
@@ -280,24 +313,28 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                             textAreaWayBill.append(listStreetNames.get(n) + ", ");
                         }
                     }
-
-
+                    textAreaWayBill.append("\nThis delivery will last "+ getString(computeTime(totalTour)[0])+"h"+getString(computeTime(totalTour)[1])+"min");
                 }
             }
         }
     }
 
+    /**
+     * This method add all the buttons of every address in the list of the optimal tour paths
+     * Each button contains the time of start, the point concerned, its address and the duration
+     * to get to this address
+     */
     public void updatePlanningRequestOptimalTour() {
         this.removeAll();
         int maxNoOfRequestsPerPage= getMaxRequestsPerPage();
+        totalTour=0;
+        this.add(undoButton);
+        this.add(redoButton);
         this.add(verticalScrollerTour);
         this.add(wayRouteButton);
         this.add(deleteRequestTextually);
         this.add(backToLoadRequest);
 
-
-
-        ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
         if(!(controller.getStateController() instanceof  AddRequestState2))
         {
             this.add(addRequest);
@@ -313,7 +350,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             if (controller.getMap().getTour() != null && controller.getMap().getTour().getOrderedPathList() != null) {
                 pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();
                 verticalScrollerTour.setMaximum((pathListOptimalTour.size()/maxNoOfRequestsPerPage)+1);
-
 
                 listPath = new ArrayList<>();
 
@@ -359,7 +395,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                                     ", " + Address.getStreetNames(pathListOptimalTour.get(i).getDeparture(), controller.getMap().getSegmentList()).get(1)+
                                     " <br />   Duration : " + pathListOptimalTour.get(i).getDeparture().getAddressDuration() + "</html>");
                         }
-
+                        totalTour = totalTour + pathListOptimalTour.get(i).getDeparture().getAddressDuration();
                     }
                     pathButton.setHorizontalAlignment(SwingConstants.LEFT);
                     pathButton.setBackground(ColorPalette.inputPannel);
@@ -398,15 +434,14 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                     }
                 }
 
-
                 //ScrollBar
                 int positionScrollBarTour = verticalScrollerTour.getValue();
                 for (int j = 0; j < maxNoOfRequestsPerPage && ((positionScrollBarTour * maxNoOfRequestsPerPage) + j) < pathListOptimalTour.size()+1; j++) {
-                    listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 70)), 500, 55);
+                    listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 70)), 450, 55);
                     this.add(listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
                 }
-
-
+                total.setText("The duration of the tour: "+getString(computeTime(totalTour)[0])+"h"+getString(computeTime(totalTour)[1])+"min");
+                this.add(total);
                 this.add(text2);
             }
         }
@@ -426,7 +461,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             undoButton.setEnabled(true);
             redoButton.setEnabled(true);
         }
-
         wayBillText();
     }
 
@@ -439,7 +473,6 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
         requestsList = controller.getMap().getPlanningRequest().getRequestList();
         pathListOptimalTour = controller.getMap().getTour().getOrderedPathList();
-
 
         if (e.getSource() == backToLoadRequest) {
             this.removeAll();
@@ -480,35 +513,25 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
 
         for(int j=0;j<listPath.size()-1;j++) {
             for (int i = 0; i < requestsList.size(); i++) {
-                //System.out.println("1 : "+e.getSource().toString().substring(0, 50));
-                //System.out.println("2 : "+listPath.get(j).toString().substring(0, 50));
-                //System.out.println("3 : "+getIntersectionFromAddres(requestsList.get(i).getPickupAddress()));
-                //System.out.println("4 : "+getIntersectionFromAddres(pathListOptimalTour.get(i).getDeparture()).length());
-
-
-
                 if (e.getSource().toString().substring(0, 50).equals(listPath.get(j).toString().substring(0, 50))) {
                     if(requestsList.get(i).getPickupAddress().equals(pathListOptimalTour.get(j).getDeparture())
-                            &&
-                            getIntersectionFromAddres(requestsList.get(i).getPickupAddress()).length()==8){
+                            && getIntersectionFromAddres(requestsList.get(i).getPickupAddress()).length()==8){
                         highlightPickupNumber = i;
                     }
                     if(requestsList.get(i).getDeliveryAddress().equals(pathListOptimalTour.get(j).getDeparture())
-                       &&     getIntersectionFromAddres(requestsList.get(i).getDeliveryAddress()).length()==10){
+                            && getIntersectionFromAddres(requestsList.get(i).getDeliveryAddress()).length()==10){
                         highlightDeliveryNumber = i;
-
                     }
                     this.mapPanel.updateHighlight(false, highlightPickupNumber, highlightDeliveryNumber, highlightRequestNumber);
-
                 }
             }
         }
-
     }
 
     public void adjustmentValueChanged(AdjustmentEvent e) {
         if (e.getSource() == verticalScrollerTour) {
             this.removeAll();
+
             this.add(verticalScrollerTour);
             this.add(backToLoadRequest);
             if(!(controller.getStateController() instanceof  AddRequestState2))
@@ -520,10 +543,10 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
             this.add(undoButton);
             this.add(redoButton);
             this.add(wayRouteButton);
+
             updatePlanningRequestOptimalTour();
             this.revalidate();
             this.repaint();
         }
     }
-
 }
