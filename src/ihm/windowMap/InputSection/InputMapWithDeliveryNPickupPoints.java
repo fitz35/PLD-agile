@@ -17,46 +17,40 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.util.*;
 
+/**
+ * This class is used to display the planning request with the starting, the pickup and the delivery
+ * points of the XML file loaded
+ * @ version 1.0.0.0
+ * @ author Hexanome 4124
+ */
 public class InputMapWithDeliveryNPickupPoints extends InputBase implements ActionListener, AdjustmentListener {
     public static final String pathToImg = "./data/images/";
-
-    private InputWindowWithRoute inputWindowWithRoute;
-
-    private final JFrame popup = new JFrame();
     private JButton findOptimalRoute;
     private JButton backToLoadRequest;
     private JButton startingPoint;
     private JButton startingPointLatLong;
     private JButton requestButton;
-    private JButton pickupIcon, pickupButton, pickupDuration, deliveryIcon, deliveryButton, deliveryDuration;
-    private JButton pathButton, arrivalButton;
-
-
-    //private JButton deleteRequest;
-
+    private JButton pickupIcon;
+    private JButton pickupButton;
+    private JButton pickupDuration;
+    private JButton deliveryIcon;
+    private JButton deliveryButton;
+    private JButton deliveryDuration;
     private ArrayList<String> streetNames;
-    private ArrayList<Segment>segmentsList;
-
-    private boolean optimalTour = false;
-
-
-    private ArrayList<JButton> listRequestButton,listPickupButton, listIconPickupButton, listPickupDurationButton;
-    private ArrayList<JButton> listDeliveryButton, listIconDeliveryButton,listDeliveryDurationButton;
-
-    //private ArrayList <ActionListener> deleteRequestListeners;
-
+    private ArrayList<Request> requestsList;
+    private ArrayList<JButton> listRequestButton;
+    private ArrayList<JButton> listPickupButton;
+    private ArrayList<JButton> listIconPickupButton;
+    private ArrayList<JButton> listPickupDurationButton;
+    private ArrayList<JButton> listDeliveryButton;
+    private ArrayList<JButton> listIconDeliveryButton;
+    private ArrayList<JButton> listDeliveryDurationButton;
     private JPanel requests;
     private JLabel text;
-
     private static JLabel text1;
-
-
     private JScrollBar verticalScroller;
-
     private WindowMap window;
     private MapPanel mapPanel;
-
-    private ArrayList<Request> requestsList;
 
     public InputMapWithDeliveryNPickupPoints(WindowMap window, Controller controller, MapPanel mapPanel) {
         super(controller);
@@ -75,36 +69,22 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
         verticalScroller.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));
         verticalScroller.addAdjustmentListener(this);
 
-
         findOptimalRoute = new JButton("Find Optimal Tour");
         findOptimalRoute.setBounds(10, 10, 200, 30);
         findOptimalRoute.addActionListener(this);
-
-
 
         backToLoadRequest = new JButton("BACK");
         backToLoadRequest.setBounds(460, 10, 100, 30);
         backToLoadRequest.addActionListener(this);
 
-
-        this.add(verticalScroller);
-        this.add(backToLoadRequest);
-        this.add(findOptimalRoute);
-
         this.add(text);
         this.add(text1);
+        this.add(verticalScroller);
+        this.add(findOptimalRoute);
+        this.add(backToLoadRequest);
 
         this.revalidate();
         this.repaint();
-
-    }
-
-    public static JLabel getJLabel() {
-        return text1;
-    }
-
-    public static void setTexttoJLabel(String text, JLabel label) {
-        label.setText(text);
     }
 
     @Override
@@ -118,19 +98,26 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
         //Give numbers to pickup and delivery points
         Graphics2D g3d = (Graphics2D) g;
         g3d.setColor(ColorPalette.texte);
-        /*for (int i = 0; i < 5; i++) {
-            int num = verticalScroller.getValue() * 5 + i;
-            g3d.drawString("" + (num + 1), 60, 175 + (i * 110));
-            g3d.drawString("" + (num + 1), 60, 215 + (i * 110));
+        //Numerotate the requests on the textual view
+        /*for (int i = 0; i < requestsList.size()- 1 - verticalScroller.getValue() * getMaxRequestsPerPage(); i++) {
+            int num = verticalScroller.getValue() * getMaxRequestsPerPage() + i;
+            g3d.drawString("" + (num + 1), 60, 183 + (i * 110));
+            g3d.drawString("" + (num + 1), 60, 223 + (i * 110));
         }*/
     }
 
+    public static JLabel getJLabel() {
+        return text1;
+    }
+    public static void setTexttoJLabel(String text, JLabel label) {
+        label.setText(text);
+    }
+
     /**
-     * get the max request per page
+     * get the max requests per page
      * @return the number max of request per page
      */
-    public int getMaxRequestsPerPage()
-    {
+    public int getMaxRequestsPerPage() {
         int heightPixels= Frame.height-145;
         int widthPixels= Frame.width;
         int oneRequestHeight= 230-145+30;
@@ -138,15 +125,13 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
     }
 
     /**
-     * update the planning request
+     * updates the planning request
      */
     public void updatePlanningRequestNotNull() {
         //Icons
-        //ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((width / 70), (height / 30), Image.SCALE_AREA_AVERAGING));
         ImageIcon sPoint = new ImageIcon(new ImageIcon(pathToImg + "startingPoint.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
         ImageIcon pPoint = new ImageIcon(new ImageIcon(pathToImg + "pickupPoint.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
         ImageIcon dPoint = new ImageIcon(new ImageIcon(pathToImg + "deliveryPoint.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
-
 
         if (controller.getMap().getPlanningRequest() != null && controller.getMap().getPlanningRequest().getStartingPoint() != null) {
             //Get the planning request list from the controller
@@ -160,7 +145,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
             listDeliveryButton = new ArrayList<>();
             listIconDeliveryButton = new ArrayList<>();
             listDeliveryDurationButton = new ArrayList<>();
-            //listDeleteButton = new ArrayList<>();
 
             //Starting point
             startingPoint = new JButton(sPoint);
@@ -181,7 +165,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                         Address.getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint(), controller.getMap().getSegmentList()).get(0)+
                         ", "+Address.getStreetNames(controller.getMap().getPlanningRequest().getStartingPoint(), controller.getMap().getSegmentList()).get(1));
             }
-
             startingPointLatLong.setBackground(ColorPalette.inputPannel);
             startingPointLatLong.setBorderPainted(false);
             startingPointLatLong.setBounds(100, 110, 420, 20);
@@ -196,10 +179,7 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
             this.add(startingPoint);
             this.add(startingPointLatLong);
 
-
             //Requests with pickup and delivery points
-            //deleteRequestListeners = new ArrayList<>();
-
             for (int i = 0; i < requestsList.size(); i++) {
                 //Button request
                 requestButton = new JButton("Request " + (i + 1) + " : ");
@@ -213,7 +193,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 pickupIcon.setBorderPainted(false);
                 pickupIcon.addActionListener(this);
                 listIconPickupButton.add(pickupIcon);
-
 
                 if(Address.getStreetNames(requestsList.get(i).getPickupAddress(), controller.getMap().getSegmentList()).size()==1) {
                     pickupButton = new JButton("Pickup Point : " +
@@ -229,7 +208,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 pickupButton.setHorizontalAlignment(SwingConstants.LEFT);
                 listPickupButton.add(pickupButton);
 
-
                 pickupDuration = new JButton("Pickup Duration : " +
                         requestsList.get(i).getPickupAddress().getAddressDuration() + " ");
                 pickupDuration.setBackground(ColorPalette.inputPannel);
@@ -243,7 +221,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 deliveryIcon.setBorderPainted(false);
                 deliveryIcon.addActionListener(this);
                 listIconDeliveryButton.add(deliveryIcon);
-
                 if(Address.getStreetNames(requestsList.get(i).getDeliveryAddress(), controller.getMap().getSegmentList()).size()==1) {
                     deliveryButton = new JButton("Delivery Point : " +
                             Address.getStreetNames(requestsList.get(i).getDeliveryAddress(), controller.getMap().getSegmentList()).get(0));
@@ -264,12 +241,9 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 deliveryDuration.setBorderPainted(false);
                 deliveryDuration.setHorizontalAlignment(SwingConstants.LEFT);
                 listDeliveryDurationButton.add(deliveryDuration);
-
-
             }
 
             int positionScrollBar= verticalScroller.getValue();
-
             for(int j=0; j<maxNoOfRequestsPerPage && ((positionScrollBar*maxNoOfRequestsPerPage)+j)< requestsList.size(); j++)
             {
                 listRequestButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(80,145 + (j*110), 130,20);
@@ -279,7 +253,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 listIconDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(75,210 + (j*110),20,20);
                 listDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,210 + (j*110), 420,20);
                 listDeliveryDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(99,230 + (j*110), 190,20);
-                //listDeleteButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j).setBounds(50,146 + (j*110), 20,25);
                 this.add(listRequestButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
                 this.add(listIconPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
                 this.add(listPickupButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
@@ -287,8 +260,7 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 this.add(listIconDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
                 this.add(listDeliveryButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
                 this.add(listDeliveryDurationButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
-                //this.add(listDeleteButton.get((positionScrollBar*maxNoOfRequestsPerPage)+j));
-                }
+            }
         }
     }
 
@@ -303,7 +275,6 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
 
         if (e.getSource() == findOptimalRoute) {
             controller.loadTour();
-            optimalTour = true;
         }
 
         if (e.getSource() == backToLoadRequest) {
@@ -343,14 +314,11 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
                 highlightDeliveryNumber = j;
             }
         }
-
         this.mapPanel.updateHighlight(highlightStartNumber, highlightPickupNumber, highlightDeliveryNumber, highlightRequestNumber);
-
     }
 
     @Override
-    public void adjustmentValueChanged(AdjustmentEvent e)
-    {
+    public void adjustmentValueChanged(AdjustmentEvent e) {
         if(e.getSource()==verticalScroller) {
             this.removeAll();
             this.add(verticalScroller);
