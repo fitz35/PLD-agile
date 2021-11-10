@@ -24,7 +24,7 @@ import java.util.*;
  * @author Hexanome 4124
  */
 public class InputMapWithDeliveryNPickupPoints extends InputBase implements ActionListener, AdjustmentListener {
-    public static final String pathToImg = "./data/images/";
+    public static final String pathToImg = "/images/";
     private JButton findOptimalRoute;
     private JButton backToLoadRequest;
     private JButton startingPoint;
@@ -129,9 +129,9 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
      */
     public void updatePlanningRequestNotNull() {
         //Icons
-        ImageIcon sPoint = new ImageIcon(new ImageIcon(pathToImg + "startingPoint.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
-        ImageIcon pPoint = new ImageIcon(new ImageIcon(pathToImg + "pickupPoint.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
-        ImageIcon dPoint = new ImageIcon(new ImageIcon(pathToImg + "deliveryPoint.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
+        ImageIcon sPoint = new ImageIcon(new ImageIcon(getClass().getResource(pathToImg + "startingPoint.png")).getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
+        ImageIcon pPoint = new ImageIcon(new ImageIcon(getClass().getResource(pathToImg + "pickupPoint.png")).getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
+        ImageIcon dPoint = new ImageIcon(new ImageIcon(getClass().getResource(pathToImg + "deliveryPoint.png")).getImage().getScaledInstance((Frame.width / 70), (Frame.height / 40), Image.SCALE_AREA_AVERAGING));
 
         if (controller.getMap().getPlanningRequest() != null && controller.getMap().getPlanningRequest().getStartingPoint() != null) {
             //Get the planning request list from the controller

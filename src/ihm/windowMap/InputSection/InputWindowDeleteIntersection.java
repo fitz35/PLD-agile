@@ -34,7 +34,7 @@ import java.util.LinkedList;
  * @author Hexanome 4124
  */
 public class InputWindowDeleteIntersection extends InputBase implements ActionListener, AdjustmentListener {
-    public static final String pathToImg = "./data/images/";
+    public static final String pathToImg = "/images/";
     private JButton backToLoadRequest;
     private JButton pathButton;
     private JButton arrivalButton;
@@ -205,7 +205,7 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
         this.add(verticalScrollerTour);
         this.add(text);
 
-        ImageIcon iconeDelete = new ImageIcon(new ImageIcon(pathToImg + "iconeDelete.png").getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
+        ImageIcon iconeDelete = new ImageIcon(new ImageIcon(getClass().getResource(pathToImg + "iconeDelete.png")).getImage().getScaledInstance((Frame.width / 70), (Frame.height / 30), Image.SCALE_AREA_AVERAGING));
 
         //Time
         if(controller.getMap().getPlanningRequest()!=null && controller.getMap().getPlanningRequest().getDepartureTime()!=null) {

@@ -31,7 +31,7 @@ import java.util.LinkedList;
  */
 public class InputWindowWithRoute extends InputBase implements ActionListener, AdjustmentListener {
     public static final double speed = 4.2;// m/s
-    public static final String pathToImg = "./data/images/";
+    public static final String pathToImg = "/images/";
     private JButton backToLoadRequest;
     private JButton pathButton;
     private JButton arrivalButton;
@@ -90,13 +90,13 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         backToLoadRequest.setBounds(440, 10, 100, 30);
         backToLoadRequest.addActionListener(this);
 
-        ImageIcon undoIcon = new ImageIcon(new ImageIcon(pathToImg+"undoIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
+        ImageIcon undoIcon = new ImageIcon(new ImageIcon(getClass().getResource(pathToImg+"undoIcon.png")).getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
         undoButton = new JButton(undoIcon);
         undoButton.setBounds(10,10,30,30);
         undoButton.setEnabled(false);
         undoButton.addActionListener(this);
 
-        ImageIcon redoIcon = new ImageIcon(new ImageIcon(pathToImg+"redoIcon.png").getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
+        ImageIcon redoIcon = new ImageIcon(new ImageIcon(getClass().getResource(pathToImg+"redoIcon.png")).getImage().getScaledInstance((Frame.width/70),(Frame.height/30), Image.SCALE_AREA_AVERAGING));
         redoButton = new JButton(redoIcon);
         redoButton.setBounds(60,10,30,30);
         redoButton.setEnabled(false);
