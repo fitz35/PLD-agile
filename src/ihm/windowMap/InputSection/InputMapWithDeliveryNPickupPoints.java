@@ -66,7 +66,7 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
         text1.setFont(new Font("Serif", Font.BOLD, 25));
 
         verticalScroller = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
-        verticalScroller.setBounds((int) (this.getWidth()-30), (int) (0.15 * Frame.height), 20, (int) (this.getHeight()*2/3));
+        verticalScroller.setBounds((int) (this.getWidth()-40), (int) (0.15 * Frame.height), 20, (int) (this.getHeight()*2/3));
         verticalScroller.addAdjustmentListener(this);
 
         findOptimalRoute = new JButton("Find Optimal Tour");
