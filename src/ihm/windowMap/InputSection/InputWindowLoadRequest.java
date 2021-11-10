@@ -15,7 +15,7 @@ import java.awt.event.KeyListener;
 /**
  * This class is used to construct a panel to allow the user to load an xml request file
  * @ version 1.0.0.0
- * @ author Tushita Ramkaran
+ * @ author Hexanome 4124
  */
 
 

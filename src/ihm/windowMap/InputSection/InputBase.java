@@ -8,7 +8,7 @@ import javax.swing.*;
 /**
  * This class is used to construct an input panel with specific characteristics
  * @ version 1.0.0.0
- * @ author Clement Lahoche
+ * @ author Hexanome 4124
  */
 
 public abstract class InputBase extends JPanel {

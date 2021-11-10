@@ -27,10 +27,10 @@ public class AddRequestState4 implements StateController{
             controller.setStateController(new FirstTourComputed());
         }catch (Exception e){
             boolean issue = true;
-            if(e.getMessage().equals("newPickup unreacheble"))
+            if(e.getMessage().equals("newPickup unreachable"))
             {
                 controller.setStateController(new AddRequestState1(issue));
-            }else if(e.getMessage().equals("newDelivery unreacheble"))
+            }else if(e.getMessage().equals("newDelivery unreachable"))
             {
                 controller.setStateController(new AddRequestState3(newPickup,beforNewPickup,issue));
             }else{
