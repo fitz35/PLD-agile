@@ -6,10 +6,10 @@
 <head>
   <title>Coverage Report > FirstTourComputed</title>
   <style type="text/css">
-    @import "../../css/coverage.css";
-    @import "../../css/highlight-idea.css";
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
   </style>
-  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
 </head>
 
 <body>
@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/8)
+    (0/13)
   </span>
 </td>
 </tr>
@@ -78,35 +78,62 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">3</i>&nbsp;import controller.Controller;
 <i class="no-highlight">4</i>&nbsp;import controller.command.ListOfCommands;
 <i class="no-highlight">5</i>&nbsp;
-<b class="nc"><i class="no-highlight">6</i>&nbsp;public class FirstTourComputed implements StateController {</b>
-<i class="no-highlight">7</i>&nbsp;
-<i class="no-highlight">8</i>&nbsp;    @Override
-<i class="no-highlight">9</i>&nbsp;    public void addNewRequest(Controller controller) {
-<b class="nc"><i class="no-highlight">10</i>&nbsp;        controller.setStateController(new AddRequestState1());</b>
-<i class="no-highlight">11</i>&nbsp;    }
-<i class="no-highlight">12</i>&nbsp;
-<i class="no-highlight">13</i>&nbsp;    @Override
-<i class="no-highlight">14</i>&nbsp;    public void deleteRequest(Controller controller) {
-<b class="nc"><i class="no-highlight">15</i>&nbsp;        controller.setStateController(new DeleteRequest());</b>
-<i class="no-highlight">16</i>&nbsp;    }
-<i class="no-highlight">17</i>&nbsp;
-<i class="no-highlight">18</i>&nbsp;    @Override
-<i class="no-highlight">19</i>&nbsp;    public void redo(ListOfCommands listOfCommands) throws Exception {
-<b class="nc"><i class="no-highlight">20</i>&nbsp;        listOfCommands.redo();</b>
-<i class="no-highlight">21</i>&nbsp;    };
-<i class="no-highlight">22</i>&nbsp;
-<i class="no-highlight">23</i>&nbsp;    @Override
-<i class="no-highlight">24</i>&nbsp;    public void undo(ListOfCommands listOfCommands) throws Exception {
-<b class="nc"><i class="no-highlight">25</i>&nbsp;        listOfCommands.undo();</b>
-<i class="no-highlight">26</i>&nbsp;    };
-<i class="no-highlight">27</i>&nbsp;
-<i class="no-highlight">28</i>&nbsp;    @Override
-<i class="no-highlight">29</i>&nbsp;    public void back(Controller controller){
-<b class="nc"><i class="no-highlight">30</i>&nbsp;        controller.setStateController(new MapLoaded());</b>
-<b class="nc"><i class="no-highlight">31</i>&nbsp;        controller.getMap().resetTour();</b>
-<b class="nc"><i class="no-highlight">32</i>&nbsp;        controller.getMap().resetPlanningRequest();</b>
-<i class="no-highlight">33</i>&nbsp;    }
-<i class="no-highlight">34</i>&nbsp;}
+<i class="no-highlight">6</i>&nbsp;/**
+<i class="no-highlight">7</i>&nbsp; * main state, it reached after having load a Map some request and manage to compute a tour
+<i class="no-highlight">8</i>&nbsp; * has methode addNewRequest deleteRequest redo undo and back
+<i class="no-highlight">9</i>&nbsp; */
+<b class="nc"><i class="no-highlight">10</i>&nbsp;public class FirstTourComputed implements StateController {</b>
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;    /**
+<i class="no-highlight">13</i>&nbsp;     * leads to the state AddRequest1
+<i class="no-highlight">14</i>&nbsp;     * @param controller
+<i class="no-highlight">15</i>&nbsp;     */
+<i class="no-highlight">16</i>&nbsp;    @Override
+<i class="no-highlight">17</i>&nbsp;    public void addNewRequest(Controller controller) {
+<b class="nc"><i class="no-highlight">18</i>&nbsp;        controller.setStateController(new AddRequestState1());</b>
+<b class="nc"><i class="no-highlight">19</i>&nbsp;    }</b>
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;    /**
+<i class="no-highlight">22</i>&nbsp;     * leads to the state DeleteRequest
+<i class="no-highlight">23</i>&nbsp;     * @param controller
+<i class="no-highlight">24</i>&nbsp;     */
+<i class="no-highlight">25</i>&nbsp;    @Override
+<i class="no-highlight">26</i>&nbsp;    public void deleteRequest(Controller controller) {
+<b class="nc"><i class="no-highlight">27</i>&nbsp;        controller.setStateController(new DeleteRequest());</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;    }</b>
+<i class="no-highlight">29</i>&nbsp;
+<i class="no-highlight">30</i>&nbsp;    /**
+<i class="no-highlight">31</i>&nbsp;     * redo a action that have been done and undo befor
+<i class="no-highlight">32</i>&nbsp;     * @param listOfCommands
+<i class="no-highlight">33</i>&nbsp;     * @throws Exception
+<i class="no-highlight">34</i>&nbsp;     */
+<i class="no-highlight">35</i>&nbsp;    @Override
+<i class="no-highlight">36</i>&nbsp;    public void redo(ListOfCommands listOfCommands) throws Exception {
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        listOfCommands.redo();</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;    };</b>
+<i class="no-highlight">39</i>&nbsp;
+<i class="no-highlight">40</i>&nbsp;    /**
+<i class="no-highlight">41</i>&nbsp;     * cancel the last loaded action
+<i class="no-highlight">42</i>&nbsp;     * @param listOfCommands
+<i class="no-highlight">43</i>&nbsp;     * @throws Exception
+<i class="no-highlight">44</i>&nbsp;     */
+<i class="no-highlight">45</i>&nbsp;    @Override
+<i class="no-highlight">46</i>&nbsp;    public void undo(ListOfCommands listOfCommands) throws Exception {
+<b class="nc"><i class="no-highlight">47</i>&nbsp;        listOfCommands.undo();</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;    };</b>
+<i class="no-highlight">49</i>&nbsp;
+<i class="no-highlight">50</i>&nbsp;    /**
+<i class="no-highlight">51</i>&nbsp;     * bring to state MapLoaded
+<i class="no-highlight">52</i>&nbsp;     * delete the Tour and the planning request
+<i class="no-highlight">53</i>&nbsp;     * @param controller
+<i class="no-highlight">54</i>&nbsp;     */
+<i class="no-highlight">55</i>&nbsp;    @Override
+<i class="no-highlight">56</i>&nbsp;    public void back(Controller controller){
+<b class="nc"><i class="no-highlight">57</i>&nbsp;        controller.setStateController(new MapLoaded());</b>
+<b class="nc"><i class="no-highlight">58</i>&nbsp;        controller.getMap().resetTour();</b>
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        controller.getMap().resetPlanningRequest();</b>
+<b class="nc"><i class="no-highlight">60</i>&nbsp;    }</b>
+<i class="no-highlight">61</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -133,7 +160,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2021-11-09 23:11</div>
+    <div style="float:right;">generated on 2021-11-10 08:52</div>
 </div>
 </body>
 </html>

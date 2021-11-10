@@ -6,10 +6,10 @@
 <head>
   <title>Coverage Report > DeleteRequestCmd</title>
   <style type="text/css">
-    @import "../../css/coverage.css";
-    @import "../../css/highlight-idea.css";
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
   </style>
-  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
 </head>
 
 <body>
@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/15)
+    (0/16)
   </span>
 </td>
 </tr>
@@ -80,50 +80,48 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">5</i>&nbsp;
 <i class="no-highlight">6</i>&nbsp;import java.util.List;
 <i class="no-highlight">7</i>&nbsp;
-<i class="no-highlight">8</i>&nbsp;public class DeleteRequestCmd implements Command {
-<i class="no-highlight">9</i>&nbsp;    private Map map;
-<i class="no-highlight">10</i>&nbsp;    private Address addressToDelete;
-<i class="no-highlight">11</i>&nbsp;    private Address newPickup;
-<i class="no-highlight">12</i>&nbsp;    private Address newDelivery;
-<i class="no-highlight">13</i>&nbsp;    private Address beforNewPickup;
-<i class="no-highlight">14</i>&nbsp;    private Address beforNewDelivery;
-<i class="no-highlight">15</i>&nbsp;
-<i class="no-highlight">16</i>&nbsp;/**
-<i class="no-highlight">17</i>&nbsp; * ajouter tt les attibut de la methode addNewRequest pour le undo et etre capable de remettre tt ds l&#39;ordre
+<i class="no-highlight">8</i>&nbsp;/**
+<i class="no-highlight">9</i>&nbsp; * Command implemented to delete a request from the tour
+<i class="no-highlight">10</i>&nbsp; */
+<i class="no-highlight">11</i>&nbsp;public class DeleteRequestCmd implements Command {
+<i class="no-highlight">12</i>&nbsp;    private Map map;
+<i class="no-highlight">13</i>&nbsp;    private Address addressToDelete;
+<i class="no-highlight">14</i>&nbsp;    private Address newPickup;
+<i class="no-highlight">15</i>&nbsp;    private Address newDelivery;
+<i class="no-highlight">16</i>&nbsp;    private Address beforNewPickup;
+<i class="no-highlight">17</i>&nbsp;    private Address beforNewDelivery;
 <i class="no-highlight">18</i>&nbsp;
-<i class="no-highlight">19</i>&nbsp;    /**
-<i class="no-highlight">20</i>&nbsp;     *
-<i class="no-highlight">21</i>&nbsp;     * @param map
-<i class="no-highlight">22</i>&nbsp;     * @param addressToDelete
-<i class="no-highlight">23</i>&nbsp;     */
-<i class="no-highlight">24</i>&nbsp;
-<b class="nc"><i class="no-highlight">25</i>&nbsp;    public DeleteRequestCmd(Map map, Address addressToDelete) {</b>
-<b class="nc"><i class="no-highlight">26</i>&nbsp;        this.map = map;</b>
-<b class="nc"><i class="no-highlight">27</i>&nbsp;        List&lt;Address&gt; addresses = map.addressForUndoDelete(addressToDelete);</b>
-<b class="nc"><i class="no-highlight">28</i>&nbsp;        newPickup = addresses.get(0);</b>
-<b class="nc"><i class="no-highlight">29</i>&nbsp;        newDelivery = addresses.get(1);</b>
-<b class="nc"><i class="no-highlight">30</i>&nbsp;        beforNewPickup = addresses.get(2);</b>
-<b class="nc"><i class="no-highlight">31</i>&nbsp;        beforNewDelivery = addresses.get(3);</b>
-<b class="nc"><i class="no-highlight">32</i>&nbsp;        this.addressToDelete = addressToDelete;</b>
-<i class="no-highlight">33</i>&nbsp;    }
-<i class="no-highlight">34</i>&nbsp;
-<i class="no-highlight">35</i>&nbsp;    @Override
-<i class="no-highlight">36</i>&nbsp;    public void doCommand() {
-<i class="no-highlight">37</i>&nbsp;        //call the methode from the back
-<b class="nc"><i class="no-highlight">38</i>&nbsp;        System.out.println(&quot;call the bacl !!! &quot;);</b>
-<b class="nc"><i class="no-highlight">39</i>&nbsp;        map.deleteRequest(addressToDelete);</b>
-<b class="nc"><i class="no-highlight">40</i>&nbsp;        System.out.println(&quot;back appelé&quot;);</b>
-<i class="no-highlight">41</i>&nbsp;    }
-<i class="no-highlight">42</i>&nbsp;
-<i class="no-highlight">43</i>&nbsp;    @Override
-<i class="no-highlight">44</i>&nbsp;    public void undoCommand() throws Exception {
-<i class="no-highlight">45</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">46</i>&nbsp;            map.addRequest(beforNewPickup,newPickup,beforNewDelivery,newDelivery);</b>
-<b class="nc"><i class="no-highlight">47</i>&nbsp;        } catch (Exception e) {</b>
-<b class="nc"><i class="no-highlight">48</i>&nbsp;            throw (e);</b>
-<b class="nc"><i class="no-highlight">49</i>&nbsp;        }</b>
-<i class="no-highlight">50</i>&nbsp;    }
-<i class="no-highlight">51</i>&nbsp;}
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;    /**
+<i class="no-highlight">21</i>&nbsp;     * Constructor
+<i class="no-highlight">22</i>&nbsp;     * @param map
+<i class="no-highlight">23</i>&nbsp;     * @param addressToDelete
+<i class="no-highlight">24</i>&nbsp;     */
+<i class="no-highlight">25</i>&nbsp;
+<b class="nc"><i class="no-highlight">26</i>&nbsp;    public DeleteRequestCmd(Map map, Address addressToDelete) {</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;        this.map = map;</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;        List&lt;Address&gt; addresses = map.addressForUndoDelete(addressToDelete);</b>
+<b class="nc"><i class="no-highlight">29</i>&nbsp;        newPickup = addresses.get(0);</b>
+<b class="nc"><i class="no-highlight">30</i>&nbsp;        newDelivery = addresses.get(1);</b>
+<b class="nc"><i class="no-highlight">31</i>&nbsp;        beforNewPickup = addresses.get(2);</b>
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        beforNewDelivery = addresses.get(3);</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;        this.addressToDelete = addressToDelete;</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;    }</b>
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;    @Override
+<i class="no-highlight">37</i>&nbsp;    public void doCommand() {
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        map.deleteRequest(addressToDelete);</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;    }</b>
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;    @Override
+<i class="no-highlight">42</i>&nbsp;    public void undoCommand() throws Exception {
+<i class="no-highlight">43</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">44</i>&nbsp;            map.addRequest(beforNewPickup,newPickup,beforNewDelivery,newDelivery);</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;            throw (e);</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;    }</b>
+<i class="no-highlight">49</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -150,7 +148,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2021-11-09 23:11</div>
+    <div style="float:right;">generated on 2021-11-10 08:52</div>
 </div>
 </body>
 </html>

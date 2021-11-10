@@ -6,10 +6,10 @@
 <head>
   <title>Coverage Report > Controller</title>
   <style type="text/css">
-    @import "../../css/coverage.css";
-    @import "../../css/highlight-idea.css";
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
   </style>
-  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
 </head>
 
 <body>
@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/36)
+    (0/55)
   </span>
 </td>
 </tr>
@@ -126,7 +126,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc"><i class="no-highlight">51</i>&nbsp;        firstWindow = new WelcomeWindow(this);</b>
 <b class="nc"><i class="no-highlight">52</i>&nbsp;        map.addObserver(getFirstWindow());</b>
 <b class="nc"><i class="no-highlight">53</i>&nbsp;        map.addObserver(getWindow2());</b>
-<i class="no-highlight">54</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">54</i>&nbsp;    }</b>
 <i class="no-highlight">55</i>&nbsp;
 <i class="no-highlight">56</i>&nbsp;    /**
 <i class="no-highlight">57</i>&nbsp;     * load map methode
@@ -136,7 +136,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">61</i>&nbsp;    //overrided method
 <i class="no-highlight">62</i>&nbsp;    public void loadMap(String path){
 <b class="nc"><i class="no-highlight">63</i>&nbsp;        this.stateController.loadMap(this, path);</b>
-<i class="no-highlight">64</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">64</i>&nbsp;    }</b>
 <i class="no-highlight">65</i>&nbsp;
 <i class="no-highlight">66</i>&nbsp;    /**
 <i class="no-highlight">67</i>&nbsp;     * load request methode
@@ -145,7 +145,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">70</i>&nbsp;     */
 <i class="no-highlight">71</i>&nbsp;    public void loadRequest(String path){
 <b class="nc"><i class="no-highlight">72</i>&nbsp;        this.stateController.loadRequest(this, path);</b>
-<i class="no-highlight">73</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">73</i>&nbsp;    }</b>
 <i class="no-highlight">74</i>&nbsp;
 <i class="no-highlight">75</i>&nbsp;    /**
 <i class="no-highlight">76</i>&nbsp;     * load tour methode it calculates the first tour with the loaded request
@@ -153,7 +153,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">78</i>&nbsp;     */
 <i class="no-highlight">79</i>&nbsp;    public void loadTour() {
 <b class="nc"><i class="no-highlight">80</i>&nbsp;        this.stateController.loadTour(this);</b>
-<i class="no-highlight">81</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">81</i>&nbsp;    }</b>
 <i class="no-highlight">82</i>&nbsp;
 <i class="no-highlight">83</i>&nbsp;    /**
 <i class="no-highlight">84</i>&nbsp;     * Stop the tour calculation and keep the best calculated tour
@@ -162,7 +162,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">87</i>&nbsp;     */
 <i class="no-highlight">88</i>&nbsp;    public void stopComputing() {
 <b class="nc"><i class="no-highlight">89</i>&nbsp;        this.stateController.stopComputing(this);</b>
-<i class="no-highlight">90</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">90</i>&nbsp;    }</b>
 <i class="no-highlight">91</i>&nbsp;
 <i class="no-highlight">92</i>&nbsp;    /**
 <i class="no-highlight">93</i>&nbsp;     * Continue the tour calculation for at least 10 seconds
@@ -171,7 +171,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">96</i>&nbsp;     */
 <i class="no-highlight">97</i>&nbsp;    public void continueComputing() {
 <b class="nc"><i class="no-highlight">98</i>&nbsp;        this.stateController.continueTour(this, 10000);</b>
-<i class="no-highlight">99</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">99</i>&nbsp;    }</b>
 <i class="no-highlight">100</i>&nbsp;
 <i class="no-highlight">101</i>&nbsp;    /**
 <i class="no-highlight">102</i>&nbsp;     * First step for adding a new request, leads to the state AddRequestState1()
@@ -188,7 +188,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">113</i>&nbsp;     */
 <i class="no-highlight">114</i>&nbsp;    public void chooseNewPickup(Intersection theNewPickup, int pickupDuration){
 <b class="nc"><i class="no-highlight">115</i>&nbsp;        this.stateController.chooseNewPickup(this, theNewPickup, pickupDuration );</b>
-<i class="no-highlight">116</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">116</i>&nbsp;    }</b>
 <i class="no-highlight">117</i>&nbsp;
 <i class="no-highlight">118</i>&nbsp;
 <i class="no-highlight">119</i>&nbsp;    /**
@@ -199,7 +199,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">124</i>&nbsp;     */
 <i class="no-highlight">125</i>&nbsp;    public void chooseBeforNewPickup(Intersection theBeforNewPickup){
 <b class="nc"><i class="no-highlight">126</i>&nbsp;        this.stateController.chooseBeforNewPickup(this, theBeforNewPickup);</b>
-<i class="no-highlight">127</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">127</i>&nbsp;    }</b>
 <i class="no-highlight">128</i>&nbsp;
 <i class="no-highlight">129</i>&nbsp;    /**
 <i class="no-highlight">130</i>&nbsp;     * Select the delivery of the new request to add
@@ -210,7 +210,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">135</i>&nbsp;     */
 <i class="no-highlight">136</i>&nbsp;    public void chooseNewDelivery(Intersection theNewDelivery, int deliveryDuration){
 <b class="nc"><i class="no-highlight">137</i>&nbsp;        this.stateController.chooseNewDelivery(this, theNewDelivery, deliveryDuration);</b>
-<i class="no-highlight">138</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">138</i>&nbsp;    }</b>
 <i class="no-highlight">139</i>&nbsp;
 <i class="no-highlight">140</i>&nbsp;    /**
 <i class="no-highlight">141</i>&nbsp;     * Select the point (pickup or delivery) who will precedes the new request&#39;s delivery
@@ -220,7 +220,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">145</i>&nbsp;     */
 <i class="no-highlight">146</i>&nbsp;    public void chooseBeforNewDelivery(Intersection theBeforNewDelivery){
 <b class="nc"><i class="no-highlight">147</i>&nbsp;        this.stateController.chooseBeforNewDelivery(this, theBeforNewDelivery);</b>
-<i class="no-highlight">148</i>&nbsp;    };
+<b class="nc"><i class="no-highlight">148</i>&nbsp;    };</b>
 <i class="no-highlight">149</i>&nbsp;
 <i class="no-highlight">150</i>&nbsp;    /**
 <i class="no-highlight">151</i>&nbsp;     * Delete a request from the tour
@@ -228,7 +228,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">153</i>&nbsp;     */
 <i class="no-highlight">154</i>&nbsp;    public void deleteRequest(){
 <b class="nc"><i class="no-highlight">155</i>&nbsp;        this.stateController.deleteRequest(this);</b>
-<i class="no-highlight">156</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">156</i>&nbsp;    }</b>
 <i class="no-highlight">157</i>&nbsp;
 <i class="no-highlight">158</i>&nbsp;    /**
 <i class="no-highlight">159</i>&nbsp;     * Select the pickup or delivery to delete and will delet the whole request
@@ -243,7 +243,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">168</i>&nbsp;     */
 <i class="no-highlight">169</i>&nbsp;    public void back() {
 <b class="nc"><i class="no-highlight">170</i>&nbsp;        this.stateController.back(this);</b>
-<i class="no-highlight">171</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">171</i>&nbsp;    }</b>
 <i class="no-highlight">172</i>&nbsp;
 <i class="no-highlight">173</i>&nbsp;    /**
 <i class="no-highlight">174</i>&nbsp;     * redo from undo/redo functionnalie
@@ -252,7 +252,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">177</i>&nbsp;     */
 <i class="no-highlight">178</i>&nbsp;    public void redo() throws Exception {
 <b class="nc"><i class="no-highlight">179</i>&nbsp;        this.stateController.redo(listOfCommands);</b>
-<i class="no-highlight">180</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">180</i>&nbsp;    }</b>
 <i class="no-highlight">181</i>&nbsp;
 <i class="no-highlight">182</i>&nbsp;    /**
 <i class="no-highlight">183</i>&nbsp;     * undo from undo/redo functionnalie
@@ -261,7 +261,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">186</i>&nbsp;     */
 <i class="no-highlight">187</i>&nbsp;    public void undo() throws Exception {
 <b class="nc"><i class="no-highlight">188</i>&nbsp;        this.stateController.undo(listOfCommands);</b>
-<i class="no-highlight">189</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">189</i>&nbsp;    }</b>
 <i class="no-highlight">190</i>&nbsp;
 <i class="no-highlight">191</i>&nbsp;    //--------------- getter ---------------
 <i class="no-highlight">192</i>&nbsp;
@@ -293,24 +293,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">218</i>&nbsp;    public void setStateController(StateController stateController) {
 <b class="nc"><i class="no-highlight">219</i>&nbsp;        this.stateController = stateController;</b>
 <b class="nc"><i class="no-highlight">220</i>&nbsp;        window2.updatePanel();</b>
-<i class="no-highlight">221</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">221</i>&nbsp;    }</b>
 <i class="no-highlight">222</i>&nbsp;
 <i class="no-highlight">223</i>&nbsp;    public void setMap(MapInterface map) {
 <b class="nc"><i class="no-highlight">224</i>&nbsp;        this.map = map;</b>
-<i class="no-highlight">225</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">225</i>&nbsp;    }</b>
 <i class="no-highlight">226</i>&nbsp;
 <i class="no-highlight">227</i>&nbsp;    public void setTour(Tour tour) {
 <b class="nc"><i class="no-highlight">228</i>&nbsp;        this.tour = tour;</b>
-<i class="no-highlight">229</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">229</i>&nbsp;    }</b>
 <i class="no-highlight">230</i>&nbsp;
 <i class="no-highlight">231</i>&nbsp;    public void createMap(){
 <b class="nc"><i class="no-highlight">232</i>&nbsp;        map = MapFactory.create();</b>
-<i class="no-highlight">233</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">233</i>&nbsp;    }</b>
 <i class="no-highlight">234</i>&nbsp;
 <i class="no-highlight">235</i>&nbsp;    //--------------- main ---------------
 <i class="no-highlight">236</i>&nbsp;    public static void main(String []args){
 <b class="nc"><i class="no-highlight">237</i>&nbsp;        new Controller();</b>
-<i class="no-highlight">238</i>&nbsp;    }
+<b class="nc"><i class="no-highlight">238</i>&nbsp;    }</b>
 <i class="no-highlight">239</i>&nbsp;
 <i class="no-highlight">240</i>&nbsp;}
 </div>
@@ -339,7 +339,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2021-11-09 23:11</div>
+    <div style="float:right;">generated on 2021-11-10 08:52</div>
 </div>
 </body>
 </html>

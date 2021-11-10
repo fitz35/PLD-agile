@@ -6,10 +6,10 @@
 <head>
   <title>Coverage Report > WindowMap</title>
   <style type="text/css">
-    @import "../../css/coverage.css";
-    @import "../../css/highlight-idea.css";
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
   </style>
-  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
 </head>
 
 <body>
@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/73)
+    (0/76)
   </span>
 </td>
 </tr>
@@ -74,167 +74,152 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <pre>
 <div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package ihm.windowMap;
-<i class="no-highlight">2</i>&nbsp;
-<i class="no-highlight">3</i>&nbsp;import Model.Address;
-<i class="no-highlight">4</i>&nbsp;import Model.MapInterface;
-<i class="no-highlight">5</i>&nbsp;import controller.Controller;
-<i class="no-highlight">6</i>&nbsp;import controller.state.*;
-<i class="no-highlight">7</i>&nbsp;import ihm.windowMap.InputSection.*;
-<i class="no-highlight">8</i>&nbsp;
-<i class="no-highlight">9</i>&nbsp;import javax.swing.*;
-<i class="no-highlight">10</i>&nbsp;import java.awt.*;
-<i class="no-highlight">11</i>&nbsp;import java.util.Observable;
-<i class="no-highlight">12</i>&nbsp;import java.util.Observer;
-<i class="no-highlight">13</i>&nbsp;
-<i class="no-highlight">14</i>&nbsp;public class WindowMap extends Frame implements Observer //implements ActionListener, KeyListener
-<i class="no-highlight">15</i>&nbsp;{
-<i class="no-highlight">16</i>&nbsp;
-<i class="no-highlight">17</i>&nbsp;
-<i class="no-highlight">18</i>&nbsp;    private MapPanel mapPanel;
-<i class="no-highlight">19</i>&nbsp;
-<i class="no-highlight">20</i>&nbsp;    private InputMapWithDeliveryNPickupPoints panelWithRequests;
-<i class="no-highlight">21</i>&nbsp;    private InputWindowLoadRequest inputPanel;
-<i class="no-highlight">22</i>&nbsp;    private InputWindowAddPickup inputWindowAddPickup;
-<i class="no-highlight">23</i>&nbsp;    private InputWindowAddDelivery inputWindowAddDelivery;
-<i class="no-highlight">24</i>&nbsp;    private InputWindowWithRoute inputWindowWithRoute;
-<i class="no-highlight">25</i>&nbsp;    private InputWindowDeleteIntersection inputWindowDeleteIntersection;
-<i class="no-highlight">26</i>&nbsp;
-<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">2</i>&nbsp;import Model.Address;
+<i class="no-highlight">3</i>&nbsp;import Model.MapInterface;
+<i class="no-highlight">4</i>&nbsp;import controller.Controller;
+<i class="no-highlight">5</i>&nbsp;import controller.state.*;
+<i class="no-highlight">6</i>&nbsp;import ihm.windowMap.InputSection.*;
+<i class="no-highlight">7</i>&nbsp;
+<i class="no-highlight">8</i>&nbsp;import javax.swing.*;
+<i class="no-highlight">9</i>&nbsp;import java.awt.*;
+<i class="no-highlight">10</i>&nbsp;import java.util.Observable;
+<i class="no-highlight">11</i>&nbsp;import java.util.Observer;
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;/**
+<i class="no-highlight">14</i>&nbsp; * This class manipulates all the panels of the application and display them according to the
+<i class="no-highlight">15</i>&nbsp; * controller states. It also updates different panels when needed
+<i class="no-highlight">16</i>&nbsp; * @ version 1.0.0.0
+<i class="no-highlight">17</i>&nbsp; * @ author Hexanome 4124
+<i class="no-highlight">18</i>&nbsp; */
+<i class="no-highlight">19</i>&nbsp;public class WindowMap extends Frame implements Observer //implements ActionListener, KeyListener
+<i class="no-highlight">20</i>&nbsp;{
+<i class="no-highlight">21</i>&nbsp;    private MapPanel mapPanel;
+<i class="no-highlight">22</i>&nbsp;    private InputMapWithDeliveryNPickupPoints panelWithRequests;
+<i class="no-highlight">23</i>&nbsp;    private InputWindowLoadRequest inputPanel;
+<i class="no-highlight">24</i>&nbsp;    private InputWindowAddPickup inputWindowAddPickup;
+<i class="no-highlight">25</i>&nbsp;    private InputWindowAddDelivery inputWindowAddDelivery;
+<i class="no-highlight">26</i>&nbsp;    private InputWindowWithRoute inputWindowWithRoute;
+<i class="no-highlight">27</i>&nbsp;    private InputWindowDeleteIntersection inputWindowDeleteIntersection;
 <i class="no-highlight">28</i>&nbsp;    private Controller controller;
 <i class="no-highlight">29</i>&nbsp;
-<i class="no-highlight">30</i>&nbsp;
-<i class="no-highlight">31</i>&nbsp;    public WindowMap(Controller controller)
-<i class="no-highlight">32</i>&nbsp;    {
-<b class="nc"><i class="no-highlight">33</i>&nbsp;        super();</b>
-<b class="nc"><i class="no-highlight">34</i>&nbsp;        this.setLayout(null);</b>
-<b class="nc"><i class="no-highlight">35</i>&nbsp;        this.controller=controller;</b>
-<b class="nc"><i class="no-highlight">36</i>&nbsp;        inputPanel= new InputWindowLoadRequest(this, controller);</b>
-<b class="nc"><i class="no-highlight">37</i>&nbsp;        inputPanel.setBackground(ColorPalette.inputPannel);</b>
-<b class="nc"><i class="no-highlight">38</i>&nbsp;        this.add(inputPanel);</b>
-<i class="no-highlight">39</i>&nbsp;
-<b class="nc"><i class="no-highlight">40</i>&nbsp;        inputWindowAddPickup= new InputWindowAddPickup(controller);</b>
-<b class="nc"><i class="no-highlight">41</i>&nbsp;        inputWindowAddDelivery= new InputWindowAddDelivery(controller);</b>
-<b class="nc"><i class="no-highlight">42</i>&nbsp;        inputWindowDeleteIntersection = new InputWindowDeleteIntersection(this,controller);</b>
-<i class="no-highlight">43</i>&nbsp;
-<b class="nc"><i class="no-highlight">44</i>&nbsp;        mapPanel= new MapPanel(panelWithRequests,inputWindowWithRoute,inputWindowAddPickup,controller, inputWindowAddDelivery,</b>
-<i class="no-highlight">45</i>&nbsp;                inputWindowDeleteIntersection);
-<b class="nc"><i class="no-highlight">46</i>&nbsp;        panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller, this.mapPanel);</b>
-<b class="nc"><i class="no-highlight">47</i>&nbsp;        inputWindowWithRoute = new InputWindowWithRoute(this,controller,mapPanel);</b>
+<i class="no-highlight">30</i>&nbsp;    public WindowMap(Controller controller)
+<i class="no-highlight">31</i>&nbsp;    {
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        super();</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;        this.setLayout(null);</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        this.controller=controller;</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;        inputPanel= new InputWindowLoadRequest(this, controller);</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;        inputPanel.setBackground(ColorPalette.inputPannel);</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        this.add(inputPanel);</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        inputWindowAddPickup= new InputWindowAddPickup(controller);</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;        inputWindowAddDelivery= new InputWindowAddDelivery(controller);</b>
+<b class="nc"><i class="no-highlight">40</i>&nbsp;        inputWindowDeleteIntersection = new InputWindowDeleteIntersection(this,controller);</b>
+<b class="nc"><i class="no-highlight">41</i>&nbsp;        mapPanel= new MapPanel(inputWindowAddPickup,controller, inputWindowAddDelivery,</b>
+<i class="no-highlight">42</i>&nbsp;                inputWindowDeleteIntersection);
+<b class="nc"><i class="no-highlight">43</i>&nbsp;        panelWithRequests= new InputMapWithDeliveryNPickupPoints(this, controller, this.mapPanel);</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;        inputWindowWithRoute = new InputWindowWithRoute(this,controller,mapPanel);</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        this.add(mapPanel);</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;        this.setBackground(Color.BLACK);</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;    }</b>
 <i class="no-highlight">48</i>&nbsp;
-<b class="nc"><i class="no-highlight">49</i>&nbsp;        this.add(mapPanel);</b>
-<b class="nc"><i class="no-highlight">50</i>&nbsp;        this.setBackground(Color.BLACK);</b>
-<i class="no-highlight">51</i>&nbsp;
-<i class="no-highlight">52</i>&nbsp;
-<i class="no-highlight">53</i>&nbsp;    }
-<i class="no-highlight">54</i>&nbsp;
-<i class="no-highlight">55</i>&nbsp;    /**
-<i class="no-highlight">56</i>&nbsp;     * update the panel with state of controller
-<i class="no-highlight">57</i>&nbsp;     */
-<i class="no-highlight">58</i>&nbsp;    public void updatePanel()
-<i class="no-highlight">59</i>&nbsp;    {
-<b class="nc"><i class="no-highlight">60</i>&nbsp;       this.removeAllPanel();</b>
-<i class="no-highlight">61</i>&nbsp;
-<b class="nc"><i class="no-highlight">62</i>&nbsp;       if(this.controller.getStateController() instanceof MapLoaded){</b>
-<b class="nc"><i class="no-highlight">63</i>&nbsp;           this.add(inputPanel);</b>
-<b class="nc"><i class="no-highlight">64</i>&nbsp;       }else if(</b>
-<b class="nc"><i class="no-highlight">65</i>&nbsp;               this.controller.getStateController() instanceof RequestLoaded</b>
-<i class="no-highlight">66</i>&nbsp;       ){
-<b class="nc"><i class="no-highlight">67</i>&nbsp;           this.add(panelWithRequests);</b>
-<i class="no-highlight">68</i>&nbsp;           //inputWindowWithRoute.updatePlanningRequestOptimalTour();
-<b class="nc"><i class="no-highlight">69</i>&nbsp;       }else if(this.controller.getStateController() instanceof AddRequestState1||</b>
-<b class="nc"><i class="no-highlight">70</i>&nbsp;               this.controller.getStateController() instanceof AddRequestState2) {</b>
-<b class="nc"><i class="no-highlight">71</i>&nbsp;           System.out.println(&quot;Update Panel Add Request&quot;);</b>
-<b class="nc"><i class="no-highlight">72</i>&nbsp;           this.add(inputWindowAddPickup);</b>
-<b class="nc"><i class="no-highlight">73</i>&nbsp;           inputWindowAddPickup.updatePanel();</b>
-<i class="no-highlight">74</i>&nbsp;       }
-<b class="nc"><i class="no-highlight">75</i>&nbsp;       else if(this.controller.getStateController() instanceof AddRequestState3||</b>
-<b class="nc"><i class="no-highlight">76</i>&nbsp;               this.controller.getStateController() instanceof AddRequestState4) {</b>
-<b class="nc"><i class="no-highlight">77</i>&nbsp;           System.out.println(&quot;Update Panel Add Request&quot;);</b>
-<b class="nc"><i class="no-highlight">78</i>&nbsp;           this.add(inputWindowAddDelivery);</b>
-<b class="nc"><i class="no-highlight">79</i>&nbsp;           inputWindowAddDelivery.updatePanel();</b>
-<i class="no-highlight">80</i>&nbsp;       }
-<b class="nc"><i class="no-highlight">81</i>&nbsp;       else if((this.controller.getStateController() instanceof FirstTourComputed||</b>
-<b class="nc"><i class="no-highlight">82</i>&nbsp;               this.controller.getStateController() instanceof WaitOrder)){</b>
-<i class="no-highlight">83</i>&nbsp;           //this.add(panelWithRequests);
-<b class="nc"><i class="no-highlight">84</i>&nbsp;           inputWindowWithRoute.updatePlanningRequestOptimalTour();</b>
-<i class="no-highlight">85</i>&nbsp;           //inputWindowDeleteIntersection.updatePlanningRequestOptimalTour();
-<i class="no-highlight">86</i>&nbsp;
-<b class="nc"><i class="no-highlight">87</i>&nbsp;           this.add(inputWindowWithRoute);</b>
-<b class="nc"><i class="no-highlight">88</i>&nbsp;       }else if(this.controller.getStateController() instanceof DeleteRequest){</b>
-<b class="nc"><i class="no-highlight">89</i>&nbsp;           inputWindowDeleteIntersection.updatePlanningRequestOptimalTour();</b>
-<b class="nc"><i class="no-highlight">90</i>&nbsp;           this.add(inputWindowDeleteIntersection);</b>
-<i class="no-highlight">91</i>&nbsp;       }
-<i class="no-highlight">92</i>&nbsp;
-<b class="nc"><i class="no-highlight">93</i>&nbsp;       this.add(mapPanel);</b>
-<b class="nc"><i class="no-highlight">94</i>&nbsp;       this.revalidate();</b>
-<b class="nc"><i class="no-highlight">95</i>&nbsp;       this.repaint();</b>
-<i class="no-highlight">96</i>&nbsp;    }
+<i class="no-highlight">49</i>&nbsp;    /**
+<i class="no-highlight">50</i>&nbsp;     * This method updates the panels with based on the controller states
+<i class="no-highlight">51</i>&nbsp;     */
+<i class="no-highlight">52</i>&nbsp;    public void updatePanel()
+<i class="no-highlight">53</i>&nbsp;    {
+<b class="nc"><i class="no-highlight">54</i>&nbsp;       this.removeAllPanel(); //Remove all the panels to draw the corresponding one</b>
+<i class="no-highlight">55</i>&nbsp;
+<b class="nc"><i class="no-highlight">56</i>&nbsp;       if(this.controller.getStateController() instanceof MapLoaded){</b>
+<b class="nc"><i class="no-highlight">57</i>&nbsp;           this.add(inputPanel);</b>
+<b class="nc"><i class="no-highlight">58</i>&nbsp;       }else if(</b>
+<b class="nc"><i class="no-highlight">59</i>&nbsp;               this.controller.getStateController() instanceof RequestLoaded</b>
+<i class="no-highlight">60</i>&nbsp;       ){
+<b class="nc"><i class="no-highlight">61</i>&nbsp;           this.add(panelWithRequests);</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;       }else if(this.controller.getStateController() instanceof AddRequestState1||</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;               this.controller.getStateController() instanceof AddRequestState2) {</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;           this.add(inputWindowAddPickup);</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;           inputWindowAddPickup.updatePanel();</b>
+<i class="no-highlight">66</i>&nbsp;       }
+<b class="nc"><i class="no-highlight">67</i>&nbsp;       else if(this.controller.getStateController() instanceof AddRequestState3||</b>
+<b class="nc"><i class="no-highlight">68</i>&nbsp;               this.controller.getStateController() instanceof AddRequestState4) {</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;           this.add(inputWindowAddDelivery);</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;           inputWindowAddDelivery.updatePanel();</b>
+<i class="no-highlight">71</i>&nbsp;       }
+<b class="nc"><i class="no-highlight">72</i>&nbsp;       else if((this.controller.getStateController() instanceof FirstTourComputed||</b>
+<b class="nc"><i class="no-highlight">73</i>&nbsp;               this.controller.getStateController() instanceof WaitOrder)){</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;           inputWindowWithRoute.updatePlanningRequestOptimalTour();</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;           this.add(inputWindowWithRoute);</b>
+<b class="nc"><i class="no-highlight">76</i>&nbsp;       }else if(this.controller.getStateController() instanceof DeleteRequest){</b>
+<b class="nc"><i class="no-highlight">77</i>&nbsp;           inputWindowDeleteIntersection.updatePlanningRequestOptimalTour();</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;           this.add(inputWindowDeleteIntersection);</b>
+<i class="no-highlight">79</i>&nbsp;       }
+<b class="nc"><i class="no-highlight">80</i>&nbsp;       this.add(mapPanel);</b>
+<b class="nc"><i class="no-highlight">81</i>&nbsp;       this.revalidate();</b>
+<b class="nc"><i class="no-highlight">82</i>&nbsp;       this.repaint();</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;    }</b>
+<i class="no-highlight">84</i>&nbsp;
+<i class="no-highlight">85</i>&nbsp;    /**
+<i class="no-highlight">86</i>&nbsp;     * This panel removes all the panels from the window
+<i class="no-highlight">87</i>&nbsp;     */
+<i class="no-highlight">88</i>&nbsp;    private void removeAllPanel(){
+<b class="nc"><i class="no-highlight">89</i>&nbsp;        this.remove(mapPanel);</b>
+<b class="nc"><i class="no-highlight">90</i>&nbsp;        this.remove(inputPanel);</b>
+<b class="nc"><i class="no-highlight">91</i>&nbsp;        this.remove(panelWithRequests);</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;        this.remove(inputWindowWithRoute);</b>
+<b class="nc"><i class="no-highlight">93</i>&nbsp;        this.remove(inputWindowAddPickup);</b>
+<b class="nc"><i class="no-highlight">94</i>&nbsp;        this.remove(inputWindowAddDelivery);</b>
+<b class="nc"><i class="no-highlight">95</i>&nbsp;        this.remove(inputWindowDeleteIntersection);</b>
+<b class="nc"><i class="no-highlight">96</i>&nbsp;    }</b>
 <i class="no-highlight">97</i>&nbsp;
 <i class="no-highlight">98</i>&nbsp;    /**
-<i class="no-highlight">99</i>&nbsp;     * remove all the panel of the window
+<i class="no-highlight">99</i>&nbsp;     * This method asks the user if he wants to continue the tour (only used in wait order state)
 <i class="no-highlight">100</i>&nbsp;     */
-<i class="no-highlight">101</i>&nbsp;    private void removeAllPanel(){
-<b class="nc"><i class="no-highlight">102</i>&nbsp;        this.remove(mapPanel);</b>
-<b class="nc"><i class="no-highlight">103</i>&nbsp;        this.remove(inputPanel);</b>
-<b class="nc"><i class="no-highlight">104</i>&nbsp;        this.remove(panelWithRequests);</b>
-<b class="nc"><i class="no-highlight">105</i>&nbsp;        this.remove(inputWindowWithRoute);</b>
-<b class="nc"><i class="no-highlight">106</i>&nbsp;        this.remove(inputWindowAddPickup);</b>
-<b class="nc"><i class="no-highlight">107</i>&nbsp;        this.remove(inputWindowAddDelivery);</b>
-<b class="nc"><i class="no-highlight">108</i>&nbsp;        this.remove(inputWindowDeleteIntersection);</b>
-<i class="no-highlight">109</i>&nbsp;
-<i class="no-highlight">110</i>&nbsp;    }
-<i class="no-highlight">111</i>&nbsp;
-<i class="no-highlight">112</i>&nbsp;    /**
-<i class="no-highlight">113</i>&nbsp;     * ask the user if he want to continue tour (only in wait order state)
-<i class="no-highlight">114</i>&nbsp;     */
-<i class="no-highlight">115</i>&nbsp;    public void askToContinueTour(){
-<b class="nc"><i class="no-highlight">116</i>&nbsp;        if(controller.getStateController() instanceof WaitOrder) {</b>
-<b class="nc"><i class="no-highlight">117</i>&nbsp;            int result = JOptionPane.showConfirmDialog(</b>
-<i class="no-highlight">118</i>&nbsp;                    this,
-<i class="no-highlight">119</i>&nbsp;                    &quot;Timeout occurred, the tour may be not optimal. Would you continue to computing ?&quot;);
-<b class="nc"><i class="no-highlight">120</i>&nbsp;            if (result == 0)</b>
-<i class="no-highlight">121</i>&nbsp;                //System.out.println(&quot;You pressed Yes&quot;);
-<b class="nc"><i class="no-highlight">122</i>&nbsp;                controller.continueComputing();</b>
-<b class="nc"><i class="no-highlight">123</i>&nbsp;            else if (result == 1)</b>
-<i class="no-highlight">124</i>&nbsp;                //System.out.println(&quot;You pressed NO&quot;);
-<b class="nc"><i class="no-highlight">125</i>&nbsp;                controller.stopComputing();</b>
-<i class="no-highlight">126</i>&nbsp;            else
-<i class="no-highlight">127</i>&nbsp;                //System.out.println(&quot;You pressed Cancel&quot;);
-<b class="nc"><i class="no-highlight">128</i>&nbsp;                controller.back();</b>
-<i class="no-highlight">129</i>&nbsp;        }
-<i class="no-highlight">130</i>&nbsp;    }
-<i class="no-highlight">131</i>&nbsp;
-<i class="no-highlight">132</i>&nbsp;
-<i class="no-highlight">133</i>&nbsp;    @Override
-<i class="no-highlight">134</i>&nbsp;    public void update(Observable o, Object arg)
-<i class="no-highlight">135</i>&nbsp;    {
-<b class="nc"><i class="no-highlight">136</i>&nbsp;        if(o instanceof MapInterface &amp;&amp; arg instanceof String){</b>
-<b class="nc"><i class="no-highlight">137</i>&nbsp;            inputPanel.setErrorMsg((String)arg);</b>
-<b class="nc"><i class="no-highlight">138</i>&nbsp;            this.revalidate();</b>
-<b class="nc"><i class="no-highlight">139</i>&nbsp;            this.repaint();</b>
-<b class="nc"><i class="no-highlight">140</i>&nbsp;        }else if (o instanceof MapInterface &amp;&amp; arg instanceof Address){ // error with adding</b>
-<b class="nc"><i class="no-highlight">141</i>&nbsp;            Address address=(Address) arg;</b>
-<b class="nc"><i class="no-highlight">142</i>&nbsp;            if(address.getType() == 1){</b>
-<b class="nc"><i class="no-highlight">143</i>&nbsp;                inputWindowAddPickup.setErrorMessage();</b>
-<i class="no-highlight">144</i>&nbsp;            }else{
-<b class="nc"><i class="no-highlight">145</i>&nbsp;                inputWindowAddDelivery.setErrorMessage();</b>
-<i class="no-highlight">146</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">147</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">148</i>&nbsp;        else if(o instanceof MapInterface) {</b>
-<b class="nc"><i class="no-highlight">149</i>&nbsp;            mapPanel.displayMap((MapInterface) o);</b>
-<b class="nc"><i class="no-highlight">150</i>&nbsp;            inputPanel.setErrorMsg(&quot;&quot;);</b>
-<b class="nc"><i class="no-highlight">151</i>&nbsp;            panelWithRequests.updatePlanningRequestNotNull();</b>
-<b class="nc"><i class="no-highlight">152</i>&nbsp;            inputWindowWithRoute.updatePlanningRequestOptimalTour();</b>
-<b class="nc"><i class="no-highlight">153</i>&nbsp;            inputWindowDeleteIntersection.updatePlanningRequestOptimalTour();</b>
-<i class="no-highlight">154</i>&nbsp;
-<b class="nc"><i class="no-highlight">155</i>&nbsp;            this.revalidate();</b>
-<b class="nc"><i class="no-highlight">156</i>&nbsp;            this.repaint();</b>
-<i class="no-highlight">157</i>&nbsp;
-<i class="no-highlight">158</i>&nbsp;        }
-<i class="no-highlight">159</i>&nbsp;
-<b class="nc"><i class="no-highlight">160</i>&nbsp;        this.updatePanel();</b>
-<i class="no-highlight">161</i>&nbsp;    }
-<i class="no-highlight">162</i>&nbsp;}
+<i class="no-highlight">101</i>&nbsp;    public void askToContinueTour(){
+<b class="nc"><i class="no-highlight">102</i>&nbsp;        if(controller.getStateController() instanceof WaitOrder) {</b>
+<b class="nc"><i class="no-highlight">103</i>&nbsp;            int result = JOptionPane.showConfirmDialog(</b>
+<i class="no-highlight">104</i>&nbsp;                    this,
+<i class="no-highlight">105</i>&nbsp;                    &quot;Timeout occurred, the tour may be not optimal. Would you continue to computing ?&quot;);
+<b class="nc"><i class="no-highlight">106</i>&nbsp;            if (result == 0)</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;                controller.continueComputing();</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;            else if (result == 1)</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;                controller.stopComputing();</b>
+<i class="no-highlight">110</i>&nbsp;            else
+<b class="nc"><i class="no-highlight">111</i>&nbsp;                controller.back();</b>
+<i class="no-highlight">112</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">113</i>&nbsp;    }</b>
+<i class="no-highlight">114</i>&nbsp;
+<i class="no-highlight">115</i>&nbsp;    /**
+<i class="no-highlight">116</i>&nbsp;     * This method updates the panels whenever a change has been made
+<i class="no-highlight">117</i>&nbsp;     * @param o
+<i class="no-highlight">118</i>&nbsp;     * @param arg
+<i class="no-highlight">119</i>&nbsp;     */
+<i class="no-highlight">120</i>&nbsp;    @Override
+<i class="no-highlight">121</i>&nbsp;    public void update(Observable o, Object arg)
+<i class="no-highlight">122</i>&nbsp;    {
+<b class="nc"><i class="no-highlight">123</i>&nbsp;        if(o instanceof MapInterface &amp;&amp; arg instanceof String){</b>
+<b class="nc"><i class="no-highlight">124</i>&nbsp;            inputPanel.setErrorMsg((String)arg);</b>
+<b class="nc"><i class="no-highlight">125</i>&nbsp;            this.revalidate();</b>
+<b class="nc"><i class="no-highlight">126</i>&nbsp;            this.repaint();</b>
+<b class="nc"><i class="no-highlight">127</i>&nbsp;        }else if (o instanceof MapInterface &amp;&amp; arg instanceof Address){ // error with adding</b>
+<b class="nc"><i class="no-highlight">128</i>&nbsp;            Address address=(Address) arg;</b>
+<b class="nc"><i class="no-highlight">129</i>&nbsp;            if(address.getType() == 1){</b>
+<b class="nc"><i class="no-highlight">130</i>&nbsp;                inputWindowAddPickup.setErrorMessage();</b>
+<i class="no-highlight">131</i>&nbsp;            }else{
+<b class="nc"><i class="no-highlight">132</i>&nbsp;                inputWindowAddDelivery.setErrorMessage();</b>
+<i class="no-highlight">133</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">134</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">135</i>&nbsp;        else if(o instanceof MapInterface) {</b>
+<b class="nc"><i class="no-highlight">136</i>&nbsp;            mapPanel.displayMap((MapInterface) o);</b>
+<b class="nc"><i class="no-highlight">137</i>&nbsp;            inputPanel.setErrorMsg(&quot;&quot;);</b>
+<b class="nc"><i class="no-highlight">138</i>&nbsp;            panelWithRequests.updatePlanningRequestNotNull();</b>
+<b class="nc"><i class="no-highlight">139</i>&nbsp;            inputWindowWithRoute.updatePlanningRequestOptimalTour();</b>
+<b class="nc"><i class="no-highlight">140</i>&nbsp;            inputWindowDeleteIntersection.updatePlanningRequestOptimalTour();</b>
+<i class="no-highlight">141</i>&nbsp;
+<b class="nc"><i class="no-highlight">142</i>&nbsp;            this.revalidate();</b>
+<b class="nc"><i class="no-highlight">143</i>&nbsp;            this.repaint();</b>
+<i class="no-highlight">144</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">145</i>&nbsp;        this.updatePanel();</b>
+<b class="nc"><i class="no-highlight">146</i>&nbsp;    }</b>
+<i class="no-highlight">147</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -261,7 +246,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2021-11-09 23:11</div>
+    <div style="float:right;">generated on 2021-11-10 08:52</div>
 </div>
 </body>
 </html>

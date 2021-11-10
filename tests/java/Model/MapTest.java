@@ -628,6 +628,11 @@ class MapTest extends Observable {
         assertEquals(theoricalTour,calculatedTour);
     }
 
+    /**
+     * This test may not pass if the pc running the program is too fast. Here we try to reach timeout to show that
+     * the computation stops, and the given tour is not the optimal one. Then we resume computing to reach the optimal
+     * solution
+     */
     @Test
     void computeTestTimeout(){
         try{

@@ -4,12 +4,12 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > StateController</title>
+  <title>Coverage Report > WaitOrder</title>
   <style type="text/css">
-    @import "../../css/coverage.css";
-    @import "../../css/highlight-idea.css";
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
   </style>
-  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
 </head>
 
 <body>
@@ -20,14 +20,50 @@ Current scope:     <a href="../../index.html">all classes</a>
     <a href="../index.html">controller.state</a>
 </div>
 
-<h1>Coverage Summary for Class: StateController (controller.state)</h1>
+<h1>Coverage Summary for Class: WaitOrder (controller.state)</h1>
 
 <table class="coverageStats">
 <tr>
   <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
 </tr>
 <tr>
-  <td class="name">StateController</td>
+  <td class="name">WaitOrder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
 </tr>
 
 </table>
@@ -39,32 +75,45 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package controller.state;
 <i class="no-highlight">2</i>&nbsp;
-<i class="no-highlight">3</i>&nbsp;import Model.Intersection;
-<i class="no-highlight">4</i>&nbsp;import controller.Controller;
-<i class="no-highlight">5</i>&nbsp;import controller.command.ListOfCommands;
-<i class="no-highlight">6</i>&nbsp;import ihm.windowMap.MapPanel;
-<i class="no-highlight">7</i>&nbsp;import ihm.windowMap.WindowMap;
-<i class="no-highlight">8</i>&nbsp;
-<i class="no-highlight">9</i>&nbsp;/**
-<i class="no-highlight">10</i>&nbsp; * Interface implemented from the contoller design pattern
-<i class="no-highlight">11</i>&nbsp; */
-<i class="no-highlight">12</i>&nbsp;public interface StateController {
-<i class="no-highlight">13</i>&nbsp;    public default void loadMap(Controller context, String path){};
-<i class="no-highlight">14</i>&nbsp;    public default void loadRequest(Controller controller, String path){};
-<i class="no-highlight">15</i>&nbsp;    public default void loadTour(Controller controller){};
-<i class="no-highlight">16</i>&nbsp;    public default void back(Controller controller){};
-<i class="no-highlight">17</i>&nbsp;    public default void continueTour(Controller controller, int timeout){};
-<i class="no-highlight">18</i>&nbsp;    public default void stopComputing(Controller controller){};
-<i class="no-highlight">19</i>&nbsp;    public default void addNewRequest(Controller controller){};
-<i class="no-highlight">20</i>&nbsp;    public default void deleteRequest(Controller controller){};
-<i class="no-highlight">21</i>&nbsp;    public default void chooseNewPickup(Controller controller, Intersection theNewPickup, int pickupDuration){};
-<i class="no-highlight">22</i>&nbsp;    public default void chooseBeforNewPickup(Controller controller, Intersection theBeforNewPickup){};
-<i class="no-highlight">23</i>&nbsp;    public default void chooseNewDelivery(Controller controller, Intersection theNewDelivery, int deliveryDuration){};
-<i class="no-highlight">24</i>&nbsp;    public default void chooseBeforNewDelivery(Controller controller, Intersection theBeforNewDelivery){};
-<i class="no-highlight">25</i>&nbsp;    public default void redo(ListOfCommands listOfCommands) throws Exception {};
-<i class="no-highlight">26</i>&nbsp;    public default void undo(ListOfCommands listOfCommands) throws Exception {};
-<i class="no-highlight">27</i>&nbsp;    public default void selectRequestToDelete(Controller controller, Intersection intersection) {};
-<i class="no-highlight">28</i>&nbsp;}
+<i class="no-highlight">3</i>&nbsp;import controller.Controller;
+<i class="no-highlight">4</i>&nbsp;
+<b class="nc"><i class="no-highlight">5</i>&nbsp;public class WaitOrder implements StateController {</b>
+<i class="no-highlight">6</i>&nbsp;
+<i class="no-highlight">7</i>&nbsp;    @Override
+<i class="no-highlight">8</i>&nbsp;    public void continueTour(Controller controller, int timeout){
+<i class="no-highlight">9</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">10</i>&nbsp;            controller.getMap().continueTour(timeout);</b>
+<b class="nc"><i class="no-highlight">11</i>&nbsp;            if(controller.getMap().getTimedOutError() == 0){</b>
+<b class="nc"><i class="no-highlight">12</i>&nbsp;                controller.getMap().resetTimedOutError();</b>
+<b class="nc"><i class="no-highlight">13</i>&nbsp;                controller.setStateController(new FirstTourComputed());</b>
+<b class="nc"><i class="no-highlight">14</i>&nbsp;            }else if(controller.getMap().getTimedOutError() == 1){</b>
+<b class="nc"><i class="no-highlight">15</i>&nbsp;                controller.getMap().resetTimedOutError();</b>
+<b class="nc"><i class="no-highlight">16</i>&nbsp;                controller.setStateController(new WaitOrder());</b>
+<b class="nc"><i class="no-highlight">17</i>&nbsp;                controller.getWindow2().askToContinueTour();</b>
+<i class="no-highlight">18</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">19</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">20</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">21</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">22</i>&nbsp;    }</b>
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    @Override
+<i class="no-highlight">25</i>&nbsp;    public void stopComputing(Controller controller){
+<b class="nc"><i class="no-highlight">26</i>&nbsp;        controller.getMap().resetTimedOutError();</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;        controller.setStateController(new FirstTourComputed());</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;    }</b>
+<i class="no-highlight">29</i>&nbsp;
+<i class="no-highlight">30</i>&nbsp;    @Override
+<i class="no-highlight">31</i>&nbsp;    public void back(Controller controller) {
+<i class="no-highlight">32</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">33</i>&nbsp;            controller.getMap().resetTour();</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;            controller.getMap().resetTimedOutError();</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;            controller.setStateController(new RequestLoaded());</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;        } catch (Exception e) {</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;    }</b>
+<i class="no-highlight">40</i>&nbsp;
+<i class="no-highlight">41</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -91,7 +140,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2021-11-09 23:11</div>
+    <div style="float:right;">generated on 2021-11-10 08:52</div>
 </div>
 </body>
 </html>

@@ -6,10 +6,10 @@
 <head>
   <title>Coverage Report > RequestLoaded</title>
   <style type="text/css">
-    @import "../../css/coverage.css";
-    @import "../../css/highlight-idea.css";
+    @import "../../.css/coverage.css";
+    @import "../../.css/highlight-idea.css";
   </style>
-  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script type="text/javascript" src="../../.js/highlight.pack.js"></script>
 </head>
 
 <body>
@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/12)
+    (0/14)
   </span>
 </td>
 </tr>
@@ -77,29 +77,41 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">2</i>&nbsp;
 <i class="no-highlight">3</i>&nbsp;import controller.Controller;
 <i class="no-highlight">4</i>&nbsp;
-<b class="nc"><i class="no-highlight">5</i>&nbsp;public class RequestLoaded implements StateController {</b>
-<i class="no-highlight">6</i>&nbsp;
-<i class="no-highlight">7</i>&nbsp;    @Override
-<i class="no-highlight">8</i>&nbsp;    public void loadTour(Controller controller) {
-<i class="no-highlight">9</i>&nbsp;        try{
-<b class="nc"><i class="no-highlight">10</i>&nbsp;            controller.getMap().computeTour(10000);</b>
-<b class="nc"><i class="no-highlight">11</i>&nbsp;            if(controller.getMap().getTimedOutError() == 0){</b>
-<b class="nc"><i class="no-highlight">12</i>&nbsp;                controller.setStateController(new FirstTourComputed());</b>
-<b class="nc"><i class="no-highlight">13</i>&nbsp;            }else if(controller.getMap().getTimedOutError() == 1){</b>
-<b class="nc"><i class="no-highlight">14</i>&nbsp;                controller.setStateController(new WaitOrder());</b>
-<b class="nc"><i class="no-highlight">15</i>&nbsp;                controller.getWindow2().askToContinueTour();</b>
-<i class="no-highlight">16</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">17</i>&nbsp;        }catch(Exception e){</b>
-<b class="nc"><i class="no-highlight">18</i>&nbsp;            e.printStackTrace();</b>
-<b class="nc"><i class="no-highlight">19</i>&nbsp;        }</b>
-<i class="no-highlight">20</i>&nbsp;    }
-<i class="no-highlight">21</i>&nbsp;
-<i class="no-highlight">22</i>&nbsp;    @Override
-<i class="no-highlight">23</i>&nbsp;    public void back(Controller controller){
-<b class="nc"><i class="no-highlight">24</i>&nbsp;        controller.setStateController(new MapLoaded());</b>
-<b class="nc"><i class="no-highlight">25</i>&nbsp;        controller.getMap().resetPlanningRequest();</b>
-<i class="no-highlight">26</i>&nbsp;    }
-<i class="no-highlight">27</i>&nbsp;}
+<i class="no-highlight">5</i>&nbsp;/**
+<i class="no-highlight">6</i>&nbsp; * 3rd State
+<i class="no-highlight">7</i>&nbsp; * has methode loadTour and back
+<i class="no-highlight">8</i>&nbsp; */
+<b class="nc"><i class="no-highlight">9</i>&nbsp;public class RequestLoaded implements StateController {</b>
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;    /**
+<i class="no-highlight">12</i>&nbsp;     * Compute the first tour during at most 10 second and propose a first tour
+<i class="no-highlight">13</i>&nbsp;     * @param controller
+<i class="no-highlight">14</i>&nbsp;     */
+<i class="no-highlight">15</i>&nbsp;    @Override
+<i class="no-highlight">16</i>&nbsp;    public void loadTour(Controller controller) {
+<i class="no-highlight">17</i>&nbsp;        try{
+<b class="nc"><i class="no-highlight">18</i>&nbsp;            controller.getMap().computeTour(10000);</b>
+<b class="nc"><i class="no-highlight">19</i>&nbsp;            if(controller.getMap().getTimedOutError() == 0){</b>
+<b class="nc"><i class="no-highlight">20</i>&nbsp;                controller.setStateController(new FirstTourComputed());</b>
+<b class="nc"><i class="no-highlight">21</i>&nbsp;            }else if(controller.getMap().getTimedOutError() == 1){</b>
+<b class="nc"><i class="no-highlight">22</i>&nbsp;                controller.setStateController(new WaitOrder());</b>
+<b class="nc"><i class="no-highlight">23</i>&nbsp;                controller.getWindow2().askToContinueTour();</b>
+<i class="no-highlight">24</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">25</i>&nbsp;        }catch(Exception e){</b>
+<b class="nc"><i class="no-highlight">26</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;    }</b>
+<i class="no-highlight">29</i>&nbsp;
+<i class="no-highlight">30</i>&nbsp;    /**
+<i class="no-highlight">31</i>&nbsp;     * bring to the state MapLoaded and delete the planning request
+<i class="no-highlight">32</i>&nbsp;     * @param controller
+<i class="no-highlight">33</i>&nbsp;     */
+<i class="no-highlight">34</i>&nbsp;    @Override
+<i class="no-highlight">35</i>&nbsp;    public void back(Controller controller){
+<b class="nc"><i class="no-highlight">36</i>&nbsp;        controller.setStateController(new MapLoaded());</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        controller.getMap().resetPlanningRequest();</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;    }</b>
+<i class="no-highlight">39</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -126,7 +138,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2021-11-09 23:11</div>
+    <div style="float:right;">generated on 2021-11-10 08:52</div>
 </div>
 </body>
 </html>
