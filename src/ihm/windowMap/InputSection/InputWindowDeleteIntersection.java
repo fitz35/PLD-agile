@@ -76,7 +76,7 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
         text.setFont(new Font("Serif", Font.BOLD, 15));
 
         verticalScrollerTour = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
-        verticalScrollerTour.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));
+        verticalScrollerTour.setBounds((int) (this.getWidth()-30), (int) (0.15 * Frame.height), 20, (int) (this.getHeight()*2/3));
         verticalScrollerTour.addAdjustmentListener(this);
 
         backToLoadRequest = new JButton("BACK");
@@ -322,7 +322,7 @@ public class InputWindowDeleteIntersection extends InputBase implements ActionLi
                 //ScrollBar
                 int positionScrollBarTour = verticalScrollerTour.getValue();
                 for (int j = 0; j < maxNoOfRequestsPerPage && ((positionScrollBarTour * maxNoOfRequestsPerPage) + j) < pathListOptimalTour.size()+1; j++) {
-                    listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 70)), 500, 55);
+                    listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 70)), 450, 55);
                     this.add(listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
                 }
                 for (int j = 0; j < maxNoOfRequestsPerPage && ((positionScrollBarTour * maxNoOfRequestsPerPage) + j) < listDeleteButton.size()-1; j++) {

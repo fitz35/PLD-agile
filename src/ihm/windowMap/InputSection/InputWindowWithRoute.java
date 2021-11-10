@@ -72,8 +72,9 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         total.setBounds(100, 100, 400, Frame.height/10);
         total.setFont(new Font("Serif", Font.BOLD, 15));
 
+
         verticalScrollerTour = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
-        verticalScrollerTour.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));
+        verticalScrollerTour.setBounds((int) (this.getWidth()-30), (int) (0.15 * Frame.height), 20, (int) (this.getHeight()*2/3));
         verticalScrollerTour.addAdjustmentListener(this);
 
         addRequest = new JButton("Add a request");
@@ -101,7 +102,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         redoButton.addActionListener(this);
 
         wayRouteButton = new JButton("Save the waybill");
-        wayRouteButton.setBounds((int)(Frame.width*0.3),(int)(Frame.height*0.8),150,40);
+        wayRouteButton.setBounds((int)(Frame.width*0.3),(int)(this.getHeight()-100),150,40);
         wayRouteButton.addActionListener(this);
 
         this.add(text1);
@@ -437,7 +438,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
                 //ScrollBar
                 int positionScrollBarTour = verticalScrollerTour.getValue();
                 for (int j = 0; j < maxNoOfRequestsPerPage && ((positionScrollBarTour * maxNoOfRequestsPerPage) + j) < pathListOptimalTour.size()+1; j++) {
-                    listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 70)), 500, 55);
+                    listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j).setBounds(Frame.height / 9, (int) (0.2 * Frame.height + (j * 70)), 450, 55);
                     this.add(listPath.get((positionScrollBarTour * maxNoOfRequestsPerPage) + j));
                 }
                 total.setText("The duration of the tour: "+getString(computeTime(totalTour)[0])+"h"+getString(computeTime(totalTour)[1])+"min");

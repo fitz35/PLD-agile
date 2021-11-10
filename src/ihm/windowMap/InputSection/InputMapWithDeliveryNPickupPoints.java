@@ -66,15 +66,15 @@ public class InputMapWithDeliveryNPickupPoints extends InputBase implements Acti
         text1.setFont(new Font("Serif", Font.BOLD, 25));
 
         verticalScroller = new JScrollBar(JScrollBar.VERTICAL, 0, 1, 0, 10);
-        verticalScroller.setBounds(0, (int) (0.15 * Frame.height), 20, (int) (0.8 * Frame.height));
+        verticalScroller.setBounds((int) (this.getWidth()-30), (int) (0.15 * Frame.height), 20, (int) (this.getHeight()*2/3));
         verticalScroller.addAdjustmentListener(this);
 
         findOptimalRoute = new JButton("Find Optimal Tour");
-        findOptimalRoute.setBounds(10, 10, 200, 30);
+        findOptimalRoute.setBounds(30, 10, 200, 30);
         findOptimalRoute.addActionListener(this);
 
         backToLoadRequest = new JButton("BACK");
-        backToLoadRequest.setBounds(460, 10, 100, 30);
+        backToLoadRequest.setBounds(this.getWidth()-150, 10, 100, 30);
         backToLoadRequest.addActionListener(this);
 
         this.add(text);
