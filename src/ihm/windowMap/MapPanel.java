@@ -272,6 +272,13 @@ public class MapPanel extends JPanel implements MouseListener
         return intersectionResult;
     }
 
+    /**
+     * get a the nearest delivery or pickup.
+     * @param pixelX the x coordinate
+     * @param pixelY the y coordinate
+     * @param height the height of the map
+     * @return the intersection
+     */
     public Intersection getNearestPointOfInterest(int pixelX, int pixelY, int height) {
         LinkedList<Path> pointsOfInterest= createdMap.getTour().getOrderedPathList();
         ArrayList<Intersection> listOfAllIntersections= new ArrayList<>();
@@ -376,9 +383,10 @@ public class MapPanel extends JPanel implements MouseListener
      * @param g the graphics
      * @param intersection the intersection
      * @param colour the colour of the paint
+     * @param num the numero to draw next to the point ( delivery or pickup), -1 or -2 to not draw it
+     * @param size the size of the point
      */
-    public void paintIntersection(Graphics2D g, Intersection intersection, Color colour, int num, int size)
-    {
+    public void paintIntersection(Graphics2D g, Intersection intersection, Color colour, int num, int size) {
 
         g.setColor(colour);
         int[] pixelCoords= convertIntersectionToPixel(intersection, mapSize, createdMap, border);
