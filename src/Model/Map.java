@@ -585,7 +585,7 @@ public class Map extends MapInterface {
             HashMap<Intersection,Segment> pi = dijkstra(listAddress.get(i));
             deliveryGraph.addVertice(i,pi);
         }
-        LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
+        LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout, true);
         this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
         long totalTime = System.currentTimeMillis() - startTime;
@@ -601,7 +601,7 @@ public class Map extends MapInterface {
     @Override
     public void continueTour(int timeout){
         long startTime = System.currentTimeMillis();
-        LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout);
+        LinkedList<Path> tourCalculated = deliveryGraph.solveTSP(timeout, false);
         this.timedOutError = deliveryGraph.getTimedOutError();
         tour = new Tour(tourCalculated);
         this.setChanged();

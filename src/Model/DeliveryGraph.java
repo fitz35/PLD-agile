@@ -31,6 +31,10 @@ public class DeliveryGraph implements Graph{
      * the path composition of delivery graph
      */
     private LinkedList<Path> verticeCompositionList;
+    /**
+     * TSP class that will save the current best solution
+     */
+    private TSP1 tsp;
     private int nbVertices;
     private int timedOutError = 0;
 
@@ -91,8 +95,10 @@ public class DeliveryGraph implements Graph{
      * @param timeout (in seconds)
      * @return "the path to follow"
      */
-    public LinkedList<Path> solveTSP (int timeout){
-        TSP1 tsp = new TSP1();
+    public LinkedList<Path> solveTSP (int timeout, boolean firstTime){
+        if(firstTime) {
+            tsp = new TSP1();
+        }
         this.timedOutError = tsp.searchSolution(timeout, this);
         //System.out.print("Solution of cost "+tsp.getSolutionCost());
         LinkedList<Path> result = new LinkedList<>();
