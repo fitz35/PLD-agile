@@ -56,6 +56,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
     public InputWindowWithRoute (WindowMap window, Controller controller, MapPanel mapPanel)
     {
         super(controller);
+        this.setLayout(null);
         this.window=window;
         this.mapPanel = mapPanel;
 
@@ -100,7 +101,7 @@ public class InputWindowWithRoute extends InputBase implements ActionListener, A
         redoButton.addActionListener(this);
 
         wayRouteButton = new JButton("Save the waybill");
-        wayRouteButton.setBounds(300,620,200,30);
+        wayRouteButton.setBounds((int)(Frame.width*0.3),(int)(Frame.height*0.8),150,40);
         wayRouteButton.addActionListener(this);
 
         this.add(text1);
